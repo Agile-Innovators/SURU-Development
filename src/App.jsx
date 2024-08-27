@@ -1,8 +1,12 @@
+import { NavBar } from "./assets/components/NavBar";
+import { PrimaryButton } from "./assets/components/PrimaryButton";
+
 function App() {
     return (
-        <>
-            <h1>Hello World</h1>
-        </>
+        <section className="max-w-screen-lg m-auto">
+            <NavBar />
+            <PrimaryButton  text={"Click"}/>
+        </section>
     );
 }
 
