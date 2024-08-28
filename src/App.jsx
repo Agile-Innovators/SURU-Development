@@ -1,12 +1,13 @@
 import { NavBar } from "./assets/components/NavBar";
 import { PrimaryButton } from "./assets/components/PrimaryButton";
+import {Footer} from "./assets/components/Footer";
 import { SecondaryButton } from "./assets/components/SecondaryButton";
 import { Input } from "./assets/components/Input";
 import { BasicCard } from "./assets/components/BasicCard";
 
 function App() {
     return (
-        <section className="max-w-screen-lg m-auto">
+        <div>
             <NavBar />
             <div className="flex gap-2">
                 <PrimaryButton text={"Click"} />
@@ -24,7 +25,8 @@ function App() {
                 </BasicCard>
 
             </div>
-        </section>
+            <Footer />
+        </div>
     );
 }
 
