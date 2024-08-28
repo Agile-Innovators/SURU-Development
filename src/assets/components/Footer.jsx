@@ -1,54 +1,63 @@
 export function Footer() {
     return (
-
         <footer class="bg-white text-primary font-primary">
             <div class=" p-4 py-6 lg:py-8">
                 <div class="md:flex md:justify-between">
                     <div class="mb-6 md:mb-0">
-                        <a href="https://flowbite.com/" class="flex items-center">
-                            <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="FlowBite Logo" />
-                            <span class="self-center text-2xl font-semibold whitespace-nowrap ">Flowbite</span>
+                        <a href="#" class="flex items-center">
+                            <img src="/public/Logo.svg" class="h-8 me-3" alt="SURU Logo" />
                         </a>
                     </div>
                     <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                         <div>
-                            <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase ">Resources</h2>
+                            <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase ">Product</h2>
                             <ul class="text-gray-500  font-medium">
                                 <li class="mb-4">
-                                    <a href="#" class="hover:underline">Flowbite</a>
+                                    <a href="#" class="hover:underline">Employee database</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="hover:underline">Tailwind CSS</a>
+                                    <a href="#" class="hover:underline">Payroll</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="hover:underline">Absences</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div>
+                            <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase ">Information</h2>
+                            <ul class="text-gray-500  font-medium">
+                                <li class="mb-4">
+                                    <a href="#" class="hover:underline ">FAQ</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="hover:underline">Blog</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="hover:underline">Support</a>
                                 </li>
                             </ul>
                         </div>
                         <div>
-                            <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase ">Follow us</h2>
+                            <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase ">Company</h2>
                             <ul class="text-gray-500  font-medium">
                                 <li class="mb-4">
-                                    <a href="#" class="hover:underline ">Github</a>
+                                    <a href="#" class="hover:underline">About us</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="hover:underline">Discord</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase ">Legal</h2>
-                            <ul class="text-gray-500  font-medium">
-                                <li class="mb-4">
-                                    <a href="#" class="hover:underline">Privacy Policy</a>
+                                    <a href="#" class="hover:underline">Careers</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="hover:underline">Terms &amp; Conditions</a>
+                                    <a href="#" class="hover:underline">Contact us</a>
                                 </li>
+
                             </ul>
                         </div>
                     </div>
                 </div>
                 <hr class="my-6 border-gray-200 sm:mx-auto   lg:my-8" />
                 <div class="sm:flex sm:items-center sm:justify-between">
-                    <span class="text-sm text-gray-500 sm:text-center ">© 2023 <a href="https://flowbite.com/" class="hover:underline">Flowbite™</a>. All Rights Reserved.
+                    <span class="text-sm text-gray-500 sm:text-center ">© 2024 <a href="" class="hover:underline">SÜRÜ™</a>. All Rights Reserved.
                     </span>
                     <div class="flex mt-4 sm:justify-center sm:mt-0">
                         <a href="#" class="text-gray-500 hover:text-gray-900 ">
