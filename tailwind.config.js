@@ -27,7 +27,7 @@ export default {
       addBase({
         'h1': { 
           fontSize: '2.625rem',
-          color: theme('colors.primary'),
+          color: theme('colors.secondary'),
           fontFamily: theme('fontFamily.primary'),
           fontWeight: '700', //Bold
         },

@@ -1,62 +1,27 @@
 import { NavBar } from "./assets/components/NavBar";
-import {Footer} from "./assets/components/Footer";
+import { Footer } from "./assets/components/Footer";
 import { Input } from "./assets/components/Input";
 import { BasicCard } from "./assets/components/BasicCard";
 import { AdvancedCard } from './assets/components/Advancedcard';
 import { ActionButton } from "./assets/components/ActionButton";
 import { RedirectButton } from "./assets/components/RedirectButton";
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Homepage } from './assets/pages/homepage';
 
 
 function App() {
     return (
         <div>
+    
+        <BrowserRouter basename="/app">
             <NavBar />
-            <div className="flex gap-2">
-                <form>
-                    <Input
-                        inputName={"Email"}
-                        inputId={"input-email"}
-                        type="email"
-                        labelText="Email"
-                        required={true}
-                    />
-                    <Input
-                        inputName={"Password"}
-                        inputId={"input-password"}
-                        type="password"
-                        labelText="Password"
-                        required={true}
-                    />
-                    <ActionButton text={"Click"} type={"submit"} variant="border"/>
-                </form>
-            </div>
-            <div className="grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] mt-20 gap-4">
-                {/* <BasicCard /> */}
-
-                <BasicCard>
-                    <RedirectButton text={'Click'} variant="border" href="/test"/>
-                </BasicCard>
-
-                <AdvancedCard srcImage={"../public/images/house-image.png"}>
-                    
-                </AdvancedCard>
-                <AdvancedCard srcImage={"../public/images/house-image.png"}>
-                    
-                </AdvancedCard>
-                <Input
-                        inputName={"btn"}
-                        inputId={"btn"}
-                        labelText="Password"
-                        placeholder="password"
-                        type={"password"}
-                    />
-                
-            </div>
-            <RedirectButton text={'Click'} variant="fill" href="/test"/>
-        
+            <Routes>
+                <Route path="/" element={<Homepage/>}/>
+            </Routes>
             <Footer />
+        </BrowserRouter>
         </div>
+
     );
 }
 
