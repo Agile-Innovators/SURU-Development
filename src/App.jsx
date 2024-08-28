@@ -1,4 +1,5 @@
 import { NavBar } from "./assets/components/NavBar";
+import {Footer} from "./assets/components/Footer";
 import { Input } from "./assets/components/Input";
 import { BasicCard } from "./assets/components/BasicCard";
 import { AdvancedCard } from './assets/components/Advancedcard';
@@ -9,7 +10,7 @@ import { RedirectButton } from "./assets/components/RedirectButton";
 
 function App() {
     return (
-        <section className="max-w-screen-lg m-auto">
+        <div>
             <NavBar />
             <div className="flex gap-2">
                 <form>
@@ -53,7 +54,9 @@ function App() {
                 
             </div>
             <RedirectButton text={'Click'} variant="fill" href="/test"/>
-        </section>
+        
+            <Footer />
+        </div>
     );
 }
 
