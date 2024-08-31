@@ -1,7 +1,7 @@
 import { PropTypes } from 'prop-types';
 import { HeartIcon } from './icons/HeartIcon';
 
-export function AdvancedCard({srcImage, children}){
+export function AdvancedCard({srcImage, children, title, location, price, frequency}){
     return(
         <div className='w-fit rounded-md overflow-hidden border border-light-grey'>
             <div className='relative'>
@@ -11,8 +11,8 @@ export function AdvancedCard({srcImage, children}){
                 </div>
             </div>
             <div className='p-4'>
-                <h4>Titulo de la card</h4>
-                <p>Localizacion de la propiedad</p>
+                <h4>{title}</h4>
+                <p>{location}</p>
                 <ul className='flex'>
                     <li>1</li>
                     <li>2</li>
@@ -20,7 +20,7 @@ export function AdvancedCard({srcImage, children}){
                     <li>1</li>
                 </ul>
                 <div className='flex justify-between items-center'>
-                    <h3>₡170 000 <span className='text-light-grey'>monthly</span></h3>
+                    <h3>₡{price} <span className='text-light-grey'>{frequency}</span></h3>
                     {children}
                 </div>
             </div>
@@ -30,5 +30,9 @@ export function AdvancedCard({srcImage, children}){
 
 AdvancedCard.propTypes = {
     srcImage: PropTypes.string,
-    children: PropTypes.children
+    children: PropTypes.children,
+    title: PropTypes.String.isRequired,
+    location: PropTypes.String.isRequired,
+    price: PropTypes.number.isRequired,
+    frequency: PropTypes.string.isRequired
 }
