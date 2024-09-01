@@ -8,6 +8,13 @@ const navigation = [
   { name: 'Contact', href: '#', current: false },
 ]
 
+const userNavigationLinks = [
+  { name: 'My account', href: '#', imageRoute: '/public/UserIcon.svg' },
+  { name: 'Manage properties', href: '#', imageRoute: '/public/PropetiesIcon.svg' },
+  { name: 'Save properties', href: '#', imageRoute: '/public/HomeIcon.svg' },
+  { name: 'My appointments', href: '#', imageRoute: '/public/CalendarIcon.svg' },
+  { name: 'Log out', href: '#', imageRoute: '/public/LogoutIcon.svg' }
+]
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
@@ -28,13 +35,13 @@ export function NavBar() {
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-between">
             <div className="flex flex-shrink-0 items-center">
-                <a href="#">
-                    <img
-                    alt="Your Company"
-                    src="/public/logo.svg"
-                    className="h-6 w-auto"
-                    />
-                </a>
+              <a href="#">
+                <img
+                  alt="Your Company"
+                  src="/public/logo.svg"
+                  className="h-6 w-auto"
+                />
+              </a>
             </div>
             <div className="hidden sm:ml-6 sm:block ">
               <div className="flex space-x-4">
@@ -81,21 +88,16 @@ export function NavBar() {
                 transition
                 className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in "
               >
-                <MenuItem>
-                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-light-blue  hover:text-white">
-                    Your Profile
-                  </a>
-                </MenuItem>
-                <MenuItem>
-                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-light-blue  hover:text-white">
-                    Settings
-                  </a>
-                </MenuItem>
-                <MenuItem>
-                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-light-blue  hover:text-white">
-                    Sign out
-                  </a>
-                </MenuItem>
+                {/* Profile dropdown items */}
+
+                {userNavigationLinks.map((item) => (
+                  <MenuItem className="flex items-center gap-1" >
+                    <a href="#" className="block px-3 py-1.5 text-sm text-gray-700 data-[focus]:bg-light-blue  hover:text-white">
+                    <img src={item.imageRoute} alt={item.name} className="h-6 w-6 "/>
+                      {item.name}
+                    </a>
+                  </MenuItem>
+                ))}
               </MenuItems>
             </Menu>
           </div>
