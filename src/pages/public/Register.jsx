@@ -1,13 +1,13 @@
-import { LoginForm } from "../../components/activity/forms/LoginForm.jsx";
+import { RegisterForm } from "../../components/activity/forms/RegisterForm.jsx";
 
-export function Login() {
+export function Register() {
     return (
       <div className="bg-authentication grid">
             <div className="max-w-7xl mx-auto p-5 grid content-center">
-                <LoginForm />
+                <RegisterForm />
             </div>
       </div>
     );
 }
 
-export default Login;
+export default Register;

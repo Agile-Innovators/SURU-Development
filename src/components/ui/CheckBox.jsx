@@ -4,7 +4,7 @@ export function CheckBox({ id, name, label }) {
     return (
         <div>
             <input type="checkbox" name={name} id={id} className="rounded-md text-primary border-2 border-secondary cursor-pointer"/>
-            <label htmlFor="remember" className="ml-2">{label}</label>
+            <label htmlFor="remember" className="ml-2 text-grey text-sm">{label}</label>
         </div>
     );
 }
