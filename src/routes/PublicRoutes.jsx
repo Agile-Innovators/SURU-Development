@@ -20,6 +20,7 @@ export function PublicRoutes() {
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/confirm-password" element={<ConfirmPassword />} />
             <Route path="/*" element={<Homepage />} />
+            <Route path="/home" element={<Homepage />} />
         </Routes>
     );
 }

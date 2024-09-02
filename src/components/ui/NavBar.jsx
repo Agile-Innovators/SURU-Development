@@ -1,16 +1,17 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { useEffect, useState } from 'react';
 
-const navigation = [
-  { name: 'Pricing', href: '#', current: false },
-  { name: 'Solutions', href: '#', current: false },
-  { name: 'About us', href: '#', current: false },
-  { name: 'Contact', href: '#', current: false },
+const initialNavigation = [
+  { name: 'Pricing', href: '/pricing', current: false },
+  { name: 'Solutions', href: '/solutions', current: false },
+  { name: 'About us', href: '/about', current: false },
+  { name: 'Contact', href: '/contact', current: false },
 ];
 
 const userNavigationLinks = [
   { name: 'My account', href: '#', imageRoute: '/public/UserIcon.svg' },
-  { name: 'Manage properties', href: '#', imageRoute: '/public/PropertiesIcon.svg' },
+  { name: 'Manage properties', href: '#', imageRoute: '/public/PropetiesIcon.svg' },
   { name: 'Save properties', href: '#', imageRoute: '/public/HomeIcon.svg' },
   { name: 'My appointments', href: '#', imageRoute: '/public/CalendarIcon.svg' },
   { name: 'Log out', href: '#', imageRoute: '/public/LogoutIcon.svg' }
@@ -21,6 +22,18 @@ function classNames(...classes) {
 }
 
 export function NavBar() {
+  const [navigation, setNavigation] = useState(initialNavigation);
+
+  useEffect(() => {
+    const currentPath = window.location.pathname;
+    setNavigation((prevNavigation) =>
+      prevNavigation.map((item) => ({
+        ...item,
+        current: item.href === currentPath,
+      }))
+    );
+  }, []);
+
   return (
     <Disclosure as="nav" className="bg-white border-b-light-grey border-b-2 font-primary">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -35,7 +48,7 @@ export function NavBar() {
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-between">
             <div className="flex flex-shrink-0 items-center">
-              <a href="#">
+              <a href="/">
                 <img
                   alt="Your Company"
                   src="/public/logo.svg"
@@ -51,7 +64,7 @@ export function NavBar() {
                     href={item.href}
                     aria-current={item.current ? 'page' : undefined}
                     className={classNames(
-                      item.current ? 'bg-gray-900 text-white' : 'text-primary hover:bg-light-blue hover:text-white transition duration-300 ease-in-out transform hover:scale-105',
+                      item.current ? 'bg-light-blue text-white' : 'text-primary hover:bg-light-blue hover:text-white transition duration-300 ease-in-out transform hover:scale-105',
                       'rounded-md px-3 py-2 text-sm font-medium',
                     )}
                   >
@@ -109,7 +122,7 @@ export function NavBar() {
               href={item.href}
               aria-current={item.current ? 'page' : undefined}
               className={classNames(
-                item.current ? 'bg-gray-900 text-white' : 'text-primary hover:bg-light-blue hover:text-white',
+                item.current ? 'bg-light-blue text-white' : 'text-primary hover:bg-light-blue hover:text-white',
                 'block rounded-md px-3 py-2 text-base font-medium',
               )}
             >
