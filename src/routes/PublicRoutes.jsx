@@ -6,6 +6,7 @@ export function PublicRoutes() {
         <Routes>
             <Route path="/" element={<Homepage />} />
             <Route path="/*" element={<Homepage />} />
+            <Route path="/home" element={<Homepage />} />
         </Routes>
     );
 }

@@ -13,7 +13,7 @@ export function AppRoutes() {
                     <Route path="/*" element={<PublicRoutes />} />
                     <Route path="/suru/*" element={<PrivateRoutes />} />
                 </Routes>
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 }
