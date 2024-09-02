@@ -9,7 +9,7 @@ export function ForgotPasswordForm(){
             <span className="text-grey">Don&apos;t worry, enter your email for instructions</span>
 
             <div className="grid gap-4 my-4">
-                <Input type="email" label="Email" inputName="email" inputId="email" labelText="Email Address" spanText="Example: john@gmail.com" className="mt-4" />
+                <Input type="email" label="Email" inputName="email" inputId="email" labelText="Email Address" className="mt-4" />
                 <RedirectButton text="Send Instructions" href="/email-sent" variant="fill" customClass="w-full"/>
             </div>
 

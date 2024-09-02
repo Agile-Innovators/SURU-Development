@@ -10,8 +10,8 @@ export function LoginForm(){
             <span className="text-grey">Sign in by entering the information below</span>
 
             <div className="grid gap-4 my-4">
-                <Input type="text" label="Username" inputName="username" inputId="username" labelText="Username" spanText="Example: johndoe" />
-                <Input type="password" label="Password" inputName="password" inputId="password" labelText="Password" spanText="Password must be at least 8 characters" />
+                <Input type="text" label="Username" inputName="username" inputId="username" labelText="Username" />
+                <Input type="password" label="Password" inputName="password" inputId="password" labelText="Password" />
                 <div className="flex items-center justify-between">
                     <CheckBox id="remember" name="remember" label="Remember me"/>
                     <TextLink route="/forgot-password" text="Forgot password?"/>
