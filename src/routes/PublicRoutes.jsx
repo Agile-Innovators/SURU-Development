@@ -5,6 +5,7 @@ import { EmailSent } from "../pages/public/EmailSent.jsx";
 import { Register } from "../pages/public/Register.jsx";
 import { EmailCode } from "../pages/public/EmailCode.jsx";
 import { ResetPassword } from "../pages/public/ResetPassword.jsx";
+import { ConfirmPassword } from "../pages/public/ConfirmPassword.jsx";
 import { ForgotPassword } from "../pages/public/ForgotPassword.jsx";
 
 export function PublicRoutes() {
@@ -17,6 +18,7 @@ export function PublicRoutes() {
             <Route path="/email-code" element={<EmailCode />} />
             <Route path="/email-sent" element={<EmailSent />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/confirm-password" element={<ConfirmPassword />} />
             <Route path="/*" element={<Homepage />} />
         </Routes>
     );
