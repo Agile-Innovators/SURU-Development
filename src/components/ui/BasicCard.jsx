@@ -5,7 +5,7 @@ import { PropTypes } from 'prop-types';
 export function BasicCard({children, src, title, text, customClass = ""}){
 
     return(
-        <div className={`flex flex-col items-center text-center gap-3 w-fit ${customClass}`}>
+        <div className={`flex flex-col items-center text-center p-8 gap-3 w-fit border border-light-grey rounded-md ${customClass}`}>
             <img src={`${src}`} alt="image card" />
             <h3>{title}</h3>
             <p>{text}</p>
