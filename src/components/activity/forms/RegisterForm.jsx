@@ -5,9 +5,9 @@ import { RedirectButton } from "../../ui/RedirectButton.jsx";
 
 export function RegisterForm(){
     return (
-        <section className="m-auto">
+        <form className="m-auto">
             <h1>Let&apos;s get started</h1>
-            <span className="text-grey">Let&apos;s get started</span>
+            <span className="text-grey">Complete the form below to create your new account</span>
 
             <div className="grid gap-4 my-4">
                 <Input type="text" label="Username" inputName="username" inputId="username" labelText="Username" spanText="Example: johndoe" />
@@ -22,7 +22,7 @@ export function RegisterForm(){
             <RedirectButton text="Sign In" href="/login" variant="fill" customClass="w-full mb-2"/>
             <span className="text-grey text-sm mr-1">Do you have an account?</span>
             <TextLink route="/login" text="Sign In"/>
-        </section>
+        </form>
     );
 }
 export default RegisterForm;

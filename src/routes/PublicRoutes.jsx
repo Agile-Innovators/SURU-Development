@@ -3,7 +3,9 @@ import { Homepage } from "../pages/public/Homepage.jsx";
 import { Login } from "../pages/public/Login.jsx";
 import { EmailSent } from "../pages/public/EmailSent.jsx";
 import { Register } from "../pages/public/Register.jsx";
-import { PasswordReset } from "../pages/public/PasswordReset.jsx";
+import { EmailCode } from "../pages/public/EmailCode.jsx";
+import { ResetPassword } from "../pages/public/ResetPassword.jsx";
+import { ForgotPassword } from "../pages/public/ForgotPassword.jsx";
 
 export function PublicRoutes() {
     return (
@@ -11,8 +13,10 @@ export function PublicRoutes() {
             <Route path="/" element={<Homepage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/password-reset" element={<PasswordReset />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/email-code" element={<EmailCode />} />
             <Route path="/email-sent" element={<EmailSent />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/*" element={<Homepage />} />
         </Routes>
     );
