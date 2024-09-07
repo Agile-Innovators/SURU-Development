@@ -1,23 +1,27 @@
 import { PropTypes } from 'prop-types';
-import { HeartIcon } from './icons/HeartIcon';
+import { HeartIcon } from '../../assets/icons/HeartIcon';
+import { MapPin, BedDouble, Bath, Car, PawPrint } from 'lucide-react';
 
-export function AdvancedCard({srcImage, children, title, location, price, frequency}){
-    return(
+export function AdvancedCard({ srcImage, children, title, location, price, frequency }) {
+    return (
         <div className='w-fit rounded-md overflow-hidden border border-light-grey'>
             <div className='relative'>
                 <img src={srcImage} alt="image card" />
                 <div className='absolute top-3 right-3 p-2 bg-white rounded-full cursor-pointer'>
-                    <HeartIcon/>
+                    <HeartIcon />
                 </div>
             </div>
-            <div className='p-4'>
+            <div className='p-4 '>
                 <h4>{title}</h4>
-                <p>{location}</p>
-                <ul className='flex'>
-                    <li>1</li>
-                    <li>2</li>
-                    <li>3</li>
-                    <li>1</li>
+                <div className='flex items-center'>
+                    <MapPin size={22} strokeWidth={1} color="#C3C8D2"/>
+                    <p>{location}</p>
+                </div>
+                <ul className='flex gap-2'> 
+                    <li className='flex items-center pr-1 border-r-2 border-light-blue'><BedDouble size={22} strokeWidth={1} color="#0A1029"/>1</li>
+                    <li className='flex items-center px-1 border-r-2 border-light-blue'><Bath size={22} strokeWidth={1} color="#0A1029"/>2</li>
+                    <li className='flex items-center px-1 border-r-2 border-light-blue'><Car size={22} strokeWidth={1} color="#0A1029"/>3</li>
+                    <li className='flex items-center'><PawPrint size={22} strokeWidth={1} color="#0A1029"/>Allowed</li>
                 </ul>
                 <div className='flex justify-between items-center'>
                     <h3>₡{price} <span className='text-light-grey'>{frequency}</span></h3>
@@ -31,8 +35,8 @@ export function AdvancedCard({srcImage, children, title, location, price, freque
 AdvancedCard.propTypes = {
     srcImage: PropTypes.string,
     children: PropTypes.children,
-    title: PropTypes.String.isRequired,
-    location: PropTypes.String.isRequired,
+    title: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     frequency: PropTypes.string.isRequired
 }

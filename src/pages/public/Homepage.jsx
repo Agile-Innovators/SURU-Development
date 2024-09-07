@@ -1,6 +1,7 @@
 import { BasicCard } from "../../components/ui/BasicCard";
 import { ActionButton } from "../../components/ui/ActionButton";
 import { RedirectButton } from "./../../components/ui/RedirectButton";
+import { AdvancedCard } from "../../components/ui/AdvancedCard";
 
 export function Homepage() {
     return (
@@ -12,7 +13,7 @@ export function Homepage() {
                         Explore, buy, sell or rent properties seamlessly and
                         find exactly what you're looking for all in one place.
                     </p>
-                    <RedirectButton text={"Discover Now"} customClass="w-fit" href={'#'}/>
+                    <RedirectButton text={"Discover Now"} customClass="w-fit" href={'#'} />
                 </div>
                 <div className="flex items-center">
                     <img
@@ -109,7 +110,7 @@ export function Homepage() {
                     </p>
                 </div>
                 <div className="grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] gap-y-4 justify-center items-center mt-10">
-                    {Array.from({length: 10}).map((_, index) => (
+                    {Array.from({ length: 10 }).map((_, index) => (
                         <BasicCard
                             src="/public/SellPropertyIcon.svg"
                             title="Sell a property"
@@ -121,13 +122,75 @@ export function Homepage() {
                     ))}
                 </div>
             </section>
-            <section className="flex flex-col mt-20 mx-auto max-w-6xl px-2 sm:px-6 lg:px-8">
-                <h3>Explore differents properties types</h3>
-                <p>
-                    Access a platform that takes the complexity out of managing
-                    real estate.
-                </p>
+            <section className="mt-20">
+                <div className="text-center flex flex-col items-center gap-6 px-4 py-8">
+                    <h1 >Property Gallery</h1>
+                    <p className="max-w-[60ch] text-gray-600">
+                        Discover our great selection of properties and choose the one that best suits you.
+                    </p>
+
+                    <div className="w-[70%] flex flex-col sm:flex-row sm:justify-between items-center border border-gray-200 p-6 rounded-lg shadow-md gap-4 transition-all duration-300 hover:shadow-lg hover:border-gray-300">
+                        <div className="w-full sm:w-auto flex flex-col">
+                            <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                            <select className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300">
+                                <option value="all">All Properties</option>
+                                <option value="house">San Jose</option>
+                                <option value="apartment">Heredia</option>
+                                <option value="condo">Cartago</option>
+                            </select>
+                        </div>
+
+                        <div className="w-full sm:w-auto flex flex-col">
+                            <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-2">Price</label>
+                            <select className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300">
+                                <option value="all">All Prices</option>
+                                <option value="100000">₡100,000-₡150,000</option>
+                                <option value="150000">₡150,000-₡200,000</option>
+                                <option value="200000">₡200,000-₡250,000</option>
+                            </select>
+                        </div>
+
+                        <div className="w-full sm:w-auto flex flex-col">
+                            <label htmlFor="propertyType" className="block text-sm font-medium text-gray-700 mb-2">Property Type</label>
+                            <select className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300">
+                                <option value="all">All Types</option>
+                                <option value="house">House</option>
+                                <option value="apartment">Apartment</option>
+                                <option value="condo">Condo</option>
+                            </select>
+                        </div>
+
+                        <div className="w-full sm:w-auto mt-4 sm:mt-0">
+                            <RedirectButton variant="border" text="Search" customClass="p-3 " />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-4 justify-center items-center mt-10">
+                    {Array.from({ length: 10 }).map((_, index) => (
+                        <AdvancedCard
+                            srcImage="https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg"
+                            title="Casa en la Montaña"
+                            location="San José"
+                            price={100000}
+                            frequency="monthly"
+                            key={index}
+                            customClass={'m-auto'}
+                        >
+                            <RedirectButton
+                                text="View"
+                                variant="border"
+                                href={'#'}
+                            />
+                        </AdvancedCard>
+                    ))}
+                </div>
             </section>
+
+
+
+
+
         </div>
     );
 }
