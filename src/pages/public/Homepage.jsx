@@ -1,8 +1,5 @@
 import { BasicCard } from "../../components/ui/BasicCard";
-import { ActionButton } from "../../components/ui/ActionButton";
 import { MainButton } from "./../../components/ui/MainButton";
-import { AdvancedCard } from "../../components/ui/AdvancedCard";
-import { Divider } from "@mui/joy";
 import { PropertiesFilter } from "../../components/homepage_components/PropertiesFilter";
 import { ROUTE_PATHS } from "../../routes/index.js";
 
