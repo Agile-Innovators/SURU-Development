@@ -1,8 +1,8 @@
 import { AdvancedCard } from "../../components/ui/AdvancedCard";
 import { Divider } from "@mui/joy";
-import { RedirectButton } from "./../../components/ui/RedirectButton";
 import React from 'react';
-
+import { MainButton } from "./../../components/ui/MainButton";
+import { ROUTE_PATHS } from "../../routes/index.js";
 
 
 export function PropertiesFilter() {
@@ -38,6 +38,7 @@ export function PropertiesFilter() {
                 { value: 'condo', label: 'Condo' }
             ]
         }
+        
     ];
 
     return (
@@ -68,10 +69,20 @@ export function PropertiesFilter() {
                     ))}
                     <Divider orientation="vertical" flexItem />
                     <div className="w-full sm:w-auto mt-4 sm:mt-0">
-                        <RedirectButton variant="border" text="Clear" customClass="p-3 " />
+                    <MainButton
+                            text="Clear"
+                            type="link"
+                            customClass="p-3"
+                            to={ROUTE_PATHS.NOT_FOUND}
+                        />
                     </div>
                     <div className="w-full sm:w-auto mt-4 sm:mt-0">
-                        <RedirectButton text="Search" customClass="p-3 " />
+                        <MainButton
+                            text="Search"
+                            type="link"
+                            customClass="p-3"
+                            to={ROUTE_PATHS.NOT_FOUND}
+                        />
                     </div>
                 </div>
             </div>
@@ -86,10 +97,11 @@ export function PropertiesFilter() {
                         key={index}
                         customClass={'m-auto'}
                     >
-                        <RedirectButton
+                        <MainButton
                             text="View"
                             variant="border"
-                            href={'#'}
+                            type="link"
+                            to={ROUTE_PATHS.NOT_FOUND}
                         />
                     </AdvancedCard>
                 ))}
