@@ -2,6 +2,8 @@ import { BasicCard } from "../../components/ui/BasicCard";
 import { ActionButton } from "../../components/ui/ActionButton";
 import { RedirectButton } from "./../../components/ui/RedirectButton";
 import { AdvancedCard } from "../../components/ui/AdvancedCard";
+import { Divider } from "@mui/joy";
+
 
 export function Homepage() {
     return (
@@ -33,7 +35,7 @@ export function Homepage() {
                     </p>
                 </div>
                 <div className="grid grid-cols-[repeat(auto-fit,_minmax(350px,_1fr))] justify-center mt-5 gap-8 ">
-                    <BasicCard 
+                    <BasicCard
                         src="/public/SellPropertyIcon.svg"
                         title="Buy a property"
                         text="Explore properties that match your lifestyle perfectly."
@@ -134,11 +136,12 @@ export function Homepage() {
                             <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">Location</label>
                             <select className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300">
                                 <option value="all">All Properties</option>
-                                <option value="house">San Jose</option>
+                                <option value="house">San José</option>
                                 <option value="apartment">Heredia</option>
                                 <option value="condo">Cartago</option>
                             </select>
                         </div>
+                        <Divider orientation="vertical" flexItem />
 
                         <div className="w-full sm:w-auto flex flex-col">
                             <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-2">Price</label>
@@ -149,7 +152,7 @@ export function Homepage() {
                                 <option value="200000">₡200,000-₡250,000</option>
                             </select>
                         </div>
-
+                        <Divider orientation="vertical" flexItem />
                         <div className="w-full sm:w-auto flex flex-col">
                             <label htmlFor="propertyType" className="block text-sm font-medium text-gray-700 mb-2">Property Type</label>
                             <select className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300">
@@ -159,17 +162,18 @@ export function Homepage() {
                                 <option value="condo">Condo</option>
                             </select>
                         </div>
+                        <Divider orientation="vertical" flexItem />
                         <div className="w-full sm:w-auto mt-4 sm:mt-0">
                             <RedirectButton variant="border" text="Clear" customClass="p-3 " />
                         </div>
                         <div className="w-full sm:w-auto mt-4 sm:mt-0">
-                            <RedirectButton  text="Search" customClass="p-3 " />
+                            <RedirectButton text="Search" customClass="p-3 " />
                         </div>
                     </div>
                 </div>
 
                 <div className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-4 justify-center items-center mt-10">
-                    {Array.from({ length: 10 }).map((_, index) => (
+                    {Array.from({ length: 6 }).map((_, index) => (
                         <AdvancedCard
                             srcImage="https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg"
                             title="Casa en la Montaña"
@@ -188,7 +192,7 @@ export function Homepage() {
                     ))}
                 </div>
             </section>
-            
+
 
 
 

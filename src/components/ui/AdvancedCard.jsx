@@ -18,9 +18,9 @@ export function AdvancedCard({ srcImage, children, title, location, price, frequ
                     <p>{location}</p>
                 </div>
                 <ul className='flex gap-2 py-1'> 
-                    <li className='flex items-center pr-1 border-r-2 border-light-blue'><BedDouble size={22} strokeWidth={1} color="#0A1029"/>1</li>
-                    <li className='flex items-center px-1 border-r-2 border-light-blue'><Bath size={22} strokeWidth={1} color="#0A1029"/>2</li>
-                    <li className='flex items-center px-1 border-r-2 border-light-blue'><Car size={22} strokeWidth={1} color="#0A1029"/>3</li>
+                    <li className='flex items-center pr-1 border-r-[1px] border-grey'><BedDouble size={22} strokeWidth={1} color="#0A1029"/>1</li>
+                    <li className='flex items-center px-1 border-r-[1px] border-grey'><Bath size={22} strokeWidth={1} color="#0A1029"/>2</li>
+                    <li className='flex items-center px-1 border-r-[1px] border-grey'><Car size={22} strokeWidth={1} color="#0A1029"/>3</li>
                     <li className='flex items-center'><PawPrint size={22} strokeWidth={1} color="#0A1029"/>Allowed</li>
                 </ul>
                 <div className='flex justify-between items-center'>
