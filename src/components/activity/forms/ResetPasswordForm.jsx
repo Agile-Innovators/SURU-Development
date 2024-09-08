@@ -1,5 +1,6 @@
+import { ROUTE_PATHS } from "../../../routes/index.js";
 import { Input } from "../../ui/Input.jsx";
-import { RedirectButton } from "../../ui/RedirectButton.jsx";
+import { MainButton } from "../../ui/MainButton.jsx";
 
 export function ResetPasswordForm(){
     return (
@@ -12,7 +13,7 @@ export function ResetPasswordForm(){
                 <Input type="password" name="confirm-password" id="confirm-password" labelText="Confirm Password"/>
             </div>
             
-            <RedirectButton text="Reset Password" href="/confirm-password" variant="fill" customClass="w-full mt-3"/>
+            <MainButton text="Reset Password" type="link" to={ROUTE_PATHS.CONFIRM_PASSWORD} variant="fill" customClass="w-full mt-3"/>
         </form>
     );
 }
