@@ -49,7 +49,7 @@ export function PropertiesFilter() {
                 <p className="max-w-[60ch] text-gray-600">
                     Discover our great selection of properties and choose the one that best suits you.
                 </p>
-                <div className="w-full sm:w-[70%] flex flex-col sm:flex-row sm:justify-between items-center border border-gray-200 p-6 rounded-lg shadow-sm gap-4 transition-all duration-300 hover:shadow-md hover:border-gray-300">
+                <div className="flex flex-col sm:flex-row items-center border border-gray-200 p-6 rounded-lg shadow-sm gap-4 transition-all duration-300 hover:shadow-md hover:border-gray-300">
                     {selectOptions.map((select, index) => (
                         <React.Fragment key={select.id}>
                             <div className="w-full sm:w-auto flex flex-col">
