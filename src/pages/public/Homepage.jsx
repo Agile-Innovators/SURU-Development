@@ -1,9 +1,11 @@
 import { BasicCard } from "../../components/ui/BasicCard";
 import { ActionButton } from "../../components/ui/ActionButton";
-import { RedirectButton } from "./../../components/ui/RedirectButton";
+import { MainButton } from "./../../components/ui/MainButton";
 import { AdvancedCard } from "../../components/ui/AdvancedCard";
 import { Divider } from "@mui/joy";
 import { PropertiesFilter } from "../../components/homepage_components/PropertiesFilter";
+import { ROUTE_PATHS } from "../../routes/index.js";
+
 
 export function Homepage() {
     return (
@@ -13,9 +15,9 @@ export function Homepage() {
                     <h1 className="">Find Your Dream Property</h1>
                     <p className="">
                         Explore, buy, sell or rent properties seamlessly and
-                        find exactly what you're looking for all in one place.
+                        find exactly what you&apos;re looking for all in one place.
                     </p>
-                    <RedirectButton text={"Discover Now"} customClass="w-fit" href={'#'} />
+                    <MainButton type="button" text={"Discover Now"} customClass="w-fit" href={'#'} />
                 </div>
                 <div className="flex items-center">
                     <img
@@ -41,10 +43,11 @@ export function Homepage() {
                         text="Explore properties that match your lifestyle perfectly."
                         customClass="py-12"
                     >
-                        <RedirectButton
+                        <MainButton
                             text="Explore Properties 🡥"
                             variant="border"
-                            href={'#'}
+                            type="link"
+                            to={ROUTE_PATHS.NOT_FOUND}
                         />
                     </BasicCard>
                     <BasicCard
@@ -53,10 +56,11 @@ export function Homepage() {
                         text="Showcase your property to the right audience today."
                         customClass="py-12"
                     >
-                        <RedirectButton
+                        <MainButton
                             text="Publish a Property 🡥"
                             variant="border"
-                            href={'#'}
+                            type="link"
+                            to={ROUTE_PATHS.NOT_FOUND}
                         />
                     </BasicCard>
                     <BasicCard
@@ -65,10 +69,11 @@ export function Homepage() {
                         text="Connect with potential tenants or discover your next ..."
                         customClass="py-12"
                     >
-                        <RedirectButton
+                        <MainButton
                             text="Find Options 🡥"
                             variant="border"
-                            href={'#'}
+                            type="link"
+                            to={ROUTE_PATHS.NOT_FOUND}
                         />
                     </BasicCard>
                 </div>
