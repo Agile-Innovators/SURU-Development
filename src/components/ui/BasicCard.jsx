@@ -22,4 +22,5 @@ BasicCard.propTypes = {
     title: PropTypes.string.isRequired,
     variant: PropTypes.oneOf(['border']),
     text: PropTypes.string.isRequired,
+    customClass: PropTypes.string
 }
