@@ -32,8 +32,8 @@ export function Homepage() {
                         managing real estate
                     </p>
                 </div>
-                <div className="grid grid-cols-[repeat(auto-fit,_minmax(350px,_1fr))] justify-center mt-5 gap-8">
-                    <BasicCard
+                <div className="grid grid-cols-[repeat(auto-fit,_minmax(350px,_1fr))] justify-center mt-5 gap-8 ">
+                    <BasicCard 
                         src="/public/SellPropertyIcon.svg"
                         title="Buy a property"
                         text="Explore properties that match your lifestyle perfectly."
@@ -45,7 +45,6 @@ export function Homepage() {
                             href={'#'}
                         />
                     </BasicCard>
-
                     <BasicCard
                         src="/public/SellPropertyIcon.svg"
                         title="Sell a property"
@@ -104,6 +103,7 @@ export function Homepage() {
             <section className="mt-20">
                 <div className="text-center flex flex-col items-center gap-4">
                     <h2>Extra Services</h2>
+
                     <p className="max-w-[60ch]">
                         Enjoy special offers on our partner services to make
                         your move and property management easier
@@ -125,11 +125,11 @@ export function Homepage() {
             <section className="mt-20">
                 <div className="text-center flex flex-col items-center gap-6 px-4 py-8">
                     <h1 >Property Gallery</h1>
+                    {/* Le cambie el color y este se ve mas presentable */}
                     <p className="max-w-[60ch] text-gray-600">
                         Discover our great selection of properties and choose the one that best suits you.
                     </p>
-
-                    <div className="w-[70%] flex flex-col sm:flex-row sm:justify-between items-center border border-gray-200 p-6 rounded-lg shadow-md gap-4 transition-all duration-300 hover:shadow-lg hover:border-gray-300">
+                    <div className="w-full sm:w-[70%] flex flex-col sm:flex-row sm:justify-between items-center border border-gray-200 p-6 rounded-lg shadow-sm gap-4 transition-all duration-300 hover:shadow-md hover:border-gray-300">
                         <div className="w-full sm:w-auto flex flex-col">
                             <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">Location</label>
                             <select className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300">
@@ -159,9 +159,11 @@ export function Homepage() {
                                 <option value="condo">Condo</option>
                             </select>
                         </div>
-
                         <div className="w-full sm:w-auto mt-4 sm:mt-0">
-                            <RedirectButton variant="border" text="Search" customClass="p-3 " />
+                            <RedirectButton variant="border" text="Clear" customClass="p-3 " />
+                        </div>
+                        <div className="w-full sm:w-auto mt-4 sm:mt-0">
+                            <RedirectButton  text="Search" customClass="p-3 " />
                         </div>
                     </div>
                 </div>
@@ -186,7 +188,7 @@ export function Homepage() {
                     ))}
                 </div>
             </section>
-
+            
 
 
 
