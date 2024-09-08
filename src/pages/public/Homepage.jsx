@@ -3,6 +3,7 @@ import { ActionButton } from "../../components/ui/ActionButton";
 import { MainButton } from "./../../components/ui/MainButton";
 import { AdvancedCard } from "../../components/ui/AdvancedCard";
 import { Divider } from "@mui/joy";
+import { PropertiesFilter } from "../../components/homepage_components/PropertiesFilter";
 import { ROUTE_PATHS } from "../../routes/index.js";
 
 
@@ -128,80 +129,7 @@ export function Homepage() {
                     ))}
                 </div>
             </section>
-            <section className="mt-20">
-                <div className="text-center flex flex-col items-center gap-6 px-4 py-8">
-                    <h1 >Property Gallery</h1>
-                    {/* Le cambie el color y este se ve mas presentable */}
-                    <p className="max-w-[60ch] text-gray-600">
-                        Discover our great selection of properties and choose the one that best suits you.
-                    </p>
-                    <div className="w-full sm:w-[70%] flex flex-col sm:flex-row sm:justify-between items-center border border-gray-200 p-6 rounded-lg shadow-sm gap-4 transition-all duration-300 hover:shadow-md hover:border-gray-300">
-                        <div className="w-full sm:w-auto flex flex-col">
-                            <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">Location</label>
-                            <select className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300">
-                                <option value="all">All Properties</option>
-                                <option value="house">San José</option>
-                                <option value="apartment">Heredia</option>
-                                <option value="condo">Cartago</option>
-                            </select>
-                        </div>
-                        <Divider orientation="vertical" flexItem />
-
-                        <div className="w-full sm:w-auto flex flex-col">
-                            <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-2">Price</label>
-                            <select className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300">
-                                <option value="all">All Prices</option>
-                                <option value="100000">₡100,000-₡150,000</option>
-                                <option value="150000">₡150,000-₡200,000</option>
-                                <option value="200000">₡200,000-₡250,000</option>
-                            </select>
-                        </div>
-                        <Divider orientation="vertical" flexItem />
-                        <div className="w-full sm:w-auto flex flex-col">
-                            <label htmlFor="propertyType" className="block text-sm font-medium text-gray-700 mb-2">Property Type</label>
-                            <select className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300">
-                                <option value="all">All Types</option>
-                                <option value="house">House</option>
-                                <option value="apartment">Apartment</option>
-                                <option value="condo">Condo</option>
-                            </select>
-                        </div>
-                        <Divider orientation="vertical" flexItem />
-                        <div className="w-full sm:w-auto mt-4 sm:mt-0">
-                            <MainButton type="button" variant="border" text="Clear" customClass="p-3" />
-                        </div>
-                        <div className="w-full sm:w-auto mt-4 sm:mt-0">
-                            <MainButton type="button" text="Search" customClass="p-3 " />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-4 justify-center items-center mt-10">
-                    {Array.from({ length: 6 }).map((_, index) => (
-                        <AdvancedCard
-                            srcImage="https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg"
-                            title="Casa en la Montaña"
-                            location="San José"
-                            price={100000}
-                            frequency="monthly"
-                            key={index}
-                            customClass={'m-auto'}
-                        >
-                            <MainButton
-                                text="View"
-                                variant="border"
-                                type="link"
-                                to={ROUTE_PATHS.NOT_FOUND}
-                            />
-                        </AdvancedCard>
-                    ))}
-                </div>
-            </section>
-
-
-
-
-
+            <PropertiesFilter/>
         </div>
     );
 }
