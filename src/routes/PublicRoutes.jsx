@@ -8,6 +8,7 @@ import { ResetPassword } from "../pages/public/ResetPassword.jsx";
 import { ConfirmPassword } from "../pages/public/ConfirmPassword.jsx";
 import { ForgotPassword } from "../pages/public/ForgotPassword.jsx";
 import { ROUTE_PATHS } from "./index.js";
+import { Partners } from "../assets/pages/Partners.jsx";
 
 export function PublicRoutes() {
     return (
@@ -20,6 +21,7 @@ export function PublicRoutes() {
             <Route path={ROUTE_PATHS.EMAIL_SEND} element={<EmailSent />} />
             <Route path={ROUTE_PATHS.RESET_PASSWORD} element={<ResetPassword />} />
             <Route path={ROUTE_PATHS.CONFIRM_PASSWORD} element={<ConfirmPassword />} />
+            <Route path={ROUTE_PATHS.PARTNERS} element={<Partners />} />
             <Route path={ROUTE_PATHS.NOT_FOUND} element={<Homepage />} />
             <Route path={ROUTE_PATHS.HOME} element={<Homepage />} />
         </Routes>

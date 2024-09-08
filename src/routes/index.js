@@ -7,5 +7,6 @@ export const ROUTE_PATHS = {
     EMAIL_SEND: '/email-sent',
     RESET_PASSWORD: '/reset-password',
     CONFIRM_PASSWORD: '/confirm-password',
+    PARTNERS: '/partners',
     NOT_FOUND: '/*'
 }
