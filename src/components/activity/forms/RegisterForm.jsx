@@ -2,6 +2,7 @@ import { Input } from "../../ui/Input.jsx";
 import { CheckBox } from "../../ui/CheckBox.jsx";
 import { TextLink } from "../../ui/TextLink.jsx";
 import { RedirectButton } from "../../ui/RedirectButton.jsx";
+import { ROUTE_PATHS } from "../../../routes/index.js";
 
 export function RegisterForm(){
     return (
@@ -21,7 +22,7 @@ export function RegisterForm(){
             </div>
             <RedirectButton text="Sign In" href="/login" variant="fill" customClass="w-full mb-2"/>
             <span className="text-grey text-sm mr-1">Do you have an account?</span>
-            <TextLink route="/login" text="Sign In"/>
+            <TextLink route={ROUTE_PATHS.LOGIN} text="Sign In"/>
         </form>
     );
 }

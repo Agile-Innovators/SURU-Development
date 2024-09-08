@@ -1,6 +1,7 @@
 import { Input } from "../../ui/Input.jsx";
 import { TextLink } from "../../ui/TextLink.jsx";
 import { RedirectButton } from "../../ui/RedirectButton.jsx";
+import { ROUTE_PATHS } from "../../../routes/index.js";
 
 export function ForgotPasswordForm(){
     return (
@@ -14,7 +15,7 @@ export function ForgotPasswordForm(){
             </div>
 
             <span className="text-grey text-sm mr-1">Do you remember your password?</span>
-            <TextLink route="/login" text="Sign In"/>
+            <TextLink route={ROUTE_PATHS.LOGIN} text="Sign In"/>
         </form>
     );
 }
