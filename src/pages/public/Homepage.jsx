@@ -7,7 +7,7 @@ import { ROUTE_PATHS } from "../../routes/index.js";
 export function Homepage() {
     return (
         <div className="max-w-screen-xl m-auto px-8 sm:p-0">
-            <section className="w-full grid grid-cols-[repeat(auto-fit,_minmax(350px,_1fr))] mt-10 gap-6">
+            <section className="w-full grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] mt-10 gap-6">
                 <div className="flex flex-col justify-center gap-4">
                     <h1 className="">Find Your Dream Property</h1>
                     <p className="">
@@ -76,7 +76,7 @@ export function Homepage() {
                 </div>
                 {/* -------------------------------------------------------------- */}
             </section>
-            <section className="mt-20 grid grid-cols-[repeat(auto-fit,_minmax(350px,_1fr))] gap-4">
+            <section className="mt-20 grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4">
                 <div>
                     <img src="/public/about-us-img.svg" alt="" />
                 </div>
