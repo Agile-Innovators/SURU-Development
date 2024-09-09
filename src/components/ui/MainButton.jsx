@@ -7,6 +7,8 @@ export function MainButton({
   to,
   variant = "fill",
   customClass = "",
+  icon = null,
+  onClick = null
 }) {
   const variantClasses = {
     fill: "bg-secondary text-white hover:bg-light-blue hover:text-primary",
@@ -17,20 +19,20 @@ export function MainButton({
 
   if (type === "button") {
     return (
-      <button className={commonClasses}>
-        {text}
+      <button className={commonClasses} onClick={onClick}>
+         {icon ? icon : text}
       </button>
     );
   } else if (type === "link") {
     return (
       <Link to={to} className={commonClasses}>
-        {text}
+         {icon ? icon : text}
       </Link>
     );
   } else if (type === "external") {
     return (
       <a href={to} className={commonClasses} target="_blank" rel="noopener noreferrer">
-        {text}
+         {icon ? icon : text}
       </a>
     );
   }
@@ -44,4 +46,6 @@ MainButton.propTypes = {
   type: PropTypes.oneOf(["button", "link", "external"]).isRequired, 
   variant: PropTypes.oneOf(["fill", "border"]),
   customClass: PropTypes.string,
+  icon: PropTypes.element,
+  onClick: PropTypes.func,
 };
