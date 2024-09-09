@@ -11,7 +11,7 @@ export function PropertyActionSelection() {
       </div>
       <div className="grid grid-cols-auto-300 justify-center mt-5 gap-8 ">
         <BasicCard
-          src="/public/SellPropertyIcon.svg"
+          src="/SellPropertyIcon.svg"
           title="Buy a property"
           text="Explore properties that match your lifestyle perfectly."
           customClass="py-12"
