@@ -42,7 +42,7 @@ export function MainButton({
 
 MainButton.propTypes = {
   text: PropTypes.string.isRequired,
-  to: PropTypes.string.isRequired, 
+  to: PropTypes.string, 
   type: PropTypes.oneOf(["button", "link", "external"]).isRequired, 
   variant: PropTypes.oneOf(["fill", "border"]),
   customClass: PropTypes.string,
