@@ -1,7 +1,7 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes/index.js';
 
 const initialNavigation = [
@@ -24,24 +24,25 @@ function classNames(...classes) {
 }
 
 export function NavBar() {
+  const location = useLocation();
   const [navigation, setNavigation] = useState(initialNavigation);
 
   useEffect(() => {
-    const currentPath = window.location.pathname;
+    const currentPath = location.pathname;
     setNavigation((prevNavigation) =>
       prevNavigation.map((item) => ({
         ...item,
-        current: item.href === currentPath,
+        current: item.href === currentPath, 
       }))
     );
-  }, []);
+  }, [location]); 
 
   return (
     <Disclosure as="nav" className="bg-white border-b-light-grey border-b-2 font-primary">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            {/* Mobile menu button */}
+            {/* Botón del menú móvil */}
             <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-light-blue hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white transition duration-300 ease-in-out transform hover:scale-105">
               <span className="sr-only">Open main menu</span>
               <Bars3Icon className="block h-6 w-6 group-data-[open]:hidden" />
@@ -50,13 +51,13 @@ export function NavBar() {
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-between">
             <div className="flex flex-shrink-0 items-center">
-              <a href="/">
+              <Link to={ROUTE_PATHS.HOME}>
                 <img
                   alt="Your Company"
                   src="/public/logo.svg"
                   className="h-6 w-auto"
                 />
-              </a>
+              </Link>
             </div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
@@ -64,7 +65,6 @@ export function NavBar() {
                   <Link
                     key={item.name}
                     to={item.href}
-                    aria-current={item.current ? 'page' : undefined}
                     className={classNames(
                       item.current ? 'bg-light-blue text-white' : 'text-primary hover:bg-light-blue hover:text-white transition duration-100 ease-in-out transform hover:scale-105',
                       'rounded-md px-3 py-2 text-sm font-medium',
@@ -85,7 +85,7 @@ export function NavBar() {
               <BellIcon className="h-6 w-6" />
             </button>
 
-            {/* Profile dropdown */}
+            {/* Dropdown del perfil */}
             <Menu as="div" className="relative ml-3">
               <div>
                 <MenuButton className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -122,7 +122,6 @@ export function NavBar() {
               key={item.name}
               as="a"
               href={item.href}
-              aria-current={item.current ? 'page' : undefined}
               className={classNames(
                 item.current ? 'bg-light-grey text-white' : 'text-primary hover:bg-light-blue hover:text-white',
                 'block rounded-md px-3 py-2 text-base font-medium',
