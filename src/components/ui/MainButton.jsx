@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export function MainButton({
   text,
-  type,
+  type="button",
   to,
   variant = "fill",
   customClass = "",

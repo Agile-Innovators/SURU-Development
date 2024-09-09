@@ -45,10 +45,8 @@ export function PropertiesFilter() {
         <section className="mt-20">
             <div className="text-center flex flex-col items-center gap-6 px-4 py-8">
                 <h1>Property Gallery</h1>
-                {/* Le cambie el color y este se ve mas presentable */}
-                <p className="max-w-[60ch] text-gray-600">
-                    Discover our great selection of properties and choose the one that best suits you.
-                </p>
+                <p className="max-w-[60ch] text-gray-600">Discover our great selection of properties and choose the one that best suits you.</p>
+                
                 <div className="flex flex-col sm:flex-row items-center border border-gray-200 p-6 rounded-lg shadow-sm gap-4 transition-all duration-300 hover:shadow-md hover:border-gray-300">
                     {selectOptions.map((select, index) => (
                         <React.Fragment key={select.id}>
@@ -72,7 +70,7 @@ export function PropertiesFilter() {
                     <MainButton
                             text="Clear"
                             type="link"
-                            customClass="p-3"
+                            customClass="p-3 bg-light-grey text-secondary"
                             to={ROUTE_PATHS.NOT_FOUND}
                         />
                     </div>
@@ -86,7 +84,7 @@ export function PropertiesFilter() {
                     </div>
                 </div>
             </div>
-            <div className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-4 justify-center items-center mt-10">
+            <div className="grid grid-cols-auto-350 gap-4 justify-center items-center mt-10">
                 {Array.from({ length: 6 }).map((_, index) => (
                     <AdvancedCard
                         srcImage="https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg"
@@ -101,6 +99,7 @@ export function PropertiesFilter() {
                             text="View"
                             variant="border"
                             type="link"
+                            customClass="px-7 py-[0.5rem]"
                             to={ROUTE_PATHS.NOT_FOUND}
                         />
                     </AdvancedCard>
