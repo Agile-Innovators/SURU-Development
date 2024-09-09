@@ -18,11 +18,17 @@ export default {
         'translucid-blue': 'rgba(0, 201, 247, 0.25)',
         grey: '#6D7585',
         'light-grey': '#C3C8D2'
+      },
+      gridTemplateColumns: {
+        'auto-100': 'repeat(auto-fit, minmax(100px, 1fr))',
+        'auto-150': 'repeat(auto-fit, minmax(150px, 1fr))',
+        'auto-250': 'repeat(auto-fit, minmax(250px, 1fr))',
+        'auto-300': 'repeat(auto-fit, minmax(300px, 1fr))',
+        'auto-350': 'repeat(auto-fit, minmax(350px, 1fr))',
       }
-
-      
     },
   },
+
   plugins: [
     function ({ addBase, theme }) {
       addBase({
@@ -64,7 +70,7 @@ export default {
         },                
         'p': { 
           fontSize: '1rem', //16px
-          color: theme('colors.light-grey'),
+          color: theme('colors.grey'),
           fontFamily: theme('fontFamily.primary'),
           fontWeight: '300', //regular
         },  
