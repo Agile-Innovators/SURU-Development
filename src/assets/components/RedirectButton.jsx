@@ -10,7 +10,7 @@ export function RedirectButton({ text, href, variant = 'fill', customClass = "",
   return (
     <a
       href={href}
-      className={`flex items-center justify-center w-[41px] h-[41px] rounded-md transition-colors duration-150 cursor-pointer ${variantClasses[variant]} ${customClass}`}
+      className={`flex items-center justify-center  rounded-md transition-colors duration-150 cursor-pointer ${variantClasses[variant]} ${customClass}`}
     >
       {icon ? icon : text}
     </a>
