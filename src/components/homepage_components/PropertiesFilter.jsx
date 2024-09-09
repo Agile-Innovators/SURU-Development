@@ -97,8 +97,8 @@ export function PropertiesFilter() {
                 {Array.from({ length: 6 }).map((_, index) => (
                     <AdvancedCard
                         srcImage="https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg"
-                        title="Casa en la Montaña"
-                        location="San José"
+                        title="Woodie Comfy Property"
+                        location="Santa Teresa, Puntarenas. CR."
                         price={100000}
                         frequency="monthly"
                         key={index}

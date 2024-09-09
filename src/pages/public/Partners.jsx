@@ -17,8 +17,8 @@ export function Partners() {
         <AvailableServices />
         <CTAForm
             title="Do you want to be part of the facilitating companies?"
-            description="First, you must register on the platform and submit a request to Suru. We'll explain how!"
-            description2="Fill in your company's details using the following link. Complete the online form, and Suru will contact you soon."
+            description="First, you must register on the platform and submit a request to Suru. We&apos;ll explain how!"
+            description2="Fill in your company&apos;s details using the following link. Complete the online form, and Suru will contact you soon."
             text="Go to the form"
             type="link"
             to="/"

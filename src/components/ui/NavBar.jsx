@@ -1,20 +1,22 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ROUTE_PATHS } from '../../routes/index.js';
 
 const initialNavigation = [
-  { name: 'Pricing', href: '/pricing', current: false },
+  { name: 'Partners', href: ROUTE_PATHS.PARTNERS, current: false },
   { name: 'Solutions', href: '/solutions', current: false },
   { name: 'About us', href: '/about', current: false },
   { name: 'Contact', href: '/contact', current: false },
 ];
 
 const userNavigationLinks = [
-  { name: 'My account', href: '#', imageRoute: '/public/UserIcon.svg' },
-  { name: 'Manage properties', href: '#', imageRoute: '/public/PropetiesIcon.svg' },
-  { name: 'Save properties', href: '#', imageRoute: '/public/HomeIcon.svg' },
-  { name: 'My appointments', href: '#', imageRoute: '/public/CalendarIcon.svg' },
-  { name: 'Log out', href: '#', imageRoute: '/public/LogoutIcon.svg' }
+  { name: 'My account', to: '#', imageRoute: '/public/UserIcon.svg' },
+  { name: 'Manage properties', to: '#', imageRoute: '/public/PropetiesIcon.svg' },
+  { name: 'Save properties', to: '#', imageRoute: '/public/HomeIcon.svg' },
+  { name: 'My appointments', to: '#', imageRoute: '/public/CalendarIcon.svg' },
+  { name: 'Log out', to: '#', imageRoute: '/public/LogoutIcon.svg' }
 ];
 
 function classNames(...classes) {
@@ -59,17 +61,17 @@ export function NavBar() {
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
                 {navigation.map((item) => (
-                  <a
+                  <Link
                     key={item.name}
-                    href={item.href}
+                    to={item.href}
                     aria-current={item.current ? 'page' : undefined}
                     className={classNames(
-                      item.current ? 'bg-light-blue text-white' : 'text-primary hover:bg-light-blue hover:text-white transition duration-300 ease-in-out transform hover:scale-105',
+                      item.current ? 'bg-light-blue text-white' : 'text-primary hover:bg-light-blue hover:text-white transition duration-100 ease-in-out transform hover:scale-105',
                       'rounded-md px-3 py-2 text-sm font-medium',
                     )}
                   >
                     {item.name}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -122,7 +124,7 @@ export function NavBar() {
               href={item.href}
               aria-current={item.current ? 'page' : undefined}
               className={classNames(
-                item.current ? 'bg-light-blue text-white' : 'text-primary hover:bg-light-blue hover:text-white',
+                item.current ? 'bg-light-grey text-white' : 'text-primary hover:bg-light-blue hover:text-white',
                 'block rounded-md px-3 py-2 text-base font-medium',
               )}
             >

@@ -2,10 +2,10 @@ import { MainButton } from "../ui/MainButton";
 
 export function HeaderHome() {
   return (
-    <div className="w-full flex flex-col md:flex-row mt-10 gap-6">
+    <div className="w-full text-center flex flex-col md:flex-row md:text-start mt-10 gap-6">
       <section className="flex flex-col justify-center gap-4 w-full">
         <h1>Find Your Dream Property</h1>
-        <p>Explore, buy, sell or rent properties seamlessly and find exactly whatyou&apos;re looking for all in one place.</p>
+        <p>Explore, buy, sell or rent properties seamlessly and find exactly what you&apos;re looking for all in one place.</p>
         <MainButton
           type="button"
           text={"Discover Now"}
