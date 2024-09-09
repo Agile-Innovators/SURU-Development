@@ -39,7 +39,7 @@ export function PropertyActionSelection() {
         <BasicCard
           src="/public/SellPropertyIcon.svg"
           title="Rent a property"
-          text="Connect with potential tenants or discover your next ..."
+          text="Connect with potential tenants or discover your next rental home."
           customClass="py-12"
         >
           <MainButton
