@@ -24,7 +24,7 @@ export function PropertyActionSelection() {
           />
         </BasicCard>
         <BasicCard
-          src="/public/SellPropertyIcon.svg"
+          src="/SellPropertyIcon.svg"
           title="Sell a property"
           text="Showcase your property to the right audience today."
           customClass="py-12"
@@ -37,7 +37,7 @@ export function PropertyActionSelection() {
           />
         </BasicCard>
         <BasicCard
-          src="/public/SellPropertyIcon.svg"
+          src="/SellPropertyIcon.svg"
           title="Rent a property"
           text="Connect with potential tenants or discover your next rental home."
           customClass="py-12"
