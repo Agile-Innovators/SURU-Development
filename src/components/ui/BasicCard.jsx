@@ -7,7 +7,7 @@ export function BasicCard({children, src, title, variant, text, customClass = ""
         border: 'text-secondary border-2 border-gray rounded-md p-6'
       };
     return(
-        <div className={`flex flex-col items-center text-center gap-3 p-8 w-fit border border-light-grey rounded-md transition-all duration-300 hover:shadow-md ${customClass} ${variantClasses[variant]}`} >
+        <div className={`flex flex-col items-center text-center gap-3 p-4 border border-light-grey rounded-md transition-all duration-300 hover:shadow-md ${customClass} ${variantClasses[variant]}`}>
             <img className='w-24' src={`${src}`} alt="image card" />
             <h3>{title}</h3>
             <p>{text}</p>

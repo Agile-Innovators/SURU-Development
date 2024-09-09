@@ -4,12 +4,12 @@ import { MainButton } from "../ui/MainButton.jsx";
 
 export function PropertyActionSelection() {
   return (
-    <section className="mt-20 flex flex-col px-8 sm:p-0">
+    <section className="mt-20 flex flex-col">
       <div className="text-center grid gap-2">
         <h2>Managing Properties Has Never Been This Simple</h2>
         <p>Access a platform that takes the complexity out of managing realestate</p>
       </div>
-      <div className="grid grid-cols-auto-350 justify-center mt-5 gap-8 ">
+      <div className="grid grid-cols-auto-300 justify-center mt-5 gap-8 ">
         <BasicCard
           src="/public/SellPropertyIcon.svg"
           title="Buy a property"
