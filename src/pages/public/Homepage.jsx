@@ -113,14 +113,14 @@ export function Homepage() {
                         your move and property management easier
                     </p>
                 </div>
-                <div className="grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] gap-y-4 justify-center items-center mt-10">
+                <div className="grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] gap-4 justify-center items-center mt-10">
                     {Array.from({ length: 10 }).map((_, index) => (
                         <BasicCard
                             src="/public/SellPropertyIcon.svg"
                             title="Sell a property"
                             text="10 options"
                             key={index}
-                            customClass={'m-auto'}
+                            customClass={'m-auto w-full'}
                         >
                         </BasicCard>
                     ))}
