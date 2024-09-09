@@ -54,7 +54,7 @@ export function NavBar() {
               <Link to={ROUTE_PATHS.HOME}>
                 <img
                   alt="Your Company"
-                  src="/public/logo.svg"
+                  src="/Logo.svg"
                   className="h-6 w-auto"
                 />
               </Link>
