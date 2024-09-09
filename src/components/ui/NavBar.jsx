@@ -103,10 +103,10 @@ export function NavBar() {
               >
                 {userNavigationLinks.map((item) => (
                   <MenuItem key={item.name} className="flex items-center gap-1">
-                    <a href={item.href} className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-light-blue hover:text-white">
+                    <Link to={item.href} className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-light-blue hover:text-white">
                       <img src={item.imageRoute} alt={item.name} className="h-6 w-6" />
                       {item.name}
-                    </a>
+                    </Link>
                   </MenuItem>
                 ))}
               </MenuItems>
