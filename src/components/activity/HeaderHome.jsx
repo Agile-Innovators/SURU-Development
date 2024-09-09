@@ -16,7 +16,7 @@ export function HeaderHome() {
       <div className="flex items-center w-full">
         <img
           className="aspect-square w-[30rem] mx-auto md:w-full"
-          src="/public/images/Group 104.png"
+          src="/images/Group 104.png"
           alt="Landing Page Image"
         />
       </div>
