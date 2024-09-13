@@ -83,14 +83,6 @@ export function PropertiesFilter() {
                             to={ROUTE_PATHS.NOT_FOUND}
                         />
                     </div>
-                    {/* <div className="w-full sm:w-auto mt-4 sm:mt-0">
-                        <MainButton
-                            text="Search"
-                            type="link"
-                            customClass="p-3"
-                            to={ROUTE_PATHS.NOT_FOUND}
-                        />
-                    </div> */}
                 </div>
             </div>
             <div className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-4 justify-center items-center mt-10">

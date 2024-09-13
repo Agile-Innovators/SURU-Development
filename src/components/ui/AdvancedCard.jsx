@@ -4,7 +4,7 @@ import { MapPin, BedDouble, Bath, Car, PawPrint } from 'lucide-react';
 
 export function AdvancedCard({ srcImage, children, title, location, price, frequency }) {
     return (
-        <div className='rounded-md overflow-hidden border border-light-grey'>
+        <div className='rounded-md overflow-hidden border border-light-grey transition-all duration-300 hover:shadow-md'>
             <div className='h-52 overflow-hidden relative'>
                 <div className='absolute top-3 right-3 p-2 size-12 bg-white border-2 border-white bg-opacity-75 rounded-full cursor-pointer'>
                      <HeartIcon />

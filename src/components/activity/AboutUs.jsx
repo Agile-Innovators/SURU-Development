@@ -1,4 +1,19 @@
+
+import CountUp from 'react-countup';
+import { useInView } from 'react-intersection-observer';
+import React, { useState } from 'react';
 export function AboutUs() {
+  const [startCounting, setStartCounting] = useState(false);
+  const { ref, inView } = useInView({
+    triggerOnce: true, // Ejecuta la función solo una vez cuando el elemento entra en vista
+    threshold: 0.1,    // Configura el umbral de visibilidad (10%)
+  });
+
+  React.useEffect(() => {
+    if (inView) {
+      setStartCounting(true);
+    }
+  }, [inView]);
   return (
     <div className="mt-20 flex flex-col lg:flex-row gap-6">
       <img className="w-[28rem] mx-auto" src="/about-us-img.svg" alt="Icon" />
@@ -8,15 +23,30 @@ export function AboutUs() {
 
         <div className="grid grid-cols-auto-100 gap-4">
           <div>
-            <span className="font-semibold">+120</span>
+            <span
+              ref={ref}
+              className="font-semibold"
+            >
+              {startCounting && <CountUp start={0} end={120} duration={2.5} prefix="+" />}
+            </span>
             <p>Active users</p>
           </div>
           <div>
-            <span className="font-semibold">+50</span>
+            <span
+              ref={ref}
+              className="font-semibold"
+            >
+              {startCounting && <CountUp start={0} end={50} duration={2.5} prefix="+" />}
+            </span>
             <p>Availables properties</p>
           </div>
           <div>
-            <span className="font-semibold">+15</span>
+            <h4
+              ref={ref}
+              className="font-semibold text-md"
+            >
+              {startCounting && <CountUp start={0} end={60} duration={2.5} prefix="+" />}
+            </h4>
             <p>Partner Companies</p>
           </div>
         </div>
