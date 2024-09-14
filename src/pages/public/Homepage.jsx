@@ -9,14 +9,14 @@ const partners = [
         title: "Cleaning Services",
         imgSrc: "/LogoExample.webp"
     },
-    {
-        name: "UrbanServe Group",
-        title: "Moving Services",
-        imgSrc: "/LogoExample.webp"
-    },
+
     {
         name: "CitiClean & Support",
         title: "Interior Design & Remodeling",
+        imgSrc: "/LogoExample.webp"
+    },    {
+        name: "UrbanServe Group",
+        title: "Moving Services",
         imgSrc: "/LogoExample.webp"
     },
     

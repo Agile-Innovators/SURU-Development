@@ -8,5 +8,6 @@ export const ROUTE_PATHS = {
     RESET_PASSWORD: '/reset-password',
     CONFIRM_PASSWORD: '/confirm-password',
     PARTNERS: '/partners',
-    NOT_FOUND: '/*'
+    NOT_FOUND: '/*',
+    PARTNERS_ANGEL: '/partners-angel'
 }
