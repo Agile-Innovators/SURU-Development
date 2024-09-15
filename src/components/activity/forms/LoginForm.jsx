@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from "../../../axiosInstance.js"; 
-import { useSaveToken } from "../../../utils/authUtils.js";
+import { useAxios } from '../../../components/hooks/useAxios.js';
+import { useAuth } from '../../../global/AuthProvider.jsx';
 import { Input } from "../../ui/Input.jsx";
 import { CheckBox } from "../../ui/CheckBox.jsx";
 import { TextLink } from "../../ui/TextLink.jsx";
@@ -13,7 +13,8 @@ export function LoginForm() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const saveAuthToken = useSaveToken();
+    const axios = useAxios();
+    const { saveAuthToken } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
@@ -27,11 +28,11 @@ export function LoginForm() {
         };
 
         try {
-            const response = await axiosInstance.post('/auth/local/', data); 
+            const response = await axios.post('/auth/local/', data); 
             const { jwt } = response.data;  
             saveAuthToken(jwt);
             console.log('Login successful:', jwt);
-            navigate('/prueba-login');
+            navigate('/suru/prueba');
         } catch (err) {
             setError(err.response.data.error.message);
             console.error('Login error:', err);

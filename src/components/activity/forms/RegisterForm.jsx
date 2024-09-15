@@ -5,8 +5,8 @@ import { CheckBox } from "../../ui/CheckBox.jsx";
 import { TextLink } from "../../ui/TextLink.jsx";
 import { MainButton } from "../../ui/MainButton.jsx";
 import { ROUTE_PATHS } from "../../../routes/index.js";
-import { useSaveToken } from "../../../utils/authUtils.js";
-import axiosInstance from "../../../axiosInstance.js"; 
+import { useAuth } from '../../../global/AuthProvider.jsx';
+import { useAxios } from '../../../components/hooks/useAxios.js';
 
 export function RegisterForm() {
     const [username, setUsername] = useState('');
@@ -16,7 +16,8 @@ export function RegisterForm() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const saveAuthToken = useSaveToken();
+    const { saveAuthToken } = useAuth();
+    const axios = useAxios();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -42,7 +43,7 @@ export function RegisterForm() {
         };
 
         try {
-            const response = await axiosInstance.post('/auth/local/register', data);
+            const response = await axios.post('/auth/local/register', data);
             const { jwt } = response.data;
             saveAuthToken(jwt);
             console.log('Login successful:', jwt);

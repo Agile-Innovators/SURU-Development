@@ -3,7 +3,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes/index.js';
-import { useRemoveToken } from '../../utils/authUtils.js';
+import { useAuth } from '../../global/AuthProvider.jsx';
 
 const initialNavigation = [
   { name: 'Partners', href: ROUTE_PATHS.PARTNERS, current: false },
@@ -14,8 +14,8 @@ const initialNavigation = [
 
 const userNavigationLinks = [
   { name: 'My account', to: '#', imageRoute: '/public/UserIcon.svg' },
-  { name: 'Manage properties', to: '#', imageRoute: '/public/PropetiesIcon.svg' },
-  { name: 'Save properties', to: '#', imageRoute: '/public/HomeIcon.svg' },
+  { name: 'My properties', to: '#', imageRoute: '/public/PropetiesIcon.svg' },
+  { name: 'Saved properties', to: '#', imageRoute: '/public/HomeIcon.svg' },
   { name: 'My appointments', to: '#', imageRoute: '/public/CalendarIcon.svg' },
   { name: 'Log out', to: '#', imageRoute: '/public/LogoutIcon.svg' }
 ];
@@ -27,7 +27,7 @@ function classNames(...classes) {
 export function NavBar() {
   const location = useLocation();
   const navigate = useNavigate();
-  const removeToken = useRemoveToken(); 
+  const { saveAuthToken } = useAuth();
   const [navigation, setNavigation] = useState(initialNavigation);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export function NavBar() {
   }, [location]); 
 
   const handleLogout = () => {
-    removeToken(); 
+    saveAuthToken(null); 
     navigate(ROUTE_PATHS.LOGIN); 
   };
 
