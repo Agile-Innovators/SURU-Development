@@ -1,9 +1,8 @@
 import axios from 'axios';
-//import { getAuthToken } from './AuthProvider.jsx';
-import { secureRoutes } from './secureRoutes';
+import { useGetToken } from './utils/authUtils'; 
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:1337', // Cambia a la URL de tu API
+  baseURL: 'http://localhost:1337',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -12,13 +11,13 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    // Require and add the token to the request only for secure routes
-    // if (secureRoutes.some(route => config.url.startsWith(route))) {
-    //   const token = getAuthToken();
-    //   if (token) {
-    //     config.headers.Authorization = `Bearer ${token}`;
-    //   }
-    // }
+    // If the request needs authentication, add the token
+    if (config.auth) {
+      const token = useGetToken();
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
     return config;
   },
   (error) => {
