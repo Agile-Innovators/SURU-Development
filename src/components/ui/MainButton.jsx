@@ -35,6 +35,12 @@ export function MainButton({
          {icon ? icon : text}
       </a>
     );
+  } if (type === "submit") {
+    return (
+      <button className={commonClasses} type="submit">
+         {icon ? icon : text}
+      </button>
+    );
   }
 
   return null;

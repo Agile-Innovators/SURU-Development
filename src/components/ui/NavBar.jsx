@@ -66,7 +66,7 @@ export function NavBar() {
                     key={item.name}
                     to={item.href}
                     className={classNames(
-                      item.current ? 'bg-light-blue text-white' : 'text-primary hover:bg-light-blue hover:text-white transition duration-100 ease-in-out transform hover:scale-105',
+                      item.current ? 'bg-light-blue text-white' : 'text-primary hover:bg-light-blue hover:text-white transition duration-100 ease-in-out transform',
                       'rounded-md px-3 py-2 text-sm font-medium',
                     )}
                   >
