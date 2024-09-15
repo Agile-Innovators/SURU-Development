@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from "../../../axiosInstance.js";  // Ensure correct import
+import axiosInstance from "../../../axiosInstance.js"; 
 import { useSaveToken } from "../../../utils/authUtils.js";
 import { Input } from "../../ui/Input.jsx";
 import { CheckBox } from "../../ui/CheckBox.jsx";
@@ -33,7 +33,7 @@ export function LoginForm() {
             console.log('Login successful:', jwt);
             navigate('/prueba-login');
         } catch (err) {
-            setError('Invalid credentials, please try again.');
+            setError(err.response.data.error.message);
             console.error('Login error:', err);
         } finally {
             setLoading(false);
