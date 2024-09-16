@@ -4,12 +4,14 @@ import { PropertyActionSelection } from "../../components/activity/PropertyActio
 import { AboutUs } from "../../components/activity/AboutUs.jsx";
 
 export function Homepage() {
+
+
     return (
         <div className="max-w-7xl m-auto p-4">
             <HeaderHome />
             <PropertyActionSelection />
             <AboutUs />
-            <PropertiesFilter/>
+            <PropertiesFilter />
         </div>
     );
 }
