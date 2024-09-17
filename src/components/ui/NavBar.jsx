@@ -3,7 +3,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
 
 const initialNavigation = [
-  { name: 'Pricing', href: '/pricing', current: false },
+  { name: 'Partners', href: '/partners', current: false },
   { name: 'Solutions', href: '/solutions', current: false },
   { name: 'About us', href: '/about', current: false },
   { name: 'Contact', href: '/contact', current: false },

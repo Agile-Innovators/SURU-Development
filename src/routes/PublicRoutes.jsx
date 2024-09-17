@@ -8,7 +8,7 @@ import { ResetPassword } from "../pages/public/ResetPassword.jsx";
 import { ConfirmPassword } from "../pages/public/ConfirmPassword.jsx";
 import { ForgotPassword } from "../pages/public/ForgotPassword.jsx";
 import { ROUTE_PATHS } from "./index.js";
-import { Partners } from "../assets/pages/Partners.jsx";
+import { Partners } from "../pages/public/Partners.jsx";
 
 export function PublicRoutes() {
     return (
