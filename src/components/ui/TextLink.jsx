@@ -1,0 +1,20 @@
+import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
+
+export function TextLink({route, text}) {
+    return (
+        <Link to={route} className="text-secondary font-normal text-sm hover:text-light-blue duration-100 cursor-pointer">{text}</Link>
+    )
+}
+
+export default TextLink;
+
+TextLink.propTypes = {
+    route: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired
+}
+
+TextLink.defaultProps = {
+    route: "/",
+    text: "Link"
+}
