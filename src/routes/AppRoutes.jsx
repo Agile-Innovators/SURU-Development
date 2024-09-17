@@ -5,10 +5,12 @@ import { PrivateRoutes } from "./PrivateRoutes.jsx";
 import { Routes, Route } from 'react-router-dom';
 import ProtectedRoutes from '../global/ProtectedRoutes.jsx';
 import '../index.css'
+import { Input } from "../components/ui/Input.jsx";
 
 export function AppRoutes() {
     return (
         <>
+            
             <NavBar />
                 <Routes>
                     <Route path="/*" element={<PublicRoutes />} />
