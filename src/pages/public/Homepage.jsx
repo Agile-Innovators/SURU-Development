@@ -9,7 +9,7 @@ const partners = [
         title: "Cleaning Services",
         imgSrc: "/LogoExample.webp"
     },
-
+ 
     {
         name: "CitiClean & Support",
         title: "Interior Design & Remodeling",
