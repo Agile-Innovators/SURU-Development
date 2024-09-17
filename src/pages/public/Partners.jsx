@@ -14,7 +14,9 @@ export function Partners() {
           </p>
         </section>
 
+
         <AvailableServices />
+
         <CTAForm
             title="Do you want to be part of the facilitating companies?"
             description="First, you must register on the platform and submit a request to Suru. We&apos;ll explain how!"
@@ -29,3 +31,4 @@ export function Partners() {
 }
 
 export default Partners;
+
