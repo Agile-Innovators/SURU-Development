@@ -16,11 +16,10 @@ const CreatePropertyForm = () => {
         wifi: false,
         cable: false,
     });
-
-     // Verificar si hay algún servicio seleccionado en "Available services"
+ 
      const hasSelectedService = Object.values(services).includes(true);
 
-    // Función para manejar el cambio en el estado de los servicios
+
     const toggleService = (service) => {
         setServices(prevState => ({
             ...prevState,
@@ -28,7 +27,6 @@ const CreatePropertyForm = () => {
         }));
     };
 
-    // Función para renderizar el formulario según el tipo de propiedad y acción
     const renderFormulario = () => {
         if (!tipoPropiedad || !accion) return null;
 
@@ -208,6 +206,7 @@ const CreatePropertyForm = () => {
                        <PriceDetails type="Both"/>
                     </div>
                 )}
+                
             </form>
             ),
             'bare-land': (
@@ -383,6 +382,7 @@ const CreatePropertyForm = () => {
 };
 
 export default CreatePropertyForm;
+
 
 
 
