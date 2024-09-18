@@ -8,7 +8,7 @@ import { useAuth } from '../../global/AuthProvider.jsx';
 const initialNavigation = [
 
   { name: 'Partners', href: ROUTE_PATHS.PARTNERS, current: false },
-
+  {name: 'Create property', href: ROUTE_PATHS.CREATE_PROPERTY, current: false},
   { name: 'Solutions', href: '/solutions', current: false },
   { name: 'About us', href: '/about', current: false },
   { name: 'Contact', href: '/contact', current: false },
