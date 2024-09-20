@@ -1,45 +1,97 @@
 import { AdvancedCard } from "../../components/ui/AdvancedCard";
 import { Divider } from "@mui/joy";
-import React from 'react';
+import React from "react";
 import { MainButton } from "./../../components/ui/MainButton";
 import { ROUTE_PATHS } from "../../routes/index.js";
-
+import { useNavigate } from "react-router-dom";
+import { useFetchRegions } from "../hooks/useFetchRegions.js";
+import { useFetchPropertyCategories } from "../hooks/useFetchPropertyCategories.js";
 
 export function PropertiesFilter() {
+    const { regions, isLoadingRegions } = useFetchRegions();
+    const { propertyCategories, isLoadingPropsCats } =
+        useFetchPropertyCategories();
+
+    const createRegionsSelect = (items) => {
+        return (
+            <div className="w-full lg:w-auto flex flex-col">
+                <label
+                    htmlFor={"select_regions"}
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                    Region
+                </label>
+                <select
+                    id="select_regions"
+                    name={`select_regions`}
+                    className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                >
+                    {items.map((region) => (
+                        <option
+                            key={`region_${region.attributes.id}`}
+                            value={region.attributes.id}
+                        >
+                            {region.attributes.name}
+                        </option>
+                    ))}
+                </select>
+            </div>
+        );
+    };
+
+    const createPropsCatsSelect = (items) => {
+        return (
+            <div className="w-full lg:w-auto flex flex-col">
+                <label
+                    htmlFor={"select_props_cats"}
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                    Property Type
+                </label>
+                <select
+                    id="select_props_cats"
+                    name={`select_props_cats`}
+                    className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                >
+                    {items.map((category) => (
+                        <option
+                            key={`category_${category.attributes.id}`}
+                            value={category.attributes.id}
+                        >
+                            {category.attributes.name}
+                        </option>
+                    ))}
+                </select>
+            </div>
+        );
+    };
 
     const selectOptions = [
         {
-            id: 'location',
-            label: 'Location',
+            id: "price",
+            label: "Price",
             options: [
-                { value: 'all', label: 'All Properties' },
-                { value: 'house', label: 'San José' },
-                { value: 'apartment', label: 'Heredia' },
-                { value: 'condo', label: 'Cartago' }
-            ]
+                { value: "all", label: "All Prices" },
+                { value: "100000", label: "₡100,000-₡150,000" },
+                { value: "150000", label: "₡150,000-₡200,000" },
+                { value: "200000", label: "₡200,000-₡250,000" },
+            ],
         },
-        {
-            id: 'price',
-            label: 'Price',
-            options: [
-                { value: 'all', label: 'All Prices' },
-                { value: '100000', label: '₡100,000-₡150,000' },
-                { value: '150000', label: '₡150,000-₡200,000' },
-                { value: '200000', label: '₡200,000-₡250,000' }
-            ]
-        },
-        {
-            id: 'propertyType',
-            label: 'Property Type',
-            options: [
-                { value: 'all', label: 'All Types' },
-                { value: 'house', label: 'House' },
-                { value: 'apartment', label: 'Apartment' },
-                { value: 'condo', label: 'Condo' }
-            ]
-        }
-        
     ];
+
+    function filter(event) {
+        event.preventDefault();
+        const formFilter = event.target;
+        const selectElements = formFilter.querySelectorAll("select");
+
+        const selectValues = Array.from(selectElements).map(
+            (select) => select.value
+        );
+
+        console.log(selectValues);
+
+        navigate(ROUTE_PATHS.LOGIN);
+    }
 
     return (
         <section className="mt-20">
@@ -47,29 +99,55 @@ export function PropertiesFilter() {
                 <h1>Property Gallery</h1>
                 {/* Le cambie el color y este se ve mas presentable */}
                 <p className="max-w-[60ch] text-gray-600">
-                    Discover our great selection of properties and choose the one that best suits you.
+                    Discover our great selection of properties and choose the
+                    one that best suits you.
                 </p>
-                <div className="w-full lg:w-auto flex flex-col justify-center flex-wrap lg:flex-row items-center border border-gray-200 p-6 rounded-lg shadow-sm gap-6 transition-all duration-300 hover:shadow-md hover:border-gray-300">
-                    {selectOptions.map((select, index) => (
-                        <React.Fragment key={select.id}>
-                            <div className="w-full lg:w-auto flex flex-col">
-                                <label htmlFor={select.id} className="block text-sm font-medium text-gray-700 mb-2">
-                                    {select.label}
-                                </label>
-                                <select id={select.id} className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300">
-                                    {select.options.map(option => (
-                                        <option key={option.value} value={option.value}>
-                                            {option.label}
+                <form
+                    onSubmit={(e) => filter(e)}
+                    name="form_filter"
+                    className="w-full lg:w-auto flex flex-col justify-center flex-wrap lg:flex-row items-center border border-gray-200 p-6 rounded-lg shadow-sm gap-6 transition-all duration-300 hover:shadow-md hover:border-gray-300"
+                >
+                    {isLoadingRegions ? (
+                        <p>Loading</p>
+                    ) : (
+                        createRegionsSelect(regions)
+                    )}
+
+                    {
+                        <div className="w-full lg:w-auto flex flex-col">
+                            <label
+                                htmlFor="{select.id}"
+                                className="block text-sm font-medium text-gray-700 mb-2"
+                            >
+                                Price
+                            </label>
+                            <select
+                                id="{select.id}"
+                                name={`select`}
+                                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                            >
+                                {selectOptions.map((option) =>
+                                    option.options.map((priceOption) => (
+                                        <option
+                                            key={priceOption.value}
+                                            value={priceOption.value}
+                                        >
+                                            {priceOption.label}
                                         </option>
-                                    ))}
-                                </select>
-                            </div>
-                            {index < selectOptions.length - 1 && <Divider orientation="vertical" flexItem />}
-                        </React.Fragment>
-                    ))}
+                                    ))
+                                )}
+                            </select>
+                        </div>
+                    }
+                    {isLoadingPropsCats ? (
+                        <p>Loading</p>
+                    ) : (
+                        createPropsCatsSelect(propertyCategories)
+                    )}
+
                     <Divider orientation="vertical" flexItem />
                     <div className="flex flex-col gap-2 w-full sm:flex-row lg:w-auto">
-                    <MainButton
+                        <MainButton
                             text="Clear"
                             type="link"
                             customClass="p-3 w-full lg:w-fit"
@@ -78,20 +156,12 @@ export function PropertiesFilter() {
                         />
                         <MainButton
                             text="Search"
-                            type="link"
+                            type="submit"
                             customClass="p-3 w-full lg:w-fit"
                             to={ROUTE_PATHS.NOT_FOUND}
                         />
                     </div>
-                    {/* <div className="w-full sm:w-auto mt-4 sm:mt-0">
-                        <MainButton
-                            text="Search"
-                            type="link"
-                            customClass="p-3"
-                            to={ROUTE_PATHS.NOT_FOUND}
-                        />
-                    </div> */}
-                </div>
+                </form>
             </div>
             <div className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-4 justify-center items-center mt-10">
                 {Array.from({ length: 6 }).map((_, index) => (
@@ -102,7 +172,7 @@ export function PropertiesFilter() {
                         price={100000}
                         frequency="monthly"
                         key={index}
-                        customClass={'m-auto'}
+                        customClass={"m-auto"}
                     >
                         <MainButton
                             text="View"
