@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 
 export function MainButton({
   text,
-  type="button",
+  type = "button",
   to,
   variant = "fill",
   customClass = "",
   icon = null,
-  onClick = null
+  onClick = null,
+  isChecked = false,  
 }) {
   const variantClasses = {
     fill: "bg-secondary text-white hover:bg-light-blue hover:text-primary",
@@ -20,25 +21,36 @@ export function MainButton({
   if (type === "button") {
     return (
       <button className={commonClasses} onClick={onClick}>
-         {icon ? icon : text}
+        {icon ? icon : text}
       </button>
     );
   } else if (type === "link") {
     return (
       <Link to={to} className={commonClasses}>
-         {icon ? icon : text}
+        {icon ? icon : text}
       </Link>
     );
   } else if (type === "external") {
     return (
       <a href={to} className={commonClasses} target="_blank" rel="noopener noreferrer">
-         {icon ? icon : text}
+        {icon ? icon : text}
       </a>
     );
-  } if (type === "submit") {
+  } else if (type === "submit") {
     return (
       <button className={commonClasses} type="submit">
-         {icon ? icon : text}
+        {icon ? icon : text}
+      </button>
+    );
+  } else if (type === "boolean") {  
+    const booleanVariant = isChecked ? "fill" : "border";
+    return (
+      <button 
+        className={`${commonClasses} ${variantClasses[booleanVariant]}`} 
+        onClick={onClick}
+        type="button"
+      >
+        {text}  
       </button>
     );
   }
@@ -49,9 +61,11 @@ export function MainButton({
 MainButton.propTypes = {
   text: PropTypes.string.isRequired,
   to: PropTypes.string, 
-  type: PropTypes.oneOf(["button", "link", "external"]).isRequired, 
+  type: PropTypes.oneOf(["button", "link", "external", "submit", "boolean"]).isRequired,
   variant: PropTypes.oneOf(["fill", "border"]),
   customClass: PropTypes.string,
   icon: PropTypes.element,
   onClick: PropTypes.func,
+  isChecked: PropTypes.bool,
 };
+
