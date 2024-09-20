@@ -4,15 +4,10 @@ import { BasicCard } from "./../../components/ui/BasicCard";
 import { FAQSection } from "../../components/activity/FAQSection.jsx";
 
 
-
 // MUI
 
 // import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 // MUI
-
-
-
-
 
 const ExtraServiceCategories = [
   {

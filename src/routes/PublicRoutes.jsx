@@ -32,6 +32,6 @@ export function PublicRoutes() {
             <Route path={ROUTE_PATHS.CREATE_PROPERTY} element={<CreateProperty/>} />
         </Routes>
     );
-}
+} 
 
 export default PublicRoutes;

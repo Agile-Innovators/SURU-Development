@@ -8,21 +8,19 @@ import Typography from '@mui/material/Typography';
 
 
 const Businesses = [
-    { question: "¿Cómo puedo registrarme?", answer: "Puedes registrarte haciendo clic en el botón de registro en la esquina superior derecha." },
-    { question: "¿Cómo puedo restablecer mi contraseña?", answer: "Puedes restablecer tu contraseña haciendo clic en 'Olvidé mi contraseña' en la página de inicio de sesión." },
-    { question: "¿Dónde puedo encontrar más información?", answer: "Puedes encontrar más información en nuestra sección de ayuda o contactándonos directamente." }
+    { question: "How can I join as a partner?", answer: "First, you must register on the platform and submit a request to SÜRÜ. We'll explain how! Fill in your company's details using the following link. Complete the online form, and SÜRÜ will contact you soon." },
+    { question: "What types of companies can be part of the complementary services?", answer: "Companies that can join the complementary services include: Moving Services, Cleaning Services, Property Maintenance, Legal and Consulting Services, Interior Design & Remodeling, Security Services, Insurance Services, Real Estate Agents, and Storage Services." },
+    { question: "Where can I find more information?", answer: "You can find more information in our help section or by contacting us directly." }
 ];
 
 const BuyersRenters = [
-    { question: "¿Cómo puedo cambiar mi dirección de correo?", answer: "Puedes cambiar tu dirección de correo en la configuración de tu cuenta." },
-    { question: "¿Cómo puedo eliminar mi cuenta?", answer: "Puedes eliminar tu cuenta en la configuración de tu cuenta." },
-    { question: "¿Cómo puedo contactar con soporte?", answer: "Puedes contactar con soporte a través de nuestro formulario de contacto." }
+    { question: "Can I request a complementary service?", answer: "Yes, all SURU users can request complementary services." }
 ];
 
 const SellersLandlords = [
-    { question: "¿Cómo puedo actualizar mi perfil?", answer: "Puedes actualizar tu perfil en la configuración de tu cuenta." },
-    { question: "¿Cómo puedo cambiar mi contraseña?", answer: "Puedes cambiar tu contraseña en la configuración de tu cuenta." },
-    { question: "¿Cómo puedo desactivar las notificaciones?", answer: "Puedes desactivar las notificaciones en la configuración de tu cuenta." }
+    { question: "Can I request a complementary service?", answer: "Yes, all SURU users can request complementary services." },
+    { question: "Where can I find information to request a complementary service?", answer: "You can find information on requesting complementary services in the 'Services' section of your account." },
+    { question: "Where can I find more information?", answer: "You can find more information in our help section or by contacting us directly." }
 ];
 
 const faqData = [Businesses, BuyersRenters, SellersLandlords];
@@ -48,19 +46,39 @@ export function FAQSection() {
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:text-center">
                     <h3 className="text-base font-semibold leading-7 text-indigo-600">Complementary Services</h3>
-                    <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary sm:text-4xl">How does it work</h2>
-                    <p className="mt-6 text-lg leading-8 text-gray-600">Quis tellus eget adipiscing convallis sit sit eget aliquet quis. Suspendisse eget egestas a elementum pulvinar et feugiat blandit at. In mi viverra elit nunc.</p>
+                    <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary sm:text-4xl">Frequenly Asked Question</h2>
+                    <p className="mt-6 text-lg leading-8 text-gray-600">
+                        At SURU, we offer a variety of services to cover all your real estate needs.
+                        From moving assistance to legal advice, our trusted partners are ready to help.
+                        Below, you'll find answers to common questions about our complementary services.
+                        Feel free to reach out with any additional questions!
+                    </p>
                 </div>
                 {/* Botones para cambiar la opción seleccionada */}
                 <div className="flex w-fit grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] m-auto justify-center my-4 rounded-lg sm:rounded-lg overflow-hidden">
-                    <button onClick={() => setSelectedOption(1)} className="px-4 py-2  bg-indigo-600 text-white ">Businesses</button>
-                    <button onClick={() => setSelectedOption(2)} className="px-4 py-2 bg-indigo-600 text-white ">Buyers/Renters</button>
-                    <button onClick={() => setSelectedOption(3)} className="px-4 py-2 bg-indigo-600 text-white ">Sellers/Landlords</button>
+                    <button
+                        onClick={() => setSelectedOption(1)}
+                        className={(selectedOption === 1 ? 'bg-indigo-300 text-primary px-4 py-2' : 'px-4 py-2 bg-indigo-600 text-white')}
+
+                    >
+                        Businesses
+                    </button>
+                    <button
+                        onClick={() => setSelectedOption(2)}
+                        className={(selectedOption === 2 ? 'bg-indigo-300 text-primary px-4 py-2' : 'px-4 py-2 bg-indigo-600 text-white')}
+                    >
+                        Buyers/Renters
+                    </button>
+                    <button
+                        onClick={() => setSelectedOption(3)}
+                        className={(selectedOption === 3 ? 'bg-indigo-300 text-primary px-4 py-2' : 'px-4 py-2 bg-indigo-600 text-white')}
+                    >
+                        Sellers/Landlords
+                    </button>
                 </div>
 
                 {/* Acordeones condicionados por el estado */}
                 <div className="faq-section">
-                    {/* Botones para seleccionar la opción */}
                     {/* Renderizar acordeones según la opción seleccionada */}
                     {renderAccordions(faqData[selectedOption - 1])}
                 </div>
