@@ -39,6 +39,10 @@ export function PropertiesFilter() {
         );
     };
 
+
+
+
+
     const createPropsCatsSelect = (items) => {
         return (
             <div className="w-full lg:w-auto flex flex-col">

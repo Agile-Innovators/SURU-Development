@@ -4,8 +4,10 @@ import BaseFormsInfo from "../../ui/BaseFormsInfo";
 import { InputForms } from "../../ui/InputForms";
 import { MainButton } from "../../ui/MainButton";
 import PriceDetails from '../../ui/PriceDetails';
+import { X } from 'lucide-react';
 
 const CreatePropertyForm = () => {
+    // Estados para manejar el tipo de propiedad y la acción
     const [tipoPropiedad, setTipoPropiedad] = useState(null);
     const [accion, setAccion] = useState(null);
     const [services, setServices] = useState({
@@ -16,17 +18,40 @@ const CreatePropertyForm = () => {
         wifi: false,
         cable: false,
     });
-
-     // Verificar si hay algún servicio seleccionado en "Available services"
-     const hasSelectedService = Object.values(services).includes(true);
-
-    // Función para manejar el cambio en el estado de los servicios
+    const hasSelectedService = Object.values(services).includes(true);
     const toggleService = (service) => {
         setServices(prevState => ({
             ...prevState,
             [service]: !prevState[service],
         }));
     };
+
+
+    // ************************************
+    const [images, setImages] = useState([]);
+    const handleImageChange = (event) => {
+        const files = Array.from(event.target.files);
+        const newImages = [...images];
+
+        files.forEach((file) => {
+            if (newImages.length < 6) { // Limita a 6 imágenes
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    newImages.push(reader.result);
+                    setImages(newImages);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        event.target.value = ""; 
+        // Limpia el input después de seleccionar
+    };
+
+    const removeImage = (index) => {
+        const newImages = images.filter((_, i) => i !== index);
+        setImages(newImages);
+    };
+    // ************************************
 
     // Función para renderizar el formulario según el tipo de propiedad y acción
     const renderFormulario = () => {
@@ -49,13 +74,13 @@ const CreatePropertyForm = () => {
                     </div>
                     {accion === 'sale' && (
                         <div>
-                        <PriceDetails type="Sale"/>
+                            <PriceDetails type="Sale" />
                         </div>
                     )}
                     {accion === 'rent' && (
                         <div>
                             <SectionDivider text="Include services" />
-                            <div className="flex space-x-2">
+                            <div className="grid grid-cols-2 gap-4 my-4">
                                 {['water', 'electricity', 'wifi', 'cable'].map(service => (
                                     <MainButton
                                         key={service}
@@ -68,13 +93,13 @@ const CreatePropertyForm = () => {
                                     />
                                 ))}
                             </div>
-                            <PriceDetails type="Rent"/>            
+                            <PriceDetails type="Rent" />
                         </div>
                     )}
                     {accion === 'both' && (
                         <div>
-                              <SectionDivider text="Include services" />
-                            <div className="flex space-x-2">
+                            <SectionDivider text="Include services" />
+                            <div className="grid grid-cols-2 gap-4 my-4">
                                 {['water', 'electricity', 'wifi', 'cable'].map(service => (
                                     <MainButton
                                         key={service}
@@ -87,7 +112,7 @@ const CreatePropertyForm = () => {
                                     />
                                 ))}
                             </div>
-                           <PriceDetails type="Both"/>
+                            <PriceDetails type="Both" />
                         </div>
                     )}
                 </form>
@@ -108,13 +133,13 @@ const CreatePropertyForm = () => {
                     </div>
                     {accion === 'sale' && (
                         <div>
-                        <PriceDetails type="Sale"/>
+                            <PriceDetails type="Sale" />
                         </div>
                     )}
                     {accion === 'rent' && (
                         <div>
                             <SectionDivider text="Include services" />
-                            <div className="flex space-x-2">
+                            <div className="grid grid-cols-2 gap-4 my-4">
                                 {['water', 'electricity', 'wifi', 'cable'].map(service => (
                                     <MainButton
                                         key={service}
@@ -127,13 +152,13 @@ const CreatePropertyForm = () => {
                                     />
                                 ))}
                             </div>
-                            <PriceDetails type="Rent"/>            
+                            <PriceDetails type="Rent" />
                         </div>
                     )}
                     {accion === 'both' && (
                         <div>
-                              <SectionDivider text="Include services" />
-                            <div className="flex space-x-2">
+                            <SectionDivider text="Include services" />
+                            <div className="grid grid-cols-2 gap-4 my-4">
                                 {['water', 'electricity', 'wifi', 'cable'].map(service => (
                                     <MainButton
                                         key={service}
@@ -146,144 +171,143 @@ const CreatePropertyForm = () => {
                                     />
                                 ))}
                             </div>
-                           <PriceDetails type="Both"/>
+                            <PriceDetails type="Both" />
                         </div>
                     )}
                 </form>
             ),
             studio: (
                 <form>
-                <SectionDivider text="Studio details" />
-                <BaseFormsInfo />
-                <div className="grid grid-cols-2 gap-4 my-4">
-                    <InputForms inputName="bedrooms" inputId="bedrooms" type="number" labelText="Bedrooms" />
-                    <InputForms inputName="bathrooms" inputId="bathrooms" type="number" labelText="Bathrooms" />
-                    <InputForms inputName="Floor" inputId="Floor" type="number" labelText="Floor" />
-                    <InputForms inputName="Pools" inputId="Pools" type="boolean" labelText="Pools" />
-                    <InputForms inputName="Pets" inputId="Pets" type="boolean" labelText="Pets" />
-                    <InputForms inputName="Backyard" inputId="Backyard" type="boolean" labelText="Backyard" />
-                    <InputForms inputName="Garage" inputId="Garage" type="boolean" labelText="Garage" />
-                    <InputForms inputName="Size" inputId="Size" type="number" labelText="Size" placeholder='Property size in square meters' />
-                </div>
-                {accion === 'sale' && (
-                    <div>
-                    <PriceDetails type="Sale"/>
+                    <SectionDivider text="Studio details" />
+                    <BaseFormsInfo />
+                    <div className="grid grid-cols-2 gap-4 my-4">
+                        <InputForms inputName="bedrooms" inputId="bedrooms" type="number" labelText="Bedrooms" />
+                        <InputForms inputName="bathrooms" inputId="bathrooms" type="number" labelText="Bathrooms" />
+                        <InputForms inputName="Floor" inputId="Floor" type="number" labelText="Floor" />
+                        <InputForms inputName="Pools" inputId="Pools" type="boolean" labelText="Pools" />
+                        <InputForms inputName="Pets" inputId="Pets" type="boolean" labelText="Pets" />
+                        <InputForms inputName="Backyard" inputId="Backyard" type="boolean" labelText="Backyard" />
+                        <InputForms inputName="Garage" inputId="Garage" type="boolean" labelText="Garage" />
+                        <InputForms inputName="Size" inputId="Size" type="number" labelText="Size" placeholder='Property size in square meters' />
                     </div>
-                )}
-                {accion === 'rent' && (
-                    <div>
-                        <SectionDivider text="Include services" />
-                        <div className="flex space-x-2">
-                            {['water', 'electricity', 'wifi', 'cable'].map(service => (
-                                <MainButton
-                                    key={service}
-                                    onClick={() => toggleService(service)}
-                                    type="boolean"
-                                    variant='border'
-                                    isChecked={services[service]}
-                                    customClass="capitalize"
-                                    text={service.charAt(0).toUpperCase() + service.slice(1)}
-                                />
-                            ))}
+                    {accion === 'sale' && (
+                        <div>
+                            <PriceDetails type="Sale" />
                         </div>
-                        <PriceDetails type="Rent"/>            
-                    </div>
-                )}
-                {accion === 'both' && (
-                    <div>
-                          <SectionDivider text="Include services" />
-                        <div className="flex space-x-2">
-                            {['water', 'electricity', 'wifi', 'cable'].map(service => (
-                                <MainButton
-                                    key={service}
-                                    onClick={() => toggleService(service)}
-                                    type="boolean"
-                                    variant='border'
-                                    isChecked={services[service]}
-                                    customClass="capitalize"
-                                    text={service.charAt(0).toUpperCase() + service.slice(1)}
-                                />
-                            ))}
+                    )}
+                    {accion === 'rent' && (
+                        <div>
+                            <SectionDivider text="Include services" />
+                            <div className="grid grid-cols-2 gap-4 my-4">
+                                {['water', 'electricity', 'wifi', 'cable'].map(service => (
+                                    <MainButton
+                                        key={service}
+                                        onClick={() => toggleService(service)}
+                                        type="boolean"
+                                        variant='border'
+                                        isChecked={services[service]}
+                                        customClass="capitalize"
+                                        text={service.charAt(0).toUpperCase() + service.slice(1)}
+                                    />
+                                ))}
+                            </div>
+                            <PriceDetails type="Rent" />
                         </div>
-                       <PriceDetails type="Both"/>
-                    </div>
-                )}
-            </form>
+                    )}
+                    {accion === 'both' && (
+                        <div>
+                            <SectionDivider text="Include services" />
+                            <div className="grid grid-cols-2 gap-4 my-4">
+                                {['water', 'electricity', 'wifi', 'cable'].map(service => (
+                                    <MainButton
+                                        key={service}
+                                        onClick={() => toggleService(service)}
+                                        type="boolean"
+                                        variant='border'
+                                        isChecked={services[service]}
+                                        customClass="capitalize"
+                                        text={service.charAt(0).toUpperCase() + service.slice(1)}
+                                    />
+                                ))}
+                            </div>
+                            <PriceDetails type="Both" />
+                        </div>
+                    )}
+                </form>
             ),
             'bare-land': (
-    <form>
-        <SectionDivider text="Bare Land details" />
-        <BaseFormsInfo />
-        <div className="grid grid-cols-2 gap-4 my-4">
-            <InputForms inputName="Size" inputId="Size" type="number" labelText="Size" placeholder='Property size in square meters'/>
-        </div>
-        <div>
-            <SectionDivider text="Available services" />
-            <div className="flex space-x-2">
-                {['water service', 'electricity service'].map(service => (
-                    <MainButton
-                        key={service}
-                        onClick={() => toggleService(service)}
-                        type="boolean"
-                        variant='border'
-                        isChecked={services[service]}
-                        customClass="capitalize"
-                        text={service.charAt(0).toUpperCase() + service.slice(1)}
-                    />
-                ))}
-            </div>
-        </div>
-        {(accion === 'rent' || accion === 'both') && hasSelectedService && (
-            <div>
-                <SectionDivider text="Are any of this services include?" />
-                <div className="flex space-x-2">
-                    {Object.keys(services).filter(service => {
-                        if (services['water service'] && services['electricity service']) {
-                    
-                            return ['water', 'electricity', 'wifi', 'cable'].includes(service);
-                        }
-                        if (services['water service']) {
-                
-                            return service === 'water';
-                        }
-                        if (services['electricity service']) {
+                <form>
+                    <SectionDivider text="Bare Land details" />
+                    <BaseFormsInfo />
+                    <div className="grid grid-cols-2 gap-4 my-4">
+                        <InputForms inputName="Size" inputId="Size" type="number" labelText="Size" placeholder='Property size in square meters' />
+                    </div>
+                    <div>
+                        <SectionDivider text="Available services" />
+                        <div className="grid grid-cols-2 gap-4 my-4">
+                            {['water service', 'electricity service'].map(service => (
+                                <MainButton
+                                    key={service}
+                                    onClick={() => toggleService(service)}
+                                    type="boolean"
+                                    variant='border'
+                                    isChecked={services[service]}
+                                    customClass="capitalize"
+                                    text={service.charAt(0).toUpperCase() + service.slice(1)}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                    {(accion === 'rent' || accion === 'both') && hasSelectedService && (
+                        <div>
+                            <SectionDivider text="Are any of this services include?" />
+                            <div className="grid grid-cols-2 gap-4 my-4">
+                                {Object.keys(services).filter(service => {
+                                    if (services['water service'] && services['electricity service']) {
 
-                            return ['electricity', 'wifi', 'cable'].includes(service);
-                        }
-                        return false;
-                    }).map(service => (
-                        <MainButton
-                            key={service}
-                            type="boolean"
-                            onClick={() => toggleService(service)}
-                            variant='border'
-                            isChecked={services[service]}
-                            customClass="capitalize"
-                            text={service.charAt(0).toUpperCase() + service.slice(1)}
-                        />
-                    ))}
-                </div>
-            </div>
-        )}
-        
-        {accion === 'sale' && (
-            <div>
-                <PriceDetails type="Sale"/>
-            </div>
-        )}
-        {accion === 'rent' && (
-            <div>
-                <PriceDetails type="Rent"/>
-            </div>
-        )}
-        {accion === 'both' && (
-            <div>
-                <PriceDetails type="Both"/>
-            </div>
-        )}
-    </form>
-),
+                                        return ['water', 'electricity', 'wifi', 'cable'].includes(service);
+                                    }
+                                    if (services['water service']) {
 
+                                        return service === 'water';
+                                    }
+                                    if (services['electricity service']) {
+
+                                        return ['electricity', 'wifi', 'cable'].includes(service);
+                                    }
+                                    return false;
+                                }).map(service => (
+                                    <MainButton
+                                        key={service}
+                                        type="boolean"
+                                        onClick={() => toggleService(service)}
+                                        variant='border'
+                                        isChecked={services[service]}
+                                        customClass="capitalize"
+                                        text={service.charAt(0).toUpperCase() + service.slice(1)}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {accion === 'sale' && (
+                        <div>
+                            <PriceDetails type="Sale" />
+                        </div>
+                    )}
+                    {accion === 'rent' && (
+                        <div>
+                            <PriceDetails type="Rent" />
+                        </div>
+                    )}
+                    {accion === 'both' && (
+                        <div>
+                            <PriceDetails type="Both" />
+                        </div>
+                    )}
+                </form>
+            ),
             'retail-space': (
                 <form>
                     <SectionDivider text="Retail Space details" />
@@ -293,14 +317,14 @@ const CreatePropertyForm = () => {
                         <InputForms inputName="Size" inputId="Size" type="number" labelText="Size" placeholder='Property size in square meters' />
                     </div>
                     {accion === 'sale' && (
-                    <div>
-                    <PriceDetails type="Sale"/>
-                    </div>
+                        <div>
+                            <PriceDetails type="Sale" />
+                        </div>
                     )}
                     {accion === 'rent' && (
                         <div>
                             <SectionDivider text="Include services" />
-                            <div className="flex space-x-2">
+                            <div className="grid grid-cols-2 gap-4 my-4">
                                 {['water', 'electricity', 'wifi', 'cable'].map(service => (
                                     <MainButton
                                         key={service}
@@ -313,13 +337,13 @@ const CreatePropertyForm = () => {
                                     />
                                 ))}
                             </div>
-                            <PriceDetails type="Rent"/>            
+                            <PriceDetails type="Rent" />
                         </div>
                     )}
                     {accion === 'both' && (
                         <div>
-                              <SectionDivider text="Include services" />
-                            <div className="flex space-x-2">
+                            <SectionDivider text="Include services" />
+                            <div className="grid grid-cols-2 gap-4 my-4">
                                 {['water', 'electricity', 'wifi', 'cable'].map(service => (
                                     <MainButton
                                         key={service}
@@ -332,7 +356,7 @@ const CreatePropertyForm = () => {
                                     />
                                 ))}
                             </div>
-                           <PriceDetails type="Both"/>
+                            <PriceDetails type="Both" />
                         </div>
                     )}
                 </form>
@@ -342,11 +366,11 @@ const CreatePropertyForm = () => {
     };
 
     return (
-        <div className="max-w-7xl m-auto">
-            <h1 className="mt-10">Let's add a property</h1>
-            <div className="container mx-auto">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <h1 className="mt-10 text-center sm:text-start">Let's add a property</h1>
+            <div>
                 <SectionDivider text="Property type" />
-                <div className="mb-4 flex space-x-2">
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center mx-auto max-w-7xl">
                     {['house', 'department', 'bare-land', 'retail-space', 'studio'].map(tipo => (
                         <MainButton
                             key={tipo}
@@ -358,23 +382,54 @@ const CreatePropertyForm = () => {
                         />
                     ))}
                 </div>
-                <SectionDivider text="What will you do with this property?" />
-                <div className="mb-4 flex space-x-2">
-                    {['sale', 'rent', 'both'].map(acc => (
-                        <MainButton
-                            key={acc}
-                            onClick={() => setAccion(acc)}
-                            type="button"
-                            variant={accion === acc ? "fill" : "border"}
-                            customClass="capitalize"
-                            text={acc.charAt(0).toUpperCase() + acc.slice(1)}
-                        />
-                    ))}
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
                     <div className="mb-10">
+                        <SectionDivider text="What will you do with this property?" />
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center mx-auto max-w-7xl">
+                            {['sale', 'rent', 'both'].map(acc => (
+                                <MainButton
+                                    key={acc}
+                                    onClick={() => setAccion(acc)}
+                                    type="button"
+                                    variant={accion === acc ? "fill" : "border"}
+                                    customClass="capitalize"
+                                    text={acc.charAt(0).toUpperCase() + acc.slice(1)}
+                                />
+                            ))}
+                        </div>
                         {renderFormulario()}
+                    </div>
+                    <div>
+                        <SectionDivider text="Upload an image" />
+                        {/* ///////////////////////////// */}
+                        <div className="image-upload-container">
+                            <label for="file-input" class="  block text-center px-8 py-3 rounded-md transition-colors duration-150 cursor-pointer bg-secondary text-white hover:bg-light-blue hover:text-primary">
+                                Add
+                            </label>
+                            <p>Please upload an image file (JPG, PNG, or GIF). Max size: 5MB. </p>
+
+                            <input
+                                id="file-input"
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                onChange={handleImageChange}
+                                class="opacity-0"
+                            />
+
+                            <div className="grid sm:grid-cols-3">
+                                {images.map((image, index) => (
+                                    <div key={index} className="flex rounded-md my-4 ">
+
+                                        <button className='m-1 p-2 sm:p-0 bg-white absolute rounded-full' onClick={() => removeImage(index)}>
+                                            <X />
+                                        </button>
+                                        <img className='rounded-md w-full aspect-square sm:w-40 sm:h-40' src={image} alt={`Preview ${index + 1}`} />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
