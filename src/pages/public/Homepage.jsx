@@ -23,8 +23,6 @@ const partners = [
     
 ];
 export function Homepage() {
-
-
     return (
         <div className="max-w-7xl m-auto p-4">
             <HeaderHome />
