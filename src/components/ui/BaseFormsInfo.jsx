@@ -3,7 +3,6 @@ import { InputForms } from "./InputForms";
 export function BaseFormsInfo() {
   return (
     <div className="flex flex-col">
-      <form>
         <div>
           <InputForms
             inputName="title"
@@ -34,7 +33,6 @@ export function BaseFormsInfo() {
             inputHeight="h-32"
           />
         </div>
-      </form>
     </div>
   );
 }

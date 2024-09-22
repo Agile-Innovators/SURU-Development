@@ -328,110 +328,109 @@ const CreatePropertyForm = () => {
         </form>
       ),
       "bare-land": (
-  <form onSubmit={handleSubmit}>
-    {/* Sección de detalles del terreno */}
-    <SectionDivider text="Bare Land details" />
-    <BaseFormsInfo />
+        <form onSubmit={handleSubmit}>
+          {/* Sección de detalles del terreno */}
+          <SectionDivider text="Bare Land details" />
+          <BaseFormsInfo />
 
-    {/* Input para el tamaño de la propiedad */}
-    <div className="grid grid-cols-2 gap-4 my-4">
-      <InputForms
-        inputName="size"
-        inputId="size"
-        type="number"
-        labelText="Size"
-        placeholder="Property size in square meters"
-      />
-    </div>
+          {/* Input para el tamaño de la propiedad */}
+          <div className="grid grid-cols-2 gap-4 my-4">
+            <InputForms
+              inputName="size"
+              inputId="size"
+              type="number"
+              labelText="Size"
+              placeholder="Property size in square meters"
+            />
+          </div>
 
-    {/* Servicios disponibles */}
-    <SectionDivider text="Available services" />
-    <div className="flex space-x-2">
-      {["availableWater", "availableElectricity"].map((service) => (
-        <MainButton
-          key={service}
-          onClick={() => toggleService(service)} // Función para manejar la selección de servicios disponibles
-          type="boolean"
-          variant="border"
-          isChecked={services[service]} // Verifica si el servicio está habilitado
-          customClass="capitalize"
-          text={service.replace("available", "")} // Mostrar texto sin el prefijo 'available'
-        />
-      ))}
-    </div>
+          {/* Servicios disponibles */}
+          <SectionDivider text="Available services" />
+          <div className="flex space-x-2">
+            {["availableWater", "availableElectricity"].map((service) => (
+              <MainButton
+                key={service}
+                onClick={() => toggleService(service)} // Función para manejar la selección de servicios disponibles
+                type="boolean"
+                variant="border"
+                isChecked={services[service]} // Verifica si el servicio está habilitado
+                customClass="capitalize"
+                text={service.replace("available", "")} // Mostrar texto sin el prefijo 'available'
+              />
+            ))}
+          </div>
 
-    {/* Mostrar la sección de "Include services" solo si "availableWater" o "availableElectricity" están seleccionados */}
-    {(services.availableWater || services.availableElectricity) && (
-      <>
-        {(accion === "rent" || accion === "both") && (
-          <>
-            <SectionDivider text="Include services" />
-            <div className="grid grid-cols-2 gap-4 my-4">
-              {services.availableWater && (
-                <MainButton
-                  key="water"
-                  onClick={() => toggleService("water")}
-                  type="boolean"
-                  variant="border"
-                  isChecked={services["water"]}
-                  customClass="capitalize"
-                  text="Water"
-                />
-              )}
-              {services.availableElectricity && (
+          {/* Mostrar la sección de "Include services" solo si "availableWater" o "availableElectricity" están seleccionados */}
+          {(services.availableWater || services.availableElectricity) && (
+            <>
+              {(accion === "rent" || accion === "both") && (
                 <>
-                  <MainButton
-                    key="electricity"
-                    onClick={() => toggleService("electricity")}
-                    type="boolean"
-                    variant="border"
-                    isChecked={services["electricity"]}
-                    customClass="capitalize"
-                    text="Electricity"
-                  />
-                  <MainButton
-                    key="wifi"
-                    onClick={() => toggleService("wifi")}
-                    type="boolean"
-                    variant="border"
-                    isChecked={services["wifi"]}
-                    customClass="capitalize"
-                    text="WiFi"
-                  />
-                  <MainButton
-                    key="cable"
-                    onClick={() => toggleService("cable")}
-                    type="boolean"
-                    variant="border"
-                    isChecked={services["cable"]}
-                    customClass="capitalize"
-                    text="Cable"
-                  />
+                  <SectionDivider text="Include services" />
+                  <div className="grid grid-cols-2 gap-4 my-4">
+                    {services.availableWater && (
+                      <MainButton
+                        key="water"
+                        onClick={() => toggleService("water")}
+                        type="boolean"
+                        variant="border"
+                        isChecked={services["water"]}
+                        customClass="capitalize"
+                        text="Water"
+                      />
+                    )}
+                    {services.availableElectricity && (
+                      <>
+                        <MainButton
+                          key="electricity"
+                          onClick={() => toggleService("electricity")}
+                          type="boolean"
+                          variant="border"
+                          isChecked={services["electricity"]}
+                          customClass="capitalize"
+                          text="Electricity"
+                        />
+                        <MainButton
+                          key="wifi"
+                          onClick={() => toggleService("wifi")}
+                          type="boolean"
+                          variant="border"
+                          isChecked={services["wifi"]}
+                          customClass="capitalize"
+                          text="WiFi"
+                        />
+                        <MainButton
+                          key="cable"
+                          onClick={() => toggleService("cable")}
+                          type="boolean"
+                          variant="border"
+                          isChecked={services["cable"]}
+                          customClass="capitalize"
+                          text="Cable"
+                        />
+                      </>
+                    )}
+                  </div>
                 </>
               )}
-            </div>
-          </>
-        )}
-      </>
-    )}
+            </>
+          )}
 
-    {/* Mostrar secciones de precios según la acción seleccionada */}
-    {accion === "sale" && <PriceDetails type="Sale" />}
-    {accion === "rent" && <PriceDetails type="Rent" />}
-    {accion === "both" && <PriceDetails type="Both" />}
+          {/* Mostrar secciones de precios según la acción seleccionada */}
+          {accion === "sale" && <PriceDetails type="Sale" />}
+          {accion === "rent" && <PriceDetails type="Rent" />}
+          {accion === "both" && <PriceDetails type="Both" />}
 
-    {/* Botón para publicar */}
-    <MainButton
-      text="Publish"
-      onClick={handleSubmit}
-      type="submit"
-      disabled={loading}
-    >
-      {loading ? "Publishing..." : "Publish Property"}
-    </MainButton>
-  </form>
-),
-
+          {/* Botón para publicar */}
+          <MainButton
+            text="Publish"
+            onClick={handleSubmit}
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? "Publishing..." : "Publish Property"}
+          </MainButton>
+        </form>
+      ),
 
       "retail-space": (
         <form onSubmit={handleSubmit}>
@@ -529,13 +528,14 @@ const CreatePropertyForm = () => {
             <SectionDivider text="Upload an image" />
             <div className="image-upload-container">
               <label
-                for="file-input"
-                class="block text-center px-8 py-3 rounded-md transition-colors duration-150 cursor-pointer bg-secondary text-white hover:bg-light-blue hover:text-primary"
+                htmlFor="file-input" // Ahora está corregido
+                className="block text-center px-8 py-3 rounded-md transition-colors duration-150 cursor-pointer bg-secondary text-white hover:bg-light-blue hover:text-primary"
               >
                 Add
               </label>
+
               <p>
-                Please upload an image file (JPG, PNG, or GIF). Max size: 5MB.{" "}
+                Please upload an image file (JPG, PNG, or GIF). Max size: 5MB.
               </p>
 
               <input
@@ -544,12 +544,12 @@ const CreatePropertyForm = () => {
                 accept="image/*"
                 multiple
                 onChange={handleImageChange}
-                class="opacity-0"
+                className="opacity-0"
               />
 
               <div className="grid sm:grid-cols-3">
                 {images.map((image, index) => (
-                  <div key={index} className="flex rounded-md my-4 ">
+                  <div key={index} className="flex rounded-md my-4">
                     <button
                       className="m-1 p-2 sm:p-0 bg-white absolute rounded-full"
                       onClick={() => removeImage(index)}
