@@ -21,7 +21,7 @@ export function AdvancedCard({ srcImage, children, title, location, price, frequ
                      <li className='flex items-center px-1 border-r-[1px] pr-2 border-grey'><BedDouble size={22} strokeWidth={1} className='mr-2 text-secondary'/>1</li>
                      <li className='flex items-center px-1 border-r-[1px] pr-2 border-grey'><Bath size={22} strokeWidth={1} className='mr-2 text-secondary'/>2</li>
                      <li className='flex items-center px-1 border-r-[1px] pr-2 border-grey'><Car size={22} strokeWidth={1} className='mr-2 text-secondary'/>3</li>
-                     <li className='flex items-center px-1 pr-2 border-grey'><PawPrint size={22} strokeWidth={1} className='mr-2 text-secondary'/>Allowed</li>
+                     <li className=' flex items-center px-1 pr-2 border-grey'><PawPrint size={22} strokeWidth={1} className='mr-2 text-secondary'/>Allowed</li>
                 </ul>
                 <div className='flex justify-between items-center mt-3 mb-2'>
                      <h3 className='text-2xl font-medium'>₡{price} <span className='text-grey'>{frequency}</span></h3>

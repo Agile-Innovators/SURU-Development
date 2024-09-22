@@ -302,7 +302,7 @@ const CreatePropertyForm = () => {
             <SectionDivider text="Upload an image" />
             {/* ///////////////////////////// */}
             <div className="image-upload-container">
-              <label for="file-input" class="  block text-center px-8 py-3 rounded-md transition-colors duration-150 cursor-pointer bg-secondary text-white hover:bg-light-blue hover:text-primary">
+              <label for="file-input" class="block text-center px-8 py-3 rounded-md transition-colors duration-150 cursor-pointer bg-secondary text-white hover:bg-light-blue hover:text-primary">
                 Add
               </label>
               <p>Please upload an image file (JPG, PNG, or GIF). Max size: 5MB. </p>

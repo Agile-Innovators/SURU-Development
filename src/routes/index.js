@@ -10,5 +10,6 @@ export const ROUTE_PATHS = {
     CREATE_PROPERTY: '/create-property',
     PARTNERS: '/partners',
     NOT_FOUND: '/*',
-    PARTNERS_ANGEL: '/partners-angel'
+    PARTNERS_ANGEL: '/partners-angel',
+    PROPERTY_MANAGEMENT: '/property-management'
 }
