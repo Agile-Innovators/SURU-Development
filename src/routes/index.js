@@ -11,5 +11,6 @@ export const ROUTE_PATHS = {
     PARTNERS: '/partners',
     NOT_FOUND: '/*',
     PARTNERS_ANGEL: '/partners-angel',
-    PROPERTY_MANAGEMENT: '/property-management'
+    PROPERTY_MANAGEMENT: '/property-management',
+    PARTNER_INTEGRATION_REQUEST: '/partner-integration-request',
 }
