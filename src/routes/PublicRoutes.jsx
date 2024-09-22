@@ -10,7 +10,7 @@ import { ForgotPassword } from "../pages/public/ForgotPassword.jsx";
 import { ROUTE_PATHS } from "./index.js";
 import { Partners } from "../pages/public/Partners.jsx";
 import { CreateProperty } from "../pages/public/CreateProperty.jsx";
-
+import { Search } from "../pages/public/Search.jsx";
 
 
 export function PublicRoutes() {
@@ -28,6 +28,7 @@ export function PublicRoutes() {
             <Route path={ROUTE_PATHS.NOT_FOUND} element={<Homepage />} />
             <Route path={ROUTE_PATHS.HOME} element={<Homepage />} />
             <Route path={ROUTE_PATHS.CREATE_PROPERTY} element={<CreateProperty/>} />
+            <Route path={ROUTE_PATHS.SEARCH} element={<Search/>} />
         </Routes>
     );
 }

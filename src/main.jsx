@@ -1,12 +1,15 @@
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter} from 'react-router-dom'
-import { AppRoutes } from './routes/AppRoutes.jsx'
-import AuthProvider from './global/AuthProvider.jsx'
+import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import { AppRoutes } from "./routes/AppRoutes.jsx";
+import AuthProvider from "./global/AuthProvider.jsx";
+import { GlobalProvider } from "./global/GlobalProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
-    <AuthProvider>
-      <AppRoutes />
-    </AuthProvider>
-  </BrowserRouter>
+    <BrowserRouter>
+        <AuthProvider>
+            <GlobalProvider>
+                <AppRoutes />
+            </GlobalProvider>
+        </AuthProvider>
+    </BrowserRouter>
 );

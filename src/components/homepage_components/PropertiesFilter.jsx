@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { AdvancedCard } from "../../components/ui/AdvancedCard";
 import { Divider } from "@mui/joy";
 import React from "react";
@@ -6,8 +7,17 @@ import { ROUTE_PATHS } from "../../routes/index.js";
 import { useNavigate } from "react-router-dom";
 import { useFetchRegions } from "../hooks/useFetchRegions.js";
 import { useFetchPropertyCategories } from "../hooks/useFetchPropertyCategories.js";
+import { globalProvider } from "../../global/GlobalProvider.jsx";
 
 export function PropertiesFilter() {
+    const {
+        setRegionId,
+        setMinPrice,
+        setMaxPrice,
+        setPropertyTypeId,
+        setIsFilterUsed,
+    } = useContext(globalProvider);
+    const navigate = useNavigate();
     const { regions, isLoadingRegions } = useFetchRegions();
     const { propertyCategories, isLoadingPropsCats } =
         useFetchPropertyCategories();
@@ -27,10 +37,7 @@ export function PropertiesFilter() {
                     className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                 >
                     {items.map((region) => (
-                        <option
-                            key={`region_${region.attributes.id}`}
-                            value={region.attributes.id}
-                        >
+                        <option key={`region_${region.id}`} value={region.id}>
                             {region.attributes.name}
                         </option>
                     ))}
@@ -55,8 +62,8 @@ export function PropertiesFilter() {
                 >
                     {items.map((category) => (
                         <option
-                            key={`category_${category.attributes.id}`}
-                            value={category.attributes.id}
+                            key={`category_${category.id}`}
+                            value={category.id}
                         >
                             {category.attributes.name}
                         </option>
@@ -84,16 +91,21 @@ export function PropertiesFilter() {
 
     function filter(event) {
         event.preventDefault();
-        const formFilter = event.target;
-        const selectElements = formFilter.querySelectorAll("select");
+        //obtener valor de los select
+        const selectRegion = document.getElementById("select_regions").value;
+        const minPrice = document.getElementById("select_min_price").value;
+        const maxPrice = document.getElementById("select_max_price").value;
+        const propertyCategory = document.getElementById("select_props_cats").value;
+        // console.log(selectRegion, minPrice, maxPrice, propertyCategory);
 
-        const selectValues = Array.from(selectElements).map(
-            (select) => select.value
-        );
+        //cargar datos para el globalProvider
+        setRegionId(selectRegion);
+        setMinPrice(minPrice);
+        setMaxPrice(maxPrice);
+        setPropertyTypeId(propertyCategory);
+        setIsFilterUsed(true)
 
-        console.log(selectValues);
-
-        // navigate(ROUTE_PATHS.LOGIN);
+        navigate(ROUTE_PATHS.SEARCH);
     }
 
     return (
@@ -119,14 +131,14 @@ export function PropertiesFilter() {
                     {
                         <div className="w-full lg:w-auto flex flex-col">
                             <label
-                                htmlFor="select_minimum_price"
+                                htmlFor="select_min_price"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
                                 Minimum Price
                             </label>
                             <select
-                                id="select_minimum_price"
-                                name="select_minimum_price"
+                                id="select_min_price"
+                                name="select_min_price"
                                 className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                             >
                                 {selectPriceOptions.map((option) =>
@@ -145,14 +157,14 @@ export function PropertiesFilter() {
                     {
                         <div className="w-full lg:w-auto flex flex-col">
                             <label
-                                htmlFor="select_maximum_price"
+                                htmlFor="select_max_price"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
                                 Maximum Price
                             </label>
                             <select
-                                id="select_maximum_price"
-                                name="select_maximum_price"
+                                id="select_max_price"
+                                name="select_max_price"
                                 className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                             >
                                 {selectPriceOptions.map((option) =>
@@ -167,7 +179,6 @@ export function PropertiesFilter() {
                                 )}
                             </select>
                         </div>
-                        
                     }
                     {/* <input type="range" /> */}
                     {isLoadingPropsCats ? (
