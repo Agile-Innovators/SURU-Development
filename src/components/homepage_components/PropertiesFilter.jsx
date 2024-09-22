@@ -73,15 +73,18 @@ export function PropertiesFilter() {
         );
     };
 
-    const selectOptions = [
+    const selectPriceOptions = [
         {
             id: "price",
             label: "Price",
             options: [
-                { value: "all", label: "All Prices" },
-                { value: "100000", label: "₡100,000-₡150,000" },
-                { value: "150000", label: "₡150,000-₡200,000" },
-                { value: "200000", label: "₡200,000-₡250,000" },
+                { value: "0", label: "₡0" },
+                { value: "100000", label: "₡100,000" },
+                { value: "200000", label: "₡200,000" },
+                { value: "300000", label: "₡300,000" },
+                { value: "400000", label: "₡400,000" },
+                { value: "500000", label: "₡500,000" },
+                { value: "600000", label: "₡600,000" },
             ],
         },
     ];
@@ -138,7 +141,7 @@ export function PropertiesFilter() {
                                 name="select_min_price"
                                 className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                             >
-                                {selectOptions.map((option) =>
+                                {selectPriceOptions.map((option) =>
                                     option.options.map((priceOption) => (
                                         <option
                                             key={priceOption.value}
@@ -164,7 +167,7 @@ export function PropertiesFilter() {
                                 name="select_max_price"
                                 className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                             >
-                                {selectOptions.map((option) =>
+                                {selectPriceOptions.map((option) =>
                                     option.options.map((priceOption) => (
                                         <option
                                             key={priceOption.value}
