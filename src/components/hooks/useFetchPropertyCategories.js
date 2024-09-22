@@ -8,7 +8,7 @@ export const useFetchPropertyCategories = () => {
 
     const getData = async () => {
         try {
-            const response = await axios.get("/properties-categories");
+            const response = await axios.get("properties-categories");
             const data = await response.data;
             const propertiesCategories = data.data;
             setPropertyCategories(propertiesCategories);

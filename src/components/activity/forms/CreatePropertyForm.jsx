@@ -527,11 +527,9 @@ const CreatePropertyForm = () => {
           </div>
           <div>
             <SectionDivider text="Upload an image" />
-            <div className="image-upload-container">
-              <label
-                for="file-input"
-                class="block text-center px-8 py-3 rounded-md transition-colors duration-150 cursor-pointer bg-secondary text-white hover:bg-light-blue hover:text-primary"
-              >
+            {/* ///////////////////////////// */}
+            <div>
+              <label htmlFor="file-input" className="block text-center px-8 py-3 rounded-md transition-colors duration-150 cursor-pointer bg-secondary text-white hover:bg-light-blue hover:text-primary">
                 Add
               </label>
               <p>
@@ -544,7 +542,7 @@ const CreatePropertyForm = () => {
                 accept="image/*"
                 multiple
                 onChange={handleImageChange}
-                class="opacity-0"
+                className="opacity-0"
               />
 
               <div className="grid sm:grid-cols-3">
