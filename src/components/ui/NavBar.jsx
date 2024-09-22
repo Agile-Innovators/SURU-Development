@@ -7,8 +7,8 @@ import { useAuth } from '../../global/AuthProvider.jsx';
 
 const initialNavigation = [
 
-  { name: 'Partners', href: ROUTE_PATHS.PARTNERS, current: false },
-  {name: 'Create property', href: ROUTE_PATHS.CREATE_PROPERTY, current: false},
+  { name: 'Partners', href: ROUTE_PATHS.PARTNERS_ANGEL, current: false },
+  { name: 'Properties', href: ROUTE_PATHS.PROPERTY_MANAGEMENT, current: false },
   { name: 'Solutions', href: '/solutions', current: false },
   { name: 'About us', href: '/about', current: false },
   { name: 'Contact', href: '/contact', current: false },
@@ -37,14 +37,14 @@ export function NavBar() {
     setNavigation((prevNavigation) =>
       prevNavigation.map((item) => ({
         ...item,
-        current: item.href === currentPath, 
+        current: item.href === currentPath,
       }))
     );
-  }, [location]); 
+  }, [location]);
 
   const handleLogout = () => {
-    saveAuthToken(null); 
-    navigate(ROUTE_PATHS.LOGIN); 
+    saveAuthToken(null);
+    navigate(ROUTE_PATHS.LOGIN);
   };
 
   return (

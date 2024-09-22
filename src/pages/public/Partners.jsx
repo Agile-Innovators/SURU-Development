@@ -25,9 +25,6 @@ export function Partners() {
             type="link"
             to="/"
         />
-
-
-
       </main>
     </div>
   );
