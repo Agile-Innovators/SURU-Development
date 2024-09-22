@@ -16,9 +16,7 @@ export function BasicCard({
   };
   return (
     <div
-
       className={`flex flex-col items-center text-center gap-3 p-4 border border-light-grey rounded-md transition-all duration-100 hover:shadow-md hover:scale-105 ${customClass} ${variantClasses[variant]}`}
-
     >
       {icon ? (
         <div className="icon w-24 h-24">{icon}</div>

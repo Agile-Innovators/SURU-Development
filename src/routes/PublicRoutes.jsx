@@ -9,6 +9,7 @@ import { ConfirmPassword } from "../pages/public/ConfirmPassword.jsx";
 import { ForgotPassword } from "../pages/public/ForgotPassword.jsx";
 import { ROUTE_PATHS } from "./index.js";
 import { Partners } from "../pages/public/Partners.jsx";
+import { PartnersAngel } from "../pages/public/PartnersAngel.jsx";
 import { CreateProperty } from "../pages/public/CreateProperty.jsx";
 
 
@@ -27,9 +28,10 @@ export function PublicRoutes() {
             <Route path={ROUTE_PATHS.PARTNERS} element={<Partners />} />
             <Route path={ROUTE_PATHS.NOT_FOUND} element={<Homepage />} />
             <Route path={ROUTE_PATHS.HOME} element={<Homepage />} />
+            <Route path={ROUTE_PATHS.PARTNERS_ANGEL} element={<PartnersAngel />} />
             <Route path={ROUTE_PATHS.CREATE_PROPERTY} element={<CreateProperty/>} />
         </Routes>
     );
-}
+} 
 
 export default PublicRoutes;

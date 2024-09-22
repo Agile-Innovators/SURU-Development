@@ -66,18 +66,15 @@ export function PropertiesFilter() {
         );
     };
 
-    const selectPriceOptions = [
+    const selectOptions = [
         {
             id: "price",
             label: "Price",
             options: [
-                { value: "0", label: "₡0" },
-                { value: "100000", label: "₡100,000" },
-                { value: "200000", label: "₡200,000" },
-                { value: "300000", label: "₡300,000" },
-                { value: "400000", label: "₡400,000" },
-                { value: "500000", label: "₡500,000" },
-                { value: "600000", label: "₡600,000" },
+                { value: "all", label: "All Prices" },
+                { value: "100000", label: "₡100,000-₡150,000" },
+                { value: "150000", label: "₡150,000-₡200,000" },
+                { value: "200000", label: "₡200,000-₡250,000" },
             ],
         },
     ];
@@ -93,7 +90,7 @@ export function PropertiesFilter() {
 
         console.log(selectValues);
 
-        // navigate(ROUTE_PATHS.LOGIN);
+        navigate(ROUTE_PATHS.LOGIN);
     }
 
     return (
@@ -119,17 +116,17 @@ export function PropertiesFilter() {
                     {
                         <div className="w-full lg:w-auto flex flex-col">
                             <label
-                                htmlFor="select_minimum_price"
+                                htmlFor="{select.id}"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
-                                Minimum Price
+                                Price
                             </label>
                             <select
-                                id="select_minimum_price"
-                                name="select_minimum_price"
+                                id="{select.id}"
+                                name={`select`}
                                 className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                             >
-                                {selectPriceOptions.map((option) =>
+                                {selectOptions.map((option) =>
                                     option.options.map((priceOption) => (
                                         <option
                                             key={priceOption.value}
@@ -142,34 +139,6 @@ export function PropertiesFilter() {
                             </select>
                         </div>
                     }
-                    {
-                        <div className="w-full lg:w-auto flex flex-col">
-                            <label
-                                htmlFor="select_maximum_price"
-                                className="block text-sm font-medium text-gray-700 mb-2"
-                            >
-                                Maximum Price
-                            </label>
-                            <select
-                                id="select_maximum_price"
-                                name="select_maximum_price"
-                                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
-                            >
-                                {selectPriceOptions.map((option) =>
-                                    option.options.map((priceOption) => (
-                                        <option
-                                            key={priceOption.value}
-                                            value={priceOption.value}
-                                        >
-                                            {priceOption.label}
-                                        </option>
-                                    ))
-                                )}
-                            </select>
-                        </div>
-                        
-                    }
-                    {/* <input type="range" /> */}
                     {isLoadingPropsCats ? (
                         <p>Loading</p>
                     ) : (
@@ -192,6 +161,7 @@ export function PropertiesFilter() {
                             to={ROUTE_PATHS.NOT_FOUND}
                         />
                     </div>
+
                 </form>
             </div>
             <div className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-4 justify-center items-center mt-10">
