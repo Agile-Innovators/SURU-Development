@@ -12,11 +12,18 @@ export function InputForms({
   required = false,
   isTextarea = false,
   inputHeight = "h-12",
-  dropdownType = ""  // Nuevo prop para manejar el tipo de dropdown
+  dropdownType = "",  // Nuevo prop para manejar el tipo de dropdown
+  onChange
 }) {
   const [priceValue, setPriceValue] = useState('');
 
   const commonClasses = `border border-light-grey bg-transparent rounded-md px-4 py-3 mt-2 focus:outline-light-blue ${customClass} ${inputHeight} cursor-pointer`;
+
+  const handleInputChange = (e) => {
+    if (onChange) {
+      onChange(e.target.value); // Nos aseguramos de que onChange exista antes de invocarlo
+    }
+  }
 
   const handlePriceChange = (e) => {
     let value = e.target.value.replace(/,/g, ''); 
@@ -24,6 +31,11 @@ export function InputForms({
       value = parseFloat(value).toLocaleString('en-US', { maximumFractionDigits: 2 });
     }
     setPriceValue(value);
+  };
+
+  const combinedOnChange = (e) => {
+    handlePriceChange(e);  // Primera función
+    handleInputChange(e);  // Segunda función
   };
 
   const renderInput = () => {
@@ -35,6 +47,7 @@ export function InputForms({
           className={`${commonClasses} appearance-none`}
           defaultValue=""
           {...(required && { required: true })}
+          onChange={handleInputChange}
         >
           <option value="" disabled>Select an option</option>
           <option value="true">Yes</option>
@@ -64,7 +77,7 @@ export function InputForms({
             placeholder={placeholder}
             className={`${commonClasses} flex-1`}
             value={priceValue}
-            onChange={handlePriceChange}
+            onChange={combinedOnChange}
           />
         </div>
       );
@@ -95,6 +108,7 @@ export function InputForms({
           name={inputName}
           placeholder={placeholder}
           className={`${commonClasses} text-left`}
+          onChange={handleInputChange}
         />
       );
     }
@@ -107,6 +121,7 @@ export function InputForms({
         name={inputName}
         placeholder={placeholder}
         className={commonClasses}
+        onChange={handleInputChange}
       />
     );
   };
