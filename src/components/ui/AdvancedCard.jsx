@@ -34,7 +34,7 @@ export function AdvancedCard({ srcImage, children, title, location, price, frequ
 
 AdvancedCard.propTypes = {
     srcImage: PropTypes.string,
-    children: PropTypes.children,
+    children: PropTypes.node,
     title: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,

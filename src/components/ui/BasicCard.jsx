@@ -31,13 +31,12 @@ export function BasicCard({
 }
 
 BasicCard.propTypes = {
-    children: PropTypes.children,
-    src: PropTypes.string,
-    title: PropTypes.string.isRequired,
-    variant: PropTypes.oneOf(["border"]),
-    text: PropTypes.string.isRequired,
-    customClass: PropTypes.string,
-    icon: PropTypes.element,
-
+  children: PropTypes.node,
+  src: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  variant: PropTypes.oneOf(["border"]),
+  text: PropTypes.string.isRequired,
+  customClass: PropTypes.string,
+  icon: PropTypes.element,
 };
 

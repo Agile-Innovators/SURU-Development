@@ -13,7 +13,7 @@ import { PartnersAngel } from "../pages/public/PartnersAngel.jsx";
 import { CreateProperty } from "../pages/public/CreateProperty.jsx";
 import { Search } from "../pages/public/Search.jsx";
 import { PropertyManagement } from "../pages/public/PropertyManagement.jsx";
-
+import { PartnerIntegrationRequest } from "../pages/public/PartnerIntegrationRequest.jsx";
 
 export function PublicRoutes() {
     return (
@@ -33,6 +33,7 @@ export function PublicRoutes() {
             <Route path={ROUTE_PATHS.CREATE_PROPERTY} element={<CreateProperty/>} />
             <Route path={ROUTE_PATHS.SEARCH} element={<Search/>} />
             <Route path={ROUTE_PATHS.PROPERTY_MANAGEMENT} element={<PropertyManagement/>} />
+            <Route path={ROUTE_PATHS.PARTNER_INTEGRATION_REQUEST} element={<PartnerIntegrationRequest/>} />
         </Routes>
     );
 } 
