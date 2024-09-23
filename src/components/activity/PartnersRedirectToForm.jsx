@@ -1,3 +1,4 @@
+import { ROUTE_PATHS } from "../../routes";
 import { MainButton } from "./../../components/ui/MainButton";
 
 export function PartnersRedirectToForm(){
@@ -11,7 +12,7 @@ export function PartnersRedirectToForm(){
             <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary sm:text-4xl">Empower Your Business with Our Platform</h2>
             <p className="mt-2 text-lg leading-8 text-gray-600">Connect with property owners and renters looking for the services you provide. Expand your reach and enjoy exclusive opportunities.</p>
             {/* cambiar el type del mainbutton a link */}
-            <MainButton to="/partners"t type="button" text="Join Us" variant="border" customClass="border-primary mt-6 text-primary hover:bg-primary hover:text-white px-4"></MainButton>
+            <MainButton to={ROUTE_PATHS.PARTNER_INTEGRATION_REQUEST} type="link" text="Join Us" variant="border" customClass="border-primary mt-6 text-primary hover:bg-primary hover:text-white px-4"></MainButton>
           </div>
         </div>
       </div>
