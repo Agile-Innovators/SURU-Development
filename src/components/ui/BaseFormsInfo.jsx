@@ -1,6 +1,6 @@
 import { InputForms } from "./InputForms";
 
-export function BaseFormsInfo() {
+export function BaseFormsInfo({fillData}) {
   return (
     <div className="flex flex-col">
         <div>
@@ -10,16 +10,19 @@ export function BaseFormsInfo() {
             labelText="Title"
             placeholder="Enter the title"
             required={true}
-            inputHeight="h-12" // Altura normal para el título
+            inputHeight="h-12"
+            onChange={(value) => fillData('title', value)} 
           />
         </div>
         <div className="mt-4">
           <InputForms
-            inputName="Address"
-            inputId="Address"
-            labelText="Address"
-            placeholder="Enter the address"
+            inputName="availability_date"
+            inputId="availability_date"
+            labelText="Date"
+            placeholder="availability_date"
             customClass=""
+            type="date"
+            onChange={(value) => fillData('availability_date', value)} 
           />
         </div>
         <div className="mt-4">
@@ -31,6 +34,7 @@ export function BaseFormsInfo() {
             customClass=""
             isTextarea={true}
             inputHeight="h-32"
+            onChange={(value) => fillData('description', value)} 
           />
         </div>
     </div>

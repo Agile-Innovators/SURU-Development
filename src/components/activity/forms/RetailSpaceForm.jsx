@@ -7,7 +7,7 @@ import PriceDetails from "../../ui/PriceDetails";
 
 const RetailSpaceForm = ({ accion, services, toggleService, handleSubmit, loading }) => {
   return (
-    <form onSubmit={handleSubmit}>
+    <div>
       <SectionDivider text="Retail Space details" />
       <BaseFormsInfo />
       <div className="grid grid-cols-2 gap-4 my-4">
@@ -46,15 +46,15 @@ const RetailSpaceForm = ({ accion, services, toggleService, handleSubmit, loadin
       {accion === "sale" && <PriceDetails type="Sale" />}
       {accion === "rent" && <PriceDetails type="Rent" />}
       {accion === "both" && <PriceDetails type="Both" />}
-      <MainButton
+      {/* <MainButton
         text="Publish"
         onClick={handleSubmit}
         type="submit"
         disabled={loading}
       >
         {loading ? "Publishing..." : "Publish Property"}
-      </MainButton>
-    </form>
+      </MainButton> */}
+    </div>
   );
 };
 
