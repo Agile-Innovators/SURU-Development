@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { AdvancedCard } from "../../components/ui/AdvancedCard";
 import { Divider } from "@mui/joy";
 import React from "react";
@@ -6,8 +7,17 @@ import { ROUTE_PATHS } from "../../routes/index.js";
 import { useNavigate } from "react-router-dom";
 import { useFetchRegions } from "../hooks/useFetchRegions.js";
 import { useFetchPropertyCategories } from "../hooks/useFetchPropertyCategories.js";
+import { globalProvider } from "../../global/GlobalProvider.jsx";
 
 export function PropertiesFilter() {
+    const {
+        setRegionId,
+        setMinPrice,
+        setMaxPrice,
+        setPropertyTypeId,
+        setIsFilterUsed,
+    } = useContext(globalProvider);
+    const navigate = useNavigate();
     const { regions, isLoadingRegions } = useFetchRegions();
     const { propertyCategories, isLoadingPropsCats } =
         useFetchPropertyCategories();
@@ -27,10 +37,7 @@ export function PropertiesFilter() {
                     className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                 >
                     {items.map((region) => (
-                        <option
-                            key={`region_${region.attributes.id}`}
-                            value={region.attributes.id}
-                        >
+                        <option key={`region_${region.id}`} value={region.id}>
                             {region.attributes.name}
                         </option>
                     ))}
@@ -55,8 +62,8 @@ export function PropertiesFilter() {
                 >
                     {items.map((category) => (
                         <option
-                            key={`category_${category.attributes.id}`}
-                            value={category.attributes.id}
+                            key={`category_${category.id}`}
+                            value={category.id}
                         >
                             {category.attributes.name}
                         </option>
@@ -66,31 +73,39 @@ export function PropertiesFilter() {
         );
     };
 
-    const selectOptions = [
+    const selectPriceOptions = [
         {
             id: "price",
             label: "Price",
             options: [
-                { value: "all", label: "All Prices" },
-                { value: "100000", label: "₡100,000-₡150,000" },
-                { value: "150000", label: "₡150,000-₡200,000" },
-                { value: "200000", label: "₡200,000-₡250,000" },
+                { value: "0", label: "₡0" },
+                { value: "100000", label: "₡100,000" },
+                { value: "200000", label: "₡200,000" },
+                { value: "300000", label: "₡300,000" },
+                { value: "400000", label: "₡400,000" },
+                { value: "500000", label: "₡500,000" },
+                { value: "600000", label: "₡600,000" },
             ],
         },
     ];
 
     function filter(event) {
         event.preventDefault();
-        const formFilter = event.target;
-        const selectElements = formFilter.querySelectorAll("select");
+        //obtener valor de los select
+        const selectRegion = document.getElementById("select_regions").value;
+        const minPrice = document.getElementById("select_min_price").value;
+        const maxPrice = document.getElementById("select_max_price").value;
+        const propertyCategory = document.getElementById("select_props_cats").value;
+        // console.log(selectRegion, minPrice, maxPrice, propertyCategory);
 
-        const selectValues = Array.from(selectElements).map(
-            (select) => select.value
-        );
+        //cargar datos para el globalProvider
+        setRegionId(selectRegion);
+        setMinPrice(minPrice);
+        setMaxPrice(maxPrice);
+        setPropertyTypeId(propertyCategory);
+        setIsFilterUsed(true)
 
-        console.log(selectValues);
-
-        navigate(ROUTE_PATHS.LOGIN);
+        navigate(ROUTE_PATHS.SEARCH);
     }
 
     return (
@@ -116,17 +131,17 @@ export function PropertiesFilter() {
                     {
                         <div className="w-full lg:w-auto flex flex-col">
                             <label
-                                htmlFor="{select.id}"
+                                htmlFor="select_min_price"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
                                 Price
                             </label>
                             <select
-                                id="{select.id}"
-                                name={`select`}
+                                id="select_min_price"
+                                name="select_min_price"
                                 className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                             >
-                                {selectOptions.map((option) =>
+                                {selectPriceOptions.map((option) =>
                                     option.options.map((priceOption) => (
                                         <option
                                             key={priceOption.value}
@@ -139,6 +154,33 @@ export function PropertiesFilter() {
                             </select>
                         </div>
                     }
+                    {
+                        <div className="w-full lg:w-auto flex flex-col">
+                            <label
+                                htmlFor="select_max_price"
+                                className="block text-sm font-medium text-gray-700 mb-2"
+                            >
+                                Maximum Price
+                            </label>
+                            <select
+                                id="select_max_price"
+                                name="select_max_price"
+                                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                            >
+                                {selectPriceOptions.map((option) =>
+                                    option.options.map((priceOption) => (
+                                        <option
+                                            key={priceOption.value}
+                                            value={priceOption.value}
+                                        >
+                                            {priceOption.label}
+                                        </option>
+                                    ))
+                                )}
+                            </select>
+                        </div>
+                    }
+                    {/* <input type="range" /> */}
                     {isLoadingPropsCats ? (
                         <p>Loading</p>
                     ) : (

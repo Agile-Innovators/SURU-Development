@@ -529,7 +529,9 @@ const CreatePropertyForm = () => {
             <SectionDivider text="Upload an image" />
             {/* ///////////////////////////// */}
             <div>
+
               <label for="file-input" className="block text-center px-8 py-3 rounded-md transition-colors duration-150 cursor-pointer bg-secondary text-white hover:bg-light-blue hover:text-primary">
+
                 Add
               </label>
               <p>

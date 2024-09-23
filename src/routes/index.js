@@ -9,6 +9,7 @@ export const ROUTE_PATHS = {
     CONFIRM_PASSWORD: '/confirm-password',
     CREATE_PROPERTY: '/create-property',
     PARTNERS: '/partners',
+    SEARCH: '/search',
     NOT_FOUND: '/*',
     PARTNERS_ANGEL: '/partners-angel',
     PROPERTY_MANAGEMENT: '/property-management',
