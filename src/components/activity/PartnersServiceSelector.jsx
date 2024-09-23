@@ -36,10 +36,11 @@ const ExtraServiceCategories = [
     //   title: "Storage Services",
     //   image: "https://www.svgrepo.com/show/528877/box.svg",
     // },
-  ]
+];
+
 export function PartnersServiceSelector() {
     return (
-        <div className="py-20 bg-white  ">
+        <div className="py-20 bg-white">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:text-center">
                     <h3 className="text-base font-semibold leading-7 text-indigo-600">Complementary Services</h3>
@@ -49,6 +50,7 @@ export function PartnersServiceSelector() {
                 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center items-center pt-6">
                     {ExtraServiceCategories.map((ExtraServiceCategory, index) => (
                         <BasicCard
+                            key={index} // Agregamos la key única aquí
                             src={ExtraServiceCategory.image}
                             title={ExtraServiceCategory.title}
                             text="10 options"
@@ -59,4 +61,4 @@ export function PartnersServiceSelector() {
             </div>
         </div>
     );
-};
+}
