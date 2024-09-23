@@ -82,7 +82,6 @@ const CreatePropertyForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("imagenes: ", images);
         const formData = new FormData();
         let imageIdS = [];
 
@@ -100,7 +99,6 @@ const CreatePropertyForm = () => {
 
             imageIdS = response.data.map((image) => image.id);
 
-            console.log(imageIdS);
             // console.log(imagesId)
             console.log(data);
             setImages([]);
@@ -117,9 +115,6 @@ const CreatePropertyForm = () => {
             propertyCategoriesId[tipoPropiedad]
         );
         handleInputChange("transaction_type_id", transactionTypesId[accion]);
-        // handleInputChange("images", imageIdS)
-        // data["sale_price"] = Number(data["sale_price"].replace(/,/g, ''));
-        //data["sale_price"] = Number((data["sale_price"] || '').replace(/,/g, ''));
 
         if (typeof data["sale_price"] === "string") {
             data["sale_price"] = Number(data["sale_price"].replace(/,/g, ""));
@@ -142,6 +137,7 @@ const CreatePropertyForm = () => {
             console.log(response.data);
             const dataResponse = await response;
             console.log(dataResponse);
+            
         } catch (error) {
             console.log(error);
         }
