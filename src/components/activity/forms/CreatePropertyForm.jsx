@@ -280,7 +280,7 @@ const CreatePropertyForm = () => {
               inputId="Backyard"
               type="boolean"
               labelText="Backyard"
-            />
+            />  
             <InputForms
               inputName="Garage"
               inputId="Garage"
