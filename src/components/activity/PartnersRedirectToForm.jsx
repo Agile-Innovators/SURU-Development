@@ -10,7 +10,8 @@ export function PartnersRedirectToForm(){
             <h3 className="text-base font-semibold leading-7 text-indigo-600">Do you have a service company?</h3>
             <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary sm:text-4xl">Empower Your Business with Our Platform</h2>
             <p className="mt-2 text-lg leading-8 text-gray-600">Connect with property owners and renters looking for the services you provide. Expand your reach and enjoy exclusive opportunities.</p>
-            <MainButton to="/partners" text="Join Us" variant="border" customClass="border-primary mt-6 text-primary hover:bg-primary hover:text-white px-4"></MainButton>
+            {/* cambiar el type del mainbutton a link */}
+            <MainButton to="/partners"t type="button" text="Join Us" variant="border" customClass="border-primary mt-6 text-primary hover:bg-primary hover:text-white px-4"></MainButton>
           </div>
         </div>
       </div>

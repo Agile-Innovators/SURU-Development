@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useAxios } from './useAxios'; // Asegúrate de que la ruta sea correcta
+import { useState } from "react";
+import { useAxios } from "./useAxios"; // Asegúrate de que la ruta sea correcta
 
 export function useFetchData() {
   const axiosInstance = useAxios(); // Uso de instancia de Axios con autenticación
