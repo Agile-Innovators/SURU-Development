@@ -46,7 +46,6 @@ export function NavBar() {
     saveAuthToken(null);
     navigate(ROUTE_PATHS.LOGIN);
   };
-
   return (
     <Disclosure as="nav" className="bg-white border-b-light-grey border-b-2 font-primary">
       <div className="mx-auto max-w-7xl px-2 sm:px-0">
@@ -132,7 +131,6 @@ export function NavBar() {
           </div>
         </div>
       </div>
-
       <DisclosurePanel className="sm:hidden">
         <div className="space-y-1 px-2 pb-3 pt-2">
           {navigation.map((item) => (

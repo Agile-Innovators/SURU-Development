@@ -11,7 +11,7 @@ export function PartnersAngel() {
       <StepWizard />
       <PartnersServiceSelector />
       <PartnersRedirectToForm />
-      <FAQSection/>
+      <FAQSection id="FAQSection"/>
     </div>
   );
 }
