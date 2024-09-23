@@ -5,53 +5,60 @@ import { InputForms } from "../../ui/InputForms";
 import { MainButton } from "../../ui/MainButton";
 import PriceDetails from "../../ui/PriceDetails";
 
-const HDSForm = ({ accion, services, toggleService, handleSubmit, loading }) => {
+const HDSForm = ({ accion, services, toggleService, fillData }) => {
   return (
-    <form onSubmit={handleSubmit}>
+    <div>
       <SectionDivider text="House details" />
-      <BaseFormsInfo />
+      <BaseFormsInfo fillData={fillData}/>
       <div className="grid grid-cols-2 gap-4 my-4">
         <InputForms
           inputName="bedrooms"
           inputId="bedrooms"
           type="number"
           labelText="Bedrooms"
+          onChange={(value) => fillData('bedrooms', value)}
         />
         <InputForms
           inputName="bathrooms"
           inputId="bathrooms"
           type="number"
           labelText="Bathrooms"
+          onChange={(value) => fillData('bathrooms', value)}
         />
         <InputForms
-          inputName="Floor"
-          inputId="Floor"
+          inputName="floors"
+          inputId="floors"
           type="number"
           labelText="Floor"
+          onChange={(value) => fillData('floors', value)}
         />
         <InputForms
-          inputName="Pools"
-          inputId="Pools"
-          type="boolean"
+          inputName="pools"
+          inputId="pools"
+          type="number"
           labelText="Pools"
+          onChange={(value) => fillData('pools', value)}
         />
         <InputForms
           inputName="Pets"
           inputId="Pets"
           type="boolean"
           labelText="Pets"
+          onChange={(value) => fillData('pets_allowed', value)}
         />
         <InputForms
-          inputName="Backyard"
-          inputId="Backyard"
+          inputName="GreenArea"
+          inputId="GreenArea"
           type="boolean"
-          labelText="Backyard"
+          labelText="Green Area"
+          onChange={(value) => fillData('green_area', value)}
         />
         <InputForms
-          inputName="Garage"
-          inputId="Garage"
-          type="boolean"
+          inputName="garages"
+          inputId="garages"
+          type="number"
           labelText="Garage"
+          onChange={(value) => fillData('garages', value)}
         />
         <InputForms
           inputName="Size"
@@ -59,6 +66,7 @@ const HDSForm = ({ accion, services, toggleService, handleSubmit, loading }) => 
           type="number"
           labelText="Size"
           placeholder="Property size in square meters"
+          onChange={(value) => fillData('size_in_m2', value)}
         />
       </div>
       {(accion === "rent" || accion === "both") && (
@@ -79,18 +87,18 @@ const HDSForm = ({ accion, services, toggleService, handleSubmit, loading }) => 
           </div>
         </>
       )}
-      {accion === "sale" && <PriceDetails type="Sale" />}
-      {accion === "rent" && <PriceDetails type="Rent" />}
-      {accion === "both" && <PriceDetails type="Both" />}
-      <MainButton
+      {accion === "sale" && <PriceDetails type="Sale" fillData={fillData}/>}
+      {accion === "rent" && <PriceDetails type="Rent" fillData={fillData}/>}
+      {accion === "both" && <PriceDetails type="Both" fillData={fillData}/>}
+      {/* <MainButton
         text="Publish"
         onClick={handleSubmit}
         type="submit"
         disabled={loading}
       >
         {loading ? "Publishing..." : "Publish Property"}
-      </MainButton>
-    </form>
+      </MainButton> */}
+    </div>
   );
 };
 
