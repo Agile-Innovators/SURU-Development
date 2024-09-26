@@ -2,8 +2,8 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIt
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ROUTE_PATHS } from '../../routes/index.js';
-import { useAuth } from '../../global/AuthProvider.jsx';
+import { ROUTE_PATHS } from '../../../routes/index.js';
+import { useAuth } from '../../../global/AuthProvider.jsx';
 
 const initialNavigation = [
 

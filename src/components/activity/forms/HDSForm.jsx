@@ -1,9 +1,9 @@
 import React from "react";
-import SectionDivider from "../../ui/SectionDivider";
-import BaseFormsInfo from "../../ui/BaseFormsInfo";
-import { InputForms } from "../../ui/InputForms";
-import { MainButton } from "../../ui/MainButton";
-import PriceDetails from "../../ui/PriceDetails";
+import SectionDivider from "../../ui/layout/SectionDivider";
+import BaseFormsInfo from "../pricing/BaseFormsInfo";
+import { InputForms } from "../../ui/forms/InputForms";
+import { MainButton } from "../../ui/buttons/MainButton";
+import PriceDetails from "../pricing/PriceDetails";
 
 const HDSForm = ({ accion, services, toggleService, fillData }) => {
   return (

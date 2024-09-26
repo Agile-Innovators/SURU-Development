@@ -1,11 +1,11 @@
-import { NavBar } from "../components/ui/NavBar.jsx";
-import { Footer } from "../components/ui/Footer.jsx";
+import { NavBar } from "../components/ui/layout/NavBar.jsx";
+import { Footer } from "../components/ui/layout/Footer.jsx";
 import { PublicRoutes } from "./PublicRoutes.jsx";
 import { PrivateRoutes } from "./PrivateRoutes.jsx";
 import { Routes, Route } from 'react-router-dom';
 import ProtectedRoutes from '../global/ProtectedRoutes.jsx';
 import '../index.css'
-import { Input } from "../components/ui/Input.jsx";
+import { Input } from "../components/ui/forms/Input.jsx";
 
 export function AppRoutes() {
     return (

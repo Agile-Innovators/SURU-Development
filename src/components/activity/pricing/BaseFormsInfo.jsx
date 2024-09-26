@@ -1,4 +1,4 @@
-import { InputForms } from "./InputForms";
+import { InputForms } from "../../ui/forms/InputForms";
 
 export function BaseFormsInfo({fillData}) {
   return (

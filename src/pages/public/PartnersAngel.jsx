@@ -1,8 +1,8 @@
-import { FAQSection } from "../../components/activity/FAQSection.jsx";
-import { PartnersHero } from "../../components/activity/PartnersHero.jsx";
-import { StepWizard } from "../../components/activity/PartnersStepWizard.jsx";
-import { PartnersServiceSelector } from "../../components/activity/PartnersServiceSelector.jsx";
-import { PartnersRedirectToForm } from "../../components/activity/PartnersRedirectToForm.jsx";
+import { FAQSection } from "../../components/activity/partners_components/FAQSection.jsx";
+import { PartnersHero } from "../../components/activity/heroes/PartnersHero.jsx";
+import { StepWizard } from "../../components/activity/partners_components/PartnersStepWizard.jsx";
+import { PartnersServiceSelector } from "../../components/activity/partners_components/PartnersServiceSelector.jsx";
+import { PartnersRedirectToForm } from "../../components/activity/partners_components/PartnersRedirectToForm.jsx";
 
 export function PartnersAngel() {
   return (

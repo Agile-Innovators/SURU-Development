@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
-import InputForms from "./InputForms";
-import SectionDivider from "./SectionDivider";
+import InputForms from "../../ui/forms/InputForms";
+import SectionDivider from "../../ui/layout/SectionDivider";
 
 const PriceDetails = ({ type, fillData }) => {
     return (

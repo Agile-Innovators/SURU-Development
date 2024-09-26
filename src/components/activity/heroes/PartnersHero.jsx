@@ -1,4 +1,4 @@
-import { MainButton } from "./../../components/ui/MainButton"
+import { MainButton } from "../../ui/buttons/MainButton"
 
 export function PartnersHero(){
     return(

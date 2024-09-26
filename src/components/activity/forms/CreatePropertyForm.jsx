@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import SectionDivider from "../../ui/SectionDivider";
-import { MainButton } from "../../ui/MainButton";
+import SectionDivider from "../../ui/layout/SectionDivider";
+import { MainButton } from "../../ui/buttons/MainButton";
 import { useFetchData } from "../../hooks/useFetchData";
 import HDSForm from "./HDSForm";
 import BareLandForm from "./BareLandForm";

@@ -1,6 +1,6 @@
-import { MainButton } from "../ui/MainButton";
+import { MainButton } from "../../ui/buttons/MainButton";
 
-export function HeaderHome() {
+export function HomeHero() {
   return (
     <div className="w-full text-center flex flex-col md:flex-row md:text-start mt-10 gap-6">
       <section className="flex flex-col justify-center gap-4 w-full">

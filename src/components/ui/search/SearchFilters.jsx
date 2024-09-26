@@ -1,8 +1,8 @@
-import { ROUTE_PATHS } from "../../routes";
-import { MainButton } from "./MainButton";
-import { useFetchPropertyCategories } from "../hooks/useFetchPropertyCategories";
-import { useFetchRegions } from "../hooks/useFetchRegions";
-import { useAxios } from "../hooks/useAxios";
+import { ROUTE_PATHS } from "../../../routes";
+import { MainButton } from "../buttons/MainButton";
+import { useFetchPropertyCategories } from "../../hooks/useFetchPropertyCategories";
+import { useFetchRegions } from "../../hooks/useFetchRegions";
+import { useAxios } from "../../hooks/useAxios";
 
 export function SearchFilter({setData}) {
     const { regions, isLoadingRegions } = useFetchRegions();
