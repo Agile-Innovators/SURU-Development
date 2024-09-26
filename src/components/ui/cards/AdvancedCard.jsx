@@ -1,5 +1,5 @@
 import { PropTypes } from 'prop-types';
-import { HeartIcon } from '../../assets/icons/HeartIcon';
+import { HeartIcon } from '../../../assets/icons/HeartIcon';
 import { MapPin, BedDouble, Bath, Car, PawPrint } from 'lucide-react';
 
 export function AdvancedCard({ srcImage, children, title, location, price, frequency, qtyBedrooms, qtyBathrooms, qtyGarages }) {

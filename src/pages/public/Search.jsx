@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import { AdvancedCard } from "../../components/ui/AdvancedCard";
-import { SearchFilter } from "../../components/ui/SearchFilters";
+import { AdvancedCard } from "../../components/ui/cards/AdvancedCard";
+import { SearchFilter } from "../../components/ui/search/SearchFilters";
 import { globalProvider } from "../../global/GlobalProvider";
 import { useFetchFilter } from "../../components/hooks/useFetchFilter";
-import { MainButton } from "../../components/ui/MainButton";
+import { MainButton } from "../../components/ui/buttons/MainButton";
 import { stepperClasses } from "@mui/joy";
 
 export function Search() {

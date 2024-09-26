@@ -1,4 +1,4 @@
-import { MainButton } from "./MainButton";
+import { MainButton } from "../buttons/MainButton";
 import PropTypes from "prop-types";
 
 export function CTAForm({ title, description, description2, text, type, to }) {

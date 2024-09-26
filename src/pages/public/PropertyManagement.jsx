@@ -1,11 +1,11 @@
-import { BackButton } from "../../components/ui/BackButton.jsx";
+import { BackButton } from "../../components/ui/buttons/BackButton.jsx";
 import { MapPin } from "lucide-react";
-import { ActionButton } from "../../components/ui/ActionButton.jsx";
-import { MainButton } from "../../components/ui/MainButton.jsx";
+import { ActionButton } from "../../components/ui/buttons/ActionButton.jsx";
+import { MainButton } from "../../components/ui/buttons/MainButton.jsx";
 import { ROUTE_PATHS } from "../../routes/index.js";
 import { useFetchProperties } from "../../components/hooks/useFetchProperties.js";
 import { useState, useEffect } from "react";
-import { Input } from "./../../components/ui/Input";
+import { Input } from "../../components/ui/forms/Input.jsx";
 import { useAxios } from "../../components/hooks/useAxios.js";
 
 export function PropertyManagement() {

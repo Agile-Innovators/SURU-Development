@@ -1,6 +1,6 @@
-import { ROUTE_PATHS } from "../../routes/index.js";
-import { BasicCard } from "../ui/BasicCard.jsx";
-import { MainButton } from "../ui/MainButton.jsx";
+import { ROUTE_PATHS } from "../../../routes/index.js";
+import { BasicCard } from "../../ui/cards/BasicCard.jsx";
+import { MainButton } from "../../ui/buttons/MainButton.jsx";
 
 export function PropertyActionSelection() {
   return (

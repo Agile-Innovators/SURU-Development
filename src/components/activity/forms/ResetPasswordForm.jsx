@@ -1,6 +1,6 @@
 import { ROUTE_PATHS } from "../../../routes/index.js";
-import { Input } from "../../ui/Input.jsx";
-import { MainButton } from "../../ui/MainButton.jsx";
+import { Input } from "../../ui/forms/Input.jsx";
+import { MainButton } from "../../ui/buttons/MainButton.jsx";
 
 export function ResetPasswordForm(){
     return (

@@ -1,13 +1,13 @@
 import { useContext } from "react";
-import { AdvancedCard } from "../../components/ui/AdvancedCard";
+import { AdvancedCard } from "../../ui/cards/AdvancedCard.jsx";
 import { Divider } from "@mui/joy";
 import React from "react";
-import { MainButton } from "./../../components/ui/MainButton";
-import { ROUTE_PATHS } from "../../routes/index.js";
+import { MainButton } from "../../ui/buttons/MainButton.jsx";
+import { ROUTE_PATHS } from "../../../routes/index.js";
 import { useNavigate } from "react-router-dom";
-import { useFetchRegions } from "../hooks/useFetchRegions.js";
-import { useFetchPropertyCategories } from "../hooks/useFetchPropertyCategories.js";
-import { globalProvider } from "../../global/GlobalProvider.jsx";
+import { useFetchRegions } from "../../hooks/useFetchRegions.js";
+import { useFetchPropertyCategories } from "../../hooks/useFetchPropertyCategories.js";
+import { globalProvider } from "../../../global/GlobalProvider.jsx";
 
 export function PropertiesFilter() {
     const {

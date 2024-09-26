@@ -1,5 +1,5 @@
-import { ROUTE_PATHS } from "../../routes";
-import { MainButton } from "./../../components/ui/MainButton";
+import { ROUTE_PATHS } from "../../../routes";
+import { MainButton } from "../../ui/buttons/MainButton";
 
 export function PartnersRedirectToForm(){
     return(

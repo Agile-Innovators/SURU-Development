@@ -1,4 +1,4 @@
-import { MainButton } from '../../components/ui/MainButton.jsx';
+import { MainButton } from '../../components/ui/buttons/MainButton.jsx';
 import { Mail } from 'lucide-react';
 
 export function EmailSent() {

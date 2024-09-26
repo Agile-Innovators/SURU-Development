@@ -1,4 +1,4 @@
-import { BasicCard } from "./../../components/ui/BasicCard";
+import { BasicCard } from "../../ui/cards/BasicCard";
 const ExtraServiceCategories = [
     {
       title: "Moving Services",

@@ -1,7 +1,7 @@
 import { PartnerIntegrationRequestForm } from "../../components/activity/forms/PartnerIntegrationRequestForm";
-import { BackButton } from "../../components/ui/BackButton";
-import { SectionDivider } from "../../components/ui/SectionDivider";
-import { MainButton } from "../../components/ui/MainButton";
+import { BackButton } from "../../components/ui/buttons/BackButton";
+import { SectionDivider } from "../../components/ui/layout/SectionDivider";
+import { MainButton } from "../../components/ui/buttons/MainButton";
 import { ROUTE_PATHS } from "../../routes";
 export function PartnerIntegrationRequest() {
   return (

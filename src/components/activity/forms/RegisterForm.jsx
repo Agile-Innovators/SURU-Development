@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Input } from "../../ui/Input.jsx";
-import { CheckBox } from "../../ui/CheckBox.jsx";
-import { TextLink } from "../../ui/TextLink.jsx";
-import { MainButton } from "../../ui/MainButton.jsx";
+import { Input } from "../../ui/forms/Input.jsx";
+import { CheckBox } from "../../ui/forms/CheckBox.jsx";
+import { TextLink } from "../../ui/navigation/TextLink.jsx";
+import { MainButton } from "../../ui/buttons/MainButton.jsx";
 import { ROUTE_PATHS } from "../../../routes/index.js";
 import { useAuth } from '../../../global/AuthProvider.jsx';
 import { useAxios } from '../../../components/hooks/useAxios.js';
