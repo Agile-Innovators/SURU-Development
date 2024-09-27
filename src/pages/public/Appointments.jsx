@@ -1,119 +1,45 @@
 import { MainButton } from './../../components/ui/buttons/MainButton';
+import { Table } from '../../components/ui/tables/Table';
+import { Check, X } from 'lucide-react';
 
 
 export function Appointments() {
+    const columns = ['Name', 'Date', 'Hour', 'Location'];
+  
+    const data = [
+      { name: 'Carlos Vásquez N.', date: '20/09/2024', hour: '9:00 am', location: 'Marañonal' },
+      { name: 'Ana Pérez', date: '22/09/2024', hour: '10:00 am', location: 'Centro' },
+      
+    ];
+  
+    const actions = [
+      () => (
+        <button className="bg-white border border-black rounded px-2 py-1 hover:bg-light-blue">
+          <Check size={22} />
+        </button>
+      ),
+      () => (
+        <button className="bg-white border border-black rounded px-2 py-1 hover:bg-light-blue">
+          <X size={22} />
+        </button>
+      )
+    ];
+  
     return (
-        <div className="max-w-7xl m-auto p-4">
-        
+      <div className="max-w-7xl m-auto p-4">
         <div className="flex flex-row mt-10 justify-between">
-            <h1>Appointments</h1>
-            <MainButton text={'Add Request Manually'} type={'link'} customClass={'items-center flex'}/>
+          <h1>Appointments</h1>
+          <MainButton text="Add Request Manually" type="link" customClass="items-center flex" />
         </div>
-
-        
+  
         <div className="flex flex-row gap-5 mt-7 text-xl font-primary font-semibold">
-            <button>Active</button>
-            <button>Upcoming</button>
+          <button>Active</button>
+          <button>Upcoming</button>
         </div>
-
-
-
-        <div className="overflow-x-auto mt-10">
-            <table className="min-w-full bg-white border-collapse mb-10">
-                <thead>
-                    <tr className="bg-secondary text-white font-light font border-4">
-                        <th className="py-2 px-4 text-center">Name</th>
-                        <th className="py-2 px-4 text-center">Date</th>
-                        <th className="py-2 px-4 text-center">Hour</th>
-                        <th className="py-2 px-4 text-center">Location</th>
-                        <th className="py-2 px-4 text-center">Confirmation</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <tr className="border-t text-xl font-primary font-semibold border-4">
-                        <td className="py-5 px-4 text-center">Carlos Vásquez N. </td>
-                        <td className="py-5 px-4 text-center">20/09/2024</td>
-                        <td className="py-5 px-4 text-center">9:00 am</td>
-                        <td className="py-5 px-4 text-center">Marañonal</td>
-                        <td className="py-5 px-4 text-center">
-                            <div className="flex justify-center space-x-2">
-                                <button className="bg-white border border-black rounded px-2 py-1 hover:bg-light-blue">✔</button>
-                                <button className="bg-white border border-black rounded px-2 py-1 hover:bg-light-blue">X</button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr className="border-t text-xl font-primary font-semibold border-4">
-                        <td className="py-5 px-4 text-center">Carlos Vásquez N. </td>
-                        <td className="py-5 px-4 text-center">20/09/2024</td>
-                        <td className="py-5 px-4 text-center">9:00 am</td>
-                        <td className="py-5 px-4 text-center">Marañonal</td>
-                        <td className="py-5 px-4 text-center">
-                            <div className="flex justify-center space-x-2">
-                                <button className="bg-white border border-black rounded px-2 py-1 hover:bg-light-blue">✔</button>
-                                <button className="bg-white border border-black rounded px-2 py-1 hover:bg-light-blue">X</button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr className="border-t text-xl font-primary font-semibold border-4">
-                        <td className="py-5 px-4 text-center">Carlos Vásquez N. </td>
-                        <td className="py-5 px-4 text-center">20/09/2024</td>
-                        <td className="py-5 px-4 text-center">9:00 am</td>
-                        <td className="py-5 px-4 text-center">Marañonal</td>
-                        <td className="py-5 px-4 text-center">
-                            <div className="flex justify-center space-x-2">
-                                <button className="bg-white border border-black rounded px-2 py-1 hover:bg-light-blue">✔</button>
-                                <button className="bg-white border border-black rounded px-2 py-1 hover:bg-light-blue">X</button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr className="border-t text-xl font-primary font-semibold border-4">
-                        <td className="py-5 px-4 text-center">Carlos Vásquez N. </td>
-                        <td className="py-5 px-4 text-center">20/09/2024</td>
-                        <td className="py-5 px-4 text-center">9:00 am</td>
-                        <td className="py-5 px-4 text-center">Marañonal</td>
-                        <td className="py-5 px-4 text-center">
-                            <div className="flex justify-center space-x-2">
-                                <button className="bg-white border border-black rounded px-2 py-1 hover:bg-light-blue">✔</button>
-                                <button className="bg-white border border-black rounded px-2 py-1 hover:bg-light-blue">X</button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr className="border-t text-xl font-primary font-semibold border-4">
-                        <td className="py-5 px-4 text-center">Carlos Vásquez N. </td>
-                        <td className="py-5 px-4 text-center">20/09/2024</td>
-                        <td className="py-5 px-4 text-center">9:00 am</td>
-                        <td className="py-5 px-4 text-center">Marañonal</td>
-                        <td className="py-5 px-4 text-center">
-                            <div className="flex justify-center space-x-2">
-                                <button className="bg-white border border-black rounded px-2 py-1 hover:bg-light-blue">✔</button>
-                                <button className="bg-white border border-black rounded px-2 py-1 hover:bg-light-blue">X</button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    
-                    
-                    
-
-           
-
-
-
-
-
-
-
-
-                </tbody>
-            </table>
-        </div>
-    </div>
+  
+        <Table columns={columns} data={data} actions={actions} />
+      </div>
     );
-}
-
-export default Appointments;
+  }
+  
+  export default Appointments;
