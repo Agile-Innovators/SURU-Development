@@ -3,13 +3,14 @@ import SectionDivider from "../../ui/layout/SectionDivider";
 import BaseFormsInfo from "../pricing/BaseFormsInfo";
 import { InputForms } from "../../ui/forms/InputForms";
 import { MainButton } from "../../ui/buttons/MainButton";
-import PriceDetails from "../pricing/PriceDetails";
+import PriceDetailsSelector from "../pricing/PriceDetailsSelector";
+import BooleanInput from "../../ui/forms/BooleanInput";
 
 const HDSForm = ({ accion, services, toggleService, fillData }) => {
   return (
     <div>
       <SectionDivider text="House details" />
-      <BaseFormsInfo fillData={fillData}/>
+      <BaseFormsInfo fillData={fillData} />
       <div className="grid grid-cols-2 gap-4 my-4">
         <InputForms
           inputName="bedrooms"
@@ -39,14 +40,14 @@ const HDSForm = ({ accion, services, toggleService, fillData }) => {
           labelText="Pools"
           onChange={(value) => fillData('pools', value)}
         />
-        <InputForms
+        <BooleanInput
           inputName="Pets"
           inputId="Pets"
           type="boolean"
           labelText="Pets"
           onChange={(value) => fillData('pets_allowed', value)}
         />
-        <InputForms
+        <BooleanInput
           inputName="GreenArea"
           inputId="GreenArea"
           type="boolean"
@@ -76,7 +77,10 @@ const HDSForm = ({ accion, services, toggleService, fillData }) => {
             {["water", "electricity", "wifi", "cable"].map((service) => (
               <MainButton
                 key={service}
-                onClick={() => toggleService(service)}
+                onClick={() => {
+                  toggleService(service); // Cambia el estado del servicio
+                  fillData(service, !services[service]); // Envía el dato booleano
+                }}
                 type="boolean"
                 variant="border"
                 isChecked={services[service]}
@@ -87,17 +91,7 @@ const HDSForm = ({ accion, services, toggleService, fillData }) => {
           </div>
         </>
       )}
-      {accion === "sale" && <PriceDetails type="Sale" fillData={fillData}/>}
-      {accion === "rent" && <PriceDetails type="Rent" fillData={fillData}/>}
-      {accion === "both" && <PriceDetails type="Both" fillData={fillData}/>}
-      {/* <MainButton
-        text="Publish"
-        onClick={handleSubmit}
-        type="submit"
-        disabled={loading}
-      >
-        {loading ? "Publishing..." : "Publish Property"}
-      </MainButton> */}
+      <PriceDetailsSelector accion={accion} fillData={fillData} />
     </div>
   );
 };

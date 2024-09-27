@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import InputForms from "../../ui/forms/InputForms";
 import SectionDivider from "../../ui/layout/SectionDivider";
+import TimeframeSelect from "../../ui/forms/TimeFrameSelect";
+import PriceInput from "../../ui/forms/PriceInput";
 
 const PriceDetails = ({ type, fillData }) => {
     return (
@@ -8,7 +10,7 @@ const PriceDetails = ({ type, fillData }) => {
             <SectionDivider text="Price details" />
             {type === "Rent" ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
-                    <InputForms
+                    <PriceInput
                         inputName="Rent"
                         inputId="Rent"
                         type="price"
@@ -16,7 +18,7 @@ const PriceDetails = ({ type, fillData }) => {
                         required={true}
                         onChange={(value) => fillData('rent_price', value)}
                     />
-                    <InputForms
+                    <PriceInput
                         inputName="Deposit"
                         inputId="Deposit"
                         type="price"
@@ -24,17 +26,16 @@ const PriceDetails = ({ type, fillData }) => {
                         placeholder="Just if is needed"
                         onChange={(value) => fillData('deposit_price', value)}
                     />
-                    <InputForms
+                    <PriceInput
                         inputName="Duration"
                         inputId="Duration"
                         type="timeframe"
                         labelText="Duration"
                         required={true}
-                        // onChange={(value) => fillData('deposit_price', value)}
                     />
                 </div>
             ) : type === "Sale" ? (
-                <InputForms
+                <PriceInput
                     inputName="Sale"
                     inputId="Sale"
                     type="price"
@@ -43,14 +44,14 @@ const PriceDetails = ({ type, fillData }) => {
                 />
             ) : type === "Both" ? (
                 <div>
-                    <InputForms
+                    <PriceInput
                         inputName="Rent"
                         inputId="Rent"
                         type="price"
                         labelText="Rent Price"
                         required={true}
                     />
-                    <InputForms
+                    <PriceInput
                         inputName="Deposit"
                         inputId="Deposit"
                         type="price"
@@ -58,14 +59,14 @@ const PriceDetails = ({ type, fillData }) => {
                         placeholder="Just if is needed"
                     />
                     <div className="col-span-2">
-                        <InputForms
+                        <PriceInput
                             inputName="Sale"
                             inputId="Sale"
                             type="price"
                             labelText="Sale Price (Total amount)"
                         />
                     </div>
-                    <InputForms
+                    <TimeframeSelect
                         inputName="Duration"
                         inputId="Duration"
                         type="timeframe"

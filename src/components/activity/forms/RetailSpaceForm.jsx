@@ -3,13 +3,13 @@ import SectionDivider from "../../ui/layout/SectionDivider";
 import BaseFormsInfo from "../pricing/BaseFormsInfo";
 import { InputForms } from "../../ui/forms/InputForms";
 import { MainButton } from "../../ui/buttons/MainButton";
-import PriceDetails from "../pricing/PriceDetails";
+import PriceDetailsSelector from "../pricing/PriceDetailsSelector";
 
-const RetailSpaceForm = ({ accion, services, toggleService, handleSubmit, loading }) => {
+const RetailSpaceForm = ({ accion, services, toggleService, fillData }) => {
   return (
     <div>
       <SectionDivider text="Retail Space details" />
-      <BaseFormsInfo />
+      <BaseFormsInfo fillData={fillData} />
       <div className="grid grid-cols-2 gap-4 my-4">
         <InputForms
           inputName="size"
@@ -17,12 +17,14 @@ const RetailSpaceForm = ({ accion, services, toggleService, handleSubmit, loadin
           type="number"
           labelText="Size"
           placeholder="Property size in square meters"
+          onChange={(value) => fillData('size', value)} // Añadir onChange para el tamaño
         />
         <InputForms
           inputName="bathrooms"
           inputId="bathrooms"
           type="number"
           labelText="Bathrooms"
+          onChange={(value) => fillData('bathrooms', value)} // Añadir onChange para los baños
         />
       </div>
       {(accion === "rent" || accion === "both") && (
@@ -32,7 +34,10 @@ const RetailSpaceForm = ({ accion, services, toggleService, handleSubmit, loadin
             {["water", "electricity", "wifi", "cable"].map((service) => (
               <MainButton
                 key={service}
-                onClick={() => toggleService(service)}
+                onClick={() => {
+                  toggleService(service);
+                  fillData(service, !services[service]); // Envía el estado booleano
+                }}
                 type="boolean"
                 variant="border"
                 isChecked={services[service]}
@@ -43,17 +48,7 @@ const RetailSpaceForm = ({ accion, services, toggleService, handleSubmit, loadin
           </div>
         </>
       )}
-      {accion === "sale" && <PriceDetails type="Sale" />}
-      {accion === "rent" && <PriceDetails type="Rent" />}
-      {accion === "both" && <PriceDetails type="Both" />}
-      {/* <MainButton
-        text="Publish"
-        onClick={handleSubmit}
-        type="submit"
-        disabled={loading}
-      >
-        {loading ? "Publishing..." : "Publish Property"}
-      </MainButton> */}
+      <PriceDetailsSelector accion={accion} fillData={fillData} /> 
     </div>
   );
 };

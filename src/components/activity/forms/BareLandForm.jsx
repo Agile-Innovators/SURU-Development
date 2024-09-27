@@ -3,13 +3,13 @@ import SectionDivider from "../../ui/layout/SectionDivider";
 import BaseFormsInfo from "../pricing/BaseFormsInfo";
 import { InputForms } from "../../ui/forms/InputForms";
 import { MainButton } from "../../ui/buttons/MainButton";
-import PriceDetails from "../pricing/PriceDetails";
+import PriceDetailsSelector from "../pricing/PriceDetailsSelector";
 
-const BareLandForm = ({ accion, services, toggleService, handleSubmit, loading }) => {
+const BareLandForm = ({ accion, services, toggleService, fillData }) => {
   return (
     <div>
       <SectionDivider text="Bare Land details" />
-      <BaseFormsInfo />
+      <BaseFormsInfo fillData={fillData} />
       <div className="grid grid-cols-2 gap-4 my-4">
         <InputForms
           inputName="size"
@@ -17,6 +17,7 @@ const BareLandForm = ({ accion, services, toggleService, handleSubmit, loading }
           type="number"
           labelText="Size"
           placeholder="Property size in square meters"
+          onChange={(value) => fillData('size', value)} // Añadir onChange para el tamaño
         />
       </div>
       <SectionDivider text="Available services" />
@@ -24,12 +25,15 @@ const BareLandForm = ({ accion, services, toggleService, handleSubmit, loading }
         {["availableWater", "availableElectricity"].map((service) => (
           <MainButton
             key={service}
-            onClick={() => toggleService(service)} // Función para manejar la selección de servicios disponibles
+            onClick={() => {
+              toggleService(service);
+              fillData(service, !services[service]); // Envía el estado booleano
+            }}
             type="boolean"
             variant="border"
-            isChecked={services[service]} // Verifica si el servicio está habilitado
+            isChecked={services[service]}
             customClass="capitalize"
-            text={service.replace("available", "")} // Mostrar texto sin el prefijo 'available'
+            text={service.replace("available", "")}
           />
         ))}
       </div>
@@ -42,7 +46,10 @@ const BareLandForm = ({ accion, services, toggleService, handleSubmit, loading }
                 {services.availableWater && (
                   <MainButton
                     key="water"
-                    onClick={() => toggleService("water")}
+                    onClick={() => {
+                      toggleService("water");
+                      fillData("water", !services["water"]); // Envía el estado booleano
+                    }}
                     type="boolean"
                     variant="border"
                     isChecked={services["water"]}
@@ -54,7 +61,10 @@ const BareLandForm = ({ accion, services, toggleService, handleSubmit, loading }
                   <>
                     <MainButton
                       key="electricity"
-                      onClick={() => toggleService("electricity")}
+                      onClick={() => {
+                        toggleService("electricity");
+                        fillData("electricity", !services["electricity"]); // Envía el estado booleano
+                      }}
                       type="boolean"
                       variant="border"
                       isChecked={services["electricity"]}
@@ -63,7 +73,10 @@ const BareLandForm = ({ accion, services, toggleService, handleSubmit, loading }
                     />
                     <MainButton
                       key="wifi"
-                      onClick={() => toggleService("wifi")}
+                      onClick={() => {
+                        toggleService("wifi");
+                        fillData("wifi", !services["wifi"]); // Envía el estado booleano
+                      }}
                       type="boolean"
                       variant="border"
                       isChecked={services["wifi"]}
@@ -72,7 +85,10 @@ const BareLandForm = ({ accion, services, toggleService, handleSubmit, loading }
                     />
                     <MainButton
                       key="cable"
-                      onClick={() => toggleService("cable")}
+                      onClick={() => {
+                        toggleService("cable");
+                        fillData("cable", !services["cable"]); // Envía el estado booleano
+                      }}
                       type="boolean"
                       variant="border"
                       isChecked={services["cable"]}
@@ -86,21 +102,7 @@ const BareLandForm = ({ accion, services, toggleService, handleSubmit, loading }
           )}
         </>
       )}
-      
-      {/* Mostrar secciones de precios según la acción seleccionada */}
-      {accion === "sale" && <PriceDetails type="Sale" />}
-      {accion === "rent" && <PriceDetails type="Rent" />}
-      {accion === "both" && <PriceDetails type="Both" />}
-
-      {/* Botón para publicar */}
-      {/* <MainButton
-        text="Publish"
-        onClick={handleSubmit}
-        type="submit"
-        disabled={loading}
-      >
-        {loading ? "Publishing..." : "Publish Property"}
-      </MainButton> */}
+      <PriceDetailsSelector accion={accion} fillData={fillData} /> {/* Cambiado para que llame fillData */}
     </div>
   );
 };

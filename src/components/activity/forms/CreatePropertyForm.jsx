@@ -19,7 +19,7 @@ const CreatePropertyForm = () => {
         cable: false,
     });
 
-    //objeto para manejar los id de las categorias(TEMPORAL)
+    // Objeto para manejar los id de las categorias (TEMPORAL)
     const propertyCategoriesId = {
         house: 1,
         apartment: 2,
@@ -28,7 +28,7 @@ const CreatePropertyForm = () => {
         studio: 5,
     };
 
-    //objeto para manejar los id de las categorias(TEMPORAL)
+    // Objeto para manejar los id de las categorias (TEMPORAL)
     const transactionTypesId = {
         sale: 1,
         rent: 2,
@@ -49,7 +49,7 @@ const CreatePropertyForm = () => {
         setData((prevData) => ({ ...prevData, [key]: value }));
     };
 
-    // ************************************imagenes
+    // ************************************ imágenes
     const [images, setImages] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
 
@@ -76,7 +76,8 @@ const CreatePropertyForm = () => {
 
     const removeImage = (index) => {
         const newImages = images.filter((_, i) => i !== index);
-        setImagePreviews(newImages);
+        setImages(newImages); // Cambié de imagePreviews a newImages
+        setImagePreviews(newImages); // Cambié de imagePreviews a newImages
     };
     // ************************************
 
@@ -154,7 +155,7 @@ const CreatePropertyForm = () => {
                     toggleService={toggleService}
                     handleSubmit={handleSubmit}
                     loading={loading}
-                    fillData={handleInputChange}
+                    fillData={handleInputChange} // Agregado aquí
                 />
             ),
             apartment: (
@@ -164,6 +165,7 @@ const CreatePropertyForm = () => {
                     toggleService={toggleService}
                     handleSubmit={handleSubmit}
                     loading={loading}
+                    fillData={handleInputChange} // Agregado aquí
                 />
             ),
             studio: (
@@ -173,6 +175,7 @@ const CreatePropertyForm = () => {
                     toggleService={toggleService}
                     handleSubmit={handleSubmit}
                     loading={loading}
+                    fillData={handleInputChange} // Agregado aquí
                 />
             ),
             "bare-land": (
@@ -182,9 +185,9 @@ const CreatePropertyForm = () => {
                     toggleService={toggleService}
                     handleSubmit={handleSubmit}
                     loading={loading}
+                    fillData={handleInputChange} // Agregado aquí
                 />
             ),
-
             "retail-space": (
                 <RetailSpaceForm
                     accion={accion}
@@ -192,6 +195,7 @@ const CreatePropertyForm = () => {
                     toggleService={toggleService}
                     handleSubmit={handleSubmit}
                     loading={loading}
+                    fillData={handleInputChange} // Agregado aquí
                 />
             ),
         };
@@ -226,7 +230,7 @@ const CreatePropertyForm = () => {
                     ))}
                 </div>
 
-                {/* Filtros para tipo de transaccion */}
+                {/* Filtros para tipo de transacción */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
                     <div className="mb-10">
                         <SectionDivider text="What will you do with this property?" />
@@ -261,7 +265,7 @@ const CreatePropertyForm = () => {
                         {error && <p>Error: {error.message}</p>}
                     </div>
                     <div>
-                        {/* Apartado de imagenes */}
+                        {/* Apartado de imágenes */}
                         <SectionDivider text="Upload an image" />
                         <div className="image-upload-container">
                             <label
@@ -280,31 +284,28 @@ const CreatePropertyForm = () => {
                                 id="file-input"
                                 type="file"
                                 accept="image/*"
-                                multiple
                                 onChange={handleImageChange}
-                                className="opacity-0"
+                                className="hidden"
+                                multiple
                             />
+                        </div>
 
-                            <div className="grid sm:grid-cols-3">
-                                {imagePreviews.map((image, index) => (
-                                    <div
-                                        key={index}
-                                        className="flex rounded-md my-4"
+                        <div className="grid grid-cols-2 gap-4 mt-4">
+                            {imagePreviews.map((preview, index) => (
+                                <div key={index} className="relative">
+                                    <img
+                                        src={preview}
+                                        alt={`preview ${index}`}
+                                        className="w-full h-32 object-cover"
+                                    />
+                                    <button
+                                        onClick={() => removeImage(index)}
+                                        className="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full"
                                     >
-                                        <button
-                                            className="m-1 p-2 sm:p-0 bg-white absolute rounded-full"
-                                            onClick={() => removeImage(index)}
-                                        >
-                                            <X />
-                                        </button>
-                                        <img
-                                            className="rounded-md w-full aspect-square sm:w-40 sm:h-40"
-                                            src={image}
-                                            alt={`Preview ${index + 1}`}
-                                        />
-                                    </div>
-                                ))}
-                            </div>
+                                        <X size={20} />
+                                    </button>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -314,3 +315,4 @@ const CreatePropertyForm = () => {
 };
 
 export default CreatePropertyForm;
+
