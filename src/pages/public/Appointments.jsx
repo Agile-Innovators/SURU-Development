@@ -1,4 +1,4 @@
-import { MainButton } from "../../components/ui/buttons/MainButton";
+import { MainButton } from './../../components/ui/buttons/MainButton';
 
 
 export function Appointments() {
@@ -7,7 +7,7 @@ export function Appointments() {
         
         <div className="flex flex-row mt-10 justify-between">
             <h1>Appointments</h1>
-            <MainButton text="Add Request Manually" type="link" variant="fill" customClass="bg-red-500"/>
+            <MainButton text={'Add Request Manually'} type={'link'} customClass={'items-center flex'}/>
         </div>
 
         
