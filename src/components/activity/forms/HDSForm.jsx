@@ -78,8 +78,8 @@ const HDSForm = ({ accion, services, toggleService, fillData }) => {
               <MainButton
                 key={service}
                 onClick={() => {
-                  toggleService(service); // Cambia el estado del servicio
-                  fillData(service, !services[service]); // Envía el dato booleano
+                  toggleService(service); 
+                  fillData(service, !services[service]); 
                 }}
                 type="boolean"
                 variant="border"

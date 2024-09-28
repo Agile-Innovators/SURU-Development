@@ -48,7 +48,7 @@ const BareLandForm = ({ accion, services, toggleService, fillData }) => {
                     key="water"
                     onClick={() => {
                       toggleService("water");
-                      fillData("water", !services["water"]); // Envía el estado booleano
+                      fillData("water", !services["water"]); 
                     }}
                     type="boolean"
                     variant="border"
@@ -63,7 +63,7 @@ const BareLandForm = ({ accion, services, toggleService, fillData }) => {
                       key="electricity"
                       onClick={() => {
                         toggleService("electricity");
-                        fillData("electricity", !services["electricity"]); // Envía el estado booleano
+                        fillData("electricity", !services["electricity"]); 
                       }}
                       type="boolean"
                       variant="border"
@@ -75,7 +75,7 @@ const BareLandForm = ({ accion, services, toggleService, fillData }) => {
                       key="wifi"
                       onClick={() => {
                         toggleService("wifi");
-                        fillData("wifi", !services["wifi"]); // Envía el estado booleano
+                        fillData("wifi", !services["wifi"]); 
                       }}
                       type="boolean"
                       variant="border"
@@ -87,7 +87,7 @@ const BareLandForm = ({ accion, services, toggleService, fillData }) => {
                       key="cable"
                       onClick={() => {
                         toggleService("cable");
-                        fillData("cable", !services["cable"]); // Envía el estado booleano
+                        fillData("cable", !services["cable"]); 
                       }}
                       type="boolean"
                       variant="border"
@@ -102,7 +102,7 @@ const BareLandForm = ({ accion, services, toggleService, fillData }) => {
           )}
         </>
       )}
-      <PriceDetailsSelector accion={accion} fillData={fillData} /> {/* Cambiado para que llame fillData */}
+      <PriceDetailsSelector accion={accion} fillData={fillData} /> 
     </div>
   );
 };

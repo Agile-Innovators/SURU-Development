@@ -26,7 +26,7 @@ const PriceDetails = ({ type, fillData }) => {
                         placeholder="Just if is needed"
                         onChange={(value) => fillData('deposit_price', value)}
                     />
-                    <PriceInput
+                    <TimeframeSelect
                         inputName="Duration"
                         inputId="Duration"
                         type="timeframe"
@@ -50,6 +50,7 @@ const PriceDetails = ({ type, fillData }) => {
                         type="price"
                         labelText="Rent Price"
                         required={true}
+                        onChange={(value) => fillData('rent_price', value)}
                     />
                     <PriceInput
                         inputName="Deposit"
@@ -57,6 +58,7 @@ const PriceDetails = ({ type, fillData }) => {
                         type="price"
                         labelText="Deposit"
                         placeholder="Just if is needed"
+                        onChange={(value) => fillData('deposit_price', value)}
                     />
                     <div className="col-span-2">
                         <PriceInput
@@ -64,6 +66,7 @@ const PriceDetails = ({ type, fillData }) => {
                             inputId="Sale"
                             type="price"
                             labelText="Sale Price (Total amount)"
+                            onChange={(value) => fillData('sale_price', value)}
                         />
                     </div>
                     <TimeframeSelect

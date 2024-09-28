@@ -17,14 +17,14 @@ const RetailSpaceForm = ({ accion, services, toggleService, fillData }) => {
           type="number"
           labelText="Size"
           placeholder="Property size in square meters"
-          onChange={(value) => fillData('size', value)} // Añadir onChange para el tamaño
+          onChange={(value) => fillData('size', value)} 
         />
         <InputForms
           inputName="bathrooms"
           inputId="bathrooms"
           type="number"
           labelText="Bathrooms"
-          onChange={(value) => fillData('bathrooms', value)} // Añadir onChange para los baños
+          onChange={(value) => fillData('bathrooms', value)} 
         />
       </div>
       {(accion === "rent" || accion === "both") && (
@@ -36,7 +36,7 @@ const RetailSpaceForm = ({ accion, services, toggleService, fillData }) => {
                 key={service}
                 onClick={() => {
                   toggleService(service);
-                  fillData(service, !services[service]); // Envía el estado booleano
+                  fillData(service, !services[service]); 
                 }}
                 type="boolean"
                 variant="border"

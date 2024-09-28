@@ -35,7 +35,7 @@ export function InputForms({
           id={inputId}
           name={inputName}
           placeholder={placeholder}
-          className={`${commonClasses} h-32 resize-none`}  // Aquí se agrega 'h-32' y 'resize-none' para estilo
+          className={`${commonClasses} h-32 resize-none`}  
           onChange={handleInputChange}
         />
       ) : (
