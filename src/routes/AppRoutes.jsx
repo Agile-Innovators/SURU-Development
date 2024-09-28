@@ -10,7 +10,6 @@ import { Input } from "../components/ui/forms/Input.jsx";
 export function AppRoutes() {
     return (
         <>
-            
             <NavBar />
                 <Routes>
                     <Route path="/*" element={<PublicRoutes />} />

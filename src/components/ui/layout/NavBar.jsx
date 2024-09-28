@@ -6,19 +6,16 @@ import { ROUTE_PATHS } from '../../../routes/index.js';
 import { useAuth } from '../../../global/AuthProvider.jsx';
 
 const initialNavigation = [
-
+  { name: 'Home', href: ROUTE_PATHS.HOME, current: false },
   { name: 'Partners', href: ROUTE_PATHS.PARTNERS_ANGEL, current: false },
-  { name: 'Properties', href: ROUTE_PATHS.PROPERTY_MANAGEMENT, current: false },
-  { name: 'Solutions', href: '/solutions', current: false },
-  { name: 'About us', href: '/about', current: false },
-  { name: 'Contact', href: '/contact', current: false },
+  { name: 'Search', href: ROUTE_PATHS.SEARCH, current: false },
 ];
 
 const userNavigationLinks = [
   { name: 'My account', to: '#', imageRoute: '/public/UserIcon.svg' },
-  { name: 'My properties', to: '#', imageRoute: '/public/PropetiesIcon.svg' },
-  { name: 'Saved properties', to: '#', imageRoute: '/public/HomeIcon.svg' },
-  { name: 'My appointments', to: '#', imageRoute: '/public/CalendarIcon.svg' },
+  { name: 'My properties', to: ROUTE_PATHS.PROPERTY_MANAGEMENT , imageRoute: '/public/PropetiesIcon.svg' },
+  // { name: 'Saved properties', to: '#', imageRoute: '/public/HomeIcon.svg' },
+  // { name: 'My appointments', to: '#', imageRoute: '/public/CalendarIcon.svg' },
   { name: 'Log out', to: '#', imageRoute: '/public/LogoutIcon.svg' }
 ];
 
