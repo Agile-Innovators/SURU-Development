@@ -123,7 +123,7 @@ export function PropertyDetails() {
                     </div>
                 </div>
                 <div className='flex flex-col gap-4'>
-                    <div class="flex flex-col border gap-2 rounded-md p-4">
+                    <div class="flex flex-col border-2 gap-2 rounded-md p-4">
                         <h3>Pricing details</h3>
                         <div className='flex justify-between'>
                             <p>Rental Payment</p>
@@ -136,7 +136,7 @@ export function PropertyDetails() {
                         <MainButton text='Scheduled a visit' variant="border" />
                         <MainButton text='Get Property' />
                     </div>
-                    <div class="flex flex-col border rounded-md p-4 gap-2">
+                    <div class="flex flex-col border-2 rounded-md p-4 gap-2">
                         <h3>Included Utilities</h3>
                         <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
                             <div className='flex flex-col items-center gap-2'>
@@ -159,7 +159,7 @@ export function PropertyDetails() {
                     </div>
                 </div>
             </div>
-            <div className='flex sm:sm:w-1/3 justify-between border rounded-lg p-4 mt-10'>
+            <div className='flex sm:sm:w-1/3 justify-between border-2 rounded-lg p-4 mt-10'>
                 <div className='w-1/2 '>
                     <img src="https://picsum.photos/id/77/450/300" alt="" className='rounded-lg aspect-square sm:aspect-auto' />
                 </div>
