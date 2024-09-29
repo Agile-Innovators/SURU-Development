@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useState } from "react";
+import PropTypes from "prop-types";
 
 export function InputForms({
   inputName,
   placeholder = "",
-  type = 'text',
+  type = "text",
   spanText = "",
   labelText,
   inputId,
@@ -12,10 +12,10 @@ export function InputForms({
   required = false,
   isTextarea = false,
   inputHeight = "h-12",
-  dropdownType = "",  // Nuevo prop para manejar el tipo de dropdown
-  onChange
+  dropdownType = "", // Nuevo prop para manejar el tipo de dropdown
+  onChange,
 }) {
-  const [priceValue, setPriceValue] = useState('');
+  const [priceValue, setPriceValue] = useState("");
 
   const commonClasses = `border border-light-grey bg-transparent rounded-md px-4 py-3 mt-2 focus:outline-light-blue ${customClass} ${inputHeight} cursor-pointer`;
 
@@ -23,23 +23,25 @@ export function InputForms({
     if (onChange) {
       onChange(e.target.value); // Nos aseguramos de que onChange exista antes de invocarlo
     }
-  }
+  };
 
   const handlePriceChange = (e) => {
-    let value = e.target.value.replace(/,/g, ''); 
-    if (!isNaN(value) && value !== '') {
-      value = parseFloat(value).toLocaleString('en-US', { maximumFractionDigits: 2 });
+    let value = e.target.value.replace(/,/g, "");
+    if (!isNaN(value) && value !== "") {
+      value = parseFloat(value).toLocaleString("en-US", {
+        maximumFractionDigits: 2,
+      });
     }
     setPriceValue(value);
   };
 
   const combinedOnChange = (e) => {
-    handlePriceChange(e);  // Primera función
-    handleInputChange(e);  // Segunda función
+    handlePriceChange(e); // Primera función
+    handleInputChange(e); // Segunda función
   };
 
   const renderInput = () => {
-    if (type === 'boolean') {
+    if (type === "boolean") {
       return (
         <select
           id={inputId}
@@ -49,14 +51,16 @@ export function InputForms({
           {...(required && { required: true })}
           onChange={handleInputChange}
         >
-          <option value="" disabled>Select an option</option>
+          <option value="" disabled>
+            Select an option
+          </option>
           <option value="true">Yes</option>
           <option value="false">No</option>
         </select>
       );
     }
 
-    if (type === 'price') {
+    if (type === "price") {
       return (
         <div className="flex items-center space-x-2">
           <select
@@ -83,7 +87,7 @@ export function InputForms({
       );
     }
 
-    if (type === 'timeframe') { 
+    if (type === "timeframe") {
       return (
         <select
           id={inputId}
@@ -92,7 +96,9 @@ export function InputForms({
           defaultValue=""
           {...(required && { required: true })}
         >
-          <option value="" disabled>Select a timeframe</option>
+          <option value="" disabled>
+            Select a timeframe
+          </option>
           <option value="weekly">Weekly</option>
           <option value="monthly">Monthly</option>
           <option value="yearly">Yearly</option>
@@ -148,14 +154,7 @@ InputForms.propTypes = {
   customClass: PropTypes.string,
   isTextarea: PropTypes.bool,
   inputHeight: PropTypes.string,
-  dropdownType: PropTypes.string,  
+  dropdownType: PropTypes.string,
 };
 
 export default InputForms;
-
-
-
-
-
-
-

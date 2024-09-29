@@ -46,7 +46,7 @@ export function RegisterForm() {
             const response = await axios.post('/auth/local/register', data);
             const { jwt } = response.data;
             saveAuthToken(jwt);
-            console.log('Login successful:', jwt);
+            console.log('Register successful:', jwt);
             navigate('/prueba-registro');
         } catch (err) {
             setError(err.response.data.error.message);
