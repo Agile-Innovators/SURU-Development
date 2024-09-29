@@ -5,85 +5,78 @@ import TimeframeSelect from "../../ui/forms/TimeFrameSelect";
 import PriceInput from "../../ui/forms/PriceInput";
 
 const PriceDetails = ({ type, fillData }) => {
-    return (
-        <div>
-            <SectionDivider text="Price details" />
-            {type === "Rent" ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
-                    <PriceInput
-                        inputName="Rent"
-                        inputId="Rent"
-                        type="price"
-                        labelText="Rent Price"
-                        required={true}
-                        onChange={(value) => fillData('rent_price', value)}
-                    />
-                    <PriceInput
-                        inputName="Deposit"
-                        inputId="Deposit"
-                        type="price"
-                        labelText="Deposit"
-                        placeholder="Just if is needed"
-                        onChange={(value) => fillData('deposit_price', value)}
-                    />
-                    <TimeframeSelect
-                        inputName="Duration"
-                        inputId="Duration"
-                        type="timeframe"
-                        labelText="Duration"
-                        required={true}
-                    />
-                </div>
-            ) : type === "Sale" ? (
-                <PriceInput
-                    inputName="Sale"
-                    inputId="Sale"
-                    type="price"
-                    labelText="Sale Price (Total amount)"
-                    onChange={(value) => fillData('sale_price', value)}
-                />
-            ) : type === "Both" ? (
-                <div>
-                    <PriceInput
-                        inputName="Rent"
-                        inputId="Rent"
-                        type="price"
-                        labelText="Rent Price"
-                        required={true}
-                        onChange={(value) => fillData('rent_price', value)}
-                    />
-                    <PriceInput
-                        inputName="Deposit"
-                        inputId="Deposit"
-                        type="price"
-                        labelText="Deposit"
-                        placeholder="Just if is needed"
-                        onChange={(value) => fillData('deposit_price', value)}
-                    />
-                    <div className="col-span-2">
-                        <PriceInput
-                            inputName="Sale"
-                            inputId="Sale"
-                            type="price"
-                            labelText="Sale Price (Total amount)"
-                            onChange={(value) => fillData('sale_price', value)}
-                        />
-                    </div>
-                    <TimeframeSelect
-                        inputName="Duration"
-                        inputId="Duration"
-                        type="timeframe"
-                        labelText="Duration"
-                        required={true}
-                    />
-                </div>
-            ) : null}
+  return (
+    <div>
+      <SectionDivider text="Price details" />
+      {type === "Rent" ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+          <PriceInput
+            inputName="Rent"
+            inputId="Rent"
+            labelText="Rent Price"
+            required={true}
+            onChange={(value) => fillData('rent_price', value.price, value.currency)}
+          />
+          <PriceInput
+            inputName="Deposit"
+            inputId="Deposit"
+            labelText="Deposit"
+            placeholder="Just if is needed"
+            onChange={(value) => fillData('deposit_price', value.price, value.currency)}
+          />
+          <TimeframeSelect
+            inputName="Duration"
+            inputId="Duration"
+            labelText="Duration"
+            required={true}
+            onChange={(value) => fillData('timeframe', value)}
+          />
         </div>
-    );
+      ) : type === "Sale" ? (
+        <PriceInput
+          inputName="Sale"
+          inputId="Sale"
+          labelText="Sale Price (Total amount)"
+          onChange={(value) => fillData('sale_price', value.price, value.currency)}
+        />
+      ) : type === "Both" ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+          <PriceInput
+            inputName="Rent"
+            inputId="Rent"
+            labelText="Rent Price"
+            required={true}
+            onChange={(value) => fillData('rent_price', value.price, value.currency)}
+          />
+          <PriceInput
+            inputName="Deposit"
+            inputId="Deposit"
+            labelText="Deposit"
+            placeholder="Just if is needed"
+            onChange={(value) => fillData('deposit_price', value.price, value.currency)}
+          />
+          <PriceInput
+            inputName="Sale"
+            inputId="Sale"
+            labelText="Sale Price (Total amount)"
+            onChange={(value) => fillData('sale_price', value.price, value.currency)}
+          />
+          <TimeframeSelect
+            inputName="Duration"
+            inputId="Duration"
+            labelText="Duration"
+            required={true}
+            onChange={(value) => fillData('timeframe', value)}
+          />
+        </div>
+      ) : null}
+    </div>
+  );
 };
 
 PriceDetails.propTypes = {
-    type: PropTypes.oneOf(["Rent", "Sale", "Both"]).isRequired,
+  type: PropTypes.oneOf(["Rent", "Sale", "Both"]).isRequired,
+  fillData: PropTypes.func.isRequired,
 };
 
 export default PriceDetails;

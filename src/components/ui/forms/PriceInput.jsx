@@ -11,12 +11,19 @@ export function PriceInput({
   onChange
 }) {
   const [priceValue, setPriceValue] = useState('');
+  const [currency, setCurrency] = useState('CRC'); // Estado para la moneda
   const commonClasses = `border border-light-grey bg-transparent rounded-md px-4 py-3 mt-2 focus:outline-light-blue ${customClass}`;
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (value) => {
     if (onChange) {
-      onChange(e.target.value);
+      onChange({ price: value, currency });
     }
+  };
+
+  const handleCurrencyChange = (e) => {
+    const selectedCurrency = e.target.value;
+    setCurrency(selectedCurrency);
+    handleInputChange(priceValue); // Actualizar con el valor de precio actual
   };
 
   const handlePriceChange = (e) => {
@@ -27,12 +34,8 @@ export function PriceInput({
         value = parseFloat(value).toLocaleString('en-US', { maximumFractionDigits: 2 });
       }
       setPriceValue(value);
+      handleInputChange(value);
     }
-  };
-
-  const combinedOnChange = (e) => {
-    handlePriceChange(e);
-    handleInputChange(e);
   };
 
   return (
@@ -45,7 +48,8 @@ export function PriceInput({
           id={`${inputId}-currency`}
           name={`${inputName}-currency`}
           className={`${commonClasses} appearance-none w-24`}
-          defaultValue="CRC"
+          value={currency}
+          onChange={handleCurrencyChange}
           {...(required && { required: true })}
         >
           <option value="CRC">CRC</option>
@@ -59,7 +63,7 @@ export function PriceInput({
           placeholder={placeholder}
           className={`${commonClasses} flex-1`}
           value={priceValue}
-          onChange={combinedOnChange}
+          onChange={handlePriceChange}
         />
       </div>
     </div>
@@ -73,6 +77,7 @@ PriceInput.propTypes = {
   labelText: PropTypes.string,
   required: PropTypes.bool,
   customClass: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 export default PriceInput;

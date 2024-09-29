@@ -54,7 +54,7 @@ const HDSForm = ({ accion, services, toggleService, fillData }) => {
           labelText="Green Area"
           onChange={(value) => fillData('green_area', value)}
         />
-        <InputForms
+        <BooleanInput
           inputName="garages"
           inputId="garages"
           type="number"
