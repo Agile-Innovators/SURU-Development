@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { MainButton } from '../../components/ui/buttons/MainButton.jsx';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, Clock } from 'lucide-react'; // Importar íconos
+import { Calendar, Clock } from 'lucide-react'; 
 import { ROUTE_PATHS } from '../../routes/index.js';
 
 export function RequestAppointment() {
@@ -24,7 +24,7 @@ export function RequestAppointment() {
                         <div className="relative">
 
                             <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <Calendar className="h-5 w-5 text-secondary"  color="#000000" fill="yellow"  /> 
+                                <Calendar className="h-5 w-5 text-secondary" /> 
                            
                             </span>
                             <DatePicker
@@ -37,11 +37,12 @@ export function RequestAppointment() {
                         </div>
                     </div>
 
-                    {/* Input de hora con ícono */}
+                   
                     <div className="relative mb-4">
                         <label htmlFor="hour" className="block text-sm font-medium text-gray-700 mb-1">Hour</label>
                         <div className="relative">
-                            {/* Ícono del reloj */}
+                    
+
                             <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <Clock className="h-5 w-5" color="#000000" fill="yellow" /> 
                             </span>
@@ -78,7 +79,7 @@ export function RequestAppointment() {
 
                 <button 
                     type="button" 
-                    className="text-blue-500 hover:underline mt-4" 
+                    className="text-blue-500 hover:underline mt-4 mb-10" 
                     
                 >
                     Go Back

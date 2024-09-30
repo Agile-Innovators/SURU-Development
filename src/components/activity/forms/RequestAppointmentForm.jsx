@@ -14,7 +14,7 @@ export function RequestAppointmentForm() {
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log('Form submitted:', { date, hour, extraDetails });
-        // Aquí iría la lógica para manejar la solicitud
+      
     };
 
     return (
@@ -22,7 +22,7 @@ export function RequestAppointmentForm() {
             <h1 className="text-2xl font-bold mb-4">Request an Appointment</h1>
             <div className="grid gap-4 my-4">
                 
-                {/* Campo de selección de fecha */}
+                
                 <div>
                     <label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-1">Date</label>
                     <DatePicker 
@@ -34,7 +34,7 @@ export function RequestAppointmentForm() {
                     />
                 </div>
                 
-                {/* Campo de selección de hora */}
+            
                 <div>
                     <label htmlFor="hour" className="block text-sm font-medium text-gray-700 mb-1">Hour</label>
                     <DatePicker
@@ -50,7 +50,7 @@ export function RequestAppointmentForm() {
                     />
                 </div>
                 
-                {/* Campo de detalles adicionales */}
+                
                 <Input 
                     type="text" 
                     label="Extra Details" 
@@ -62,10 +62,10 @@ export function RequestAppointmentForm() {
                 />
             </div>
 
-            {/* Botón de enviar solicitud */}
+            
             <MainButton text="Send Request" type="submit" variant="fill" customClass="w-full mb-2"/>
             
-            {/* Botón de volver */}
+           
             <button 
                 type="button" 
                 className="text-blue-500 hover:underline" 
