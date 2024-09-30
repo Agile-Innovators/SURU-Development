@@ -1,22 +1,22 @@
 import { useState } from "react";
-import { useAxios } from "./useAxios"; // Asegúrate de que la ruta sea correcta
+import { useAxios } from "./useAxios"; 
 
 export function useFetchData() {
-  const axiosInstance = useAxios(); // Uso de instancia de Axios con autenticación
+  const axiosInstance = useAxios(); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const sendData = async (url, data) => {
     setLoading(true);
-    console.log("Sending data:", data); // Añade este console.log para ver los datos enviados
+    console.log("Sending data:", data); 
     try {
       const response = await axiosInstance.post(url, data);
       setLoading(false);
-      return response.data; // Devuelve la respuesta del servidor
+      return response.data; 
     } catch (err) {
       setError(err);
       setLoading(false);
-      throw err; // Lanza el error para manejarlo en el componente
+      throw err; 
     }
   };
 

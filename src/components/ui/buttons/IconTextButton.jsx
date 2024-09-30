@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-export function MainButton({
+export function IconTextButton({
   text,
   type = "button",
   to,
@@ -9,41 +9,50 @@ export function MainButton({
   customClass = "",
   icon = null,
   onClick = null,
-  isChecked = false,  
+  isChecked = false,
 }) {
-  let variantClasses = {
+  const variantClasses = {
     fill: "bg-secondary text-white hover:bg-light-blue hover:text-white",
     border: "text-secondary border-2 border-secondary hover:bg-secondary hover:text-white",
   };
 
-  let commonClasses = `block text-center px-8 py-3 rounded-md transition-colors duration-150 cursor-pointer ${customClass} ${variantClasses[variant]}`;
+  const commonClasses = `flex items-start px-8 py-3 rounded-md transition-colors duration-150 cursor-pointer ${variantClasses[variant]} ${customClass}`;
 
+  const renderContent = () => {
+    const textClass = variant === "fill" ? "text-white" : "text-secondary"; // Cambia el color del texto según el variant
+    return (
+      <div className="flex flex-col items-start">
+        {icon && <div className={`${textClass}`}>{icon}</div>} {/* Aplica el color al icono */}
+        <span className={`${textClass} mt-1`}>{text}</span> {/* Aplica el color al texto */}
+      </div>
+    );
+  };
 
   if (type === "button") {
     return (
       <button className={commonClasses} onClick={onClick}>
-        {icon ? icon : text}
+        {renderContent()}
       </button>
     );
   } else if (type === "link") {
     return (
       <Link to={to} className={commonClasses}>
-        {icon ? icon : text}
+        {renderContent()}
       </Link>
     );
   } else if (type === "external") {
     return (
       <a href={to} className={commonClasses} target="_blank" rel="noopener noreferrer">
-        {icon ? icon : text}
+        {renderContent()}
       </a>
     );
   } else if (type === "submit") {
     return (
       <button className={commonClasses} type="submit">
-        {icon ? icon : text}
+        {renderContent()}
       </button>
     );
-  } else if (type === "boolean") {  
+  } else if (type === "boolean") {
     const booleanVariant = isChecked ? "fill" : "border";
     return (
       <button 
@@ -51,7 +60,7 @@ export function MainButton({
         onClick={onClick}
         type="button"
       >
-        {text}  
+        {renderContent()}  
       </button>
     );
   }
@@ -59,7 +68,7 @@ export function MainButton({
   return null;
 }
 
-MainButton.propTypes = {
+IconTextButton.propTypes = {
   text: PropTypes.string.isRequired,
   to: PropTypes.string, 
   type: PropTypes.oneOf(["button", "link", "external", "submit", "boolean"]).isRequired,
@@ -69,4 +78,3 @@ MainButton.propTypes = {
   onClick: PropTypes.func,
   isChecked: PropTypes.bool,
 };
-
