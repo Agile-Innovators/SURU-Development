@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        'appointment-bg': "url('/src/assets/backgrounds/Background.png')",
+      },
       fontFamily:
       {
         primary: ['Poppins', 'sans-serif']

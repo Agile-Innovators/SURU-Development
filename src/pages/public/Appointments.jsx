@@ -52,7 +52,7 @@ export function Appointments() {
     setActiveTab('Active');
   };
 
-  // Función para cambiar a futuras
+  // Función para cambiar a Upcoming
   const showUpcomingAppointments = () => {
     setCurrentAppointments(upcomingAppointments);
     setActiveTab('Upcoming');
