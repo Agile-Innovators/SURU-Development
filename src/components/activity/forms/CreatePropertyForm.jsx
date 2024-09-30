@@ -120,9 +120,9 @@ const CreatePropertyForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
-        console.log("Estado 'data' antes de enviar:", data); 
-    
+
+         console.log("Estado 'data' antes de enviar:", data); 
+     
         const formData = new FormData();
         let imageIdS = [];
     
@@ -154,31 +154,17 @@ const CreatePropertyForm = () => {
             transaction_type_id: transactionTypesId[accion],
         };
     
-        // Convertir sale_price a número si es necesario
+    
         if (typeof updatedData["sale_price"] === "string") {
             updatedData["sale_price"] = Number(updatedData["sale_price"].replace(/,/g, ""));
         } else {
             updatedData["sale_price"] = Number(updatedData["sale_price"]) || 0;
         }
     
-        // Preparar el payload para enviar
-        const payload = {
-            data: {
-                ...updatedData,
-                images: imageIdS, // Añadir los IDs de las imágenes
-            },
-        };
+  
+ 
     
-        // Mostrar solo los datos enviados en el payload
-        console.log("Datos enviados al backend:", payload.data);
-    
-        // Enviar el payload al backend
-        try {
-            const response = await axios.post("properties", payload);
-            console.log("Respuesta del backend:", response.data);
-        } catch (error) {
-            console.log("Error al publicar la propiedad:", error);
-        }
+     
     };
     
     
