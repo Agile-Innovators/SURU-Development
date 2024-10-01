@@ -1,6 +1,6 @@
-import { AvailableServices } from "../../components/activity/AvailableServices.jsx";
-import { CTAForm } from "../../components/ui/CTAForm.jsx";
-import { BackButton } from "../../components/ui/BackButton.jsx";
+import { AvailableServices } from "../../components/activity/partners_components/AvailableServices.jsx";
+import { CTAForm } from "../../components/ui/navigation/JoinSuruCTA.jsx";
+import { BackButton } from "../../components/ui/buttons/BackButton.jsx";
 
 export function Partners() {
   return (

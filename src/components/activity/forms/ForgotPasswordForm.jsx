@@ -1,6 +1,6 @@
-import { Input } from "../../ui/Input.jsx";
-import { TextLink } from "../../ui/TextLink.jsx";
-import { MainButton } from "../../ui/MainButton.jsx";
+import { Input } from "../../ui/forms/Input.jsx";
+import { TextLink } from "../../ui/navigation/TextLink.jsx";
+import { MainButton } from "../../ui/buttons/MainButton.jsx";
 import { ROUTE_PATHS } from "../../../routes/index.js";
 
 export function ForgotPasswordForm(){

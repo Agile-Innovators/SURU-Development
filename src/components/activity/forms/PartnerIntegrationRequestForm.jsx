@@ -1,5 +1,5 @@
-import { InputForms } from "../../ui/InputForms";
-import { MainButton } from "../../ui/MainButton";
+import { InputForms } from "../../ui/forms/InputForms";
+import { MainButton } from "../../ui/buttons/MainButton";
 export function PartnerIntegrationRequestForm() {
   return (
     <form action="" className="flex flex-col w-full gap-2">

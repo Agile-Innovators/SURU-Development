@@ -19,3 +19,13 @@
 body{
     background-color: '#F8F8F8';
 }
+
+.swiper-pagination-bullet {
+    background-color: white !important; 
+    opacity: 0.2;
+  }
+  
+  .swiper-pagination-bullet-active {
+    background-color: white !important; 
+    opacity: 1;
+  }

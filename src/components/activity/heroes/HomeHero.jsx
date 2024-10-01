@@ -1,16 +1,17 @@
-import { MainButton } from "../ui/MainButton";
+import { MainButton } from "../../ui/buttons/MainButton";
+import { ROUTE_PATHS } from "../../../routes/index.js";
 
-export function HeaderHome() {
+export function HomeHero() {
   return (
     <div className="w-full text-center flex flex-col md:flex-row md:text-start mt-10 gap-6">
       <section className="flex flex-col justify-center gap-4 w-full">
         <h1>Find Your Dream Property</h1>
         <p>Explore, buy, sell or rent properties seamlessly and find exactly what you&apos;re looking for all in one place.</p>
         <MainButton
-          type="button"
+          type="link"
           text={"Discover Now"}
           customClass="w-fit m-auto md:m-0"
-          href={"#"}
+          to={ROUTE_PATHS.SEARCH}
         />
       </section>
       <div className="flex items-center w-full">

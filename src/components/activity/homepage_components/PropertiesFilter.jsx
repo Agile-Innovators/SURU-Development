@@ -1,13 +1,12 @@
 import { useContext } from "react";
-import { AdvancedCard } from "../../components/ui/AdvancedCard";
+import { AdvancedCard } from "../../ui/cards/AdvancedCard.jsx";
 import { Divider } from "@mui/joy";
-import React from "react";
-import { MainButton } from "./../../components/ui/MainButton";
-import { ROUTE_PATHS } from "../../routes/index.js";
+import { MainButton } from "../../ui/buttons/MainButton.jsx";
+import { ROUTE_PATHS } from "../../../routes/index.js";
 import { useNavigate } from "react-router-dom";
-import { useFetchRegions } from "../hooks/useFetchRegions.js";
-import { useFetchPropertyCategories } from "../hooks/useFetchPropertyCategories.js";
-import { globalProvider } from "../../global/GlobalProvider.jsx";
+import { useFetchRegions } from "../../hooks/useFetchRegions.js";
+import { useFetchPropertyCategories } from "../../hooks/useFetchPropertyCategories.js";
+import { globalProvider } from "../../../global/GlobalProvider.jsx";
 
 export function PropertiesFilter() {
     const {
@@ -194,13 +193,13 @@ export function PropertiesFilter() {
                             type="link"
                             customClass="p-3 w-full lg:w-fit"
                             variant="border"
-                            to={ROUTE_PATHS.NOT_FOUND}
+                            to={ROUTE_PATHS.PROPERTY_DETAILS}
                         />
                         <MainButton
                             text="Search"
                             type="submit"
                             customClass="p-3 w-full lg:w-fit"
-                            to={ROUTE_PATHS.NOT_FOUND}
+                            to={ROUTE_PATHS.PROPERTY_DETAILS}
                         />
                     </div>
 
@@ -221,7 +220,7 @@ export function PropertiesFilter() {
                             text="View"
                             variant="border"
                             type="link"
-                            to={ROUTE_PATHS.NOT_FOUND}
+                            to={ROUTE_PATHS.PROPERTY_DETAILS}
                         />
                     </AdvancedCard>
                 ))}

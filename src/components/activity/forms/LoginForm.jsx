@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAxios } from '../../../components/hooks/useAxios.js';
 import { useAuth } from '../../../global/AuthProvider.jsx';
-import { Input } from "../../ui/Input.jsx";
-import { CheckBox } from "../../ui/CheckBox.jsx";
-import { TextLink } from "../../ui/TextLink.jsx";
-import { MainButton } from "../../ui/MainButton.jsx";
+import { Input } from "../../ui/forms/Input.jsx";
+import { CheckBox } from "../../ui/forms/CheckBox.jsx";
+import { TextLink } from "../../ui/navigation/TextLink.jsx";
+import { MainButton } from "../../ui/buttons/MainButton.jsx";
 import { ROUTE_PATHS } from "../../../routes/index.js";
 
 export function LoginForm() {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -23,16 +23,16 @@ export function LoginForm() {
         setError('');
 
         const data = {
-            identifier: username,
+            email: email,
             password
         };
 
         try {
-            const response = await axios.post('/auth/local/', data); 
-            const { jwt } = response.data;  
-            saveAuthToken(jwt);
-            console.log('Login successful:', jwt);
-            navigate('/suru/prueba');
+            const response = await axios.post('/login', data); 
+            const { token, user } = response.data;  
+            saveAuthToken(token, user);
+            console.log('Login successful:', token, user);
+            navigate('/suru/homepage');
         } catch (err) {
             setError(err.response.data.error.message);
             console.error('Login error:', err);
@@ -50,13 +50,13 @@ export function LoginForm() {
 
             <div className="grid gap-4 my-4">
                 <Input 
-                    type="text" 
-                    label="Username" 
-                    inputName="username" 
-                    inputId="username" 
-                    labelText="Username"
-                    value={username}  
-                    onChange={(e) => setUsername(e.target.value)} 
+                    type="email" 
+                    label="Email" 
+                    inputName="email" 
+                    inputId="email" 
+                    labelText="Email"
+                    value={email}  
+                    onChange={(e) => setEmail(e.target.value)} 
                 />
                 <Input 
                     type="password" 

@@ -1,15 +1,16 @@
 import React from "react";
-import SectionDivider from "../../ui/SectionDivider";
-import BaseFormsInfo from "../../ui/BaseFormsInfo";
-import { InputForms } from "../../ui/InputForms";
-import { MainButton } from "../../ui/MainButton";
-import PriceDetails from "../../ui/PriceDetails";
+import SectionDivider from "../../ui/layout/SectionDivider";
+import BaseFormsInfo from "../pricing/BaseFormsInfo";
+import { InputForms } from "../../ui/forms/InputForms";
+import { MainButton } from "../../ui/buttons/MainButton";
+import PriceDetailsSelector from "../pricing/PriceDetailsSelector";
+import BooleanInput from "../../ui/forms/BooleanInput";
 
 const HDSForm = ({ accion, services, toggleService, fillData }) => {
   return (
     <div>
       <SectionDivider text="House details" />
-      <BaseFormsInfo fillData={fillData}/>
+      <BaseFormsInfo fillData={fillData} />
       <div className="grid grid-cols-2 gap-4 my-4">
         <InputForms
           inputName="bedrooms"
@@ -39,21 +40,21 @@ const HDSForm = ({ accion, services, toggleService, fillData }) => {
           labelText="Pools"
           onChange={(value) => fillData('pools', value)}
         />
-        <InputForms
+        <BooleanInput
           inputName="Pets"
           inputId="Pets"
           type="boolean"
           labelText="Pets"
           onChange={(value) => fillData('pets_allowed', value)}
         />
-        <InputForms
+        <BooleanInput
           inputName="GreenArea"
           inputId="GreenArea"
           type="boolean"
           labelText="Green Area"
           onChange={(value) => fillData('green_area', value)}
         />
-        <InputForms
+        <BooleanInput
           inputName="garages"
           inputId="garages"
           type="number"
@@ -76,7 +77,10 @@ const HDSForm = ({ accion, services, toggleService, fillData }) => {
             {["water", "electricity", "wifi", "cable"].map((service) => (
               <MainButton
                 key={service}
-                onClick={() => toggleService(service)}
+                onClick={() => {
+                  toggleService(service); 
+                  fillData(service, !services[service]); 
+                }}
                 type="boolean"
                 variant="border"
                 isChecked={services[service]}
@@ -87,17 +91,7 @@ const HDSForm = ({ accion, services, toggleService, fillData }) => {
           </div>
         </>
       )}
-      {accion === "sale" && <PriceDetails type="Sale" fillData={fillData}/>}
-      {accion === "rent" && <PriceDetails type="Rent" fillData={fillData}/>}
-      {accion === "both" && <PriceDetails type="Both" fillData={fillData}/>}
-      {/* <MainButton
-        text="Publish"
-        onClick={handleSubmit}
-        type="submit"
-        disabled={loading}
-      >
-        {loading ? "Publishing..." : "Publish Property"}
-      </MainButton> */}
+      <PriceDetailsSelector accion={accion} fillData={fillData} />
     </div>
   );
 };

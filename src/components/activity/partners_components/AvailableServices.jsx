@@ -1,4 +1,4 @@
-import { BasicCard } from "../ui/BasicCard.jsx";
+import { BasicCard } from "../../ui/cards/BasicCard.jsx";
 import {
     Fence,
     Cctv,

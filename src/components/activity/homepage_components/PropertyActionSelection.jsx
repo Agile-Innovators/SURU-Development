@@ -1,6 +1,6 @@
-import { ROUTE_PATHS } from "../../routes/index.js";
-import { BasicCard } from "../ui/BasicCard.jsx";
-import { MainButton } from "../ui/MainButton.jsx";
+import { ROUTE_PATHS } from "../../../routes/index.js";
+import { BasicCard } from "../../ui/cards/BasicCard.jsx";
+import { MainButton } from "../../ui/buttons/MainButton.jsx";
 
 export function PropertyActionSelection() {
   return (
@@ -20,7 +20,7 @@ export function PropertyActionSelection() {
             text="Explore Properties 🡥"
             variant="border"
             type="link"
-            to={ROUTE_PATHS.NOT_FOUND}
+            to={ROUTE_PATHS.SEARCH}
           />
         </BasicCard>
         <BasicCard
@@ -33,7 +33,7 @@ export function PropertyActionSelection() {
             text="Publish a Property 🡥"
             variant="border"
             type="link"
-            to={ROUTE_PATHS.NOT_FOUND}
+            to={ROUTE_PATHS.CREATE_PROPERTY}
           />
         </BasicCard>
         <BasicCard
@@ -46,7 +46,7 @@ export function PropertyActionSelection() {
             text="Find Options 🡥"
             variant="border"
             type="link"
-            to={ROUTE_PATHS.NOT_FOUND}
+            to={ROUTE_PATHS.SEARCH}
           />
         </BasicCard>
       </div>
