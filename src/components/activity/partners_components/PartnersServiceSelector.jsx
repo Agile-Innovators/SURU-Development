@@ -43,14 +43,14 @@ export function PartnersServiceSelector() {
         <div className="py-20 bg-white">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:text-center">
-                    <h3 className="text-base font-semibold leading-7 text-indigo-600">Complementary Services</h3>
-                    <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary sm:text-4xl">How does it work</h2>
-                    <p className="mt-6 text-lg leading-8 text-gray-600">Quis tellus eget adipiscing convallis sit sit eget aliquet quis. Suspendisse eget egestas a elementum pulvinar et feugiat blandit at. In mi viverra elit nunc.</p>
+                    <h3 className="text-base font-semibold leading-7 text-light-blue">Services Categories</h3>
+                    <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary sm:text-4xl">Partner With Us</h2>
+                    <p className="mt-6 text-lg leading-8 text-gray-600">Join our platform and offer your services to a broad audience. Affiliated businesses gain visibility and access to potential clients looking for trusted solutions.</p>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center items-center pt-6">
                     {ExtraServiceCategories.map((ExtraServiceCategory, index) => (
                         <BasicCard
-                            key={index} // Agregamos la key única aquí
+                            key={index} 
                             src={ExtraServiceCategory.image}
                             title={ExtraServiceCategory.title}
                             text="10 options"
