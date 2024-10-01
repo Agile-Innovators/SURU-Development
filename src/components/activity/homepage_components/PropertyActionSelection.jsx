@@ -20,7 +20,7 @@ export function PropertyActionSelection() {
             text="Explore Properties 🡥"
             variant="border"
             type="link"
-            to={ROUTE_PATHS.NOT_FOUND}
+            to={ROUTE_PATHS.SEARCH}
           />
         </BasicCard>
         <BasicCard
@@ -33,7 +33,7 @@ export function PropertyActionSelection() {
             text="Publish a Property 🡥"
             variant="border"
             type="link"
-            to={ROUTE_PATHS.NOT_FOUND}
+            to={ROUTE_PATHS.CREATE_PROPERTY}
           />
         </BasicCard>
         <BasicCard
@@ -46,7 +46,7 @@ export function PropertyActionSelection() {
             text="Find Options 🡥"
             variant="border"
             type="link"
-            to={ROUTE_PATHS.NOT_FOUND}
+            to={ROUTE_PATHS.SEARCH}
           />
         </BasicCard>
       </div>

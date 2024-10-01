@@ -1,6 +1,5 @@
 import { ArrowDown } from 'lucide-react';
 import { useState } from "react";
-import * as React from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -45,33 +44,33 @@ export function FAQSection() {
         <div className="py-20 bg-white">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:text-center">
-                    <h3 className="text-base font-semibold leading-7 text-indigo-600">Complementary Services</h3>
+                    <h3 className="text-base font-semibold leading-7 text-light-blue">Complementary Services</h3>
                     <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary sm:text-4xl">Frequenly Asked Question</h2>
                     <p className="mt-6 text-lg leading-8 text-gray-600">
                         At SURU, we offer a variety of services to cover all your real estate needs.
                         From moving assistance to legal advice, our trusted partners are ready to help.
-                        Below, you'll find answers to common questions about our complementary services.
+                        Below, you&apos;ll find answers to common questions about our complementary services.
                         Feel free to reach out with any additional questions!
                     </p>
                 </div>
                 {/* Botones para cambiar la opción seleccionada */}
-                <div className="flex w-fit grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] m-auto justify-center my-4 rounded-lg sm:rounded-lg overflow-hidden">
+                <div className="flex flex-wrap w-fit grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] m-auto justify-center my-4 rounded-lg sm:rounded-lg overflow-hidden">
                     <button
                         onClick={() => setSelectedOption(1)}
-                        className={(selectedOption === 1 ? 'bg-indigo-300 text-primary px-4 py-2' : 'px-4 py-2 bg-indigo-600 text-white')}
+                        className={(selectedOption === 1 ? 'bg-light-blue text-white px-4 py-2' : 'px-4 py-2 bg-cyan-200/75 text-secondary/70')}
 
                     >
                         Businesses
                     </button>
                     <button
                         onClick={() => setSelectedOption(2)}
-                        className={(selectedOption === 2 ? 'bg-indigo-300 text-primary px-4 py-2' : 'px-4 py-2 bg-indigo-600 text-white')}
+                        className={(selectedOption === 2 ? 'bg-light-blue text-white px-4 py-2' : 'px-4 py-2 bg-cyan-200/75 text-secondary/70')}
                     >
                         Buyers/Renters
                     </button>
                     <button
                         onClick={() => setSelectedOption(3)}
-                        className={(selectedOption === 3 ? 'bg-indigo-300 text-primary px-4 py-2' : 'px-4 py-2 bg-indigo-600 text-white')}
+                        className={(selectedOption === 3 ? 'bg-light-blue text-white px-4 py-2' : 'px-4 py-2 bg-cyan-200/75 text-secondary/70')}
                     >
                         Sellers/Landlords
                     </button>

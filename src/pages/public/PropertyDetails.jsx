@@ -40,12 +40,12 @@ export function PropertyDetails() {
                     </SwiperSlide>
                 ))}
             </Swiper>
-            <div class="grid grid-cols-[1fr] sm:grid-cols-[2fr_1fr] gap-4 mt-4">
-                <div class="flex flex-col gap-2">
+            <div className="grid grid-cols-[1fr] sm:grid-cols-[2fr_1fr] gap-4 mt-6">
+                <div className="flex flex-col gap-2">
                     <h2>Sunnyview House</h2>
                     <div className="flex">
                         <MapPin />
-                        <h4>Costa Rica, Alajuela, La Fortuna.</h4>
+                        <h4 className='font-medium text-md'>Costa Rica, Alajuela, La Fortuna.</h4>
                     </div>
                     <p>
                         This charming home is nestled in a peaceful neighborhood in La Fortuna,
@@ -116,14 +116,14 @@ export function PropertyDetails() {
                             </div>
                         </div>
                     </div>
-                    <div className='flex flex-col gap-1 mt-2'>
+                    <div className='flex flex-col gap-1 mt-5'>
                         <h3>Property Details</h3>
                         <p><b>Availability Date:</b> June 13, 2024.</p>
                         <p><b>Specific Direction:</b> 175 meters north of Tierra Mia Restaurant, near Arenal Volcano National Park.</p>
                     </div>
                 </div>
                 <div className='flex flex-col gap-4'>
-                    <div class="flex flex-col border-2 gap-2 rounded-md p-4">
+                    <div className="flex flex-col border-2 gap-2 rounded-md p-4">
                         <h3>Pricing details</h3>
                         <div className='flex justify-between'>
                             <p>Rental Payment</p>
@@ -133,12 +133,12 @@ export function PropertyDetails() {
                             <p>Security Deposit:</p>
                             <p className="font-medium">$ 200,000</p>
                         </div>
-                        <MainButton text='Scheduled a visit' variant="border" />
+                        <MainButton text='Scheduled a visit' variant="border" customClass='mt-4' />
                         <MainButton text='Get Property' />
                     </div>
-                    <div class="flex flex-col border-2 rounded-md p-4 gap-2">
+                    <div className="flex flex-col border-2 rounded-md p-4 gap-2">
                         <h3>Included Utilities</h3>
-                        <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+                        <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-2'>
                             <div className='flex flex-col items-center gap-2'>
                                 <Droplet />
                                 <p>Water</p>
@@ -159,15 +159,17 @@ export function PropertyDetails() {
                     </div>
                 </div>
             </div>
-            <div className='flex sm:sm:w-1/3 justify-between border-2 rounded-lg p-4 mt-10'>
-                <div className='w-1/2 '>
-                    <img src="https://picsum.photos/id/77/450/300" alt="" className='rounded-lg aspect-square sm:aspect-auto' />
+
+
+            <div className='flex gap-4 justify-between w-fit border-2 rounded-lg p-4 mt-10'>
+                <div className='w-[10rem] overflow-hidden rounded-lg'>
+                    <img src="https://picsum.photos/id/77/450/300" alt="" className='w-full object-cover h-full' />
                 </div>
-                <div className='w-1/2 pl-4 flex flex-col justify-center'>
+                <section>
                     <h6 className='text-lg font-semibold'>Owner Information</h6>
                     <p className='text-gray-600'>Karla Marín Arias</p>
-                    <MainButton text='Contact' variant="border" customClass='px-4 py-2 text-sm ' />
-                </div>
+                    <MainButton text='Contact' variant="border" customClass='px-2 py-1 text-sm mt-3' />
+                </section>
             </div>
             <div className='mt-10'>
                 <h2>Propeties availables in the same area</h2>

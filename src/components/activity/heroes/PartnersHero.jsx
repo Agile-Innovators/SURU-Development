@@ -7,7 +7,7 @@ export function PartnersHero(){
           <div className="flex flex-col justify-center items-center text-center px-6 py-12 max-w-3xl ">
             <h1 className="text-5xl font-bold mb-4 text-white">Know Our Partners</h1>
             <p className="text-xl mb-8 text-white">Our trusted partners offer top-tier services, making buying, selling, and renting easier for our community.</p>
-            <MainButton to="/partners" type="button" text="View all" variant="border" customClass="border-white text-white hover:bg-white hover:text-black p-4"></MainButton>
+            <MainButton to="/partners" type="button" text="View all" variant="border" customClass="border-white text-white hover:bg-white/[.35] hover:border-white/[.35] p-4"/>
           </div>
         </div>
       </header>
