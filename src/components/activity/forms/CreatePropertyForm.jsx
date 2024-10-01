@@ -1,8 +1,9 @@
+// CreatePropertyForm.jsx
+
 import { X, House, Hotel, Warehouse, Store, Fence } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import SectionDivider from "../../ui/layout/SectionDivider";
 import { MainButton } from "../../ui/buttons/MainButton";
-import { useFetchData } from "../../hooks/useFetchData";
 import { IconTextButton } from "../../ui/buttons/IconTextButton";
 import HDSForm from "./HDSForm";
 import BareLandForm from "./BareLandForm";
@@ -37,20 +38,26 @@ const CreatePropertyForm = () => {
     both: 3,
   };
 
-  const { sendData, loading, error } = useFetchData();
+  const serviceIds = {
+    availableWater: 1,
+    water: 2,
+    availableElectricity: 3,
+    electricity: 4,
+    wifi: 5,
+    cable: 6,
+  };
 
   const toggleService = (service) => {
     setServices((prevState) => {
       const newState = { ...prevState, [service]: !prevState[service] };
       console.log(
-        `toggleService called for service: "${service}", new state: ${newState[service]}`
+        `toggleService llamado para servicio: "${service}", nuevo estado: ${newState[service]}`
       );
 
       if (service === "availableWater" && !newState.availableWater) {
         newState.water = false;
-        handleInputChange("water", false);
         console.log(
-          `Available service 'availableWater' deactivated, removing 'water' from data`
+          `Servicio disponible 'availableWater' desactivado, removiendo 'water' de los datos`
         );
       }
 
@@ -61,11 +68,8 @@ const CreatePropertyForm = () => {
         newState.electricity = false;
         newState.wifi = false;
         newState.cable = false;
-        handleInputChange("electricity", false);
-        handleInputChange("wifi", false);
-        handleInputChange("cable", false);
         console.log(
-          `Available service 'availableElectricity' deactivated, removing 'electricity', 'wifi', 'cable' from data`
+          `Servicio disponible 'availableElectricity' desactivado, removiendo 'electricity', 'wifi', 'cable' de los datos`
         );
       }
 
@@ -109,10 +113,11 @@ const CreatePropertyForm = () => {
     });
 
     setImages(newImages);
-    // Agregar imágenes al estado 'data'
-    handleInputChange("images", newImages); // Aquí se añade
+    // Considerar eliminar esta línea si las imágenes se manejan por separado
+    // handleInputChange("images", newImages);
     event.target.value = "";
   };
+
   const removeImage = (index) => {
     const newImages = images.filter((_, i) => i !== index);
     const newPreviews = imagePreviews.filter((_, i) => i !== index);
@@ -123,77 +128,86 @@ const CreatePropertyForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Verificar el estado de `data` antes de actualizarlo
     console.log("Estado actual de 'data':", data);
 
-    // Actualizar el objeto `data` con los IDs correctos según el tipo de propiedad y transacción
     const updatedData = {
-        ...data,
-        property_category_id: propertyCategoriesId[tipoPropiedad], // Obtenemos el ID correspondiente
-        transaction_type_id: transactionTypesId[accion], // Obtenemos el ID de transacción
+      ...data,
+      property_category_id: propertyCategoriesId[tipoPropiedad],
+      transaction_type_id: transactionTypesId[accion],
     };
 
-    // Mostrar los datos actualizados en la consola antes de enviarlos
     console.log("Datos actualizados a enviar:", updatedData);
 
-    // Preparar el objeto FormData para subir las imágenes
+    // Recolectar los IDs de los servicios seleccionados
+    const utilities = Object.keys(services)
+      .filter((service) => services[service] && !service.startsWith("available"))
+      .map((service) => serviceIds[service]);
+
+    console.log("Utilities IDs to send:", utilities);
+
+    const finalData = {
+      ...updatedData,
+      utilities: utilities,
+    };
+
+    // Preparar FormData para subir imágenes
     const formData = new FormData();
     let imageIdS = [];
 
-    // Añadir las imágenes al FormData
     images.forEach((image) => {
-        formData.append("files", image);
+      formData.append("files", image);
     });
 
-    // Realizar la subida de imágenes
+    // Subir imágenes
     try {
-        const response = await axios.post("upload", formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        });
+      const response = await axios.post("upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-        // Obtener los IDs de las imágenes subidas
-        imageIdS = response.data.map((image) => image.id);
+      imageIdS = response.data.map((image) => image.id);
 
-        // Limpiar el estado de imágenes y vistas previas tras la subida exitosa
-        setImages([]);
-        setImagePreviews([]);
+      setImages([]);
+      setImagePreviews([]);
 
-        // Mostrar los IDs de las imágenes subidas en la consola
-        console.log("IDs de las imágenes subidas:", imageIdS);
-
+      console.log("IDs de las imágenes subidas:", imageIdS);
     } catch (error) {
-        // Manejo de errores durante la subida de imágenes
-        console.error("Error al subir archivos:", error.response?.data || error.message);
-        return; // Detener la ejecución si hay un error en la subida de imágenes
+      console.error(
+        "Error al subir archivos:",
+        error.response?.data || error.message
+      );
+      return;
     }
 
-    // Preparar el objeto final que será enviado junto con los IDs de las imágenes
-    const finalData = {
-        ...updatedData,
-        images: imageIdS, // Incluir los IDs de las imágenes subidas
-    };
+    // Incluir los IDs de las imágenes en finalData
+    finalData.images = imageIdS;
 
-    // Mostrar los datos finales en la consola antes de enviarlos
     console.log("Datos finales que serán enviados:", finalData);
+
+    // Obtener el token de autenticación si es necesario
+    const token = "tu-token-aquí"; // Reemplaza esto con la forma correcta de obtener el token
 
     // Enviar los datos usando Axios
     try {
-        const result = await axios.post("tu-endpoint-para-enviar-datos", finalData, {
-            headers: {
-                "Authorization": `Bearer ${token}`, // Si usas autenticación, añade el token aquí
-            },
-        });
+      const result = await axios.post(
+        "tu-endpoint-para-enviar-datos",
+        finalData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Si usas autenticación, añade el token aquí
+          },
+        }
+      );
 
-        // Mostrar la respuesta del servidor
-        console.log("Datos enviados con éxito:", result.data);
-
+      console.log("Datos enviados con éxito:", result.data);
     } catch (error) {
-        // Manejo de errores durante el envío de datos
-        console.error("Error al enviar datos:", error.response?.data || error.message);
+      console.error(
+        "Error al enviar datos:",
+        error.response?.data || error.message
+      );
     }
-};
+  };
 
   const renderFormulario = () => {
     if (!tipoPropiedad || !accion) return null;
@@ -295,13 +309,13 @@ const CreatePropertyForm = () => {
                 text="Publish"
                 type="submit"
                 variant="fill"
-                disabled={loading}
+                disabled={false} // Aquí puedes gestionar el estado de loading si lo deseas
                 customClass="mt-4"
               >
-                {loading ? "Publishing..." : "Publish Property"}
+                Publish Property
               </MainButton>
             </form>
-            {error && <p>Error: {error.message}</p>}
+            {/* {error && <p>Error: {error.message}</p>} */}
           </div>
 
           <div>

@@ -1,3 +1,5 @@
+// InputForms.jsx
+
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -17,7 +19,10 @@ export function InputForms({
   const commonClasses = `border border-light-grey bg-transparent rounded-md px-4 py-3 mt-2 focus:outline-light-blue ${customClass}`;
 
   const handleInputChange = (e) => {
-    const value = e.target.value;
+    let value = e.target.value;
+    if (type === 'number') {
+      value = value === '' ? '' : Number(value);
+    }
     setInputValue(value);
     if (onChange) {
       onChange(value);
@@ -64,6 +69,7 @@ InputForms.propTypes = {
   labelText: PropTypes.string,
   required: PropTypes.bool,
   customClass: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 export default InputForms;

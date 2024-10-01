@@ -1,3 +1,5 @@
+// IconTextButton.jsx
+
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
@@ -31,7 +33,9 @@ export function IconTextButton({
             {icon}
           </div>
         )}
-        <span className={`transition-colors duration-150 text-center ${textColorClass}`}>
+        <span
+          className={`transition-colors duration-150 text-center ${textColorClass}`}
+        >
           {text}
         </span>
       </div>
@@ -52,7 +56,12 @@ export function IconTextButton({
     );
   } else if (type === "external") {
     return (
-      <a href={to} className={commonClasses} target="_blank" rel="noopener noreferrer">
+      <a
+        href={to}
+        className={commonClasses}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         {renderContent()}
       </a>
     );
@@ -81,7 +90,8 @@ export function IconTextButton({
 IconTextButton.propTypes = {
   text: PropTypes.string.isRequired,
   to: PropTypes.string,
-  type: PropTypes.oneOf(["button", "link", "external", "submit", "boolean"]).isRequired,
+  type: PropTypes.oneOf(["button", "link", "external", "submit", "boolean"])
+    .isRequired,
   variant: PropTypes.oneOf(["fill", "border"]),
   customClass: PropTypes.string,
   icon: PropTypes.element,

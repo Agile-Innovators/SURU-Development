@@ -1,3 +1,5 @@
+// TimeframeInput.jsx
+
 import PropTypes from 'prop-types';
 
 export function TimeframeInput({
@@ -44,6 +46,7 @@ TimeframeInput.propTypes = {
   labelText: PropTypes.string,
   required: PropTypes.bool,
   customClass: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 export default TimeframeInput;
