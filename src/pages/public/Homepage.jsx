@@ -2,7 +2,7 @@ import { PropertiesFilter } from "../../components/activity/homepage_components/
 import { HomeHero } from "../../components/activity/heroes/HomeHero.jsx";
 import { PropertyActionSelection } from "../../components/activity/homepage_components/PropertyActionSelection.jsx";
 import { AboutUs } from "../../components/activity/homepage_components/AboutUs.jsx";
-import { MainButton } from "./../../components/ui/buttons/MainButton";
+
 const partners = [
     {
         name: "ClearPath Solutions",
