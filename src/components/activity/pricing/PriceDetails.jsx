@@ -9,7 +9,7 @@ const PriceDetails = ({ type, fillData }) => {
     <div>
       <SectionDivider text="Price details" />
       {type === "Rent" ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+        <div className="grid grid-cols-1 sm:grid-cols-1 xl:grid-cols-2 gap-4 my-4">
           <PriceInput
             inputName="Rent"
             inputId="Rent"
@@ -40,7 +40,7 @@ const PriceDetails = ({ type, fillData }) => {
           onChange={(value) => fillData('sale_price', value.price, value.currency)}
         />
       ) : type === "Both" ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+        <div className="grid sm:grid-cols-1 xl:grid-cols-2 gap-4 my-4">
           <PriceInput
             inputName="Rent"
             inputId="Rent"

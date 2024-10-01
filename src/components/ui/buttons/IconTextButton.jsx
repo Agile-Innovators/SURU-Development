@@ -12,18 +12,28 @@ export function IconTextButton({
   isChecked = false,
 }) {
   const variantClasses = {
-    fill: "bg-secondary text-white hover:bg-light-blue hover:text-white",
-    border: "text-secondary border-2 border-secondary hover:bg-secondary hover:text-white",
+    fill: "bg-secondary text-white hover:bg-light-blue md:text-sm",
+    border: "border-2 border-secondary text-secondary hover:bg-secondary md:text-sm",
   };
 
-  const commonClasses = `flex items-start px-8 py-3 rounded-md transition-colors duration-150 cursor-pointer ${variantClasses[variant]} ${customClass}`;
+  // Clase común para el color del texto e icono, incluyendo el hover
+  const textColorClass = `transition-colors duration-150 ${
+    variant === "fill" ? "text-white" : "text-secondary"
+  } group-hover:text-white`;
+
+  const commonClasses = `group flex flex-col xl:px-8 py-2 xl:py-3 px-2 py-2 rounded-md transition-colors duration-150 cursor-pointer ${variantClasses[variant]} ${customClass}`;
 
   const renderContent = () => {
-    const textClass = variant === "fill" ? "text-white" : "text-secondary"; // Cambia el color del texto según el variant
     return (
-      <div className="flex flex-col items-start">
-        {icon && <div className={`${textClass}`}>{icon}</div>} {/* Aplica el color al icono */}
-        <span className={`${textClass} mt-1`}>{text}</span> {/* Aplica el color al texto */}
+      <div className="flex flex-col space-y-1">
+        {icon && (
+          <div className={`transition-colors duration-150 ${textColorClass}`}>
+            {icon}
+          </div>
+        )}
+        <span className={`transition-colors duration-150 text-center ${textColorClass}`}>
+          {text}
+        </span>
       </div>
     );
   };
@@ -55,12 +65,12 @@ export function IconTextButton({
   } else if (type === "boolean") {
     const booleanVariant = isChecked ? "fill" : "border";
     return (
-      <button 
-        className={`${commonClasses} ${variantClasses[booleanVariant]}`} 
+      <button
+        className={`${commonClasses} ${variantClasses[booleanVariant]}`}
         onClick={onClick}
         type="button"
       >
-        {renderContent()}  
+        {renderContent()}
       </button>
     );
   }
@@ -70,7 +80,7 @@ export function IconTextButton({
 
 IconTextButton.propTypes = {
   text: PropTypes.string.isRequired,
-  to: PropTypes.string, 
+  to: PropTypes.string,
   type: PropTypes.oneOf(["button", "link", "external", "submit", "boolean"]).isRequired,
   variant: PropTypes.oneOf(["fill", "border"]),
   customClass: PropTypes.string,
