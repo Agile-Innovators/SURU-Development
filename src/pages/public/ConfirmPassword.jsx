@@ -1,4 +1,4 @@
-import { MainButton } from '../../components/ui/MainButton.jsx';
+import { MainButton } from '../../components/ui/buttons/MainButton.jsx';
 import { ROUTE_PATHS } from '../../routes/index.js';
 import { Check } from 'lucide-react';
 

@@ -1,6 +1,6 @@
-import { AvailableServices } from "../../components/activity/AvailableServices.jsx";
-import { CTAForm } from "../../components/ui/CTAForm.jsx";
-import { BackButton } from "../../components/ui/BackButton.jsx";
+import { AvailableServices } from "../../components/activity/partners_components/AvailableServices.jsx";
+import { CTAForm } from "../../components/ui/navigation/JoinSuruCTA.jsx";
+import { BackButton } from "../../components/ui/buttons/BackButton.jsx";
 
 export function Partners() {
   return (
@@ -14,7 +14,9 @@ export function Partners() {
           </p>
         </section>
 
+
         <AvailableServices />
+
         <CTAForm
             title="Do you want to be part of the facilitating companies?"
             description="First, you must register on the platform and submit a request to Suru. We&apos;ll explain how!"
@@ -23,10 +25,10 @@ export function Partners() {
             type="link"
             to="/"
         />
-
       </main>
     </div>
   );
 }
 
 export default Partners;
+

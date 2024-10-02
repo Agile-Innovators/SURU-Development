@@ -7,6 +7,15 @@ export const ROUTE_PATHS = {
     EMAIL_SEND: '/email-sent',
     RESET_PASSWORD: '/reset-password',
     CONFIRM_PASSWORD: '/confirm-password',
+    CREATE_PROPERTY: '/create-property',
     PARTNERS: '/partners',
-    NOT_FOUND: '/*'
+    SEARCH: '/search',
+    NOT_FOUND: '/*',
+    PARTNERS_ANGEL: '/partners-angel',
+    PROPERTY_MANAGEMENT: '/property-management',
+    PARTNER_INTEGRATION_REQUEST: '/partner-integration-request',
+    PROPERTY_DETAILS: '/property-details',
+    APPOINTMENTS: '/appointments',
+    REQUEST_APPOINTMENTS: '/request-appointments',
+    USER_PROFILE: '/user-profile',
 }
