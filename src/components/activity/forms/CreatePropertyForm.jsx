@@ -1,4 +1,3 @@
-// CreatePropertyForm.jsx
 
 import { X, House, Hotel, Warehouse, Store, Fence } from "lucide-react";
 import React, { useState } from "react";
