@@ -10,7 +10,7 @@ export function UserProfile() {
     const [password, setPassword] = useState('');
 
     return (
-        <div className="bg-light-grey py-8">
+        <div className="bg-gray-300 p-8">
             <section className="max-w-7xl m-auto">
                 <GeneralInformation />
                 <div className="grid grid-cols-1 gap-5 mt-5 sm:grid-cols-2">
@@ -18,7 +18,7 @@ export function UserProfile() {
                     <UserOperationalHours />
                 </div>
                 <div className="bg-white p-6 mt-5">
-                    <h2>General Information</h2>
+                    <h2 className="text-lg">Change password</h2>
                     <p>
                         You want to change your pass word?{" "}
                         <a href="#" className="text-black">

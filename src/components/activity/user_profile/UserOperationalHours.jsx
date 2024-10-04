@@ -4,7 +4,7 @@ import { OperationalHourSelector } from "../../ui/selector/OperationalHourSelect
 export function UserOperationalHours() {
     return (
         <div className="bg-white p-6">
-            <h2>Operational Hours</h2>
+            <h2 className="text-lg">Operational Hours</h2>
             <p>Choose your prefere hours to receive appointments</p>
             <form className="grid gap-4 mt-4">
                 <div className="grid grid-cols-auto-250 gap-4 sm:grid-cols-1">
