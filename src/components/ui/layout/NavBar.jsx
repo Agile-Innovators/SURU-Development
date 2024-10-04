@@ -107,7 +107,7 @@ export function NavBar() {
                         key={item.name}
                         to={item.href}
                         className={classNames(
-                          item.current
+                          item.current && item.isLogin
                             ? "text-cyan-500 font-semibold"
                             : "text-gray-600 hover:text-light-blue transition duration-200 ease-in-out",
                           item.name === "Log In"
