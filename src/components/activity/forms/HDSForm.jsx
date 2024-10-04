@@ -1,3 +1,5 @@
+// HDSForm.jsx
+
 import React from "react";
 import SectionDivider from "../../ui/layout/SectionDivider";
 import BaseFormsInfo from "../pricing/BaseFormsInfo";
@@ -17,49 +19,56 @@ const HDSForm = ({ accion, services, toggleService, fillData }) => {
           inputId="bedrooms"
           type="number"
           labelText="Bedrooms"
-          onChange={(value) => fillData('bedrooms', value)}
+          onChange={(value) => fillData("bedrooms", value)}
         />
         <InputForms
           inputName="bathrooms"
           inputId="bathrooms"
           type="number"
           labelText="Bathrooms"
-          onChange={(value) => fillData('bathrooms', value)}
+          onChange={(value) => fillData("bathrooms", value)}
         />
         <InputForms
           inputName="floors"
           inputId="floors"
           type="number"
           labelText="Floor"
-          onChange={(value) => fillData('floors', value)}
+          onChange={(value) => fillData("floors", value)}
         />
         <InputForms
           inputName="pools"
           inputId="pools"
           type="number"
           labelText="Pools"
-          onChange={(value) => fillData('pools', value)}
+          onChange={(value) => fillData("pools", value)}
         />
         <BooleanInput
           inputName="Pets"
           inputId="Pets"
           type="boolean"
           labelText="Pets"
-          onChange={(value) => fillData('pets_allowed', value)}
+          onChange={(value) => fillData("pets_allowed", value)}
         />
         <BooleanInput
           inputName="GreenArea"
           inputId="GreenArea"
           type="boolean"
           labelText="Green Area"
-          onChange={(value) => fillData('green_area', value)}
+          onChange={(value) => fillData("green_area", value)}
         />
         <BooleanInput
           inputName="garages"
           inputId="garages"
-          type="number"
+          type="boolean"
           labelText="Garage"
-          onChange={(value) => fillData('garages', value)}
+          onChange={(value) => fillData("garages", value)}
+        />
+        <BooleanInput
+          inputName="Furnished"
+          inputId="Furnished"
+          type="boolean"
+          labelText="Furnished"
+          onChange={(value) => fillData("Furnished", value)}
         />
         <InputForms
           inputName="Size"
@@ -67,7 +76,7 @@ const HDSForm = ({ accion, services, toggleService, fillData }) => {
           type="number"
           labelText="Size"
           placeholder="Property size in square meters"
-          onChange={(value) => fillData('size_in_m2', value)}
+          onChange={(value) => fillData("size_in_m2", value)}
         />
       </div>
       {(accion === "rent" || accion === "both") && (
@@ -77,10 +86,7 @@ const HDSForm = ({ accion, services, toggleService, fillData }) => {
             {["water", "electricity", "wifi", "cable"].map((service) => (
               <MainButton
                 key={service}
-                onClick={() => {
-                  toggleService(service); 
-                  fillData(service, !services[service]); 
-                }}
+                onClick={() => toggleService(service)}
                 type="boolean"
                 variant="border"
                 isChecked={services[service]}

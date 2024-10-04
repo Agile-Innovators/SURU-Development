@@ -15,7 +15,7 @@ export function BackButton() {
         type="button"      
         onClick={goBack}  
         variant="border"
-        customClass="p-2 w-3 text-secondary grid justify-center align-center"
+        customClass="p-[1rem] text-secondary grid justify-center align-center"
         icon={<ChevronLeft />}
       />
       <p className="ml-3 text-secondary font-medium text-lg">Go Back</p>

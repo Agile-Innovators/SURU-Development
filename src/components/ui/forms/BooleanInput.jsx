@@ -1,3 +1,5 @@
+// BooleanInput.jsx
+
 import PropTypes from 'prop-types';
 
 export function BooleanInput({
@@ -12,7 +14,8 @@ export function BooleanInput({
 
   const handleInputChange = (e) => {
     if (onChange) {
-      onChange(e.target.value);
+      const value = e.target.value === "true"; // Convertir a booleano
+      onChange(value);
     }
   };
 
@@ -43,6 +46,7 @@ BooleanInput.propTypes = {
   labelText: PropTypes.string,
   required: PropTypes.bool,
   customClass: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 export default BooleanInput;

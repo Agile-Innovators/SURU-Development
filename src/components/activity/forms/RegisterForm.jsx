@@ -12,13 +12,12 @@ export function RegisterForm() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [user_type_id, setUserTypeId] = useState(2); // Establecer un valor predeterminado
     const [terms, setTerms] = useState(false);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const { saveAuthToken } = useAuth();
     const axios = useAxios();
+    const { login } = useAuth();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -40,15 +39,16 @@ export function RegisterForm() {
         const data = {
             username,
             email,
-            password,
-            user_type_id 
+            password, 
+            user_type_id: 2
         };
 
         try {
             const response = await axios.post('/register', data);
-            const { jwt } = response.data;
-            saveAuthToken(jwt);
-            console.log('Register successful:', jwt);
+            const { token, user } = response.data;  
+            login(token, user);
+            console.log('Login successful:', token, user);
+            navigate(ROUTE_PATHS.HOME);
             navigate('/prueba-registro');
         } catch (err) {
             setError(err.response.data.error.message);
@@ -66,13 +66,6 @@ export function RegisterForm() {
             {error && <div className="error text-red-500 mt-2">{error}</div>}
 
             <div className="grid gap-4 my-4">
-                {/* <Input
-                    type="hidden"
-                    name="user_type_id"
-                    id="user_type_id"
-                    value={2}
-                    onChange={(e) => setUserTypeId(e.target.value)}
-                /> */}
                 <Input
                     type="text"
                     label="Username"
