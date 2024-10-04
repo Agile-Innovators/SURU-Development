@@ -3,7 +3,7 @@ import { AdvancedCard } from "../../ui/cards/AdvancedCard.jsx";
 import { Divider } from "@mui/joy";
 import { MainButton } from "../../ui/buttons/MainButton.jsx";
 import { ROUTE_PATHS } from "../../../routes/index.js";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import { useFetchRegions } from "../../hooks/useFetchRegions.js";
 import { useFetchPropertyCategories } from "../../hooks/useFetchPropertyCategories.js";
 import { globalProvider } from "../../../global/GlobalProvider.jsx";
@@ -15,6 +15,8 @@ export function PropertiesFilter() {
         setMaxPrice,
         setPropertyTypeId,
         setIsFilterUsed,
+        setPropertyID,
+
     } = useContext(globalProvider);
     const navigate = useNavigate();
     const { regions, isLoadingRegions } = useFetchRegions();
@@ -106,6 +108,14 @@ export function PropertiesFilter() {
 
         navigate(ROUTE_PATHS.SEARCH);
     }
+
+    // Por esto
+    const showProperty = (id) => {
+        setPropertyID(id);
+        console.log("ID HOME:", id);
+        navigate(ROUTE_PATHS.PROPERTY_DETAILS);
+    }
+
 
     return (
         <section className="mt-20">
@@ -216,11 +226,12 @@ export function PropertiesFilter() {
                         key={index}
                         customClass={"m-auto"}
                     >
-                        <MainButton
+                        <MainButton 
                             text="View"
                             variant="border"
-                            type="link"
-                            to={ROUTE_PATHS.PROPERTY_DETAILS}
+                            type="button"
+                            id={1} // Aquí pasas el id de la propiedad
+                            onClick={() => showProperty(2)} // Llama a la función con el ID correcto
                         />
                     </AdvancedCard>
                 ))}
