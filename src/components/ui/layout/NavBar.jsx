@@ -37,7 +37,7 @@ const initialNavigation = [
 ];
 
 const userNavigationLinks = [
-  { name: "My account", to: "#", imageRoute: "/public/UserIcon.svg" },
+  { name: "My account", to: ROUTE_PATHS.USER_PROFILE, imageRoute: "/public/UserIcon.svg" },
   {
     name: "My properties",
     to: ROUTE_PATHS.PROPERTY_MANAGEMENT,
@@ -144,7 +144,7 @@ export function NavBar() {
                     <span className="sr-only">Open user menu</span>
                     <img
                       alt="User"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                      src="https://i.pinimg.com/564x/e8/d7/d0/e8d7d05f392d9c2cf0285ce928fb9f4a.jpg"
                       className="h-8 w-8 rounded-full"
                     />
                   </MenuButton>
