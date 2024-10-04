@@ -12,15 +12,22 @@ import { useFetchProperties } from "../../components/hooks/useFetchProperties.js
 export function PropertyManagement() {
     const { properties, isLoadingProps } = useFetchProperties();
     const [propertiesData, setPropertiesData] = useState(properties);
+
+
+
+    
     // const [isPropertyDeleted, setIsPropertyDeleted] = useState(false);
+
+
+
     const axios = useAxios();
     console.log(properties);
-    // useEffect(() => {
-    //     setPropertiesData(properties);
+    //  useEffect(() => {
+    //      setPropertiesData(properties);
 
-    //     console.log("propertiesData");
-    //     console.log("datoss:", propertiesData);
-    // }, [isLoadingProps, properties]);
+    //      console.log("propertiesData");
+    //      console.log("datoss:", propertiesData);
+    //  }, [isLoadingProps, properties]);
 
     const deleteProperty = async (id) => {
         console.log(id);

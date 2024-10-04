@@ -1,34 +1,35 @@
 import { useState, useEffect, useContext } from 'react'
-import { useAxios } from './useAxios'
+import { useAxios } from "../../components/hooks/useAxios.js";
 import { globalProvider } from '../../global/GlobalProvider'
 
 export const useFetchPropertyDetails = () => {
-  const { propertyId } = useContext(globalProvider)
+  const { propertyID } = useContext(globalProvider)
   const [propertyDetails, setPropertyDetails] = useState([])
   const [isLoadingPropsDetails, setIsLoadingPropsDetails] = useState(true);
-  let url;
+  console.log("ID:", propertyID);
+  const axios = useAxios();
 
-  const getData = async (id) => {
+  const getData = async () => {
     try {
-      url = `/properties/property/${propertyId}`
-      const response = await axios.get(url)
-      console.log(response);
-      const data = await response.data;
-      console.log(data);
-      const propertiesDetails = data.data;
-      console.log(propertiesDetails);
-      setPropertyDetails(propertiesDetails)
-      setIsLoadingPropsDetails(false)
+      const url = `/properties/property/1`; // Corrigiendo URL
+      const response = await axios.get(url);
+      
+      const data = response.data;
+      console.log(JSON.stringify(data, null, 2));
+      setPropertyDetails(data);
+    
+      setIsLoadingPropsDetails(false);
     } catch (error) {
-      console.log(error)
-      setIsLoadingPropsDetails(false)
-
+      console.log(error);
+      setIsLoadingPropsDetails(false);
     }
-  }
+  };
 
   useEffect(() => {
-    getData()
-  }, [])
+    if (propertyID) {
+      getData(); 
+    }
+  }, [propertyID]); 
 
   return {
     propertyDetails,
