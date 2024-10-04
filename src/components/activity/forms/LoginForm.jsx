@@ -32,7 +32,7 @@ export function LoginForm() {
             const { token, user } = response.data;  
             saveAuthToken(token, user);
             console.log('Login successful:', token, user);
-            navigate('/suru/homepage');
+            navigate('/homepage');
         } catch (err) {
             setError(err.response.data.error.message);
             console.error('Login error:', err);

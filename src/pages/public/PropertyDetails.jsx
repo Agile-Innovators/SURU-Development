@@ -6,19 +6,21 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import { AdvancedCard } from '../../components/ui/cards/AdvancedCard';
-import { Bath } from 'lucide-react';
-import { MapPin } from 'lucide-react';
-import { BedDouble } from 'lucide-react';
-import { CarFront } from 'lucide-react';
-import { Trees } from 'lucide-react';
-import { PawPrint } from 'lucide-react';
-import { LandPlot, Droplet, Wifi, Zap, Tv } from 'lucide-react';
+import { Bath, MapPin, BedDouble, CarFront, Trees, PawPrint, LandPlot, Droplet, Wifi, Zap, Tv } from 'lucide-react';
 import { ROUTE_PATHS } from '../../routes';
+import { useAxios } from "../../components/hooks/useAxios.js";
 import { MainButton } from '../../components/ui/buttons/MainButton';
 import { BackButton } from '../../components/ui/buttons/BackButton';
-export function PropertyDetails() {
-    return (
+import { useState, useEffect } from "react";
+import { GlobalProvider } from '../../global/GlobalProvider.jsx';
 
+import { useFetchPropertyDetails } from "../../components/hooks/useFetchPropertyDetails.js";
+
+
+export function PropertyDetails() {
+    const { propertyDetails, isLoadingPropsDetails } = useFetchPropertyDetails();    
+    
+    return (
         <div className="mx-auto max-w-7xl px-6 lg:px-8 gap-4 my-4">
             <BackButton />
             <Swiper
