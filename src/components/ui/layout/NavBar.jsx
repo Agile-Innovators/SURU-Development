@@ -1,39 +1,63 @@
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ROUTE_PATHS } from '../../../routes/index.js';
-import { useAuth } from '../../../global/AuthProvider.jsx';
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+  Menu,
+  MenuButton,
+  MenuItems,
+  MenuItem,
+} from "@headlessui/react";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { ROUTE_PATHS } from "../../../routes/index.js";
+import { useAuth } from "../../../global/AuthProvider.jsx";
 
 const initialNavigation = [
-  { name: 'Home', href: ROUTE_PATHS.HOME, current: false, isLogin: true },
-  { name: 'Partners', href: ROUTE_PATHS.PARTNERS_ANGEL, current: false, isLogin: true },
-  { name: 'Search', href: ROUTE_PATHS.SEARCH, current: false, isLogin: true },
-  { name: 'Log In', href: ROUTE_PATHS.LOGIN, current: false, isLogin: false },
-  { name: 'Sign Up', href: ROUTE_PATHS.REGISTER, current: false, isLogin: false },
+  { name: "Home", href: ROUTE_PATHS.HOME, current: false, isLogin: true },
+  {
+    name: "Partners",
+    href: ROUTE_PATHS.PARTNERS_ANGEL,
+    current: false,
+    isLogin: true,
+  },
+  {
+    name: "Explore Properties",
+    href: ROUTE_PATHS.SEARCH,
+    current: false,
+    isLogin: true,
+  },
+  { name: "Log In", href: ROUTE_PATHS.LOGIN, current: false, isLogin: false },
+  {
+    name: "Sign Up",
+    href: ROUTE_PATHS.REGISTER,
+    current: false,
+    isLogin: false,
+  },
 ];
 
 const userNavigationLinks = [
-  { name: 'My account', to: '#', imageRoute: '/public/UserIcon.svg' },
-  { name: 'My properties', to: ROUTE_PATHS.PROPERTY_MANAGEMENT, imageRoute: '/public/PropetiesIcon.svg' },
-  // { name: 'Saved properties', to: '#', imageRoute: '/public/HomeIcon.svg' },
-  // { name: 'My appointments', to: '#', imageRoute: '/public/CalendarIcon.svg' },
-  { name: 'Log out', to: '#', imageRoute: '/public/LogoutIcon.svg' }
+  { name: "My account", to: "#", imageRoute: "/public/UserIcon.svg" },
+  {
+    name: "My properties",
+    to: ROUTE_PATHS.PROPERTY_MANAGEMENT,
+    imageRoute: "/public/PropetiesIcon.svg",
+  },
+  { name: "Log out", to: "#", imageRoute: "/public/LogoutIcon.svg" },
 ];
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(" ");
 }
 
 export function NavBar() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { getUser, getAuthToken } = useAuth();
-  const user = getUser();
-  const authToken = getAuthToken();
+  const { getUser, logout } = useAuth();
+  const user = getUser().user;
+  const authToken = getUser().authToken;
   const [navigation, setNavigation] = useState(initialNavigation);
-  const { saveAuthToken } = useAuth();
-  
+
   useEffect(() => {
     const currentPath = location.pathname;
     setNavigation((prevNavigation) =>
@@ -45,13 +69,15 @@ export function NavBar() {
   }, [location]);
 
   const handleLogout = () => {
-    saveAuthToken(null);
+    logout();
     navigate(ROUTE_PATHS.LOGIN);
   };
 
-
   return (
-    <Disclosure as="nav" className="bg-white border-b-light-grey border-b-2 font-primary">
+    <Disclosure
+      as="nav"
+      className="bg-white border-b border-light-grey font-primary"
+    >
       <div className="mx-auto max-w-7xl px-2 sm:px-0">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -73,30 +99,37 @@ export function NavBar() {
             </div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
-                {navigation.map((item) => (
-                  // Mostrar solo los items de login si item.isLogin es true, o si no está logueado (authToken y user son falsos)
-                  (item.isLogin || (!item.isLogin && !authToken && !user)) && (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className={classNames(
-                        item.current
-                          ? 'bg-light-blue text-white'
-                          : 'text-primary hover:bg-light-blue hover:text-white transition duration-100 ease-in-out transform',
-                        !item.isLogin ? 'bg-indigo-600 text-white' : '', // Color especial si es un link de login
-                        'rounded-md px-3 py-2 text-sm font-medium'
-                      )}
-                    >
-                      {item.name}
-                    </Link>
-                  )
-                ))}
+                {navigation.map(
+                  (item) =>
+                    (item.isLogin ||
+                      (!item.isLogin && !authToken && !user)) && (
+                      <Link
+                        key={item.name}
+                        to={item.href}
+                        className={classNames(
+                          item.current
+                            ? "text-cyan-500 font-semibold"
+                            : "text-gray-600 hover:text-light-blue transition duration-200 ease-in-out",
+                          item.name === "Log In"
+                          ? "bg-light-blue hover:bg-cyan-600/85 border-none text-white hover:text-white" //Login button styles
+                            : item.name === "Sign Up"
+                            ? "bg-none text-gray-600 hover:text-gray-600 bg-gray-300" // Sign Up button styles
+                            : "",
+                          !item.isLogin
+                            ? "rounded-md hover:text-primary"
+                            : "",
+                          "px-4 py-2 text-sm font-medium rounded-md" // Common styles 
+                        )}
+                      >
+                        {item.name}
+                      </Link>
+                    )
+                )}
               </div>
             </div>
           </div>
           {authToken && user && (
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-
               <button
                 type="button"
                 className="relative rounded-full bg-light-grey p-1 text-white hover:bg-light-blue focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 transition duration-300 ease-in-out transform hover:scale-105"
@@ -116,23 +149,34 @@ export function NavBar() {
                     />
                   </MenuButton>
                 </div>
-                <MenuItems
-                  transition
-                  className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-                >
+                <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none">
                   {userNavigationLinks.map((item) => (
-                    <MenuItem key={item.name} className="flex items-center gap-1">
-                      {item.name === 'Log out' ? (
+                    <MenuItem
+                      key={item.name}
+                      className="flex items-center gap-1"
+                    >
+                      {item.name === "Log out" ? (
                         <button
                           onClick={handleLogout}
                           className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-light-blue hover:text-white w-full text-left"
                         >
-                          <img src={item.imageRoute} alt={item.name} className="h-6 w-6 inline mr-2" />
+                          <img
+                            src={item.imageRoute}
+                            alt={item.name}
+                            className="h-6 w-6 inline mr-2"
+                          />
                           {item.name}
                         </button>
                       ) : (
-                        <Link to={item.to} className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-light-blue hover:text-white">
-                          <img src={item.imageRoute} alt={item.name} className="h-6 w-6 inline mr-2" />
+                        <Link
+                          to={item.to}
+                          className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-light-blue hover:text-white"
+                        >
+                          <img
+                            src={item.imageRoute}
+                            alt={item.name}
+                            className="h-6 w-6 inline mr-2"
+                          />
                           {item.name}
                         </Link>
                       )}
@@ -140,7 +184,6 @@ export function NavBar() {
                   ))}
                 </MenuItems>
               </Menu>
-
             </div>
           )}
         </div>
@@ -153,8 +196,10 @@ export function NavBar() {
               as="a"
               href={item.href}
               className={classNames(
-                item.current ? 'bg-light-grey text-white' : 'text-primary hover:bg-light-blue hover:text-white',
-                'block rounded-md px-3 py-2 text-base font-medium',
+                item.current
+                  ? "bg-light-grey text-white"
+                  : "text-primary hover:brightness(.5) hover:text-white",
+                "block rounded-md px-3 py-2 text-base font-medium"
               )}
             >
               {item.name}
@@ -165,3 +210,5 @@ export function NavBar() {
     </Disclosure>
   );
 }
+
+export default NavBar;

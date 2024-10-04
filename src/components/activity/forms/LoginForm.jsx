@@ -14,7 +14,7 @@ export function LoginForm() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const axios = useAxios();
-    const { saveAuthToken } = useAuth();
+    const { login } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
@@ -30,11 +30,11 @@ export function LoginForm() {
         try {
             const response = await axios.post('/login', data); 
             const { token, user } = response.data;  
-            saveAuthToken(token, user);
+            login(token, user);
             console.log('Login successful:', token, user);
-            navigate('/suru/homepage');
+            navigate(ROUTE_PATHS.HOME);
         } catch (err) {
-            setError(err.response.data.error.message);
+            setError(err.response?.data?.message || 'An error occurred'); 
             console.error('Login error:', err);
         } finally {
             setLoading(false);
@@ -45,9 +45,7 @@ export function LoginForm() {
         <form onSubmit={handleSubmit} className="m-auto">
             <h1>Welcome Back</h1>
             <span className="text-grey">Sign in by entering the information below</span>
-
-            {error && <div className="error text-red-500 mt-2">{error}</div>}
-
+            {error && <div className="error text-red-500 p-1 text-center rounded-sm bg-red-100 mt-2">{error}</div>}
             <div className="grid gap-4 my-4">
                 <Input 
                     type="email" 

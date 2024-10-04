@@ -1,17 +1,31 @@
-import React, { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
-  const [authToken, setAuthToken] = useState(null);
-  const [user, setUser] = useState(null);
+  const [authToken, setAuthToken] = useState(() => localStorage.getItem('authToken') || null);
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem('user');
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
 
-  const saveAuthToken = (token, userInfo) => {
+  useEffect(() => {
+    authToken ? localStorage.setItem('authToken', authToken) : localStorage.removeItem('authToken');
+  }, [authToken]);
+
+  useEffect(() => {
+    user ? localStorage.setItem('user', JSON.stringify(user)) : localStorage.removeItem('user');
+  }, [user]);
+
+  const login = (token, userInfo) => {
     setAuthToken(token);
     setUser(userInfo);
-    console.log('Saving token:', token);
-    console.log('Saving user info:', userInfo);
+  };
+
+  const logout = () => {
+    setAuthToken(null);
+    setUser(null);
   };
 
   const getAuthToken = () => {
@@ -19,11 +33,11 @@ export default function AuthProvider({ children }) {
   };
 
   const getUser = () => {
-    return user;
+    return { user, authToken };
   };
 
   return (
-    <AuthContext.Provider value={{ saveAuthToken, getAuthToken, getUser }}>
+    <AuthContext.Provider value={{ login, logout, getAuthToken, getUser }}>
       {children}
     </AuthContext.Provider>
   );
@@ -33,7 +47,4 @@ AuthProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-// Custom hook to use the AuthContext
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export const useAuth = () => useContext(AuthContext);
