@@ -17,6 +17,7 @@ import { PartnerIntegrationRequest } from "../pages/public/PartnerIntegrationReq
 import { PropertyDetails } from "../pages/public/PropertyDetails.jsx";
 import { Appointments } from "../pages/public/Appointments.jsx";
 import { RequestAppointment } from "../pages/public/RequestAppointment.jsx";
+import { UserProfile } from "../pages/public/UserProfile.jsx";
 
 export function PublicRoutes() {
     return (
@@ -40,6 +41,7 @@ export function PublicRoutes() {
             <Route path={ROUTE_PATHS.PROPERTY_DETAILS} element={<PropertyDetails/>} />
             <Route path={ROUTE_PATHS.APPOINTMENTS} element={<Appointments />} />
             <Route path={ROUTE_PATHS.REQUEST_APPOINTMENTS} element={<RequestAppointment />} />
+            <Route path={ROUTE_PATHS.USER_PROFILE} element={<UserProfile />} />
         </Routes>
     );
 } 

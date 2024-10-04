@@ -1,3 +1,5 @@
+// RetailSpaceForm.jsx
+
 import React from "react";
 import SectionDivider from "../../ui/layout/SectionDivider";
 import BaseFormsInfo from "../pricing/BaseFormsInfo";
@@ -17,14 +19,14 @@ const RetailSpaceForm = ({ accion, services, toggleService, fillData }) => {
           type="number"
           labelText="Size"
           placeholder="Property size in square meters"
-          onChange={(value) => fillData('size', value)} 
+          onChange={(value) => fillData("size", value)}
         />
         <InputForms
           inputName="bathrooms"
           inputId="bathrooms"
           type="number"
           labelText="Bathrooms"
-          onChange={(value) => fillData('bathrooms', value)} 
+          onChange={(value) => fillData("bathrooms", value)}
         />
       </div>
       {(accion === "rent" || accion === "both") && (
@@ -34,10 +36,7 @@ const RetailSpaceForm = ({ accion, services, toggleService, fillData }) => {
             {["water", "electricity", "wifi", "cable"].map((service) => (
               <MainButton
                 key={service}
-                onClick={() => {
-                  toggleService(service);
-                  fillData(service, !services[service]); 
-                }}
+                onClick={() => toggleService(service)}
                 type="boolean"
                 variant="border"
                 isChecked={services[service]}
@@ -48,7 +47,7 @@ const RetailSpaceForm = ({ accion, services, toggleService, fillData }) => {
           </div>
         </>
       )}
-      <PriceDetailsSelector accion={accion} fillData={fillData} /> 
+      <PriceDetailsSelector accion={accion} fillData={fillData} />
     </div>
   );
 };
