@@ -18,7 +18,7 @@ export function BaseFormsInfo({ fillData }) {
         <InputForms
           inputName="availability_date"
           inputId="availability_date"
-          labelText="Date"
+          labelText="Availability date"
           placeholder="Select the date"
           customClass=""
           type="date"

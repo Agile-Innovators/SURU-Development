@@ -216,6 +216,8 @@ export function PropertiesFilter() {
                         key={index}
                         customClass={"m-auto"}
                     >
+
+                        
                         <MainButton
                             text="View"
                             variant="border"

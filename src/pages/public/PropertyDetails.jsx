@@ -17,6 +17,9 @@ import { ROUTE_PATHS } from '../../routes';
 import { MainButton } from '../../components/ui/buttons/MainButton';
 import { BackButton } from '../../components/ui/buttons/BackButton';
 export function PropertyDetails() {
+
+    
+
     return (
 
         <div className="mx-auto max-w-7xl px-6 lg:px-8 gap-4 my-4">
