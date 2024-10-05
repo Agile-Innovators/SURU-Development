@@ -11,6 +11,7 @@ export function Search() {
     const { regionId, minPrice, maxPrice, propertyTypeId, isFilterUsed } =
         useContext(globalProvider);
     const { data, isLoading } = useFetchFilter();
+    
 
     //testing
     const [properties, setProperties] = useState(data);

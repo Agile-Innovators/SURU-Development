@@ -4,7 +4,7 @@ import { Moon, Sun } from "lucide-react";
 export function UserPreference() {
     return (
         <div className="bg-white p-6">
-            <h2>Preference</h2>
+            <h2 className="text-xl">Preferences</h2>
             <p>Change your preference settings</p>
             <div className="mt-8">
                 <div className="grid gap-5">
@@ -34,7 +34,7 @@ export function UserPreference() {
                         <select
                             name="language"
                             id="language-select"
-                            className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                            className="p-3 border bg-transparent border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                         >
                             <option value="Español">Español</option>
                             <option value="Inglés">Inglés</option>
@@ -45,7 +45,7 @@ export function UserPreference() {
                         <select
                             name="language"
                             id="language-select"
-                            className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                            className="p-3 border bg-transparent border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                         >
                             <option value="On">On</option>
                             <option value="Off">Off</option>

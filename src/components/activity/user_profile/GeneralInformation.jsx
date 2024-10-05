@@ -3,14 +3,14 @@ import { Input } from "../../ui/forms/Input";
 
 export function GeneralInformation() {
     return (
-        <div className="bg-white p-6">
+        <div className="bg-white p-8">
             <h2>General Information</h2>
             <p>Change your profile information</p>
             <div className="mt-8 w-full">
-                <h4>Profile picture</h4>
+                <h4 className="text-base">Profile picture</h4>
                 <div className="flex gap-4 items-center mt-4 flex-col sm:flex-row">
                     <img
-                        src="https://unavatar.io/github/cap1112"
+                        src="https://i.pinimg.com/564x/e8/d7/d0/e8d7d05f392d9c2cf0285ce928fb9f4a.jpg"
                         alt="profile avatar"
                         className="rounded-full aspect-square h-24"
                     />
@@ -24,13 +24,12 @@ export function GeneralInformation() {
                         type="button"
                         variant="border"
                         text="Delete"
-                        customClass="h-fit"
+                        customClass="h-fit bg-gray-300 border-gray-300 text-gray-600 hover:bg-red-500 hover:text-white hover:border-red-500"
                     />
                 </div>
             </div>
             <div className="mt-10">
-                <h4>General Information</h4>
-                <p>Make sure your information is always up to date</p>
+                <h4 className="text-base">Personal Information</h4>
                 <form className="grid grid-cols-1 gap-8 mt-4 sm:grid-cols-2">
                     <Input
                         inputName="name"

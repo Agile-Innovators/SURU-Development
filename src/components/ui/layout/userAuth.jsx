@@ -11,6 +11,7 @@ export const UserAuth = () => {
         <div>
           <p>Welcome!</p>
           <p>Email: {user.email}</p>
+          <p>ID:{user.id}</p>
         </div>
       ) : (
         <p>No user is logged in.</p>
