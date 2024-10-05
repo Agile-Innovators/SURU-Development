@@ -39,7 +39,7 @@ export function PropertiesFilter() {
                 >
                     {items.map((region) => (
                         <option key={`region_${region.id}`} value={region.id}>
-                            {region.attributes.name}
+                            {region.name}
                         </option>
                     ))}
                 </select>
@@ -66,7 +66,7 @@ export function PropertiesFilter() {
                             key={`category_${category.id}`}
                             value={category.id}
                         >
-                            {category.attributes.name}
+                            {category.name}
                         </option>
                     ))}
                 </select>
@@ -226,7 +226,9 @@ export function PropertiesFilter() {
                         key={index}
                         customClass={"m-auto"}
                     >
-                        <MainButton 
+
+                        
+                        <MainButton
                             text="View"
                             variant="border"
                             type="button"

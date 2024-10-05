@@ -58,7 +58,7 @@ export function SearchFilter({setData}) {
                 >
                     {items.map((region) => (
                         <option key={`region_${region.id}`} value={region.id}>
-                            {region.attributes.name}
+                            {region.name}
                         </option>
                     ))}
                 </select>
@@ -85,7 +85,7 @@ export function SearchFilter({setData}) {
                             key={`category_${category.id}`}
                             value={category.id}
                         >
-                            {category.attributes.name}
+                            {category.name}
                         </option>
                     ))}
                 </select>

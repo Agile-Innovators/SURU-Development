@@ -14,7 +14,15 @@ export function BooleanInput({
 
   const handleInputChange = (e) => {
     if (onChange) {
-      const value = e.target.value === "true"; // Convertir a booleano
+      const value = e.target.value; // Convertir a booleano
+      if(value == 1){
+        //agregar
+        console.log('verdadero')
+      }
+      else{
+        //elimianr
+        console.log('falso')
+      }
       onChange(value);
     }
   };
@@ -33,8 +41,8 @@ export function BooleanInput({
         onChange={handleInputChange}
       >
         <option value="" disabled>Select an option</option>
-        <option value="true">Yes</option>
-        <option value="false">No</option>
+        <option value={1}>Yes</option>
+        <option value={0}>No</option>
       </select>
     </div>
   );

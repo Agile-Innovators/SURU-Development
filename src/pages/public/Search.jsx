@@ -32,10 +32,10 @@ export function Search() {
         return properties.map((item) => (
             <AdvancedCard
                 key={item.id}
-                srcImage={`http://localhost:1337${item.images[0].url}`}
+                srcImage={`http://suru-backend.test/api/${item.images[0].image_name}`}
                 title={item.title}
-                location={`${item.city_id.name}, ${item.city_id.region.name}`}
-                price={item.sale_price}
+                location={`${item.city}, ${item.region}`}
+                price={item.price}
                 frequency={"monthly"}
                 qtyBedrooms={item.bedrooms} 
                 qtyBathrooms={item.bathrooms} 
