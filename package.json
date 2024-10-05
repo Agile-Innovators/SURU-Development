@@ -19,6 +19,7 @@
     "@mui/material": "^6.1.1",
     "@react-email/components": "^0.0.25",
     "axios": "^1.7.7",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.438.0",
     "react": "^18.3.1",
     "react-countup": "^6.5.3",

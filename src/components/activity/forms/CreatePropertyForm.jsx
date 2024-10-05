@@ -203,7 +203,7 @@ const CreatePropertyForm = () => {
     return (
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <h1 className="mt-10 text-center sm:text-start">
-                Let's add a property
+                Let&apos;s add a property
             </h1>
             <div className="container mx-auto">
                 <SectionDivider text="Property type" />
@@ -309,13 +309,13 @@ const CreatePropertyForm = () => {
                                 className="hidden"
                                 multiple
                             />
-                            <div className="image-preview-container mt-4">
+                            <div className="image-preview-container grid grid-cols-3 mt-4">
                                 {imagePreviews.map((image, index) => (
                                     <div key={index} className="relative">
                                         <img
                                             src={image}
                                             alt={`Preview ${index + 1}`}
-                                            className="w-32 h-32 object-cover rounded-md mr-2"
+                                            className="w-32 h-32 object-cover rounded-md mr-2 grid"
                                         />
                                         <button
                                             type="button"
