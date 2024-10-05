@@ -37,7 +37,7 @@ export function PropertiesFilter() {
                 >
                     {items.map((region) => (
                         <option key={`region_${region.id}`} value={region.id}>
-                            {region.attributes.name}
+                            {region.name}
                         </option>
                     ))}
                 </select>
@@ -96,7 +96,7 @@ export function PropertiesFilter() {
         const maxPrice = document.getElementById("select_max_price").value;
         const propertyCategory = document.getElementById("select_props_cats").value;
         // console.log(selectRegion, minPrice, maxPrice, propertyCategory);
-        
+
         //cargar datos para el globalProvider
         setRegionId(selectRegion);
         setMinPrice(minPrice);

@@ -11,20 +11,35 @@ export const useFetchFilter = () => {
 
     const getData = async () =>{
         try{
-            console.log("testing using: ", isFilterUsed)
-            if(isFilterUsed){
-                url = `properties/filter?minPrice=${minPrice}&maxPrice=${maxPrice}&region_id=${regionId}&category_id=${propertyTypeId}`
-                setIsFilterUsed(false)
-            }
-            else{
-                url = "others/filters"
-                console.log("test")
-            }
-            const response = await axios.get(url);
-            const dataProperty = await response.data;
-            console.log("datos del fetch: ", dataProperty)
-            setData(dataProperty);
+            // console.log("testing using: ", isFilterUsed)
+            // if(isFilterUsed){
+            //     url = `properties/filter?minPrice=${minPrice}&maxPrice=${maxPrice}&region_id=${regionId}&category_id=${propertyTypeId}`
+            //     setIsFilterUsed(false)
+            // }
+            // else{
+            //     url = "others/filters"
+            //     console.log("test")
+            // }
+            // const response = await axios.get(url);
+            // const dataProperty = await response.data;
+            // console.log("datos del fetch: ", dataProperty)
+            // setData(dataProperty);
+            // setIsLoading(false);
+            
+            const response = await axios.get('/properties/filter', {
+                params:{
+                    regionId: regionId,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    propertyCategoryId: propertyTypeId,
+                }
+            });
+
+            const data = await response.data;
+            console.log(data)
+            setData(data);
             setIsLoading(false);
+
         }catch(error){
             console.log(error)
             setIsLoading(false);
