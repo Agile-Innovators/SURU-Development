@@ -6,8 +6,6 @@ import { SecondaryFilterTag } from './../../ui/buttons/SecondaryFilterTag';
 
 const RetailSpaceForm = ({
     transactionType,
-    services,
-    toggleService,
     fillData,
     fillUtilities,
 }) => {
@@ -22,7 +20,7 @@ const RetailSpaceForm = ({
                     type="number"
                     labelText="Size"
                     placeholder="Property size in square meters"
-                    onChange={(value) => fillData("size", value)}
+                    onChange={(value) => fillData("size_in_m2", value)}
                 />
                 <InputForms
                     inputName="bathrooms"

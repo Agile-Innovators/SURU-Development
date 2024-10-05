@@ -8,8 +8,6 @@ import { SecondaryFilterTag } from "../../ui/buttons/SecondaryFilterTag";
 
 export function BareLandForm({
     transactionType,
-    services,
-    toggleService,
     fillData,
     fillUtilities,
 }) {
@@ -37,7 +35,7 @@ export function BareLandForm({
                     labelText="Size"
                     placeholder="Property size in square meters"
                     onChange={(value) => {
-                        fillData("size", value);
+                        fillData("size_in_m2", value);
                     }}
                 />
             </div>

@@ -1,19 +1,16 @@
 import { X, House, Hotel, Warehouse, Store, Fence } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import SectionDivider from "../../ui/layout/SectionDivider";
 import { MainButton } from "../../ui/buttons/MainButton";
-import { IconTextButton } from "../../ui/buttons/IconTextButton";
 import HDSForm from "./HDSForm";
 import RetailSpaceForm from "./RetailSpaceForm";
 import { useAxios } from "../../hooks/useAxios";
 import { MainFilterTag } from "../../ui/buttons/MainFilterTag";
 import { SecondaryFilterTag } from "../../ui/buttons/SecondaryFilterTag";
-import { BareLandForm } from './BareLandForm';
+import { BareLandForm } from "./BareLandForm";
 
 const CreatePropertyForm = () => {
     const axios = useAxios();
-    const [tipoPropiedad, setTipoPropiedad] = useState(null);
-    const [accion, setAccion] = useState(null);
     const [images, setImages] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
     const [data, setData] = useState({});
@@ -29,23 +26,7 @@ const CreatePropertyForm = () => {
         setFilterPropTransaction(id);
     };
 
-    const [services, setServices] = useState({
-        availableWater: false,
-        water: false,
-        availableElectricity: false,
-        electricity: false,
-        wifi: false,
-        cable: false,
-    });
-
-    const serviceIds = {
-        availableWater: 1,
-        water: 2,
-        availableElectricity: 3,
-        electricity: 4,
-        wifi: 5,
-        cable: 6,
-    };
+    const handleServicesChanges = () => {};
 
     const toggleService = (service) => {
         setServices((prevState) => {
@@ -137,8 +118,6 @@ const CreatePropertyForm = () => {
             ...data,
             property_category_id: filterPropType,
             property_transaction_type_id: filterPropTransaction,
-            city_id: 1,
-            // currency_id: 1,
             user_id: 2,
         };
 
@@ -184,8 +163,6 @@ const CreatePropertyForm = () => {
                 <HDSForm
                     title={"House details"}
                     transactionType={filterPropTransaction}
-                    services={services}
-                    toggleService={toggleService}
                     fillData={handleInputChange}
                     fillUtilities={handleUtilitiesData}
                 />
@@ -195,8 +172,6 @@ const CreatePropertyForm = () => {
                 <HDSForm
                     title={"Apartment details"}
                     transactionType={filterPropTransaction}
-                    services={services}
-                    toggleService={toggleService}
                     fillData={handleInputChange}
                     fillUtilities={handleUtilitiesData}
                 />
@@ -206,8 +181,6 @@ const CreatePropertyForm = () => {
                 <HDSForm
                     title={"Studio details"}
                     transactionType={filterPropTransaction}
-                    services={services}
-                    toggleService={toggleService}
                     fillData={handleInputChange}
                     fillUtilities={handleUtilitiesData}
                 />
@@ -216,8 +189,6 @@ const CreatePropertyForm = () => {
             4: (
                 <BareLandForm
                     transactionType={filterPropTransaction}
-                    services={services}
-                    toggleService={toggleService}
                     fillData={handleInputChange}
                     fillUtilities={handleUtilitiesData}
                 />
@@ -226,8 +197,6 @@ const CreatePropertyForm = () => {
             5: (
                 <RetailSpaceForm
                     transactionType={filterPropTransaction}
-                    services={services}
-                    toggleService={toggleService}
                     fillData={handleInputChange}
                     fillUtilities={handleUtilitiesData}
                 />

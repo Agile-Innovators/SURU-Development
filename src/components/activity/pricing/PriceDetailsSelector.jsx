@@ -31,6 +31,11 @@ export function PriceDetailsSelector({ transactionType, fillData }) {
         updateCurrencyForAllSelectors(newCurrency); 
     };
 
+    const handlePaymentFrequency = (e) => {
+        const paymentFrequency = e.target.value;
+        fillData("payment_frequency_id", paymentFrequency);
+    };
+
     const createSaleSection = () => {
         return (
             <div className="flex items-end gap-2 w-full">
@@ -106,7 +111,7 @@ export function PriceDetailsSelector({ transactionType, fillData }) {
                     <select
                         id="select_frequency"
                         name={`select_frequency`}
-                        onChange={(e) => fillData('frequency_id', e.target.value)}
+                        onChange={handlePaymentFrequency}
                         className="w-full  p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                     >
                         <option value="1">Monthly</option>

@@ -1,39 +1,89 @@
 import { useState, useEffect } from "react";
 
-export function SecondaryFilterTag({ text, idValue, groupType, isActivate, handleSelectedValue, manageExternalState}) {
+export function SecondaryFilterTag({
+    text,
+    idValue,
+    groupType,
+    isActivate,
+    handleSelectedValue,
+    manageExternalState,
+    fillData,
+    id,
+}) {
     const [isChecked, setIsChecked] = useState(isActivate);
     const valueID = idValue;
 
     useEffect(() => {
-        setIsChecked(isActivate); 
+        setIsChecked(isActivate);
     }, [isActivate]);
 
-    const handleEventButton = () => {
-        if (groupType === 'group') {
+    
+
+    const handleEventButton = (e) => {
+        // if (handleSelectedValue) {
+        //     if (groupType === "group") {
+        //         setIsChecked(true);
+        //         handleSelectedValue(valueID);
+        //     } else {
+        //         setIsChecked((prevChecked) => {
+        //             const newChecked = !prevChecked;
+
+        //             if (newChecked) {
+        //                 handleSelectedValue(valueID);
+        //             } else {
+        //                 handleSelectedValue(valueID, "remove");
+        //             }
+        //             if (manageExternalState) {
+        //                 manageExternalState(newChecked);
+        //             }
+
+        //             return newChecked;
+        //         });
+        //     }
+        // }
+        // if(fillData){
+        //     console.log(e.event.target)
+
+        // }
+
+
+        if (groupType === "group") {
             setIsChecked(true);
             handleSelectedValue(valueID);
-          
         } else {
-          setIsChecked((prevChecked) => {
-            const newChecked = !prevChecked;
-    
-            if (newChecked) {
-              handleSelectedValue(valueID); 
-            } else {
-              handleSelectedValue(valueID, 'remove'); 
-            }
-            if(manageExternalState){
-                manageExternalState(newChecked);
-            }
-            return newChecked;
-          });
+            setIsChecked((prevChecked) => {
+                const newChecked = !prevChecked;
+
+                if (newChecked) {
+                    if (handleSelectedValue){
+                        handleSelectedValue(valueID);
+                    }
+                    if(fillData){
+                        fillData(1)
+                    }
+                } else {
+                    if (handleSelectedValue){
+                        handleSelectedValue(valueID, "remove");
+                    }
+                    if (fillData) {
+                        fillData('0');
+                    }
+                }
+                if (manageExternalState) {
+                    manageExternalState(newChecked);
+                }
+
+                return newChecked;
+            });
         }
-      };
+
+    };
 
     return (
         <button
             type="button"
-            onClick={() => handleEventButton()}
+            id={id}
+            onClick={(e) => handleEventButton(e)}
             className={` flex justify-between transition-colors duration-150 group border-2 border-gray-300 rounded-md p-2 hover:border-secondary ${
                 isChecked ? "border-secondary hover:border-light-blue" : ""
             } `}
