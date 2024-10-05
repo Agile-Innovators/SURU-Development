@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 export function PriceDetailsSelector({ transactionType, fillData }) {
     const [currency, setCurrency] = useState("1");
+    const [paymentFrequency, setPaymentFrequency] = useState("");
 
     //cargar currency al renderizarse el componente
     useEffect(() => {
@@ -32,8 +33,8 @@ export function PriceDetailsSelector({ transactionType, fillData }) {
     };
 
     const handlePaymentFrequency = (e) => {
-        const paymentFrequency = e.target.value;
-        fillData("payment_frequency_id", paymentFrequency);
+        setPaymentFrequency(e.target.value);
+        fillData("payment_frequency_id", e.target.value);
     };
 
     const createSaleSection = () => {
@@ -111,9 +112,12 @@ export function PriceDetailsSelector({ transactionType, fillData }) {
                     <select
                         id="select_frequency"
                         name={`select_frequency`}
+                        value={paymentFrequency}
                         onChange={handlePaymentFrequency}
                         className="w-full  p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                        required
                     >
+                        <option value="" disabled>Select a payment frequency</option>
                         <option value="1">Monthly</option>
                         <option value="2">Biweekly</option>
                         <option value="3">Weekly</option>
