@@ -1,9 +1,8 @@
 import SectionDivider from "../../ui/layout/SectionDivider";
 import BaseFormsInfo from "../pricing/BaseFormsInfo";
 import { InputForms } from "../../ui/forms/InputForms";
-import { MainButton } from "../../ui/buttons/MainButton";
 import { PriceDetailsSelector } from "../pricing/PriceDetailsSelector";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SecondaryFilterTag } from "../../ui/buttons/SecondaryFilterTag";
 
 export function BareLandForm({
@@ -22,6 +21,7 @@ export function BareLandForm({
       setElectricityAccess(value);
     }
 
+   
     return (
         <div>
             {/* Detalles básicos de la propiedad */}

@@ -1,15 +1,21 @@
 import { InputForms } from "../../ui/forms/InputForms";
 import { useFetchLocations } from "../../hooks/useFetchLocations";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import { globalProvider } from "../../../global/GlobalProvider";
 
 export function BaseFormsInfo({ fillData }) {
     const { locations, isLoadingLocat } = useFetchLocations();
     const [selectedLocation, setSelectedLocation] = useState("");
+    const {  propTypeForm, propTransacTypeForm } = useContext(globalProvider);
 
     const handleLocationSelect = (e) =>{
       setSelectedLocation(e.target.value);
       fillData("city_id", e.target.value)
     }
+
+    useEffect(() => {
+      setSelectedLocation('');
+    }, [propTypeForm, propTransacTypeForm]);
 
     return (
         <div className="flex flex-col">

@@ -1,5 +1,5 @@
 import { X, House, Hotel, Warehouse, Store, Fence } from "lucide-react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import SectionDivider from "../../ui/layout/SectionDivider";
 import { MainButton } from "../../ui/buttons/MainButton";
 import HDSForm from "./HDSForm";
@@ -8,9 +8,12 @@ import { useAxios } from "../../hooks/useAxios";
 import { MainFilterTag } from "../../ui/buttons/MainFilterTag";
 import { SecondaryFilterTag } from "../../ui/buttons/SecondaryFilterTag";
 import { BareLandForm } from "./BareLandForm";
+import { globalProvider } from "../../../global/GlobalProvider";
+
 
 const CreatePropertyForm = () => {
     const axios = useAxios();
+    const { setPropTypeForm,  setPropTransacTypeForm } = useContext(globalProvider);
     const [images, setImages] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
     const [data, setData] = useState({});
@@ -18,46 +21,27 @@ const CreatePropertyForm = () => {
     const [filterPropType, setFilterPropType] = useState(1);
     const [filterPropTransaction, setFilterPropTransaction] = useState(1);
 
+    //manejar el valor de tipo de propiedad
     const handleFilterPropType = (filterId) => {
         setFilterPropType(filterId);
+        setPropTypeForm(filterId);
+        setData({});
+        setUtilities([])
     };
 
+    //manejar el valor de tipo de transaccion
     const handleFilterPropTransaction = (id) => {
         setFilterPropTransaction(id);
+        setPropTransacTypeForm(id);
+        setData({});
+        setUtilities([])
     };
 
-    const handleServicesChanges = () => {};
-
-    const toggleService = (service) => {
-        setServices((prevState) => {
-            const newState = { ...prevState, [service]: !prevState[service] };
-            console.log(
-                `toggleService llamado para servicio: "${service}", nuevo estado: ${newState[service]}`
-            );
-
-            if (service === "availableWater" && !newState.availableWater) {
-                newState.water = false;
-                console.log(
-                    `Servicio disponible 'availableWater' desactivado, removiendo 'water' de los datos`
-                );
-            }
-
-            if (
-                service === "availableElectricity" &&
-                !newState.availableElectricity
-            ) {
-                newState.electricity = false;
-                newState.wifi = false;
-                newState.cable = false;
-                console.log(
-                    `Servicio disponible 'availableElectricity' desactivado, removiendo 'electricity', 'wifi', 'cable' de los datos`
-                );
-            }
-
-            return newState;
-        });
+    const clearData = () => {
+        setData({});
     };
 
+    //manejar el valor de las utilidades de la propiedad
     const handleUtilitiesData = (value, method) => {
         if (method === "remove") {
             setUtilities((prevUtilities) =>
@@ -68,6 +52,7 @@ const CreatePropertyForm = () => {
         }
     };
 
+    //manejar el valor de los inputs de la propiedad
     const handleInputChange = (key, value) => {
         setData((prevData) => {
             let updatedData;
@@ -81,6 +66,7 @@ const CreatePropertyForm = () => {
         });
     };
 
+    //manejar el cambio de imagenes 
     const handleImageChange = (event) => {
         const files = Array.from(event.target.files);
         const newImages = [...images];
@@ -111,6 +97,7 @@ const CreatePropertyForm = () => {
         setImagePreviews(newPreviews);
     };
 
+    //enviar los datos de la propiedad para el POST
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -134,6 +121,7 @@ const CreatePropertyForm = () => {
             formData.append(key, finalData[key]);
         }
 
+        //agregar las utilidades
         utilities.forEach((utility) => {
             formData.append("utilities[]", utility);
         });
@@ -165,6 +153,8 @@ const CreatePropertyForm = () => {
                     transactionType={filterPropTransaction}
                     fillData={handleInputChange}
                     fillUtilities={handleUtilitiesData}
+                    propertyType={filterPropType}
+                    clearData={clearData}
                 />
             ),
             //apartment
@@ -174,6 +164,8 @@ const CreatePropertyForm = () => {
                     transactionType={filterPropTransaction}
                     fillData={handleInputChange}
                     fillUtilities={handleUtilitiesData}
+                    propertyType={filterPropType}
+                    clearData={clearData}
                 />
             ),
             //studio
@@ -183,6 +175,9 @@ const CreatePropertyForm = () => {
                     transactionType={filterPropTransaction}
                     fillData={handleInputChange}
                     fillUtilities={handleUtilitiesData}
+                    propertyType={filterPropType}
+                    clearData={clearData}
+                    
                 />
             ),
             //bare land

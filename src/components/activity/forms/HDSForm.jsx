@@ -3,20 +3,28 @@ import BaseFormsInfo from "../pricing/BaseFormsInfo";
 import { InputForms } from "../../ui/forms/InputForms";
 import { SecondaryFilterTag } from "../../ui/buttons/SecondaryFilterTag";
 import { PriceDetailsSelector } from "../pricing/PriceDetailsSelector";
-import { useEffect } from "react";
+import { useEffect, useState, useContext } from "react";
+import PropTypes from "prop-types";
+import { globalProvider } from "../../../global/GlobalProvider";
 
 const HDSForm = ({
     title,
     transactionType,
     fillData,
     fillUtilities,
+    propertyType,
+    clearData
 }) => {
+
+    const { propTypeForm } = useContext(globalProvider);
+    console.log('dd')
     useEffect(()=>{
         if(fillData){
             fillData("pets_allowed", '0') 
             fillData("green_area", '0')
         }
     },[])
+
     return (
         <div>
             <SectionDivider text={title} />
@@ -24,7 +32,7 @@ const HDSForm = ({
             <div className="grid grid-cols-2 gap-4 my-4">
                 <InputForms
                     inputName="bedrooms"
-                    inputId="bedrooms"
+                    inputId="bedroomsInput"
                     type="number"
                     labelText="Bedrooms"
                     onChange={(value) => fillData("bedrooms", value)}
@@ -32,7 +40,7 @@ const HDSForm = ({
                 />
                 <InputForms
                     inputName="bathrooms"
-                    inputId="bathrooms"
+                    inputId="bathroomsInput"
                     type="number"
                     labelText="Bathrooms"
                     onChange={(value) => fillData("bathrooms", value)}
@@ -40,7 +48,7 @@ const HDSForm = ({
                 />
                 <InputForms
                     inputName="floors"
-                    inputId="floors"
+                    inputId="floorsInput"
                     type="number"
                     labelText="Floor"
                     onChange={(value) => fillData("floors", value)}
@@ -48,7 +56,7 @@ const HDSForm = ({
                 />
                 <InputForms
                     inputName="pools"
-                    inputId="pools"
+                    inputId="poolsInput"
                     type="number"
                     labelText="Pools"
                     onChange={(value) => fillData("pools", value)}
@@ -56,7 +64,7 @@ const HDSForm = ({
                 />
                 <InputForms
                     inputName="garages"
-                    inputId="garages"
+                    inputId="garagesInput"
                     type="number"
                     labelText="Garage"
                     onChange={(value) => fillData("garages", value)}
@@ -64,7 +72,7 @@ const HDSForm = ({
                 />
                 <InputForms
                     inputName="Size"
-                    inputId="Size"
+                    inputId="sizeInput"
                     type="number"
                     labelText="Size"
                     placeholder="Property size in square meters"
@@ -139,6 +147,15 @@ const HDSForm = ({
             />
         </div>
     );
+};
+
+HDSForm.propTypes = {
+    title: PropTypes.string.isRequired,
+    transactionType: PropTypes.number.isRequired,
+    fillData: PropTypes.func.isRequired,
+    fillUtilities: PropTypes.func.isRequired,
+    propertyType: PropTypes.number.isRequired,
+    clearData: PropTypes.func.isRequired
 };
 
 export default HDSForm;

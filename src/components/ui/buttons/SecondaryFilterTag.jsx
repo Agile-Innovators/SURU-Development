@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { globalProvider } from "../../../global/GlobalProvider";
 
 export function SecondaryFilterTag({
     text,
@@ -10,6 +11,7 @@ export function SecondaryFilterTag({
     fillData,
     id,
 }) {
+    // const { propTypeForm, propTransacTypeForm } = useContext(globalProvider);
     const [isChecked, setIsChecked] = useState(isActivate);
     const valueID = idValue;
 
@@ -17,36 +19,8 @@ export function SecondaryFilterTag({
         setIsChecked(isActivate);
     }, [isActivate]);
 
-    
 
     const handleEventButton = (e) => {
-        // if (handleSelectedValue) {
-        //     if (groupType === "group") {
-        //         setIsChecked(true);
-        //         handleSelectedValue(valueID);
-        //     } else {
-        //         setIsChecked((prevChecked) => {
-        //             const newChecked = !prevChecked;
-
-        //             if (newChecked) {
-        //                 handleSelectedValue(valueID);
-        //             } else {
-        //                 handleSelectedValue(valueID, "remove");
-        //             }
-        //             if (manageExternalState) {
-        //                 manageExternalState(newChecked);
-        //             }
-
-        //             return newChecked;
-        //         });
-        //     }
-        // }
-        // if(fillData){
-        //     console.log(e.event.target)
-
-        // }
-
-
         if (groupType === "group") {
             setIsChecked(true);
             handleSelectedValue(valueID);
