@@ -9,7 +9,7 @@ import { UserAuth } from "../components/ui/layout/userAuth.jsx";
 export function AppRoutes() {
     return (
         <>
-            <UserAuth />
+            {/* <UserAuth /> */}
             <NavBar />
                 <Routes>
                     <Route path="/*" element={<PublicRoutes />} />

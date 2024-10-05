@@ -8,10 +8,10 @@ export const useFetchPropertyCategories = () => {
 
     const getData = async () => {
         try {
-            const response = await axios.get("properties-categories");
+            const response = await axios.get("/property-categories");
             const data = await response.data;
-            const propertiesCategories = data.data;
-            setPropertyCategories(propertiesCategories);
+            // const propertiesCategories = data.data;
+            setPropertyCategories(data);
             setIsLoadingPropsCats(false)
         } catch (error) {
             console.log(error)  

@@ -9,6 +9,8 @@ export function GlobalProvider({children}) {
     const [minPrice, setMinPrice] = useState("");
     const [maxPrice, setMaxPrice] = useState("");
     const [propertyTypeId, setPropertyTypeId] = useState("");
+    const [propTypeForm, setPropTypeForm] = useState();
+    const [propTransacTypeForm, setPropTransacTypeForm] = useState();
     const [propertyID, setPropertyID] = useState("");
 
     return (
@@ -24,6 +26,10 @@ export function GlobalProvider({children}) {
                 setPropertyTypeId,
                 isFilterUsed,
                 setIsFilterUsed,
+                propTypeForm,
+                setPropTypeForm,
+                propTransacTypeForm,
+                setPropTransacTypeForm,
                 propertyID,
                 setPropertyID
             }}

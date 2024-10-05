@@ -158,7 +158,7 @@ export function NavBar() {
                       {item.name === "Log out" ? (
                         <button
                           onClick={handleLogout}
-                          className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-light-blue hover:text-white w-full text-left"
+                          className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-light-blue hover:light-blue w-full text-left"
                         >
                           <img
                             src={item.imageRoute}
@@ -170,7 +170,7 @@ export function NavBar() {
                       ) : (
                         <Link
                           to={item.to}
-                          className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-light-blue hover:text-white"
+                          className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-light-blue hover:light-blue"
                         >
                           <img
                             src={item.imageRoute}
@@ -197,8 +197,8 @@ export function NavBar() {
               href={item.href}
               className={classNames(
                 item.current
-                  ? "bg-light-grey text-white"
-                  : "text-primary hover:brightness(.5) hover:text-white",
+                  ? "bg-cyan-700 text-white"
+                  : "text-primary hover:brightness(.5) hover:text-light-blue",
                 "block rounded-md px-3 py-2 text-base font-medium"
               )}
             >

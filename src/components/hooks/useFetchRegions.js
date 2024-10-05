@@ -9,10 +9,9 @@ export const useFetchRegions = () => {
 
     const getData = async () => {
         try {
-            const response = await axios.get("regions");
+            const response = await axios.get("/regions");
             const data = await response.data;
-            const regions = data.data;
-            setRegions(regions);
+            setRegions(data);
             setIsLoadingRegion(false);
         } catch (error) {
             console.log(error);
