@@ -3,8 +3,10 @@ import { MainButton } from "../buttons/MainButton";
 import { useFetchPropertyCategories } from "../../hooks/useFetchPropertyCategories";
 import { useFetchRegions } from "../../hooks/useFetchRegions";
 import { useAxios } from "../../hooks/useAxios";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export function SearchFilter({setData}) {
+export function SearchFilter({ setData }) {
     const { regions, isLoadingRegions } = useFetchRegions();
     const { propertyCategories, isLoadingPropsCats } =
         useFetchPropertyCategories();
@@ -15,16 +17,40 @@ export function SearchFilter({setData}) {
         const regionId = document.getElementById("select_regions").value;
         const minPrice = document.getElementById("select_min_price").value;
         const maxPrice = document.getElementById("select_max_price").value;
-        const propertyCategoryId = document.getElementById("select_props_cats").value;
-        // console.log(selectValueRegion)
-        try{
-            const response = await axios.get(`properties/filter?minPrice=${minPrice}&maxPrice=${maxPrice}&region_id=${regionId}&category_id=${propertyCategoryId}`);
-            const data = await response.data
-            setData(data);
-        }catch(error){
-            console.log(error)
+        const propertyCategoryId =
+            document.getElementById("select_props_cats").value;
+
+        if (minPrice > maxPrice) {
+            toast.error('min price must not be higher than the max price', {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+                });
+                return;
         }
-    }
+    
+
+        try {
+            const response = await axios.get("/properties/filter", {
+                params: {
+                    regionId: regionId,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    propertyCategoryId: propertyCategoryId,
+                },
+            });
+            const data = await response.data;
+            setData(data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const selectPriceOptions = [
         {
@@ -93,21 +119,38 @@ export function SearchFilter({setData}) {
         );
     };
 
-    const clearFilter = (e) =>{
+    const clearFilter = (e) => {
         e.preventDefault();
+        console.log("clear");
         const selectRegion = document.getElementById("select_regions");
         const minPriceSelect = document.getElementById("select_min_price");
         const maxPriceSelect = document.getElementById("select_max_price");
         const propsCatsSelect = document.getElementById("select_props_cats");
         selectRegion.value = regions[0].id;
-        minPriceSelect.value = selectPriceOptions[0].options[0].value
-        maxPriceSelect.value = selectPriceOptions[0].options[0].value
-        propsCatsSelect.value = propertyCategories[0].id
-
-    }
+        minPriceSelect.value = selectPriceOptions[0].options[0].value;
+        maxPriceSelect.value = selectPriceOptions[0].options[0].value;
+        propsCatsSelect.value = propertyCategories[0].id;
+    };
 
     return (
-        <form id="form_filters" className="flex flex-col p-4 border-2 rounded-md w-full gap-4 mt-5" onSubmit={(e) => filterProperties(e)}>
+        <form
+            id="form_filters"
+            className="flex flex-col p-4 border-2 rounded-md w-full gap-4 mt-5"
+            onSubmit={(e) => filterProperties(e)}
+        >
+            <ToastContainer
+                position="top-center"
+                autoClose={200}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                
+            />
             <div className="grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] gap-4 items-center">
                 {isLoadingRegions ? (
                     <p>Loading</p>
@@ -167,27 +210,10 @@ export function SearchFilter({setData}) {
                     </div>
                 }
                 {isLoadingPropsCats ? (
-                        <p>Loading</p>
-                    ) : (
-                        createPropsCatsSelect(propertyCategories)
-                    )}
-                {/* <div className="flex flex-col gap-2">
-                    <label
-                        htmlFor="status"
-                        className="block text-sm font-medium text-gray-700"
-                    >
-                        Status
-                    </label>
-                    <select
-                        name="status"
-                        id="status"
-                        className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
-                    >
-                        <option value="">Testing</option>
-                        <option value="">Testing</option>
-                        <option value="">Testing</option>
-                    </select>
-                </div> */}
+                    <p>Loading</p>
+                ) : (
+                    createPropsCatsSelect(propertyCategories)
+                )}
             </div>
             <div className="flex flex-col items-center gap-2 w-full sm:flex-row">
                 <MainButton

@@ -97,7 +97,8 @@ export function PropertiesFilter() {
         const minPrice = document.getElementById("select_min_price").value;
         const maxPrice = document.getElementById("select_max_price").value;
         const propertyCategory = document.getElementById("select_props_cats").value;
-        // console.log(selectRegion, minPrice, maxPrice, propertyCategory);
+        
+       
 
         //cargar datos para el globalProvider
         setRegionId(selectRegion);
