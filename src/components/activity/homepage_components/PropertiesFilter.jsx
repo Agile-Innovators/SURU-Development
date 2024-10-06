@@ -3,10 +3,12 @@ import { AdvancedCard } from "../../ui/cards/AdvancedCard.jsx";
 import { Divider } from "@mui/joy";
 import { MainButton } from "../../ui/buttons/MainButton.jsx";
 import { ROUTE_PATHS } from "../../../routes/index.js";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useFetchRegions } from "../../hooks/useFetchRegions.js";
 import { useFetchPropertyCategories } from "../../hooks/useFetchPropertyCategories.js";
 import { globalProvider } from "../../../global/GlobalProvider.jsx";
+import { useFetchProperties } from "../../hooks/useFetchProperties.js";
+import { useFetchUserProperties } from "../../hooks/useFetchUserProperties.js";
 
 export function PropertiesFilter() {
     const {
@@ -16,12 +18,12 @@ export function PropertiesFilter() {
         setPropertyTypeId,
         setIsFilterUsed,
         setPropertyID,
-
     } = useContext(globalProvider);
     const navigate = useNavigate();
     const { regions, isLoadingRegions } = useFetchRegions();
     const { propertyCategories, isLoadingPropsCats } =
         useFetchPropertyCategories();
+    const { properties, isLoadingProps } = useFetchProperties();
 
     const createRegionsSelect = (items) => {
         return (
@@ -37,6 +39,7 @@ export function PropertiesFilter() {
                     name={`select_regions`}
                     className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                 >
+                    <option value="0">all</option>
                     {items.map((region) => (
                         <option key={`region_${region.id}`} value={region.id}>
                             {region.name}
@@ -61,6 +64,7 @@ export function PropertiesFilter() {
                     name={`select_props_cats`}
                     className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                 >
+                    <option value="0">all</option>
                     {items.map((category) => (
                         <option
                             key={`category_${category.id}`}
@@ -72,6 +76,43 @@ export function PropertiesFilter() {
                 </select>
             </div>
         );
+    };
+
+    const createProperties = (properties) => {
+        return properties.slice(0, 6).map((property) => {
+            return (
+                <AdvancedCard
+                    srcImage={
+                        property.images && property.images.length > 0
+                            ? property.images[0].url
+                            : "imagen/predeterminada"
+                    }
+                    title={property.title}
+                    location={`${property.city}, ${property.region}`}
+                    price={
+                        property.price ? property.price : property.rent_price
+                    }
+                    frequency={
+                        property.payment_frequency
+                            ? property.payment_frequency
+                            : ""
+                    }
+                    qtyBedrooms={property.bedrooms ? property.bedrooms : 0}
+                    qtyBathrooms={property.bathrooms ? property.bathrooms : 0}
+                    qtyGarages={property.garages ? property.garages : 0}
+                    key={property.id}
+                    customClass={"m-auto"}
+                >
+                    <MainButton
+                        text="View"
+                        variant="border"
+                        type="button"
+                        id={property.id}
+                        onClick={() => showProperty(property.id)}
+                    />
+                </AdvancedCard>
+            );
+        });
     };
 
     const selectPriceOptions = [
@@ -96,16 +137,27 @@ export function PropertiesFilter() {
         const selectRegion = document.getElementById("select_regions").value;
         const minPrice = document.getElementById("select_min_price").value;
         const maxPrice = document.getElementById("select_max_price").value;
-        const propertyCategory = document.getElementById("select_props_cats").value;
-        
-       
+        const propertyCategory =
+            document.getElementById("select_props_cats").value;
+
+        console.log(selectRegion, minPrice, maxPrice, propertyCategory);
+
+        //validar si no se selecciono el precio maximo
+        if(maxPrice !== "max"){
+            //verificar que el minPrice no sea mayor
+            if(minPrice > maxPrice){
+                console.log("Es mayor");
+                return;
+            }
+        }
+    
 
         //cargar datos para el globalProvider
         setRegionId(selectRegion);
         setMinPrice(minPrice);
         setMaxPrice(maxPrice);
         setPropertyTypeId(propertyCategory);
-        setIsFilterUsed(true)
+        setIsFilterUsed(true);
 
         navigate(ROUTE_PATHS.SEARCH);
     }
@@ -115,8 +167,7 @@ export function PropertiesFilter() {
         setPropertyID(id);
         console.log("ID HOME:", id);
         navigate(ROUTE_PATHS.PROPERTY_DETAILS);
-    }
-
+    };
 
     return (
         <section className="mt-20">
@@ -144,7 +195,7 @@ export function PropertiesFilter() {
                                 htmlFor="select_min_price"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
-                                Price
+                                Min Price
                             </label>
                             <select
                                 id="select_min_price"
@@ -170,13 +221,14 @@ export function PropertiesFilter() {
                                 htmlFor="select_max_price"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
-                                Maximum Price
+                                Max Price
                             </label>
                             <select
                                 id="select_max_price"
                                 name="select_max_price"
                                 className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                             >
+                                <option value="max">₡max price</option>
                                 {selectPriceOptions.map((option) =>
                                     option.options.map((priceOption) => (
                                         <option
@@ -200,44 +252,27 @@ export function PropertiesFilter() {
                     <Divider orientation="vertical" flexItem />
                     <div className="flex flex-col gap-2 w-full sm:flex-row lg:w-auto">
                         <MainButton
+                            text="Search"
+                            type="submit"
+                            customClass="p-3 w-full lg:w-fit"
+                            to={ROUTE_PATHS.PROPERTY_DETAILS}
+                        />
+                        <MainButton
                             text="Clear"
                             type="link"
                             customClass="p-3 w-full lg:w-fit"
                             variant="border"
                             to={ROUTE_PATHS.PROPERTY_DETAILS}
                         />
-                        <MainButton
-                            text="Search"
-                            type="submit"
-                            customClass="p-3 w-full lg:w-fit"
-                            to={ROUTE_PATHS.PROPERTY_DETAILS}
-                        />
                     </div>
-
                 </form>
             </div>
             <div className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-4 justify-center items-center mt-10">
-                {Array.from({ length: 6 }).map((_, index) => (
-                    <AdvancedCard
-                        srcImage="https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg"
-                        title="Woodie Comfy Property"
-                        location="Santa Teresa, Puntarenas. CR."
-                        price={100000}
-                        frequency="monthly"
-                        key={index}
-                        customClass={"m-auto"}
-                    >
-
-                        
-                        <MainButton
-                            text="View"
-                            variant="border"
-                            type="button"
-                            id={1} // Aquí pasas el id de la propiedad
-                            onClick={() => showProperty(2)} // Llama a la función con el ID correcto
-                        />
-                    </AdvancedCard>
-                ))}
+                {isLoadingProps ? (
+                    <p>Loading..,</p>
+                ) : (
+                    createProperties(properties)
+                )}
             </div>
         </section>
     );
