@@ -1,26 +1,21 @@
+import { useAxios } from "./useAxios";
 import { useState, useEffect } from "react";
-import { useAxios } from "./useAxios";  
-import { useAuth } from "../../global/AuthProvider";
-
 
 export function useFetchProperties(){
-    const [properties, setProperties] = useState([]);
-    const [isLoadingProps, setIsLoadingProps] = useState([true]);
+    const [ properties, setProperties ] = useState([]);
+    const [isLoadingProps, SetIsLoadingProps] = useState(true);
     const axios = useAxios();
-    const { getAuthToken, getUser } = useAuth();
-    const user = getUser();
 
     const getData = async () => {
         try {
-            const response = await axios.get('/properties/user/' + user.user.id);
+            const response = await axios.get('properties');
             const data = await response.data;
-            const properties = data;
-            setProperties(properties);
-            setIsLoadingProps(false)
-            
+            console.log(data)
+            SetIsLoadingProps(false);
+            setProperties(data);
         } catch (error) {
-            console.log(error)
-            setIsLoadingProps(false)
+            console.log(error);
+            SetIsLoadingProps(false)
         }
     }
 
