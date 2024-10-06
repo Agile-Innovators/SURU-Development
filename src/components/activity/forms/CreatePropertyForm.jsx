@@ -9,6 +9,8 @@ import { MainFilterTag } from "../../ui/buttons/MainFilterTag";
 import { SecondaryFilterTag } from "../../ui/buttons/SecondaryFilterTag";
 import { BareLandForm } from "./BareLandForm";
 import { globalProvider } from "../../../global/GlobalProvider";
+import { useNavigate } from "react-router-dom";
+import { ROUTE_PATHS } from "../../../routes/index.js";
 
 const CreatePropertyForm = () => {
     const axios = useAxios();
@@ -21,6 +23,7 @@ const CreatePropertyForm = () => {
     const [filterPropType, setFilterPropType] = useState(1);
     const [filterPropTransaction, setFilterPropTransaction] = useState(1);
     const [userId, setUserId] = useState();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const data = localStorage.getItem("user");
@@ -154,7 +157,11 @@ const CreatePropertyForm = () => {
                     "Content-Type": "multipart/form-data",
                 },
             });
-            console.log("respuesta del servidor:", response);
+            if (response.status === 201) {
+                navigate(ROUTE_PATHS.PROPERTY_MANAGEMENT);
+            }else{
+                alert("Error creating property");
+            }
         } catch (error) {
             console.log(error);
         }
@@ -305,7 +312,7 @@ const CreatePropertyForm = () => {
                     </div>
 
                     <div>
-                        <SectionDivider text="Upload a image" />
+                        <SectionDivider text="Upload at least 3 images" />
                         <div className="image-upload-container">
                             <label
                                 htmlFor="file-input"
@@ -315,7 +322,7 @@ const CreatePropertyForm = () => {
                             </label>
 
                             <p>
-                                Please upload a image file (JPG, PNG, or GIF).
+                                Please upload a image file (JPG, JPGE, PNG, or WEBP).
                                 Max size: 5MB.
                             </p>
 
