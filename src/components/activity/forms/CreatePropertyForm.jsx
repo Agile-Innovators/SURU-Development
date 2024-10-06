@@ -10,33 +10,33 @@ import { SecondaryFilterTag } from "../../ui/buttons/SecondaryFilterTag";
 import { BareLandForm } from "./BareLandForm";
 import { globalProvider } from "../../../global/GlobalProvider";
 
-
 const CreatePropertyForm = () => {
     const axios = useAxios();
-    const { setPropTypeForm,  setPropTransacTypeForm } = useContext(globalProvider);
+    const { setPropTypeForm, setPropTransacTypeForm } =
+        useContext(globalProvider);
     const [images, setImages] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
     const [data, setData] = useState({});
     const [utilities, setUtilities] = useState([]);
     const [filterPropType, setFilterPropType] = useState(1);
     const [filterPropTransaction, setFilterPropTransaction] = useState(1);
-    const [ userId, setUserId ] = useState();
+    const [userId, setUserId] = useState();
 
     useEffect(() => {
-        const data = localStorage.getItem('user');
-        if(data){
-            const userData = JSON.parse(data); 
+        const data = localStorage.getItem("user");
+        if (data) {
+            const userData = JSON.parse(data);
             setUserId(userData.id);
             console.log(userData.id);
         }
-    })
+    });
 
     //manejar el valor de tipo de propiedad
     const handleFilterPropType = (filterId) => {
         setFilterPropType(filterId);
         setPropTypeForm(filterId);
         setData({});
-        setUtilities([])
+        setUtilities([]);
     };
 
     //manejar el valor de tipo de transaccion
@@ -44,7 +44,7 @@ const CreatePropertyForm = () => {
         setFilterPropTransaction(id);
         setPropTransacTypeForm(id);
         setData({});
-        setUtilities([])
+        setUtilities([]);
     };
 
     const clearData = () => {
@@ -76,7 +76,7 @@ const CreatePropertyForm = () => {
         });
     };
 
-    //manejar el cambio de imagenes 
+    //manejar el cambio de imagenes
     const handleImageChange = (event) => {
         const files = Array.from(event.target.files);
         const newImages = [...images];
@@ -111,6 +111,14 @@ const CreatePropertyForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Verificar si se han subido imágenes
+        if (images.length < 3) {
+            alert(
+                "Upload at least three image of the property to continue with the publication."
+            );
+            return;
+        }
+
         const finalData = {
             ...data,
             property_category_id: filterPropType,
@@ -139,6 +147,7 @@ const CreatePropertyForm = () => {
         for (let [key, value] of formData.entries()) {
             console.log(`${key}:`, value);
         }
+
         try {
             const response = await axios.post("/properties", formData, {
                 headers: {
@@ -187,7 +196,6 @@ const CreatePropertyForm = () => {
                     fillUtilities={handleUtilitiesData}
                     propertyType={filterPropType}
                     clearData={clearData}
-                    
                 />
             ),
             //bare land
