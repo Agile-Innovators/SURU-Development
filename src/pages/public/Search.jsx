@@ -32,8 +32,8 @@ export function Search() {
                 key={item.id}
                 srcImage={
                     item.images && item.images.length > 0 
-                      ? `http://suru-backend.test/storage/images/properties/${item.images[0].image_name}`
-                      : 'ruta/de/imagen/por-defecto.png' // Imagen predeterminada
+                      ? `${item.images[0].url}`
+                      : 'ruta/de/imagen/por-defecto.png'
                   }
                 title={item.title}
                 location={`${item.city}, ${item.region}`}
