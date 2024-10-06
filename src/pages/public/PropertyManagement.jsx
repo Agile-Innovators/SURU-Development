@@ -12,14 +12,7 @@ import { useFetchProperties } from "../../components/hooks/useFetchProperties.js
 export function PropertyManagement() {
     const { properties, isLoadingProps } = useFetchProperties();
     const [propertiesData, setPropertiesData] = useState(properties);
-
-
-
-    
     // const [isPropertyDeleted, setIsPropertyDeleted] = useState(false);
-
-
-
     const axios = useAxios();
     console.log(properties);
     //  useEffect(() => {
@@ -43,7 +36,7 @@ export function PropertyManagement() {
             console.log(error);
         }
     };
-    
+
     const renderPropertiesIndex = (items) => {
         return items.map((item, index) => {
             return (
@@ -52,7 +45,7 @@ export function PropertyManagement() {
                     className="flex flex-col sm:flex-row border rounded-md p-4 text-left justify-center sm:justify-between items-center"
                 >
                     <div className="grid gap-2 text-center sm:text-left">
-                        <h3>{item.title}</h3>
+                        <h3>{item.title} - {item.property_transaction} </h3>
                         <div className="flex gap-3 justify-center sm:justify-start">
                             <MapPin
                                 size={22}
@@ -63,12 +56,25 @@ export function PropertyManagement() {
                                 {item.city || "City not available"}
                             </p>
                         </div>
-                        <h5 className="text-2xl font-medium flex gap-3">
-                            {item.sale_price || "0.00"}
-                            <span className="text-grey"> Monthly</span>
-                        </h5>
+                        <div className="flex items-center gap-2">
+                            {/* el siguiente condicional if que verifica el tipo de moneda: si es CRC o USD */}
+                            {item.currency_code === "CRC" ? (
+                                <p>₡</p>
+                            ) : (
+                                <p>$</p>
+                            )}
+
+                            <h5 className="text-2xl font-medium flex gap-3">
+                                {item.price || "0.00"}
+                            </h5>
+                            {item.property_transaction === "Rent" ? (
+                                <span className="text-grey">{item.payment_frequency}</span>
+                            ) : (
+                                <span className="text-grey"> One-time payment</span>
+                            )}
+                        </div>
                     </div>
-    
+
                     <div className="flex flex-col sm:flex-row justify-center p-2 gap-2 mt-4 sm:mt-0 w-full sm:w-auto">
                         <MainButton
                             text="Edit"

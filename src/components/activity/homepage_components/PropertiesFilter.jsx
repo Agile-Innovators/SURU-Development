@@ -233,7 +233,7 @@ export function PropertiesFilter() {
                             text="View"
                             variant="border"
                             type="button"
-                            id={1} // Aquí pasas el id de la propiedad
+                            id={2} // Aquí pasas el id de la propiedad
                             onClick={() => showProperty(2)} // Llama a la función con el ID correcto
                         />
                     </AdvancedCard>

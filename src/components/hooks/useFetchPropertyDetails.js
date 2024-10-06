@@ -11,11 +11,10 @@ export const useFetchPropertyDetails = () => {
 
   const getData = async () => {
     try {
-      const url = `/properties/property/1`; // Corrigiendo URL
+      const url = `/properties/property/2`; // Corrigiendo URL
       const response = await axios.get(url);
       
       const data = response.data;
-      console.log(JSON.stringify(data, null, 2));
       setPropertyDetails(data);
     
       setIsLoadingPropsDetails(false);

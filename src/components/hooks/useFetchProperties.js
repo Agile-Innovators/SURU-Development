@@ -9,13 +9,11 @@ export function useFetchProperties(){
     const axios = useAxios();
     const { getAuthToken, getUser } = useAuth();
     const user = getUser();
-    console.log("El usuario es el siguiente " + JSON.stringify(user));
 
     const getData = async () => {
         try {
             const response = await axios.get('/properties/user/' + user.user.id);
             const data = await response.data;
-            console.log("La información de propiedades es la siguiente" +data);
             const properties = data;
             setProperties(properties);
             setIsLoadingProps(false)

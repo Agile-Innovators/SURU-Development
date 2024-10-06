@@ -111,10 +111,10 @@ export function NavBar() {
                             ? "text-cyan-500 font-semibold"
                             : "text-gray-600 hover:text-light-blue transition duration-200 ease-in-out",
                           item.name === "Log In"
-                          ? "bg-light-blue hover:bg-cyan-600/85 border-none text-white hover:text-white" //Login button styles
+                            ? "bg-light-blue hover:bg-cyan-600/85 border-none text-white hover:text-white" //Login button styles
                             : item.name === "Sign Up"
-                            ? "bg-none text-gray-600 hover:text-gray-600 bg-gray-300" // Sign Up button styles
-                            : "",
+                              ? "bg-none text-gray-600 hover:text-gray-600 bg-gray-300" // Sign Up button styles
+                              : "",
                           !item.isLogin
                             ? "rounded-md hover:text-primary"
                             : "",

@@ -18,6 +18,11 @@ import { useFetchPropertyDetails } from "../../components/hooks/useFetchProperty
 
 export function PropertyDetails() {
     const { propertyDetails, isLoadingPropsDetails } = useFetchPropertyDetails();
+    //la variable propertyDetails es un objeto que contiene la información de la propiedad
+    // isLoadingPropsDetails es un booleano que indica si la información de la propiedad se está cargando
+    console.log(propertyDetails);
+    const { images, ...rest } = propertyDetails.property || {};
+
 
     return (
         <div className="mx-auto max-w-7xl px-6 lg:px-8 gap-4 my-4">
