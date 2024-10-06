@@ -8,7 +8,7 @@ import { useFetchRegions } from "../../hooks/useFetchRegions.js";
 import { useFetchPropertyCategories } from "../../hooks/useFetchPropertyCategories.js";
 import { globalProvider } from "../../../global/GlobalProvider.jsx";
 import { useFetchProperties } from "../../hooks/useFetchProperties.js";
-import { useFetchUserProperties } from "../../hooks/useFetchUserProperties.js";
+import { SkeletonLoader } from "../../ui/SkeletonLoader.jsx";
 
 export function PropertiesFilter() {
     const {
@@ -115,6 +115,26 @@ export function PropertiesFilter() {
         });
     };
 
+    const showLoaderCards = () => {
+        return Array(6)
+            .fill(0)
+            .map((_, index) => (
+                <SkeletonLoader
+                    key={`card-${index}`}
+                    customClass="h-[27rem] w-full"
+                />
+            ));
+    };
+
+    const showLoaderSelect = () => {
+        return (
+            <div className="w-full gap-1 lg:w-auto flex flex-col">
+                <SkeletonLoader customClass="h-8 w-full sm:w-40" />
+                <SkeletonLoader customClass="h-8 w-full sm:w-40" />
+            </div>
+        );
+    };
+
     const selectPriceOptions = [
         {
             id: "price",
@@ -143,14 +163,13 @@ export function PropertiesFilter() {
         console.log(selectRegion, minPrice, maxPrice, propertyCategory);
 
         //validar si no se selecciono el precio maximo
-        if(maxPrice !== "max"){
+        if (maxPrice !== "max") {
             //verificar que el minPrice no sea mayor
-            if(minPrice > maxPrice){
+            if (minPrice > maxPrice) {
                 console.log("Es mayor");
                 return;
             }
         }
-    
 
         //cargar datos para el globalProvider
         setRegionId(selectRegion);
@@ -183,11 +202,9 @@ export function PropertiesFilter() {
                     name="form_filter"
                     className="w-full lg:w-auto flex flex-col justify-center flex-wrap lg:flex-row items-center border border-gray-200 p-6 rounded-lg shadow-sm gap-6 transition-all duration-300 hover:shadow-md hover:border-gray-300"
                 >
-                    {isLoadingRegions ? (
-                        <p>Loading</p>
-                    ) : (
-                        createRegionsSelect(regions)
-                    )}
+                    {isLoadingRegions
+                        ? showLoaderSelect()
+                        : createRegionsSelect(regions)}
 
                     {
                         <div className="w-full lg:w-auto flex flex-col">
@@ -243,11 +260,9 @@ export function PropertiesFilter() {
                         </div>
                     }
                     {/* <input type="range" /> */}
-                    {isLoadingPropsCats ? (
-                        <p>Loading</p>
-                    ) : (
-                        createPropsCatsSelect(propertyCategories)
-                    )}
+                    {isLoadingPropsCats
+                        ? showLoaderSelect()
+                        : createPropsCatsSelect(propertyCategories)}
 
                     <Divider orientation="vertical" flexItem />
                     <div className="flex flex-col gap-2 w-full sm:flex-row lg:w-auto">
@@ -268,11 +283,9 @@ export function PropertiesFilter() {
                 </form>
             </div>
             <div className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-4 justify-center items-center mt-10">
-                {isLoadingProps ? (
-                    <p>Loading..,</p>
-                ) : (
-                    createProperties(properties)
-                )}
+                {isLoadingProps
+                    ? showLoaderCards()
+                    : createProperties(properties)}
             </div>
         </section>
     );

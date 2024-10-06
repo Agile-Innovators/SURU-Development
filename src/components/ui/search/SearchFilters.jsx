@@ -1,10 +1,10 @@
-import { ROUTE_PATHS } from "../../../routes";
 import { MainButton } from "../buttons/MainButton";
 import { useFetchPropertyCategories } from "../../hooks/useFetchPropertyCategories";
 import { useFetchRegions } from "../../hooks/useFetchRegions";
 import { useAxios } from "../../hooks/useAxios";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { SkeletonLoader } from "../SkeletonLoader";
 
 export function SearchFilter({ setData }) {
     const { regions, isLoadingRegions } = useFetchRegions();
@@ -122,6 +122,15 @@ export function SearchFilter({ setData }) {
         );
     };
 
+    const showLoaderSelect = () => {
+        return (
+            <div className="w-full gap-1 lg:w-auto flex flex-col">
+                <SkeletonLoader customClass="h-8 w-full sm:w-full" />
+                <SkeletonLoader customClass="h-8 w-full sm:w-full" />
+            </div>
+        );
+    };
+
     const clearFilter = (e) => {
         e.preventDefault();
         console.log("clear");
@@ -213,7 +222,7 @@ export function SearchFilter({ setData }) {
                     </div>
                 }
                 {isLoadingPropsCats ? (
-                    <p>Loading</p>
+                    showLoaderSelect()
                 ) : (
                     createPropsCatsSelect(propertyCategories)
                 )}

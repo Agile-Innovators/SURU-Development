@@ -4,12 +4,22 @@ import { SearchFilter } from "../../components/ui/search/SearchFilters";
 import { globalProvider } from "../../global/GlobalProvider";
 import { useFetchFilter } from "../../components/hooks/useFetchFilter";
 import { MainButton } from "../../components/ui/buttons/MainButton";
+import { useNavigate } from "react-router-dom";
+import { ROUTE_PATHS } from "../../routes";
+import { SkeletonLoader } from "../../components/ui/SkeletonLoader";
 
 export function Search() {
     //llamar una funcion global que vacie los estados, propuesta
-    const { regionId, minPrice, maxPrice, propertyTypeId, isFilterUsed } =
-        useContext(globalProvider);
+    const {
+        regionId,
+        minPrice,
+        maxPrice,
+        propertyTypeId,
+        isFilterUsed,
+        setPropertyID,
+    } = useContext(globalProvider);
     const { data, isLoading } = useFetchFilter();
+    const navigate = useNavigate();
 
     //testing
     const [properties, setProperties] = useState(data);
@@ -22,31 +32,55 @@ export function Search() {
         setProperties(data);
     }, [isLoading]);
 
+    const showProperty = (id) => {
+        setPropertyID(id);
+        console.log("ID HOME:", id);
+        navigate(ROUTE_PATHS.PROPERTY_DETAILS);
+    };
+
+    const showLoaderCards = () => {
+        return Array(6)
+            .fill(0)
+            .map((_, index) => (
+                <SkeletonLoader
+                    key={`card-${index}`}
+                    customClass="h-[25rem] w-full"
+                />
+            ));
+    };
+
+    
+
     function showFilteredProperties(properties) {
         if (!properties || properties.length === 0) {
             return <h2>Not found</h2>;
         }
 
-        return properties.map((item) => (
+        return properties.map((property) => (
             <AdvancedCard
-                key={item.id}
                 srcImage={
-                    item.images && item.images.length > 0 
-                      ? `${item.images[0].url}`
-                      : 'ruta/de/imagen/por-defecto.png'
-                  }
-                title={item.title}
-                location={`${item.city}, ${item.region}`}
-                price={item.price}
-                frequency={"monthly"}
-                qtyBedrooms={item.bedrooms}
-                qtyBathrooms={item.bathrooms}
-                qtyGarages={item.garages}
+                    property.images && property.images.length > 0
+                        ? property.images[0].url
+                        : "imagen/predeterminada"
+                }
+                title={property.title}
+                location={`${property.city}, ${property.region}`}
+                price={property.price ? property.price : property.rent_price}
+                frequency={
+                    property.payment_frequency ? property.payment_frequency : ""
+                }
+                qtyBedrooms={property.bedrooms ? property.bedrooms : 0}
+                qtyBathrooms={property.bathrooms ? property.bathrooms : 0}
+                qtyGarages={property.garages ? property.garages : 0}
+                key={property.id}
+                customClass={"m-auto"}
             >
                 <MainButton
-                    text={"Rent"}
-                    type={"button"}
-                    customClass="px-10 m-0 sm:m-auto"
+                    text="View"
+                    variant="border"
+                    type="button"
+                    id={property.id}
+                    onClick={() => showProperty(property.id)}
                 />
             </AdvancedCard>
         ));
@@ -58,9 +92,9 @@ export function Search() {
             <h2>Search properties</h2>
             <SearchFilter setData={setFilterProperties} />
 
-            <div className="grid grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-4 mt- mb-5">
+            <div className="grid grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-4 mt-8 mb-5">
                 {isLoading ? (
-                    <p>Cargando</p>
+                    showLoaderCards()
                 ) : (
                     showFilteredProperties(properties)
                 )}
