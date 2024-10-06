@@ -1,17 +1,17 @@
-import { createContext, useState } from "react";
-import { PropTypes } from 'prop-types'
+import { createContext, useState } from 'react';
+import { PropTypes } from 'prop-types';
 
 export const globalProvider = createContext();
 
-export function GlobalProvider({children}) {
+export function GlobalProvider({ children }) {
     const [isFilterUsed, setIsFilterUsed] = useState(false);
     const [regionId, setRegionId] = useState(2);
-    const [minPrice, setMinPrice] = useState("");
-    const [maxPrice, setMaxPrice] = useState("");
-    const [propertyTypeId, setPropertyTypeId] = useState("");
+    const [minPrice, setMinPrice] = useState('');
+    const [maxPrice, setMaxPrice] = useState('');
+    const [propertyTypeId, setPropertyTypeId] = useState('');
     const [propTypeForm, setPropTypeForm] = useState();
     const [propTransacTypeForm, setPropTransacTypeForm] = useState();
-    const [propertyID, setPropertyID] = useState("");
+    const [propertyID, setPropertyID] = useState('');
 
     return (
         <globalProvider.Provider
@@ -31,13 +31,10 @@ export function GlobalProvider({children}) {
                 propTransacTypeForm,
                 setPropTransacTypeForm,
                 propertyID,
-                setPropertyID
+                setPropertyID,
             }}
-            
         >
             {children}
         </globalProvider.Provider>
     );
 }
-
-

@@ -1,24 +1,19 @@
-import { BackButton } from "../../components/ui/buttons/BackButton.jsx";
-import { MapPin } from "lucide-react";
-import { ActionButton } from "../../components/ui/buttons/ActionButton.jsx";
-import { MainButton } from "../../components/ui/buttons/MainButton.jsx";
-import { ROUTE_PATHS } from "../../routes/index.js";
+import { BackButton } from '../../components/ui/buttons/BackButton.jsx';
+import { MapPin } from 'lucide-react';
+import { ActionButton } from '../../components/ui/buttons/ActionButton.jsx';
+import { MainButton } from '../../components/ui/buttons/MainButton.jsx';
+import { ROUTE_PATHS } from '../../routes/index.js';
 // import { useFetchProperties } from "../../components/hooks/useFetchProperties.js";
-import { useState, useEffect } from "react";
-import { Input } from "../../components/ui/forms/Input.jsx";
-import { useAxios } from "../../components/hooks/useAxios.js";
-import { useFetchProperties } from "../../components/hooks/useFetchProperties.js";
+import { useState, useEffect } from 'react';
+import { Input } from '../../components/ui/forms/Input.jsx';
+import { useAxios } from '../../components/hooks/useAxios.js';
+import { useFetchProperties } from '../../components/hooks/useFetchProperties.js';
 
 export function PropertyManagement() {
     const { properties, isLoadingProps } = useFetchProperties();
     const [propertiesData, setPropertiesData] = useState(properties);
 
-
-
-    
     // const [isPropertyDeleted, setIsPropertyDeleted] = useState(false);
-
-
 
     const axios = useAxios();
     console.log(properties);
@@ -43,7 +38,7 @@ export function PropertyManagement() {
             console.log(error);
         }
     };
-    
+
     const renderPropertiesIndex = (items) => {
         return items.map((item, index) => {
             return (
@@ -59,16 +54,14 @@ export function PropertyManagement() {
                                 strokeWidth={1}
                                 className="text-grey"
                             />
-                            <p>
-                                {item.city || "City not available"}
-                            </p>
+                            <p>{item.city || 'City not available'}</p>
                         </div>
                         <h5 className="text-2xl font-medium flex gap-3">
-                            {item.sale_price || "0.00"}
+                            {item.sale_price || '0.00'}
                             <span className="text-grey"> Monthly</span>
                         </h5>
                     </div>
-    
+
                     <div className="flex flex-col sm:flex-row justify-center p-2 gap-2 mt-4 sm:mt-0 w-full sm:w-auto">
                         <MainButton
                             text="Edit"

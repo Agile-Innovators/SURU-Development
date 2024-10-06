@@ -1,6 +1,6 @@
-import { useState, useEffect, useContext } from "react";
-import { useAxios } from "./useAxios";
-import { globalProvider } from "../../global/GlobalProvider";
+import { useState, useEffect, useContext } from 'react';
+import { useAxios } from './useAxios';
+import { globalProvider } from '../../global/GlobalProvider';
 
 export const useFetchFilter = () => {
     const axios = useAxios();
@@ -19,14 +19,15 @@ export const useFetchFilter = () => {
     const getData = async () => {
         try {
             if (isFilterUsed) {
-                console.log("valores de entrada: ",
+                console.log(
+                    'valores de entrada: ',
                     regionId,
                     minPrice,
                     maxPrice,
                     propertyTypeId,
-                    isFilterUsed,
+                    isFilterUsed
                 );
-                response = await axios.get("/properties/filter", {
+                response = await axios.get('/properties/filter', {
                     params: {
                         regionId: regionId,
                         minPrice: minPrice,
@@ -34,12 +35,12 @@ export const useFetchFilter = () => {
                         propertyCategoryId: propertyTypeId,
                     },
                 });
-                console.log("se ejecuto el filtro");
+                console.log('se ejecuto el filtro');
                 console.log(response);
                 setIsFilterUsed(false);
             } else {
-                response = await axios.get("/properties");
-                console.log("get properties");
+                response = await axios.get('/properties');
+                console.log('get properties');
             }
             const data = await response.data;
             setData(data);

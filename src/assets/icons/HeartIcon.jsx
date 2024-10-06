@@ -1,6 +1,6 @@
 import { PropTypes } from 'prop-types';
 
-export function HeartIcon({customClass = ""}) {
+export function HeartIcon({ customClass = '' }) {
     return (
         <svg
             className={`w-[32px] h-[32px] text-secondary ${customClass}`}
@@ -10,7 +10,6 @@ export function HeartIcon({customClass = ""}) {
             height="24"
             fill="none"
             viewBox="0 0 24 24"
-
         >
             <path
                 stroke="currentColor"
@@ -24,5 +23,5 @@ export function HeartIcon({customClass = ""}) {
 }
 
 HeartIcon.propTypes = {
-    customClass: PropTypes.string
-}
+    customClass: PropTypes.string,
+};

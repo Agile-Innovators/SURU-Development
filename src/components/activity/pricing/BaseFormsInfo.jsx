@@ -1,20 +1,20 @@
-import { InputForms } from "../../ui/forms/InputForms";
-import { useFetchLocations } from "../../hooks/useFetchLocations";
-import { useState, useContext, useEffect } from "react";
-import { globalProvider } from "../../../global/GlobalProvider";
+import { InputForms } from '../../ui/forms/InputForms';
+import { useFetchLocations } from '../../hooks/useFetchLocations';
+import { useState, useContext, useEffect } from 'react';
+import { globalProvider } from '../../../global/GlobalProvider';
 
 export function BaseFormsInfo({ fillData }) {
     const { locations, isLoadingLocat } = useFetchLocations();
-    const [selectedLocation, setSelectedLocation] = useState("");
-    const {  propTypeForm, propTransacTypeForm } = useContext(globalProvider);
+    const [selectedLocation, setSelectedLocation] = useState('');
+    const { propTypeForm, propTransacTypeForm } = useContext(globalProvider);
 
-    const handleLocationSelect = (e) =>{
-      setSelectedLocation(e.target.value);
-      fillData("city_id", e.target.value)
-    }
+    const handleLocationSelect = (e) => {
+        setSelectedLocation(e.target.value);
+        fillData('city_id', e.target.value);
+    };
 
     useEffect(() => {
-      setSelectedLocation('');
+        setSelectedLocation('');
     }, [propTypeForm, propTransacTypeForm]);
 
     return (
@@ -25,7 +25,7 @@ export function BaseFormsInfo({ fillData }) {
                     inputId="title"
                     labelText="Title"
                     placeholder="Enter the title"
-                    onChange={(value) => fillData("title", value)}
+                    onChange={(value) => fillData('title', value)}
                     required={true}
                 />
             </div>
@@ -37,7 +37,7 @@ export function BaseFormsInfo({ fillData }) {
                     placeholder="Select the date"
                     customClass=""
                     type="date"
-                    onChange={(value) => fillData("availability_date", value)}
+                    onChange={(value) => fillData('availability_date', value)}
                     required={true}
                 />
             </div>
@@ -49,7 +49,7 @@ export function BaseFormsInfo({ fillData }) {
                     placeholder="Enter the description"
                     customClass=""
                     type="textarea"
-                    onChange={(value) => fillData("description", value)}
+                    onChange={(value) => fillData('description', value)}
                     required={true}
                 />
             </div>
@@ -59,7 +59,7 @@ export function BaseFormsInfo({ fillData }) {
                 ) : (
                     <>
                         <label
-                            htmlFor={"cities_Select"}
+                            htmlFor={'cities_Select'}
                             className="block text-sm font-medium text-gray-700 mb-2"
                         >
                             Location

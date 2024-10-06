@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { useAxios } from "./useAxios";  
+import { useState, useEffect } from 'react';
+import { useAxios } from './useAxios';
 
-export function useFetchLocations(){
+export function useFetchLocations() {
     const [locations, setLocations] = useState([]);
     const [isLoadingLocat, setIsLoadingLocat] = useState(true);
     const axios = useAxios();
@@ -11,21 +11,19 @@ export function useFetchLocations(){
             const response = await axios.get('/locations');
             const data = await response.data;
             setLocations(data);
-            setIsLoadingLocat(false)
-            
+            setIsLoadingLocat(false);
         } catch (error) {
-            console.log(error)
-            setIsLoadingLocat(false)
+            console.log(error);
+            setIsLoadingLocat(false);
         }
-    }
+    };
 
     useEffect(() => {
         getData();
     }, []);
 
-    return{
+    return {
         locations,
-        isLoadingLocat
-    }
-
+        isLoadingLocat,
+    };
 }

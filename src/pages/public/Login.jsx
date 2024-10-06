@@ -1,12 +1,12 @@
-import { LoginForm } from "../../components/activity/forms/LoginForm.jsx";
+import { LoginForm } from '../../components/activity/forms/LoginForm.jsx';
 
 export function Login() {
     return (
-      <div className="bg-authentication grid">
+        <div className="bg-authentication grid">
             <div className="max-w-7xl mx-auto p-5 grid content-center">
                 <LoginForm />
             </div>
-      </div>
+        </div>
     );
 }
 

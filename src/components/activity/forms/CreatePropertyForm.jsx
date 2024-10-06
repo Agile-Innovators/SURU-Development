@@ -1,16 +1,16 @@
-import { X, House, Hotel, Warehouse, Store, Fence } from "lucide-react";
-import { useState, useContext, useEffect } from "react";
-import SectionDivider from "../../ui/layout/SectionDivider";
-import { MainButton } from "../../ui/buttons/MainButton";
-import HDSForm from "./HDSForm";
-import RetailSpaceForm from "./RetailSpaceForm";
-import { useAxios } from "../../hooks/useAxios";
-import { MainFilterTag } from "../../ui/buttons/MainFilterTag";
-import { SecondaryFilterTag } from "../../ui/buttons/SecondaryFilterTag";
-import { BareLandForm } from "./BareLandForm";
-import { globalProvider } from "../../../global/GlobalProvider";
-import { useNavigate } from "react-router-dom";
-import { ROUTE_PATHS } from "../../../routes/index.js";
+import { X, House, Hotel, Warehouse, Store, Fence } from 'lucide-react';
+import { useState, useContext, useEffect } from 'react';
+import SectionDivider from '../../ui/layout/SectionDivider';
+import { MainButton } from '../../ui/buttons/MainButton';
+import HDSForm from './HDSForm';
+import RetailSpaceForm from './RetailSpaceForm';
+import { useAxios } from '../../hooks/useAxios';
+import { MainFilterTag } from '../../ui/buttons/MainFilterTag';
+import { SecondaryFilterTag } from '../../ui/buttons/SecondaryFilterTag';
+import { BareLandForm } from './BareLandForm';
+import { globalProvider } from '../../../global/GlobalProvider';
+import { useNavigate } from 'react-router-dom';
+import { ROUTE_PATHS } from '../../../routes/index.js';
 
 const CreatePropertyForm = () => {
     const axios = useAxios();
@@ -26,7 +26,7 @@ const CreatePropertyForm = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const data = localStorage.getItem("user");
+        const data = localStorage.getItem('user');
         if (data) {
             const userData = JSON.parse(data);
             setUserId(userData.id);
@@ -56,7 +56,7 @@ const CreatePropertyForm = () => {
 
     //manejar el valor de las utilidades de la propiedad
     const handleUtilitiesData = (value, method) => {
-        if (method === "remove") {
+        if (method === 'remove') {
             setUtilities((prevUtilities) =>
                 prevUtilities.filter((utility) => utility !== value)
             );
@@ -100,7 +100,7 @@ const CreatePropertyForm = () => {
         setImages(newImages);
         // Considerar eliminar esta línea si las imágenes se manejan por separado
         // handleInputChange("images", newImages);
-        event.target.value = "";
+        event.target.value = '';
     };
 
     const removeImage = (index) => {
@@ -117,7 +117,7 @@ const CreatePropertyForm = () => {
         // Verificar si se han subido imágenes
         if (images.length < 3) {
             alert(
-                "Upload at least three image of the property to continue with the publication."
+                'Upload at least three image of the property to continue with the publication.'
             );
             return;
         }
@@ -134,7 +134,7 @@ const CreatePropertyForm = () => {
 
         //agregar imagenes a la consulta
         images.forEach((image) => {
-            formData.append("images[]", image);
+            formData.append('images[]', image);
         });
 
         //agregar los datos a la consulta
@@ -144,7 +144,7 @@ const CreatePropertyForm = () => {
 
         //agregar las utilidades
         utilities.forEach((utility) => {
-            formData.append("utilities[]", utility);
+            formData.append('utilities[]', utility);
         });
 
         for (let [key, value] of formData.entries()) {
@@ -152,15 +152,15 @@ const CreatePropertyForm = () => {
         }
 
         try {
-            const response = await axios.post("/properties", formData, {
+            const response = await axios.post('/properties', formData, {
                 headers: {
-                    "Content-Type": "multipart/form-data",
+                    'Content-Type': 'multipart/form-data',
                 },
             });
             if (response.status === 201) {
                 navigate(ROUTE_PATHS.PROPERTY_MANAGEMENT);
-            }else{
-                alert("Error creating property");
+            } else {
+                alert('Error creating property');
             }
         } catch (error) {
             console.log(error);
@@ -175,7 +175,7 @@ const CreatePropertyForm = () => {
             //casa
             1: (
                 <HDSForm
-                    title={"House details"}
+                    title={'House details'}
                     transactionType={filterPropTransaction}
                     fillData={handleInputChange}
                     fillUtilities={handleUtilitiesData}
@@ -186,7 +186,7 @@ const CreatePropertyForm = () => {
             //apartment
             2: (
                 <HDSForm
-                    title={"Apartment details"}
+                    title={'Apartment details'}
                     transactionType={filterPropTransaction}
                     fillData={handleInputChange}
                     fillUtilities={handleUtilitiesData}
@@ -197,7 +197,7 @@ const CreatePropertyForm = () => {
             //studio
             3: (
                 <HDSForm
-                    title={"Studio details"}
+                    title={'Studio details'}
                     transactionType={filterPropTransaction}
                     fillData={handleInputChange}
                     fillUtilities={handleUtilitiesData}
@@ -234,31 +234,31 @@ const CreatePropertyForm = () => {
                 <SectionDivider text="Property type" />
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center mx-auto max-w-7xl">
                     <MainFilterTag
-                        text={"House"}
+                        text={'House'}
                         icon={<House size={20} />}
                         isActivate={filterPropType === 1}
                         handleActivateButton={() => handleFilterPropType(1)}
                     />
                     <MainFilterTag
-                        text={"Apartment"}
+                        text={'Apartment'}
                         icon={<Hotel size={20} />}
                         isActivate={filterPropType === 2}
                         handleActivateButton={() => handleFilterPropType(2)}
                     />
                     <MainFilterTag
-                        text={"Studio"}
+                        text={'Studio'}
                         icon={<Warehouse size={20} />}
                         isActivate={filterPropType === 3}
                         handleActivateButton={() => handleFilterPropType(3)}
                     />
                     <MainFilterTag
-                        text={"Bare land"}
+                        text={'Bare land'}
                         icon={<Fence size={20} />}
                         isActivate={filterPropType === 4}
                         handleActivateButton={() => handleFilterPropType(4)}
                     />
                     <MainFilterTag
-                        text={"Retail space"}
+                        text={'Retail space'}
                         icon={<Store size={20} />}
                         isActivate={filterPropType === 5}
                         handleActivateButton={() => handleFilterPropType(5)}
@@ -270,30 +270,30 @@ const CreatePropertyForm = () => {
                         <SectionDivider text="What will you do with this property?" />
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center mx-auto max-w-7xl">
                             <SecondaryFilterTag
-                                text={"Sale"}
+                                text={'Sale'}
                                 isActivate={filterPropTransaction === 1}
                                 handleSelectedValue={
                                     handleFilterPropTransaction
                                 }
-                                groupType={"group"}
+                                groupType={'group'}
                                 idValue={1}
                             />
                             <SecondaryFilterTag
-                                text={"Rent"}
+                                text={'Rent'}
                                 isActivate={filterPropTransaction === 2}
                                 handleSelectedValue={
                                     handleFilterPropTransaction
                                 }
-                                groupType={"group"}
+                                groupType={'group'}
                                 idValue={2}
                             />
                             <SecondaryFilterTag
-                                text={"Both"}
+                                text={'Both'}
                                 isActivate={filterPropTransaction === 3}
                                 handleSelectedValue={
                                     handleFilterPropTransaction
                                 }
-                                groupType={"group"}
+                                groupType={'group'}
                                 idValue={3}
                             />
                         </div>
@@ -322,8 +322,8 @@ const CreatePropertyForm = () => {
                             </label>
 
                             <p>
-                                Please upload a image file (JPG, JPGE, PNG, or WEBP).
-                                Max size: 5MB.
+                                Please upload a image file (JPG, JPGE, PNG, or
+                                WEBP). Max size: 5MB.
                             </p>
 
                             <input

@@ -1,5 +1,5 @@
-import { MainButton } from "../../ui/buttons/MainButton";
-import { Moon, Sun } from "lucide-react";
+import { MainButton } from '../../ui/buttons/MainButton';
+import { Moon, Sun } from 'lucide-react';
 
 export function UserPreference() {
     return (
@@ -13,7 +13,7 @@ export function UserPreference() {
                         <div className="flex gap-4">
                             <div className="p-2 border border-gray-300 rounded-md relative">
                                 <input
-                                    onClick={() => console.log("DarkMode")}
+                                    onClick={() => console.log('DarkMode')}
                                     type="checkbox"
                                     className="absolute w-10 h-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 cursor-pointer"
                                 />
@@ -21,7 +21,7 @@ export function UserPreference() {
                             </div>
                             <div className="p-2 border border-gray-300 rounded-md relative cursor-pointer">
                                 <input
-                                    onClick={() => console.log("LightMode")}
+                                    onClick={() => console.log('LightMode')}
                                     type="checkbox"
                                     className="absolute w-10 h-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 cursor-pointer"
                                 />

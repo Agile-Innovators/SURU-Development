@@ -1,18 +1,17 @@
-import { PropTypes } from "prop-types";
+import { PropTypes } from 'prop-types';
 
 export function Input({
-    customClass = "",
+    customClass = '',
     inputName,
-    placeholder = "",
-    type = "text",
-    spanText = "",
+    placeholder = '',
+    type = 'text',
+    spanText = '',
     labelText,
     inputId,
     required = false,
     value,
     onChange = () => {},
 }) {
-
     return (
         <div className="flex flex-col">
             <label htmlFor={inputId} className="span">
