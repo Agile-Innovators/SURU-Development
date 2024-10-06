@@ -10,7 +10,7 @@ export function MainButton({
   variant = "fill",
   customClass = "",
   icon = null,
-  onClick = null,
+  onClick = () => {},
   isChecked = false,
   id = null, // Nueva prop de id
 }) {
@@ -21,15 +21,16 @@ export function MainButton({
 
   let commonClasses = `block text-center px-8 py-3 rounded-md transition-colors duration-150 cursor-pointer ${customClass} ${variantClasses[variant]}`;
 
-  const handleClick = () => {
-    if (onClick) {
-      onClick(id); // Retorna el id al hacer clic
-    }
-  };
+  //manejar el onClick más dinamico ya que no permite agreagr otras funciones
+  // const handleClick = () => {
+  //   if (onClick) {
+  //     onClick(id); // Retorna el id al hacer clic
+  //   }
+  // };
 
   if (type === "button") {
     return (
-      <button id={id} className={commonClasses} onClick={handleClick}>
+      <button id={id} className={commonClasses} onClick={onClick} type="button">
         {icon ? icon : text}
       </button>
     );

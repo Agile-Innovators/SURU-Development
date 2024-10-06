@@ -1,5 +1,5 @@
 import { X, House, Hotel, Warehouse, Store, Fence } from "lucide-react";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import SectionDivider from "../../ui/layout/SectionDivider";
 import { MainButton } from "../../ui/buttons/MainButton";
 import HDSForm from "./HDSForm";
@@ -20,6 +20,16 @@ const CreatePropertyForm = () => {
     const [utilities, setUtilities] = useState([]);
     const [filterPropType, setFilterPropType] = useState(1);
     const [filterPropTransaction, setFilterPropTransaction] = useState(1);
+    const [ userId, setUserId ] = useState();
+
+    useEffect(() => {
+        const data = localStorage.getItem('user');
+        if(data){
+            const userData = JSON.parse(data); 
+            setUserId(userData.id);
+            console.log(userData.id);
+        }
+    })
 
     //manejar el valor de tipo de propiedad
     const handleFilterPropType = (filterId) => {
@@ -105,7 +115,7 @@ const CreatePropertyForm = () => {
             ...data,
             property_category_id: filterPropType,
             property_transaction_type_id: filterPropTransaction,
-            user_id: 2,
+            user_id: userId,
         };
 
         //Objeto para enviar los datos
