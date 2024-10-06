@@ -1,14 +1,10 @@
-import SectionDivider from "../../ui/layout/SectionDivider";
-import BaseFormsInfo from "../pricing/BaseFormsInfo";
-import { InputForms } from "../../ui/forms/InputForms";
-import { PriceDetailsSelector } from "./../pricing/PriceDetailsSelector";
+import SectionDivider from '../../ui/layout/SectionDivider';
+import BaseFormsInfo from '../pricing/BaseFormsInfo';
+import { InputForms } from '../../ui/forms/InputForms';
+import { PriceDetailsSelector } from './../pricing/PriceDetailsSelector';
 import { SecondaryFilterTag } from './../../ui/buttons/SecondaryFilterTag';
 
-const RetailSpaceForm = ({
-    transactionType,
-    fillData,
-    fillUtilities,
-}) => {
+const RetailSpaceForm = ({ transactionType, fillData, fillUtilities }) => {
     return (
         <div>
             <SectionDivider text="Retail Space details" />
@@ -21,7 +17,7 @@ const RetailSpaceForm = ({
                     labelText="Size"
                     placeholder="Property size in square meters"
                     required={true}
-                    onChange={(value) => fillData("size_in_m2", value)}
+                    onChange={(value) => fillData('size_in_m2', value)}
                 />
                 <InputForms
                     inputName="bathrooms"
@@ -29,7 +25,7 @@ const RetailSpaceForm = ({
                     type="number"
                     labelText="Bathrooms"
                     required={true}
-                    onChange={(value) => fillData("bathrooms", value)}
+                    onChange={(value) => fillData('bathrooms', value)}
                 />
             </div>
             {/* Transaction type: 2 = rent, 3 = both */}
@@ -38,30 +34,30 @@ const RetailSpaceForm = ({
                     <SectionDivider text="Include services" />
                     <div className="grid grid-cols-2 gap-4 my-4">
                         <SecondaryFilterTag
-                            text={"Electricity"}
+                            text={'Electricity'}
                             handleSelectedValue={fillUtilities}
-                            groupType={"individual"}
+                            groupType={'individual'}
                             isActivate={false}
                             idValue={1}
                         />
                         <SecondaryFilterTag
-                            text={"Water"}
+                            text={'Water'}
                             handleSelectedValue={fillUtilities}
-                            groupType={"individual"}
+                            groupType={'individual'}
                             isActivate={false}
                             idValue={2}
                         />
                         <SecondaryFilterTag
-                            text={"Wifi"}
+                            text={'Wifi'}
                             handleSelectedValue={fillUtilities}
-                            groupType={"individual"}
+                            groupType={'individual'}
                             isActivate={false}
                             idValue={4}
                         />
                         <SecondaryFilterTag
-                            text={"Cable TV"}
+                            text={'Cable TV'}
                             handleSelectedValue={fillUtilities}
-                            groupType={"individual"}
+                            groupType={'individual'}
                             isActivate={false}
                             idValue={5}
                         />

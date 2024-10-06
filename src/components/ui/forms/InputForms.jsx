@@ -1,27 +1,27 @@
-import PropTypes from "prop-types";
-import { useState, useEffect, useContext } from "react";
-import { globalProvider } from "../../../global/GlobalProvider";
+import PropTypes from 'prop-types';
+import { useState, useEffect, useContext } from 'react';
+import { globalProvider } from '../../../global/GlobalProvider';
 
 export function InputForms({
     inputName,
-    placeholder = "",
-    type = "text",
-    spanText = "",
+    placeholder = '',
+    type = 'text',
+    spanText = '',
     labelText,
     inputId,
-    customClass = "",
+    customClass = '',
     required = false,
     onChange,
 }) {
     const { propTypeForm, propTransacTypeForm } = useContext(globalProvider);
-    const [inputValue, setInputValue] = useState("");
+    const [inputValue, setInputValue] = useState('');
 
     const commonClasses = `border border-light-grey bg-transparent rounded-md px-4 py-3 mt-2 focus:outline-light-blue ${customClass}`;
 
     const handleInputChange = (e) => {
         let value = e.target.value;
-        if (type === "number") {
-            value = value === "" ? "" : Number(value);
+        if (type === 'number') {
+            value = value === '' ? '' : Number(value);
         }
         setInputValue(value);
         if (onChange) {
@@ -30,16 +30,15 @@ export function InputForms({
     };
 
     useEffect(() => {
-      setInputValue('');
+        setInputValue('');
     }, [propTypeForm, propTransacTypeForm]);
-
 
     return (
         <div className="flex flex-col">
             <label htmlFor={inputId} className="font-medium text-gray-700">
                 {labelText}
             </label>
-            {type === "textarea" ? (
+            {type === 'textarea' ? (
                 <textarea
                     {...(required && { required: true })}
                     id={inputId}

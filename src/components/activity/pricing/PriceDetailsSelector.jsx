@@ -1,26 +1,26 @@
-import { Input } from "../../ui/forms/Input";
-import SectionDivider from "../../ui/layout/SectionDivider";
-import { useEffect, useState } from "react";
+import { Input } from '../../ui/forms/Input';
+import SectionDivider from '../../ui/layout/SectionDivider';
+import { useEffect, useState } from 'react';
 
 export function PriceDetailsSelector({ transactionType, fillData }) {
-    const [currency, setCurrency] = useState("1");
-    const [paymentFrequency, setPaymentFrequency] = useState("");
+    const [currency, setCurrency] = useState('1');
+    const [paymentFrequency, setPaymentFrequency] = useState('');
 
     //cargar currency al renderizarse el componente
     useEffect(() => {
         let currencyValueSelect =
-            document.getElementById("currencySelect").value;
-        fillData("currency_id", currencyValueSelect);
+            document.getElementById('currencySelect').value;
+        fillData('currency_id', currencyValueSelect);
     }, []);
 
     //actualizar todos los valores de los selects de currency
     const updateCurrencyForAllSelectors = (newCurrency) => {
-        const container = document.getElementById("priceDetailsContainer");
+        const container = document.getElementById('priceDetailsContainer');
         const currencySelects = container.querySelectorAll(
-            "select.currencySelect"
-        ); 
+            'select.currencySelect'
+        );
         currencySelects.forEach((select) => {
-            select.value = newCurrency; 
+            select.value = newCurrency;
         });
     };
 
@@ -28,26 +28,26 @@ export function PriceDetailsSelector({ transactionType, fillData }) {
     const handleCurrencyChange = (e) => {
         const newCurrency = e.target.value;
         setCurrency(newCurrency);
-        fillData("currency_id", newCurrency);
-        updateCurrencyForAllSelectors(newCurrency); 
+        fillData('currency_id', newCurrency);
+        updateCurrencyForAllSelectors(newCurrency);
     };
 
     const handlePaymentFrequency = (e) => {
         setPaymentFrequency(e.target.value);
-        fillData("payment_frequency_id", e.target.value);
+        fillData('payment_frequency_id', e.target.value);
     };
 
     const createSaleSection = () => {
         return (
             <div className="flex items-end gap-2 w-full">
                 <Input
-                    inputName={"salePriceInput"}
-                    inputId={"salePriceInput"}
-                    labelText={"Sale Price"}
-                    customClass={"h-12 w-full"}
+                    inputName={'salePriceInput'}
+                    inputId={'salePriceInput'}
+                    labelText={'Sale Price'}
+                    customClass={'h-12 w-full'}
                     required={true}
-                    type={"number"}
-                    onChange={(e) => fillData("price", e.target.value)}
+                    type={'number'}
+                    onChange={(e) => fillData('price', e.target.value)}
                 />
                 <select
                     id="currencySelect"
@@ -68,13 +68,13 @@ export function PriceDetailsSelector({ transactionType, fillData }) {
             <>
                 <div className="flex items-end gap-2 w-full">
                     <Input
-                        inputName={"rentPriceInput"}
-                        inputId={"rentPriceInput"}
-                        labelText={"Rent Price"}
-                        customClass={"h-12 w-full"}
+                        inputName={'rentPriceInput'}
+                        inputId={'rentPriceInput'}
+                        labelText={'Rent Price'}
+                        customClass={'h-12 w-full'}
                         required={true}
-                        type={"number"}
-                        onChange={(e) => fillData("rent_price", e.target.value)}
+                        type={'number'}
+                        onChange={(e) => fillData('rent_price', e.target.value)}
                     />
                     <select
                         id="currencySelect"
@@ -89,12 +89,14 @@ export function PriceDetailsSelector({ transactionType, fillData }) {
                 </div>
                 <div className="flex items-end gap-2 w-full">
                     <Input
-                        inputName={"depositPrice"}
-                        inputId={"depositPrice"}
-                        labelText={"Deposit"}
+                        inputName={'depositPrice'}
+                        inputId={'depositPrice'}
+                        labelText={'Deposit'}
                         required={true}
-                        type={"number"}
-                        onChange={(e) => fillData("deposit_price", e.target.value)}
+                        type={'number'}
+                        onChange={(e) =>
+                            fillData('deposit_price', e.target.value)
+                        }
                     />
                     <select
                         id="currencySelect"
@@ -117,7 +119,9 @@ export function PriceDetailsSelector({ transactionType, fillData }) {
                         className="w-full  p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                         required
                     >
-                        <option value="" disabled>Select a payment frequency</option>
+                        <option value="" disabled>
+                            Select a payment frequency
+                        </option>
                         <option value="1">Monthly</option>
                         <option value="2">Biweekly</option>
                         <option value="3">Weekly</option>
@@ -130,7 +134,7 @@ export function PriceDetailsSelector({ transactionType, fillData }) {
     const renderPriceSection = () => {
         return (
             <div id="priceDetailsContainer">
-                <SectionDivider text={"Payment Information"} />
+                <SectionDivider text={'Payment Information'} />
                 {(transactionType === 1 || transactionType === 3) &&
                     createSaleSection()}
                 {(transactionType === 2 || transactionType === 3) &&

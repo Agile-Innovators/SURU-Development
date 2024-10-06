@@ -18,4 +18,4 @@ export const ROUTE_PATHS = {
     APPOINTMENTS: '/appointments',
     REQUEST_APPOINTMENTS: '/request-appointments',
     USER_PROFILE: '/user-profile',
-}
+};

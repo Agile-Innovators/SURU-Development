@@ -1,10 +1,10 @@
-import { ROUTE_PATHS } from "../../../routes";
-import { MainButton } from "../buttons/MainButton";
-import { useFetchPropertyCategories } from "../../hooks/useFetchPropertyCategories";
-import { useFetchRegions } from "../../hooks/useFetchRegions";
-import { useAxios } from "../../hooks/useAxios";
-import { Bounce, ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { MainButton } from '../buttons/MainButton';
+import { useFetchPropertyCategories } from '../../hooks/useFetchPropertyCategories';
+import { useFetchRegions } from '../../hooks/useFetchRegions';
+import { useAxios } from '../../hooks/useAxios';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { SkeletonLoader } from '../SkeletonLoader';
 
 export function SearchFilter({ setData }) {
     const { regions, isLoadingRegions } = useFetchRegions();
@@ -14,23 +14,23 @@ export function SearchFilter({ setData }) {
 
     const filterProperties = async (e) => {
         e.preventDefault();
-        const regionId = document.getElementById("select_regions").value;
-        const minPrice = document.getElementById("select_min_price").value;
-        const maxPrice = document.getElementById("select_max_price").value;
+        const regionId = document.getElementById('select_regions').value;
+        const minPrice = document.getElementById('select_min_price').value;
+        const maxPrice = document.getElementById('select_max_price').value;
         const propertyCategoryId =
-            document.getElementById("select_props_cats").value;
+            document.getElementById('select_props_cats').value;
 
-        if (maxPrice !== "max") {
+        if (maxPrice !== 'max') {
             if (minPrice > maxPrice) {
-                toast.error("min price must not be higher than the max price", {
-                    position: "top-center",
+                toast.error('min price must not be higher than the max price', {
+                    position: 'top-center',
                     autoClose: 3000,
                     hideProgressBar: true,
                     closeOnClick: true,
                     pauseOnHover: true,
                     draggable: true,
                     progress: undefined,
-                    theme: "light",
+                    theme: 'light',
                     transition: Bounce,
                 });
                 return;
@@ -38,7 +38,7 @@ export function SearchFilter({ setData }) {
         }
 
         try {
-            const response = await axios.get("/properties/filter", {
+            const response = await axios.get('/properties/filter', {
                 params: {
                     regionId: regionId,
                     minPrice: minPrice,
@@ -55,16 +55,16 @@ export function SearchFilter({ setData }) {
 
     const selectPriceOptions = [
         {
-            id: "price",
-            label: "Price",
+            id: 'price',
+            label: 'Price',
             options: [
-                { value: "0", label: "₡0" },
-                { value: "100000", label: "₡100,000" },
-                { value: "200000", label: "₡200,000" },
-                { value: "300000", label: "₡300,000" },
-                { value: "400000", label: "₡400,000" },
-                { value: "500000", label: "₡500,000" },
-                { value: "600000", label: "₡600,000" },
+                { value: '0', label: '₡0' },
+                { value: '100000', label: '₡100,000' },
+                { value: '200000', label: '₡200,000' },
+                { value: '300000', label: '₡300,000' },
+                { value: '400000', label: '₡400,000' },
+                { value: '500000', label: '₡500,000' },
+                { value: '600000', label: '₡600,000' },
             ],
         },
     ];
@@ -73,7 +73,7 @@ export function SearchFilter({ setData }) {
         return (
             <div className="w-full lg:w-auto flex flex-col">
                 <label
-                    htmlFor={"select_regions"}
+                    htmlFor={'select_regions'}
                     className="block text-sm font-medium text-gray-700 mb-2"
                 >
                     Region
@@ -98,7 +98,7 @@ export function SearchFilter({ setData }) {
         return (
             <div className="w-full lg:w-auto flex flex-col">
                 <label
-                    htmlFor={"select_props_cats"}
+                    htmlFor={'select_props_cats'}
                     className="block text-sm font-medium text-gray-700 mb-2"
                 >
                     Property Type
@@ -122,13 +122,22 @@ export function SearchFilter({ setData }) {
         );
     };
 
+    const showLoaderSelect = () => {
+        return (
+            <div className="w-full gap-1 lg:w-auto flex flex-col">
+                <SkeletonLoader customClass="h-8 w-full sm:w-full" />
+                <SkeletonLoader customClass="h-8 w-full sm:w-full" />
+            </div>
+        );
+    };
+
     const clearFilter = (e) => {
         e.preventDefault();
-        console.log("clear");
-        const selectRegion = document.getElementById("select_regions");
-        const minPriceSelect = document.getElementById("select_min_price");
-        const maxPriceSelect = document.getElementById("select_max_price");
-        const propsCatsSelect = document.getElementById("select_props_cats");
+        console.log('clear');
+        const selectRegion = document.getElementById('select_regions');
+        const minPriceSelect = document.getElementById('select_min_price');
+        const maxPriceSelect = document.getElementById('select_max_price');
+        const propsCatsSelect = document.getElementById('select_props_cats');
         selectRegion.value = regions[0].id;
         minPriceSelect.value = selectPriceOptions[0].options[0].value;
         maxPriceSelect.value = selectPriceOptions[0].options[0].value;
@@ -212,11 +221,9 @@ export function SearchFilter({ setData }) {
                         </select>
                     </div>
                 }
-                {isLoadingPropsCats ? (
-                    <p>Loading</p>
-                ) : (
-                    createPropsCatsSelect(propertyCategories)
-                )}
+                {isLoadingPropsCats
+                    ? showLoaderSelect()
+                    : createPropsCatsSelect(propertyCategories)}
             </div>
             <div className="flex flex-col items-center gap-2 w-full sm:flex-row">
                 <MainButton

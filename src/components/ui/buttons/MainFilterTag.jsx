@@ -1,6 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-export function MainFilterTag({ id, icon, text, onClick, isActivate, handleActivateButton}) {
+export function MainFilterTag({
+    id,
+    icon,
+    text,
+    onClick,
+    isActivate,
+    handleActivateButton,
+}) {
     const [isChecked, setIsChecked] = useState(false);
 
     useEffect(() => {
@@ -18,8 +25,18 @@ export function MainFilterTag({ id, icon, text, onClick, isActivate, handleActiv
             className={`transition-colors duration-150 group border-2 border-gray-300 rounded-md p-2 relative hover:border-secondary ${isChecked ? 'border-secondary hover:border-light-blue' : ''} `}
         >
             <span className="block flex flex-col items-start gap-3">
-                {icon && <span className={`${isChecked ? 'group-hover:text-light-blue': ''}`}>{icon}</span>}
-                <span className={`group-hover:text-secondary ${isChecked ? 'text-secondary group-hover:text-light-blue' : ''}`}>{text}</span>
+                {icon && (
+                    <span
+                        className={`${isChecked ? 'group-hover:text-light-blue' : ''}`}
+                    >
+                        {icon}
+                    </span>
+                )}
+                <span
+                    className={`group-hover:text-secondary ${isChecked ? 'text-secondary group-hover:text-light-blue' : ''}`}
+                >
+                    {text}
+                </span>
             </span>
 
             <span className="inline-flex items-center absolute top-2 right-2">

@@ -1,5 +1,5 @@
-import { useState, useEffect, useContext } from "react";
-import { globalProvider } from "../../../global/GlobalProvider";
+import { useState, useEffect, useContext } from 'react';
+import { globalProvider } from '../../../global/GlobalProvider';
 
 export function SecondaryFilterTag({
     text,
@@ -19,9 +19,8 @@ export function SecondaryFilterTag({
         setIsChecked(isActivate);
     }, [isActivate]);
 
-
     const handleEventButton = (e) => {
-        if (groupType === "group") {
+        if (groupType === 'group') {
             setIsChecked(true);
             handleSelectedValue(valueID);
         } else {
@@ -29,15 +28,15 @@ export function SecondaryFilterTag({
                 const newChecked = !prevChecked;
 
                 if (newChecked) {
-                    if (handleSelectedValue){
+                    if (handleSelectedValue) {
                         handleSelectedValue(valueID);
                     }
-                    if(fillData){
-                        fillData(1)
+                    if (fillData) {
+                        fillData(1);
                     }
                 } else {
-                    if (handleSelectedValue){
-                        handleSelectedValue(valueID, "remove");
+                    if (handleSelectedValue) {
+                        handleSelectedValue(valueID, 'remove');
                     }
                     if (fillData) {
                         fillData('0');
@@ -50,7 +49,6 @@ export function SecondaryFilterTag({
                 return newChecked;
             });
         }
-
     };
 
     return (
@@ -59,15 +57,15 @@ export function SecondaryFilterTag({
             id={id}
             onClick={(e) => handleEventButton(e)}
             className={` flex justify-between transition-colors duration-150 group border-2 border-gray-300 rounded-md p-2 hover:border-secondary ${
-                isChecked ? "border-secondary hover:border-light-blue" : ""
+                isChecked ? 'border-secondary hover:border-light-blue' : ''
             } `}
         >
             <span className="flex">
                 <span
                     className={`group-hover:text-secondary ${
                         isChecked
-                            ? "text-secondary group-hover:text-light-blue"
-                            : ""
+                            ? 'text-secondary group-hover:text-light-blue'
+                            : ''
                     }`}
                 >
                     {text}
@@ -83,8 +81,8 @@ export function SecondaryFilterTag({
                         className={`peer h-6 w-6 cursor-pointer transition-all appearance-none rounded-full bg-slate-100 shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800"
                         id="check-custom-style  ${
                             isChecked
-                                ? "text-secondary group-hover:bg-light-blue"
-                                : ""
+                                ? 'text-secondary group-hover:bg-light-blue'
+                                : ''
                         }`}
                     />
                     <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">

@@ -1,14 +1,14 @@
-import { useContext } from "react";
-import { AdvancedCard } from "../../ui/cards/AdvancedCard.jsx";
-import { Divider } from "@mui/joy";
-import { MainButton } from "../../ui/buttons/MainButton.jsx";
-import { ROUTE_PATHS } from "../../../routes/index.js";
-import { useNavigate } from "react-router-dom";
-import { useFetchRegions } from "../../hooks/useFetchRegions.js";
-import { useFetchPropertyCategories } from "../../hooks/useFetchPropertyCategories.js";
-import { globalProvider } from "../../../global/GlobalProvider.jsx";
-import { useFetchProperties } from "../../hooks/useFetchProperties.js";
-import { useFetchUserProperties } from "../../hooks/useFetchUserProperties.js";
+import { useContext } from 'react';
+import { AdvancedCard } from '../../ui/cards/AdvancedCard.jsx';
+import { Divider } from '@mui/joy';
+import { MainButton } from '../../ui/buttons/MainButton.jsx';
+import { ROUTE_PATHS } from '../../../routes/index.js';
+import { useNavigate } from 'react-router-dom';
+import { useFetchRegions } from '../../hooks/useFetchRegions.js';
+import { useFetchPropertyCategories } from '../../hooks/useFetchPropertyCategories.js';
+import { globalProvider } from '../../../global/GlobalProvider.jsx';
+import { useFetchProperties } from '../../hooks/useFetchProperties.js';
+import { SkeletonLoader } from '../../ui/SkeletonLoader.jsx';
 
 export function PropertiesFilter() {
     const {
@@ -29,7 +29,7 @@ export function PropertiesFilter() {
         return (
             <div className="w-full lg:w-auto flex flex-col">
                 <label
-                    htmlFor={"select_regions"}
+                    htmlFor={'select_regions'}
                     className="block text-sm font-medium text-gray-700 mb-2"
                 >
                     Region
@@ -54,7 +54,7 @@ export function PropertiesFilter() {
         return (
             <div className="w-full lg:w-auto flex flex-col">
                 <label
-                    htmlFor={"select_props_cats"}
+                    htmlFor={'select_props_cats'}
                     className="block text-sm font-medium text-gray-700 mb-2"
                 >
                     Property Type
@@ -85,7 +85,7 @@ export function PropertiesFilter() {
                     srcImage={
                         property.images && property.images.length > 0
                             ? property.images[0].url
-                            : "imagen/predeterminada"
+                            : 'imagen/predeterminada'
                     }
                     title={property.title}
                     location={`${property.city}, ${property.region}`}
@@ -95,13 +95,13 @@ export function PropertiesFilter() {
                     frequency={
                         property.payment_frequency
                             ? property.payment_frequency
-                            : ""
+                            : ''
                     }
                     qtyBedrooms={property.bedrooms ? property.bedrooms : 0}
                     qtyBathrooms={property.bathrooms ? property.bathrooms : 0}
                     qtyGarages={property.garages ? property.garages : 0}
                     key={property.id}
-                    customClass={"m-auto"}
+                    customClass={'m-auto'}
                 >
                     <MainButton
                         text="View"
@@ -115,18 +115,38 @@ export function PropertiesFilter() {
         });
     };
 
+    const showLoaderCards = () => {
+        return Array(6)
+            .fill(0)
+            .map((_, index) => (
+                <SkeletonLoader
+                    key={`card-${index}`}
+                    customClass="h-[27rem] w-full"
+                />
+            ));
+    };
+
+    const showLoaderSelect = () => {
+        return (
+            <div className="w-full gap-1 lg:w-auto flex flex-col">
+                <SkeletonLoader customClass="h-8 w-full sm:w-40" />
+                <SkeletonLoader customClass="h-8 w-full sm:w-40" />
+            </div>
+        );
+    };
+
     const selectPriceOptions = [
         {
-            id: "price",
-            label: "Price",
+            id: 'price',
+            label: 'Price',
             options: [
-                { value: "0", label: "₡0" },
-                { value: "100000", label: "₡100,000" },
-                { value: "200000", label: "₡200,000" },
-                { value: "300000", label: "₡300,000" },
-                { value: "400000", label: "₡400,000" },
-                { value: "500000", label: "₡500,000" },
-                { value: "600000", label: "₡600,000" },
+                { value: '0', label: '₡0' },
+                { value: '100000', label: '₡100,000' },
+                { value: '200000', label: '₡200,000' },
+                { value: '300000', label: '₡300,000' },
+                { value: '400000', label: '₡400,000' },
+                { value: '500000', label: '₡500,000' },
+                { value: '600000', label: '₡600,000' },
             ],
         },
     ];
@@ -134,23 +154,22 @@ export function PropertiesFilter() {
     function filter(event) {
         event.preventDefault();
         //obtener valor de los select
-        const selectRegion = document.getElementById("select_regions").value;
-        const minPrice = document.getElementById("select_min_price").value;
-        const maxPrice = document.getElementById("select_max_price").value;
+        const selectRegion = document.getElementById('select_regions').value;
+        const minPrice = document.getElementById('select_min_price').value;
+        const maxPrice = document.getElementById('select_max_price').value;
         const propertyCategory =
-            document.getElementById("select_props_cats").value;
+            document.getElementById('select_props_cats').value;
 
         console.log(selectRegion, minPrice, maxPrice, propertyCategory);
 
         //validar si no se selecciono el precio maximo
-        if(maxPrice !== "max"){
+        if (maxPrice !== 'max') {
             //verificar que el minPrice no sea mayor
-            if(minPrice > maxPrice){
-                console.log("Es mayor");
+            if (minPrice > maxPrice) {
+                console.log('Es mayor');
                 return;
             }
         }
-    
 
         //cargar datos para el globalProvider
         setRegionId(selectRegion);
@@ -165,7 +184,7 @@ export function PropertiesFilter() {
     // Por esto
     const showProperty = (id) => {
         setPropertyID(id);
-        console.log("ID HOME:", id);
+        console.log('ID HOME:', id);
         navigate(ROUTE_PATHS.PROPERTY_DETAILS);
     };
 
@@ -183,11 +202,9 @@ export function PropertiesFilter() {
                     name="form_filter"
                     className="w-full lg:w-auto flex flex-col justify-center flex-wrap lg:flex-row items-center border border-gray-200 p-6 rounded-lg shadow-sm gap-6 transition-all duration-300 hover:shadow-md hover:border-gray-300"
                 >
-                    {isLoadingRegions ? (
-                        <p>Loading</p>
-                    ) : (
-                        createRegionsSelect(regions)
-                    )}
+                    {isLoadingRegions
+                        ? showLoaderSelect()
+                        : createRegionsSelect(regions)}
 
                     {
                         <div className="w-full lg:w-auto flex flex-col">
@@ -243,11 +260,9 @@ export function PropertiesFilter() {
                         </div>
                     }
                     {/* <input type="range" /> */}
-                    {isLoadingPropsCats ? (
-                        <p>Loading</p>
-                    ) : (
-                        createPropsCatsSelect(propertyCategories)
-                    )}
+                    {isLoadingPropsCats
+                        ? showLoaderSelect()
+                        : createPropsCatsSelect(propertyCategories)}
 
                     <Divider orientation="vertical" flexItem />
                     <div className="flex flex-col gap-2 w-full sm:flex-row lg:w-auto">
@@ -268,11 +283,9 @@ export function PropertiesFilter() {
                 </form>
             </div>
             <div className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-4 justify-center items-center mt-10">
-                {isLoadingProps ? (
-                    <p>Loading..,</p>
-                ) : (
-                    createProperties(properties)
-                )}
+                {isLoadingProps
+                    ? showLoaderCards()
+                    : createProperties(properties)}
             </div>
         </section>
     );
