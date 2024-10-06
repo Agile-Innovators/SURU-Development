@@ -20,6 +20,7 @@ const RetailSpaceForm = ({
                     type="number"
                     labelText="Size"
                     placeholder="Property size in square meters"
+                    required={true}
                     onChange={(value) => fillData("size_in_m2", value)}
                 />
                 <InputForms
@@ -27,6 +28,7 @@ const RetailSpaceForm = ({
                     inputId="bathrooms"
                     type="number"
                     labelText="Bathrooms"
+                    required={true}
                     onChange={(value) => fillData("bathrooms", value)}
                 />
             </div>
