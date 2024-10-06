@@ -20,21 +20,22 @@ export function SearchFilter({ setData }) {
         const propertyCategoryId =
             document.getElementById("select_props_cats").value;
 
-        if (minPrice > maxPrice) {
-            toast.error('min price must not be higher than the max price', {
-                position: "top-center",
-                autoClose: 3000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
+        if (maxPrice !== "max") {
+            if (minPrice > maxPrice) {
+                toast.error("min price must not be higher than the max price", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
                 });
                 return;
+            }
         }
-    
 
         try {
             const response = await axios.get("/properties/filter", {
@@ -82,6 +83,7 @@ export function SearchFilter({ setData }) {
                     name={`select_regions`}
                     className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                 >
+                    <option value="0">all</option>
                     {items.map((region) => (
                         <option key={`region_${region.id}`} value={region.id}>
                             {region.name}
@@ -106,6 +108,7 @@ export function SearchFilter({ setData }) {
                     name={`select_props_cats`}
                     className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                 >
+                    <option value="0">all</option>
                     {items.map((category) => (
                         <option
                             key={`category_${category.id}`}
@@ -149,7 +152,6 @@ export function SearchFilter({ setData }) {
                 draggable
                 pauseOnHover
                 theme="light"
-                
             />
             <div className="grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] gap-4 items-center">
                 {isLoadingRegions ? (
@@ -196,6 +198,7 @@ export function SearchFilter({ setData }) {
                             name="select_max_price"
                             className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                         >
+                            <option value="max">₡max price</option>
                             {selectPriceOptions.map((option) =>
                                 option.options.map((priceOption) => (
                                     <option
