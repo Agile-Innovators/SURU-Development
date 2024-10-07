@@ -1,10 +1,9 @@
-import { GeneralInformation } from "../../components/activity/user_profile/GeneralInformation";
-import { UserPreference } from "../../components/activity/user_profile/UserPreference";
-import { UserOperationalHours } from "../../components/activity/user_profile/UserOperationalHours";
-import { Input } from "../../components/ui/forms/Input";
-import { MainButton } from "../../components/ui/buttons/MainButton";
-import { useState } from "react";
-
+import { GeneralInformation } from '../../components/activity/user_profile/GeneralInformation';
+import { UserPreference } from '../../components/activity/user_profile/UserPreference';
+import { UserOperationalHours } from '../../components/activity/user_profile/UserOperationalHours';
+import { Input } from '../../components/ui/forms/Input';
+import { MainButton } from '../../components/ui/buttons/MainButton';
+import { useState } from 'react';
 
 
 //importamos el hook
@@ -152,7 +151,7 @@ export function UserProfile() {
                 <div className="bg-white p-6 mt-5">
                     <h2 className="text-lg">Change password</h2>
                     <p>
-                        You want to change your pass word?{" "}
+                        You want to change your pass word?{' '}
                         <a href="#" className="text-black">
                             Request a code here
                         </a>

@@ -1,5 +1,5 @@
-import { MainButton } from "../../ui/buttons/MainButton";
-import { Input } from "../../ui/forms/Input";
+import { MainButton } from '../../ui/buttons/MainButton';
+import { Input } from '../../ui/forms/Input';
 
 export function GeneralInformation() {
     return (

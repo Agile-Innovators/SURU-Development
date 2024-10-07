@@ -1,15 +1,11 @@
-import SectionDivider from "../../ui/layout/SectionDivider";
-import BaseFormsInfo from "../pricing/BaseFormsInfo";
-import { InputForms } from "../../ui/forms/InputForms";
-import { PriceDetailsSelector } from "../pricing/PriceDetailsSelector";
-import { useState, useEffect } from "react";
-import { SecondaryFilterTag } from "../../ui/buttons/SecondaryFilterTag";
+import SectionDivider from '../../ui/layout/SectionDivider';
+import BaseFormsInfo from '../pricing/BaseFormsInfo';
+import { InputForms } from '../../ui/forms/InputForms';
+import { PriceDetailsSelector } from '../pricing/PriceDetailsSelector';
+import { useState, useEffect } from 'react';
+import { SecondaryFilterTag } from '../../ui/buttons/SecondaryFilterTag';
 
-export function BareLandForm({
-    transactionType,
-    fillData,
-    fillUtilities,
-}) {
+export function BareLandForm({ transactionType, fillData, fillUtilities }) {
     const [waterAccess, setWaterAccess] = useState(false);
     const [electricityAccess, setElectricityAccess] = useState(false);
 
@@ -17,11 +13,10 @@ export function BareLandForm({
         setWaterAccess(value);
     };
 
-    const handleElectricityAccess = (value) =>{
-      setElectricityAccess(value);
-    }
+    const handleElectricityAccess = (value) => {
+        setElectricityAccess(value);
+    };
 
-   
     return (
         <div>
             {/* Detalles básicos de la propiedad */}
@@ -35,7 +30,7 @@ export function BareLandForm({
                     labelText="Size"
                     placeholder="Property size in square meters"
                     onChange={(value) => {
-                        fillData("size_in_m2", value);
+                        fillData('size_in_m2', value);
                     }}
                 />
             </div>
@@ -44,16 +39,16 @@ export function BareLandForm({
             <SectionDivider text="Available services" />
             <div className="grid grid-cols-2 gap-4 my-4">
                 <SecondaryFilterTag
-                    text={"Water Access"}
-                    groupType={"individual"}
+                    text={'Water Access'}
+                    groupType={'individual'}
                     isActivate={false}
                     idValue={8}
                     handleSelectedValue={fillUtilities}
                     manageExternalState={handleWaterAccess}
                 />
                 <SecondaryFilterTag
-                    text={"Electricity Access"}
-                    groupType={"individual"}
+                    text={'Electricity Access'}
+                    groupType={'individual'}
                     isActivate={false}
                     idValue={9}
                     handleSelectedValue={fillUtilities}
@@ -73,8 +68,8 @@ export function BareLandForm({
                                 {/* Servicio incluido para agua */}
                                 {waterAccess && (
                                     <SecondaryFilterTag
-                                        text={"Water"}
-                                        groupType={"individual"}
+                                        text={'Water'}
+                                        groupType={'individual'}
                                         isActivate={false}
                                         idValue={2}
                                         handleSelectedValue={fillUtilities}
@@ -85,22 +80,22 @@ export function BareLandForm({
                                 {electricityAccess && (
                                     <>
                                         <SecondaryFilterTag
-                                            text={"Electricity"}
-                                            groupType={"individual"}
+                                            text={'Electricity'}
+                                            groupType={'individual'}
                                             isActivate={false}
                                             idValue={1}
                                             handleSelectedValue={fillUtilities}
                                         />
                                         <SecondaryFilterTag
-                                            text={"Wifi"}
-                                            groupType={"individual"}
+                                            text={'Wifi'}
+                                            groupType={'individual'}
                                             isActivate={false}
                                             idValue={4}
                                             handleSelectedValue={fillUtilities}
                                         />
                                         <SecondaryFilterTag
-                                            text={"Cable"}
-                                            groupType={"individual"}
+                                            text={'Cable'}
+                                            groupType={'individual'}
                                             isActivate={false}
                                             idValue={5}
                                             handleSelectedValue={fillUtilities}

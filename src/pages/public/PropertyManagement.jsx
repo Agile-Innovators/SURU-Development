@@ -1,13 +1,13 @@
-import { BackButton } from "../../components/ui/buttons/BackButton.jsx";
-import { MapPin } from "lucide-react";
-import { ActionButton } from "../../components/ui/buttons/ActionButton.jsx";
-import { MainButton } from "../../components/ui/buttons/MainButton.jsx";
-import { ROUTE_PATHS } from "../../routes/index.js";
+import { BackButton } from '../../components/ui/buttons/BackButton.jsx';
+import { MapPin } from 'lucide-react';
+import { ActionButton } from '../../components/ui/buttons/ActionButton.jsx';
+import { MainButton } from '../../components/ui/buttons/MainButton.jsx';
+import { ROUTE_PATHS } from '../../routes/index.js';
 // import { useFetchProperties } from "../../components/hooks/useFetchProperties.js";
-import { useState, useEffect } from "react";
-import { Input } from "../../components/ui/forms/Input.jsx";
-import { useAxios } from "../../components/hooks/useAxios.js";
-import { useFetchProperties } from "../../components/hooks/useFetchProperties.js";
+import { useState, useEffect } from 'react';
+import { Input } from '../../components/ui/forms/Input.jsx';
+import { useAxios } from '../../components/hooks/useAxios.js';
+import { useFetchProperties } from '../../components/hooks/useFetchProperties.js';
 
 export function PropertyManagement() {
     const { properties, isLoadingProps } = useFetchProperties();
@@ -52,9 +52,7 @@ export function PropertyManagement() {
                                 strokeWidth={1}
                                 className="text-grey"
                             />
-                            <p>
-                                {item.city || "City not available"}
-                            </p>
+                            <p>{item.city || 'City not available'}</p>
                         </div>
                         <div className="flex items-center gap-2">
                             {/* el siguiente condicional if que verifica el tipo de moneda: si es CRC o USD */}

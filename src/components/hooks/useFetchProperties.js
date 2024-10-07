@@ -1,8 +1,8 @@
-import { useAxios } from "./useAxios";
-import { useState, useEffect } from "react";
+import { useAxios } from './useAxios';
+import { useState, useEffect } from 'react';
 
-export function useFetchProperties(){
-    const [ properties, setProperties ] = useState([]);
+export function useFetchProperties() {
+    const [properties, setProperties] = useState([]);
     const [isLoadingProps, SetIsLoadingProps] = useState(true);
     const axios = useAxios();
 
@@ -10,22 +10,21 @@ export function useFetchProperties(){
         try {
             const response = await axios.get('properties');
             const data = await response.data;
-            console.log(data)
+            console.log(data);
             SetIsLoadingProps(false);
             setProperties(data);
         } catch (error) {
             console.log(error);
-            SetIsLoadingProps(false)
+            SetIsLoadingProps(false);
         }
-    }
+    };
 
     useEffect(() => {
         getData();
     }, []);
 
-    return{
+    return {
         properties,
-        isLoadingProps
-    }
-
+        isLoadingProps,
+    };
 }

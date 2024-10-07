@@ -1,11 +1,11 @@
-import  CreatePropertyForm  from "../../components/activity/forms/CreatePropertyForm.jsx";
+import CreatePropertyForm from '../../components/activity/forms/CreatePropertyForm.jsx';
 
-export  function CreateProperty() {
-  return (
-    <div>
-        <CreatePropertyForm />
-    </div>
-  )
+export function CreateProperty() {
+    return (
+        <div>
+            <CreatePropertyForm />
+        </div>
+    );
 }
 
 export default CreateProperty;

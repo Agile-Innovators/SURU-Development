@@ -1,8 +1,10 @@
-import { ToggleSwitch } from "../buttons/ToggleSwitch";
+import { ToggleSwitch } from '../buttons/ToggleSwitch';
 
-export function OperationalHourSelector({day, bgColor, textColor}) {
+export function OperationalHourSelector({ day, bgColor, textColor }) {
     return (
-        <div className={`grid gap-4 px-3 py-2 items-center border text-center border-gray-300 rounded-md sm:flex ${bgColor}`}>
+        <div
+            className={`grid gap-4 px-3 py-2 items-center border text-center border-gray-300 rounded-md sm:flex ${bgColor}`}
+        >
             <p className={textColor}>{day}</p>
             <span className={textColor}>|</span>
             <input
