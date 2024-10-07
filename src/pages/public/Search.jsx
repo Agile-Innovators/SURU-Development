@@ -20,6 +20,7 @@ export function Search() {
     } = useContext(globalProvider);
     const { data, isLoading } = useFetchFilter();
     const navigate = useNavigate();
+    const [ isLoadingFilter, setIsLoadingFilter ] = useState(false);
 
     //testing
     const [properties, setProperties] = useState(data);
@@ -88,10 +89,10 @@ export function Search() {
     return (
         <section className="max-w-7xl m-auto mt-5 p-4 xl:p-0">
             <h2>Search properties</h2>
-            <SearchFilter setData={setFilterProperties} />
+            <SearchFilter setData={setFilterProperties} isLoadingFilter={setIsLoadingFilter}/>
 
             <div className="grid grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-4 mt-8 mb-5">
-                {isLoading
+                {isLoading || isLoadingFilter
                     ? showLoaderCards()
                     : showFilteredProperties(properties)}
             </div>
