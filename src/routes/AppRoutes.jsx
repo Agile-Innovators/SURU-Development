@@ -7,7 +7,7 @@ import ProtectedRoutes from '../global/ProtectedRoutes.jsx';
 import '../index.css';
 export function AppRoutes() {
     return (
-        <div id='body'>
+        <div id='body' className='min-h-screen'>
             <NavBar />
             <Routes>
                 <Route path="/*" element={<PublicRoutes />} />
