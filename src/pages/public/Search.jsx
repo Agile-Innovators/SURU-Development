@@ -8,9 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes';
 import { SkeletonLoader } from '../../components/ui/SkeletonLoader';
 
-
 export function Search() {
-    //llamar una funcion global que vacie los estados, propuesta
     const {
         regionId,
         minPrice,
@@ -21,9 +19,7 @@ export function Search() {
     } = useContext(globalProvider);
     const { data, isLoading } = useFetchFilter();
     const navigate = useNavigate();
-    const [ isLoadingFilter, setIsLoadingFilter ] = useState(false);
-
-    //testing
+    const [isLoadingFilter, setIsLoadingFilter] = useState(false);
     const [properties, setProperties] = useState(data);
 
     const setFilterProperties = (data) => {
@@ -51,6 +47,13 @@ export function Search() {
             ));
     };
 
+    const formatPrice = (price) => {
+        if (price >= 1e9) return `${(price / 1e9).toFixed(1)}B`;
+        if (price >= 1e6) return `${(price / 1e6).toFixed(1)}M`;
+        if (price >= 1e3) return `${(price / 1e3).toFixed(1)}K`;
+        return price.toString();
+    };
+
     function showFilteredProperties(properties) {
         if (!properties || properties.length === 0) {
             return <h2>Not found</h2>;
@@ -65,10 +68,11 @@ export function Search() {
                 }
                 title={property.title}
                 location={`${property.city}, ${property.region}`}
-                price={property.price ? property.price : property.rent_price}
+                price={formatPrice(property.price ? property.price : property.rent_price)}
                 frequency={
                     property.payment_frequency ? property.payment_frequency : ''
                 }
+                currency_code={property.currency_code}
                 qtyBedrooms={property.bedrooms ? property.bedrooms : 0}
                 qtyBathrooms={property.bathrooms ? property.bathrooms : 0}
                 qtyGarages={property.garages ? property.garages : 0}
@@ -78,6 +82,7 @@ export function Search() {
                 <MainButton
                     text="View"
                     variant="border"
+                    customClass='h-fit'
                     type="button"
                     id={property.id}
                     onClick={() => showProperty(property.id)}
@@ -90,8 +95,7 @@ export function Search() {
     return (
         <section className="max-w-7xl m-auto mt-5 p-4 xl:p-0">
             <h2>Search properties</h2>
-            <SearchFilter setData={setFilterProperties} isLoadingFilter={setIsLoadingFilter}/>
-
+            <SearchFilter setData={setFilterProperties} isLoadingFilter={setIsLoadingFilter} />
             <div className="grid grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-4 mt-8 mb-5">
                 {isLoading || isLoadingFilter
                     ? showLoaderCards()

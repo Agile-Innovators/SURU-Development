@@ -12,6 +12,7 @@ export function AdvancedCard({
     qtyBedrooms,
     qtyBathrooms,
     qtyGarages,
+    currency_code = 'CRC',
 }) {
     return (
         <div className="rounded-md overflow-hidden border border-light-grey">
@@ -65,9 +66,10 @@ export function AdvancedCard({
                         Allowed
                     </li>
                 </ul>
-                <div className="flex flex-col justify-between mt-3 mb-2 sm:flex-row">
-                    <h3 className="text-2xl font-medium">
-                        ₡{price} <span className="text-grey">{frequency}</span>
+                <div className="flex flex-col justify-between mt-3 mb-2 sm:flex-row items-center">
+                    <h3 className="text-xl font-medium">
+                        {currency_code === 'USD' ? '$' : '₡'}
+                        {price} <span className="text-grey">{frequency}</span>
                     </h3>
                     {children}
                 </div>
