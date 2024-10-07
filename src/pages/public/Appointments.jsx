@@ -5,10 +5,6 @@ import { Check, X } from 'lucide-react';
 
 export function Appointments() {
 
-
-
-
-
   const columns = ['Name', 'Date', 'Hour', 'Location'];
 
 
@@ -36,8 +32,6 @@ export function Appointments() {
       </button>
     )
   ];
-
-
 
 
   // controlar qué citas se están mostrando (las activas)
