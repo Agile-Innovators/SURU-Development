@@ -9,6 +9,8 @@ import { useFetchPropertyCategories } from '../../hooks/useFetchPropertyCategori
 import { globalProvider } from '../../../global/GlobalProvider.jsx';
 import { useFetchProperties } from '../../hooks/useFetchProperties.js';
 import { SkeletonLoader } from '../../ui/SkeletonLoader.jsx';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function PropertiesFilter() {
     const {
@@ -166,7 +168,17 @@ export function PropertiesFilter() {
         if (maxPrice !== 'max') {
             //verificar que el minPrice no sea mayor
             if (minPrice > maxPrice) {
-                console.log('Es mayor');
+                toast.error('min price must not be higher than the max price', {
+                    position: 'top-center',
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'light',
+                    transition: Bounce,
+                });
                 return;
             }
         }
@@ -203,6 +215,18 @@ export function PropertiesFilter() {
     return (
         <section className="mt-20">
             <div className="text-center flex flex-col items-center gap-6 px-4 py-8">
+                <ToastContainer
+                    position="top-center"
+                    autoClose={200}
+                    hideProgressBar
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                />
                 <h1>Property Gallery</h1>
                 {/* Le cambie el color y este se ve mas presentable */}
                 <p className="max-w-[60ch] text-gray-600">
