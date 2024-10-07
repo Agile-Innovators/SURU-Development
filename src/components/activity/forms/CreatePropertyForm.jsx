@@ -10,7 +10,10 @@ import { SecondaryFilterTag } from '../../ui/buttons/SecondaryFilterTag';
 import { BareLandForm } from './BareLandForm';
 import { globalProvider } from '../../../global/GlobalProvider';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { ROUTE_PATHS } from '../../../routes/index.js';
+import { BackButton } from '../../ui/buttons/BackButton';
 
 const CreatePropertyForm = () => {
     const axios = useAxios();
@@ -116,9 +119,7 @@ const CreatePropertyForm = () => {
 
         // Verificar si se han subido imágenes
         if (images.length < 3) {
-            alert(
-                'Upload at least three image of the property to continue with the publication.'
-            );
+          toast.error("Upload at least 3 images");
             return;
         }
 
@@ -227,9 +228,24 @@ const CreatePropertyForm = () => {
 
     return (
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <h1 className="mt-10 text-center sm:text-start">
+          <ToastContainer
+                position="top-center"
+                autoClose={900}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+            <section className='mt-10 flex gap-4'>
+            <BackButton />
+            <h1 className="text-center sm:text-start">
                 Let&apos;s add a property
             </h1>
+            </section>
             <div className="container mx-auto">
                 <SectionDivider text="Property type" />
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center mx-auto max-w-7xl">

@@ -5,11 +5,9 @@ import { PrivateRoutes } from './PrivateRoutes.jsx';
 import { Routes, Route } from 'react-router-dom';
 import ProtectedRoutes from '../global/ProtectedRoutes.jsx';
 import '../index.css';
-import { UserAuth } from '../components/ui/layout/userAuth.jsx';
 export function AppRoutes() {
     return (
-        <>
-            {/* <UserAuth /> */}
+        <div id='body'>
             <NavBar />
             <Routes>
                 <Route path="/*" element={<PublicRoutes />} />
@@ -23,7 +21,7 @@ export function AppRoutes() {
                 />
             </Routes>
             <Footer />
-        </>
+        </div>
     );
 }
 
