@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes';
 import { SkeletonLoader } from '../../components/ui/SkeletonLoader';
 
+
 export function Search() {
     //llamar una funcion global que vacie los estados, propuesta
     const {
