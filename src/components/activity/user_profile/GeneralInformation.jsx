@@ -31,38 +31,56 @@ export function GeneralInformation() {
             <div className="mt-10">
                 <h4 className="text-base">Personal Information</h4>
                 <form className="grid grid-cols-1 gap-8 mt-4 sm:grid-cols-2">
-                    <Input
-                        inputName="name"
-                        inputId="name-input"
-                        labelText="Name"
-                    />
-                    <Input
-                        inputName="username"
-                        inputId="username-input"
-                        labelText="Username"
-                    />
-                    <Input
-                        inputName="firstLastname"
-                        inputId="firstLastname-input"
-                        labelText="First Lastname"
-                    />
-                    <Input
-                        inputName="secondLastname"
-                        inputId="secondLastname-input"
-                        labelText="Second Lastname"
-                    />
-                    <Input
-                        inputName="email"
-                        inputId="email-input"
-                        labelText="Email Address"
-                        type="email"
-                    />
-                    <Input
-                        inputName="phoneNumber"
-                        inputId="phoneNumber-input"
-                        labelText="Phone Number"
-                        type="number"
-                    />
+                    <form className="grid grid-cols-1 gap-8 mt-4 sm:grid-cols-2" onSubmit={handleProfileSubmit}>
+                        <Input
+                            inputName="name"
+                            inputId="name-input"
+                            labelText="Name"
+                            value={profileData.name}
+                            onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
+                        />
+                        <Input
+                            inputName="username"
+                            inputId="username-input"
+                            labelText="Username"
+                            value={profileData.username}
+                            onChange={(e) => setProfileData({ ...profileData, username: e.target.value })}
+                        />
+                        <Input
+                            inputName="firstLastname"
+                            inputId="firstLastname-input"
+                            labelText="First Lastname"
+                            value={profileData.firstLastname}
+                            onChange={(e) => setProfileData({ ...profileData, firstLastname: e.target.value })}
+                        />
+                        <Input
+                            inputName="secondLastname"
+                            inputId="secondLastname-input"
+                            labelText="Second Lastname"
+                            value={profileData.secondLastname}
+                            onChange={(e) => setProfileData({ ...profileData, secondLastname: e.target.value })}
+                        />
+                        <Input
+                            inputName="email"
+                            inputId="email-input"
+                            labelText="Email Address"
+                            type="email"
+                            value={profileData.email}
+                            onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
+                        />
+                        <Input
+                            inputName="phoneNumber"
+                            inputId="phoneNumber-input"
+                            labelText="Phone Number"
+                            type="number"
+                            value={profileData.phoneNumber}
+                            onChange={(e) => setProfileData({ ...profileData, phoneNumber: e.target.value })}
+                        />
+                        <div className="flex flex-col gap-4 sm:flex-row">
+                            <MainButton type="submit" variant="fill" text="Save changes" customClass="h-12 items-center" />
+                            <MainButton type="button" variant="border" text="Cancel" customClass="h-12 items-center" />
+                        </div>
+                    </form>
                     <div className="flex flex-col gap-4 sm:flex-row">
                         <MainButton
                             type="button"

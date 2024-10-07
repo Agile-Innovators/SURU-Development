@@ -9,21 +9,23 @@ export const useFetchPropertyDetails = () => {
     console.log('ID:', propertyID);
     const axios = useAxios();
 
-    const getData = async () => {
-        try {
-            const url = `/properties/property/1`; // Corrigiendo URL
-            const response = await axios.get(url);
+  const getData = async () => {
+    try {
+      // const url = `/properties/property/`;
+      const url = `/properties/property/${propertyID}`;
+      const response = await axios.get(url);
+      
+      const data = response.data;
+      setPropertyDetails(data);
+    
+      setIsLoadingPropsDetails(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoadingPropsDetails(false);
+    }
+  };
 
-            const data = response.data;
-            console.log(JSON.stringify(data, null, 2));
-            setPropertyDetails(data);
 
-            setIsLoadingPropsDetails(false);
-        } catch (error) {
-            console.log(error);
-            setIsLoadingPropsDetails(false);
-        }
-    };
 
     useEffect(() => {
         if (propertyID) {
