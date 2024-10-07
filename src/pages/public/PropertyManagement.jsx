@@ -22,12 +22,10 @@ export function PropertyManagement() {
     }, [properties]);
 
     const deleteProperty = async (id) => {
-        console.log(id);
         try {
             const response = await axios.delete(`properties/delete/${id}`);
             const data = await response.data;
 
-            // Filtrar las propiedades para remover la eliminada
             setPropertiesData((prevProperties) =>
                 prevProperties.filter((property) => property.id !== id)
             );
@@ -35,6 +33,7 @@ export function PropertyManagement() {
             toast.success(data.message);
         } catch (error) {
             console.log(error);
+            toast.error("An error occurred while deleting the property.");
         }
     };
 
