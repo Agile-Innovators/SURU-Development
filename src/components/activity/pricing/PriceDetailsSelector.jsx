@@ -48,6 +48,7 @@ export function PriceDetailsSelector({ transactionType, fillData }) {
                     required={true}
                     type={'number'}
                     onChange={(e) => fillData('price', e.target.value)}
+                    min={0}
                 />
                 <select
                     id="currencySelect"
@@ -75,6 +76,7 @@ export function PriceDetailsSelector({ transactionType, fillData }) {
                         required={true}
                         type={'number'}
                         onChange={(e) => fillData('rent_price', e.target.value)}
+                        min={0}
                     />
                     <select
                         id="currencySelect"
@@ -97,6 +99,7 @@ export function PriceDetailsSelector({ transactionType, fillData }) {
                         onChange={(e) =>
                             fillData('deposit_price', e.target.value)
                         }
+                        min={0}
                     />
                     <select
                         id="currencySelect"

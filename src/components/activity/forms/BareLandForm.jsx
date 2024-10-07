@@ -2,7 +2,7 @@ import SectionDivider from '../../ui/layout/SectionDivider';
 import BaseFormsInfo from '../pricing/BaseFormsInfo';
 import { InputForms } from '../../ui/forms/InputForms';
 import { PriceDetailsSelector } from '../pricing/PriceDetailsSelector';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { SecondaryFilterTag } from '../../ui/buttons/SecondaryFilterTag';
 
 export function BareLandForm({ transactionType, fillData, fillUtilities }) {
@@ -32,6 +32,7 @@ export function BareLandForm({ transactionType, fillData, fillUtilities }) {
                     onChange={(value) => {
                         fillData('size_in_m2', value);
                     }}
+                    min={0}
                 />
             </div>
 
