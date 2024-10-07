@@ -37,6 +37,13 @@ const CreatePropertyForm = () => {
         }
     });
 
+    useEffect(() => {
+      if (images.length+1 > 6) {
+        toast.error("You can only upload up to 6 images");
+          return;
+      }
+  }, [images]);
+
     //manejar el valor de tipo de propiedad
     const handleFilterPropType = (filterId) => {
         setFilterPropType(filterId);
@@ -84,27 +91,32 @@ const CreatePropertyForm = () => {
 
     //manejar el cambio de imagenes
     const handleImageChange = (event) => {
-        const files = Array.from(event.target.files);
-        const newImages = [...images];
-        const newPreviews = [...imagePreviews];
-
-        files.forEach((file) => {
-            if (newImages.length < 6) {
-                newImages.push(file);
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    newPreviews.push(reader.result);
-                    setImagePreviews([...newPreviews]);
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        setImages(newImages);
-        // Considerar eliminar esta línea si las imágenes se manejan por separado
-        // handleInputChange("images", newImages);
-        event.target.value = '';
-    };
+      const files = Array.from(event.target.files);
+      const newImages = [...images];
+      const newPreviews = [...imagePreviews];
+  
+      // Limitar la cantidad de imágenes, se dejan subir hasta 6
+      if (newImages.length + files.length > 6) {
+          toast.error("You can only upload up to 6 images");
+          return; 
+      }
+  
+      files.forEach((file) => {
+          if (newImages.length < 6) {
+              newImages.push(file);
+              console.log("Image uploaded:", file.name);
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                  newPreviews.push(reader.result);
+                  setImagePreviews([...newPreviews]);
+              };
+              reader.readAsDataURL(file);
+          }
+      });
+  
+      setImages(newImages);
+      event.target.value = ''; // Resetear el input para permitir la selección de la misma imagen
+  };
 
     const removeImage = (index) => {
         const newImages = images.filter((_, i) => i !== index);
@@ -240,11 +252,11 @@ const CreatePropertyForm = () => {
                 pauseOnHover
                 theme="light"
             />
-            <section className='mt-10 flex gap-4'>
-            <BackButton />
-            <h1 className="text-center sm:text-start">
-                Let&apos;s add a property
-            </h1>
+            <section className='mt-10 flex flex-col sm:flex-row gap-4'>
+              <BackButton />
+              <h1 className="text-center sm:text-start">
+                  Let&apos;s add a property
+              </h1>
             </section>
             <div className="container mx-auto">
                 <SectionDivider text="Property type" />
@@ -281,7 +293,7 @@ const CreatePropertyForm = () => {
                     />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+                <div className="flex flex-col-reverse sm:grid sm:grid-cols-2 gap-8">
                     <div className="mb-10">
                         <SectionDivider text="What will you do with this property?" />
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center mx-auto max-w-7xl">
@@ -350,18 +362,19 @@ const CreatePropertyForm = () => {
                                 className="hidden"
                                 multiple
                             />
-                            <div className="image-preview-container grid grid-cols-3 mt-4">
+                            <div className="image-preview-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 gap-4">
                                 {imagePreviews.map((image, index) => (
                                     <div key={index} className="relative">
-                                        <img
+                                  
+                                      <img
                                             src={image}
                                             alt={`Preview ${index + 1}`}
-                                            className="w-32 h-32 object-cover rounded-md mr-2 grid"
+                                            className="w-full h-40 object-cover rounded-md mr-2 grid"
                                         />
                                         <button
                                             type="button"
                                             onClick={() => removeImage(index)}
-                                            className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
+                                            className="absolute top-2 right-2  bg-red-500 text-white rounded-full p-1"
                                         >
                                             <X size={12} />
                                         </button>
