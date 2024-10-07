@@ -16,8 +16,8 @@
     box-sizing: border-box;
 }
 
-body {
-    background-color: '#F8F8F8';
+#body{
+    min-height: 100vh;
 }
 
 .swiper-pagination-bullet {

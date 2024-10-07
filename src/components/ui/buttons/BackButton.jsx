@@ -14,10 +14,10 @@ export function BackButton() {
                 type="button"
                 onClick={goBack}
                 variant="border"
-                customClass="p-[1rem] text-secondary grid justify-center align-center"
+                customClass="p-[1rem] text-secondary grid justify-center align-center w-[4rem]"
                 icon={<ChevronLeft />}
             />
-            <p className="ml-3 text-secondary font-medium text-lg">Go Back</p>
+            {/* <p className="ml-3 text-secondary font-medium text-lg">Go Back</p> */}
         </div>
     );
 }
