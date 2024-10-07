@@ -3,19 +3,16 @@ import BaseFormsInfo from '../pricing/BaseFormsInfo';
 import { InputForms } from '../../ui/forms/InputForms';
 import { SecondaryFilterTag } from '../../ui/buttons/SecondaryFilterTag';
 import { PriceDetailsSelector } from '../pricing/PriceDetailsSelector';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect} from 'react';
 import PropTypes from 'prop-types';
-import { globalProvider } from '../../../global/GlobalProvider';
 
 const HDSForm = ({
     title,
     transactionType,
     fillData,
     fillUtilities,
-    propertyType,
-    clearData,
 }) => {
-    const { propTypeForm } = useContext(globalProvider);
+
     console.log('dd');
     useEffect(() => {
         if (fillData) {
@@ -36,6 +33,8 @@ const HDSForm = ({
                     labelText="Bedrooms"
                     onChange={(value) => fillData('bedrooms', value)}
                     required={true}
+                    min={0}
+                    max={15}
                 />
                 <InputForms
                     inputName="bathrooms"
@@ -44,6 +43,8 @@ const HDSForm = ({
                     labelText="Bathrooms"
                     onChange={(value) => fillData('bathrooms', value)}
                     required={true}
+                    min={0}
+                    max={15}
                 />
                 <InputForms
                     inputName="floors"
@@ -52,6 +53,8 @@ const HDSForm = ({
                     labelText="Floor"
                     onChange={(value) => fillData('floors', value)}
                     required={true}
+                    min={0}
+                    max={3}
                 />
                 <InputForms
                     inputName="pools"
@@ -60,6 +63,8 @@ const HDSForm = ({
                     labelText="Pools"
                     onChange={(value) => fillData('pools', value)}
                     required={true}
+                    min={0}
+                    max={3}
                 />
                 <InputForms
                     inputName="garages"
@@ -68,6 +73,8 @@ const HDSForm = ({
                     labelText="Garage"
                     onChange={(value) => fillData('garages', value)}
                     required={true}
+                    min={0}
+                    max={3}
                 />
                 <InputForms
                     inputName="Size"
@@ -77,23 +84,20 @@ const HDSForm = ({
                     placeholder="Property size in square meters"
                     onChange={(value) => fillData('size_in_m2', value)}
                     required={true}
+                    min={0}
                 />
 
                 <SecondaryFilterTag
                     id={'petsAllowedInput'}
                     text={'Pets allowed'}
-                    // handleSelectedValue={fillUtilities}
                     groupType={'individual'}
                     isActivate={false}
-                    // idValue={7}
                     fillData={(value) => fillData('pets_allowed', value)}
                 />
                 <SecondaryFilterTag
                     text={'Green Area'}
-                    // handleSelectedValue={fillUtilities}
                     groupType={'individual'}
                     isActivate={false}
-                    // idValue={6}
                     fillData={(value) => fillData('green_area', value)}
                 />
                 <SecondaryFilterTag

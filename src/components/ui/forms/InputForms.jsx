@@ -12,6 +12,7 @@ export function InputForms({
     customClass = '',
     required = false,
     onChange,
+    ...props
 }) {
     const { propTypeForm, propTransacTypeForm } = useContext(globalProvider);
     const [inputValue, setInputValue] = useState('');
@@ -58,6 +59,7 @@ export function InputForms({
                     className={commonClasses}
                     value={inputValue}
                     onChange={handleInputChange}
+                    {...props}
                 />
             )}
             <span className="text-grey text-sm mt-2">{spanText}</span>

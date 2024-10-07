@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AdvancedCard } from '../../ui/cards/AdvancedCard.jsx';
 import { Divider } from '@mui/joy';
 import { MainButton } from '../../ui/buttons/MainButton.jsx';
@@ -129,8 +129,8 @@ export function PropertiesFilter() {
     const showLoaderSelect = () => {
         return (
             <div className="w-full gap-1 lg:w-auto flex flex-col">
-                <SkeletonLoader customClass="h-8 w-full sm:w-40" />
-                <SkeletonLoader customClass="h-8 w-full sm:w-40" />
+                <SkeletonLoader customClass="h-8 w-full sm:w-32" />
+                <SkeletonLoader customClass="h-8 w-full sm:w-32" />
             </div>
         );
     };
@@ -188,6 +188,18 @@ export function PropertiesFilter() {
         navigate(ROUTE_PATHS.PROPERTY_DETAILS);
     };
 
+    const clearFilter = (e) => {
+        e.preventDefault();
+        const selectRegion = document.getElementById('select_regions');
+        const minPriceSelect = document.getElementById('select_min_price');
+        const maxPriceSelect = document.getElementById('select_max_price');
+        const propsCatsSelect = document.getElementById('select_props_cats');
+        selectRegion.value = 0;
+        minPriceSelect.value = selectPriceOptions[0].options[0].value;
+        maxPriceSelect.value = 'max';
+        propsCatsSelect.value = 0;
+    };
+
     return (
         <section className="mt-20">
             <div className="text-center flex flex-col items-center gap-6 px-4 py-8">
@@ -202,11 +214,13 @@ export function PropertiesFilter() {
                     name="form_filter"
                     className="w-full lg:w-auto flex flex-col justify-center flex-wrap lg:flex-row items-center border border-gray-200 p-6 rounded-lg shadow-sm gap-6 transition-all duration-300 hover:shadow-md hover:border-gray-300"
                 >
-                    {isLoadingRegions
+                    {isLoadingPropsCats
                         ? showLoaderSelect()
                         : createRegionsSelect(regions)}
 
-                    {
+                    {isLoadingPropsCats ? (
+                        showLoaderSelect()
+                    ) : (
                         <div className="w-full lg:w-auto flex flex-col">
                             <label
                                 htmlFor="select_min_price"
@@ -231,8 +245,10 @@ export function PropertiesFilter() {
                                 )}
                             </select>
                         </div>
-                    }
-                    {
+                    )}
+                    {isLoadingPropsCats ? (
+                        showLoaderSelect()
+                    ) : (
                         <div className="w-full lg:w-auto flex flex-col">
                             <label
                                 htmlFor="select_max_price"
@@ -258,7 +274,7 @@ export function PropertiesFilter() {
                                 )}
                             </select>
                         </div>
-                    }
+                    )}
                     {/* <input type="range" /> */}
                     {isLoadingPropsCats
                         ? showLoaderSelect()
@@ -274,10 +290,10 @@ export function PropertiesFilter() {
                         />
                         <MainButton
                             text="Clear"
-                            type="link"
-                            customClass="p-3 w-full lg:w-fit"
+                            type="button"
+                            customClass="p-3 h-fit w-full sm:w-auto"
                             variant="border"
-                            to={ROUTE_PATHS.PROPERTY_DETAILS}
+                            onClick={(e) => clearFilter(e)}
                         />
                     </div>
                 </form>

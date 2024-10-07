@@ -6,7 +6,7 @@ import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { SkeletonLoader } from '../SkeletonLoader';
 
-export function SearchFilter({ setData }) {
+export function SearchFilter({ setData, isLoadingFilter }) {
     const { regions, isLoadingRegions } = useFetchRegions();
     const { propertyCategories, isLoadingPropsCats } =
         useFetchPropertyCategories();
@@ -36,7 +36,7 @@ export function SearchFilter({ setData }) {
                 return;
             }
         }
-
+        isLoadingFilter(true);
         try {
             const response = await axios.get('/properties/filter', {
                 params: {
@@ -48,8 +48,10 @@ export function SearchFilter({ setData }) {
             });
             const data = await response.data;
             setData(data);
+            isLoadingFilter(false);
         } catch (error) {
             console.log(error);
+            isLoadingFilter(false);
         }
     };
 
@@ -133,15 +135,14 @@ export function SearchFilter({ setData }) {
 
     const clearFilter = (e) => {
         e.preventDefault();
-        console.log('clear');
         const selectRegion = document.getElementById('select_regions');
         const minPriceSelect = document.getElementById('select_min_price');
         const maxPriceSelect = document.getElementById('select_max_price');
         const propsCatsSelect = document.getElementById('select_props_cats');
-        selectRegion.value = regions[0].id;
+        selectRegion.value = 0;
         minPriceSelect.value = selectPriceOptions[0].options[0].value;
-        maxPriceSelect.value = selectPriceOptions[0].options[0].value;
-        propsCatsSelect.value = propertyCategories[0].id;
+        maxPriceSelect.value = 'max';
+        propsCatsSelect.value = 0;
     };
 
     return (
@@ -163,12 +164,12 @@ export function SearchFilter({ setData }) {
                 theme="light"
             />
             <div className="grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] gap-4 items-center">
-                {isLoadingRegions ? (
-                    <p>Loading</p>
+                {isLoadingPropsCats
+                    ? showLoaderSelect()
+                    : createRegionsSelect(regions)}
+                {isLoadingPropsCats ? (
+                    showLoaderSelect()
                 ) : (
-                    createRegionsSelect(regions)
-                )}
-                {
                     <div className="w-full lg:w-auto flex flex-col">
                         <label
                             htmlFor="select_min_price"
@@ -193,8 +194,10 @@ export function SearchFilter({ setData }) {
                             )}
                         </select>
                     </div>
-                }
-                {
+                )}
+                {isLoadingPropsCats ? (
+                    showLoaderSelect()
+                ) : (
                     <div className="w-full lg:w-auto flex flex-col">
                         <label
                             htmlFor="select_max_price"
@@ -220,19 +223,19 @@ export function SearchFilter({ setData }) {
                             )}
                         </select>
                     </div>
-                }
+                )}
                 {isLoadingPropsCats
                     ? showLoaderSelect()
                     : createPropsCatsSelect(propertyCategories)}
             </div>
             <div className="flex flex-col items-center gap-2 w-full sm:flex-row">
                 <MainButton
-                    text="Clear"
-                    type="button"
+                    text="Search"
+                    type="submit"
                     customClass="p-3 h-fit w-full sm:w-auto"
-                    variant="border"
-                    onClick={(e) => clearFilter(e)}
+                    variant="fill"
                 />
+
                 <MainButton
                     text="More Filters"
                     type="button"
@@ -240,10 +243,11 @@ export function SearchFilter({ setData }) {
                     variant="border"
                 />
                 <MainButton
-                    text="Search"
-                    type="submit"
+                    text="Clear"
+                    type="button"
                     customClass="p-3 h-fit w-full sm:w-auto"
-                    variant="fill"
+                    variant="border"
+                    onClick={(e) => clearFilter(e)}
                 />
             </div>
         </form>

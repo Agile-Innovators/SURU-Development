@@ -11,6 +11,7 @@ export function Input({
     required = false,
     value,
     onChange = () => {},
+    ...props
 }) {
     return (
         <div className="flex flex-col">
@@ -29,6 +30,7 @@ export function Input({
                 value={value}
                 onChange={onChange}
                 className={`border border-light-grey bg-transparent rounded-md min-h-8 px-4 py-2 mt-2 focus:outline-light-blue ${customClass}`}
+                {...props}
             />
             <span className="text-grey text-sm mt-2">{spanText}</span>
         </div>

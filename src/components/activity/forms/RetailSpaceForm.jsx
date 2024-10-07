@@ -18,6 +18,7 @@ const RetailSpaceForm = ({ transactionType, fillData, fillUtilities }) => {
                     placeholder="Property size in square meters"
                     required={true}
                     onChange={(value) => fillData('size_in_m2', value)}
+                    min={0}
                 />
                 <InputForms
                     inputName="bathrooms"
@@ -26,6 +27,8 @@ const RetailSpaceForm = ({ transactionType, fillData, fillUtilities }) => {
                     labelText="Bathrooms"
                     required={true}
                     onChange={(value) => fillData('bathrooms', value)}
+                    min={0}
+                    max={10}
                 />
             </div>
             {/* Transaction type: 2 = rent, 3 = both */}
