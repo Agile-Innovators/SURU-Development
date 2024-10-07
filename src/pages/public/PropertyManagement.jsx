@@ -1,28 +1,25 @@
-import { BackButton } from '../../components/ui/buttons/BackButton.jsx';
+import { BackButton } from '../../components/ui/buttons/BackButton.jsx'; 
 import { MapPin } from 'lucide-react';
 import { ActionButton } from '../../components/ui/buttons/ActionButton.jsx';
 import { MainButton } from '../../components/ui/buttons/MainButton.jsx';
 import { ROUTE_PATHS } from '../../routes/index.js';
-// import { useFetchProperties } from "../../components/hooks/useFetchProperties.js";
 import { useState, useEffect } from 'react';
 import { Input } from '../../components/ui/forms/Input.jsx';
 import { useAxios } from '../../components/hooks/useAxios.js';
 import { useFetchProperties } from '../../components/hooks/useFetchProperties.js';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function PropertyManagement() {
     const { properties, isLoadingProps } = useFetchProperties();
     const [propertiesData, setPropertiesData] = useState(properties);
 
-    // const [isPropertyDeleted, setIsPropertyDeleted] = useState(false);
-
     const axios = useAxios();
-    console.log(properties);
-    //  useEffect(() => {
-    //      setPropertiesData(properties);
-
-    //      console.log("propertiesData");
-    //      console.log("datoss:", propertiesData);
-    //  }, [isLoadingProps, properties]);
+    
+    useEffect(() => {
+        // Actualizar el estado de propertiesData cuando properties cambie
+        setPropertiesData(properties);
+    }, [properties]);
 
     const deleteProperty = async (id) => {
         console.log(id);
@@ -34,13 +31,15 @@ export function PropertyManagement() {
             setPropertiesData((prevProperties) =>
                 prevProperties.filter((property) => property.id !== id)
             );
+
+            toast.success(data.message);
         } catch (error) {
             console.log(error);
         }
     };
 
     const renderPropertiesIndex = (items) => {
-        return items.map((item, index) => {
+        return items.map((item) => {
             return (
                 <div
                     key={item.id}
@@ -85,7 +84,19 @@ export function PropertyManagement() {
     };
 
     return (
-        <div className="max-w-7xl m-auto p-4 ">
+        <div className="max-w-7xl m-auto p-4">
+            <ToastContainer
+                position="top-center"
+                autoClose={200}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             <BackButton />
             <div className="text-center grid gap-4">
                 <h1>Manage Publications</h1>
@@ -101,8 +112,8 @@ export function PropertyManagement() {
                 {isLoadingProps ? (
                     <p>Loading</p>
                 ) : (
-                    // console.log("propertiesData", properties)
-                    renderPropertiesIndex(properties)
+                    // Usar propertiesData en lugar de properties
+                    renderPropertiesIndex(propertiesData)
                 )}
             </div>
         </div>
