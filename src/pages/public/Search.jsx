@@ -6,6 +6,7 @@ import { useFetchFilter } from '../../components/hooks/useFetchFilter';
 import { MainButton } from '../../components/ui/buttons/MainButton';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes';
+import { Frown } from 'lucide-react';
 import { SkeletonLoader } from '../../components/ui/SkeletonLoader';
 
 export function Search() {
@@ -56,7 +57,8 @@ export function Search() {
 
     function showFilteredProperties(properties) {
         if (!properties || properties.length === 0) {
-            return <h2>Not found</h2>;
+
+            return <span>No properties found</span>;
         }
 
         return properties.map((property) => (
@@ -93,7 +95,7 @@ export function Search() {
 
     console.log(regionId, minPrice, maxPrice, propertyTypeId, isFilterUsed);
     return (
-        <section className="max-w-7xl m-auto mt-5 p-4 xl:p-0">
+        <section className="max-w-7xl m-auto mt-5 p-4 xl:p-0 min-h-[80vh]">
             <h2>Search properties</h2>
             <SearchFilter setData={setFilterProperties} isLoadingFilter={setIsLoadingFilter} />
             <div className="grid grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-4 mt-8 mb-5">
