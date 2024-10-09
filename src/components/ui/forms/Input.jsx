@@ -11,10 +11,11 @@ export function Input({
     required = false,
     value,
     onChange = () => {},
+    containerClass,
     ...props
 }) {
     return (
-        <div className="flex flex-col">
+        <div className={`flex flex-col  ${containerClass}`}>
             <label htmlFor={inputId} className="span">
                 {labelText}
             </label>
