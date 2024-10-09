@@ -6,6 +6,7 @@ import { useFetchFilter } from '../../components/hooks/useFetchFilter';
 import { MainButton } from '../../components/ui/buttons/MainButton';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes';
+import { Frown } from 'lucide-react';
 import { SkeletonLoader } from '../../components/ui/SkeletonLoader';
 import { FilterModal } from '../../components/ui/modals/FilterModal';
 import { LayoutModal } from '../../components/ui/modals/LayoutModal';
@@ -58,7 +59,8 @@ export function Search() {
 
     function showFilteredProperties(properties) {
         if (!properties || properties.length === 0) {
-            return <h2>Not found</h2>;
+
+            return <span>No properties found</span>;
         }
 
         return properties.map((property) => (

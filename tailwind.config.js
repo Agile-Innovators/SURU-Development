@@ -34,7 +34,7 @@ export default {
         function ({ addBase, theme }) {
             addBase({
                 h1: {
-                    fontSize: '2.625rem',
+                    fontSize: '2.5rem',
                     color: theme('colors.secondary'),
                     fontFamily: theme('fontFamily.primary'),
                     fontWeight: '700', //Bold

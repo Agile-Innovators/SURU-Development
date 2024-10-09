@@ -66,7 +66,7 @@ export function AdvancedCard({
                         Allowed
                     </li>
                 </ul>
-                <div className="flex flex-col justify-between mt-3 mb-2 sm:flex-row items-center">
+                <div className="flex justify-between mt-3 mb-1 sm:flex-row items-center">
                     <h3 className="text-xl font-medium">
                         {currency_code === 'USD' ? '$' : '₡'}
                         {price} <span className="text-grey">{frequency}</span>

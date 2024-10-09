@@ -17,9 +17,10 @@ export function MainButton({
     let variantClasses = {
         fill: 'bg-secondary text-white hover:bg-light-blue hover:text-white',
         border: 'text-secondary border-2 border-secondary hover:bg-secondary hover:text-white',
+        none: '',
     };
 
-    let commonClasses = `block text-center px-8 py-3 rounded-md transition-colors duration-150 cursor-pointer ${customClass} ${variantClasses[variant]}`;
+    let commonClasses = `block text-center px-8 py-3 rounded-md transition-colors duration-150 cursor-pointer ${variantClasses[variant]} ${customClass}`;
 
     //manejar el onClick más dinamico ya que no permite agreagr otras funciones
     // const handleClick = () => {

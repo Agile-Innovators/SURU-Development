@@ -27,6 +27,13 @@ export function PropertiesFilter() {
         useFetchPropertyCategories();
     const { properties, isLoadingProps } = useFetchProperties();
 
+    const formatPrice = (price) => {
+        if (price >= 1e9) return `${(price / 1e9).toFixed(1)}B`;
+        if (price >= 1e6) return `${(price / 1e6).toFixed(1)}M`;
+        if (price >= 1e3) return `${(price / 1e3).toFixed(1)}K`;
+        return price.toString();
+    };
+
     const createRegionsSelect = (items) => {
         return (
             <div className="w-full lg:w-auto flex flex-col">
@@ -91,9 +98,7 @@ export function PropertiesFilter() {
                     }
                     title={property.title}
                     location={`${property.city}, ${property.region}`}
-                    price={
-                        property.price ? property.price : property.rent_price
-                    }
+                    price={formatPrice(property.price ? property.price : property.rent_price)}
                     frequency={
                         property.payment_frequency
                             ? property.payment_frequency
@@ -110,6 +115,7 @@ export function PropertiesFilter() {
                         variant="border"
                         type="button"
                         id={property.id}
+                        customClass='h-fit'
                         onClick={() => showProperty(property.id)}
                     />
                 </AdvancedCard>

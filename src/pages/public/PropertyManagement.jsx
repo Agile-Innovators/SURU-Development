@@ -13,8 +13,14 @@ import 'react-toastify/dist/ReactToastify.css';
 export function PropertyManagement() {
     const { properties, isLoadingProps } = useFetchUserProperties();
     const [propertiesData, setPropertiesData] = useState(properties);
-
     const axios = useAxios();
+
+    const formatPrice = (price) => {
+        if (price >= 1e9) return `${(price / 1e9).toFixed(1)}B`;
+        if (price >= 1e6) return `${(price / 1e6).toFixed(1)}M`;
+        if (price >= 1e3) return `${(price / 1e3).toFixed(1)}K`;
+        return price.toString();
+    };
     
     useEffect(() => {
         // Actualizar el estado de propertiesData cuando properties cambie
@@ -57,20 +63,20 @@ export function PropertyManagement() {
                                     <p>{item.city || 'City not available'}</p>
                                 </div>
                                 <h5 className="text-2xl font-medium flex gap-3">
-                                    {item.sale_price || '0.00'}
-                                    <span className="text-grey"> Monthly</span>
+                                    {formatPrice(item.price ? item.price : item.rent_price)}
+                                    {(item.payment_frequency ? <span className="text-grey"> {item.payment_frequency}</span> : '')}
                                 </h5>
                             </div>
     
                             <div className="flex flex-col sm:flex-row justify-center p-2 gap-2 mt-4 sm:mt-0 w-full sm:w-auto">
                                 <MainButton
                                     text="Edit"
-                                    variant="fill"
-                                    customClass="w-full sm:w-auto bg-transparent border-2 border-gray-200 text-[#515151] hover:bg-gray-200 hover:border-gray-200 hover:text-[#515151]"
+                                    variant='none'
+                                    customClass="w-full sm:w-auto bg-transparent border-2 border-gray-200 text-[#515151] hover:bg-gray-300 hover:border-gray-300 hover:text-black"
                                 />
                                 <MainButton
                                     text="Remove"
-                                    variant="fill"
+                                    variant="none"
                                     customClass="bg-[#edcaca] text-red-700 hover:bg-red-500 hover:text-white"
                                     onClick={() => deleteProperty(item.id)}
                                 />
