@@ -1,6 +1,6 @@
 import { MainButton } from '../../components/ui/buttons/MainButton';
 import { ROUTE_PATHS } from '../../routes';
-import { Calendar, Clock, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Clock, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
 import React, { useState } from 'react';
 
 export function Appointments() {
@@ -173,25 +173,6 @@ export function Appointments() {
       </div>{/* Listado de citas */}
       
       
-        
-  
-
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       <div className="flex items-center justify-center space-x-4 mt-8 text-gray-500">
         
