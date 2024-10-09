@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes';
 import { Frown } from 'lucide-react';
 import { SkeletonLoader } from '../../components/ui/SkeletonLoader';
+import { FilterModal } from '../../components/ui/modals/FilterModal';
+import { LayoutModal } from '../../components/ui/modals/LayoutModal';
 
 export function Search() {
     const {
@@ -70,7 +72,9 @@ export function Search() {
                 }
                 title={property.title}
                 location={`${property.city}, ${property.region}`}
-                price={formatPrice(property.price ? property.price : property.rent_price)}
+                price={formatPrice(
+                    property.price ? property.price : property.rent_price
+                )}
                 frequency={
                     property.payment_frequency ? property.payment_frequency : ''
                 }
@@ -84,7 +88,7 @@ export function Search() {
                 <MainButton
                     text="View"
                     variant="border"
-                    customClass='h-fit'
+                    customClass="h-fit"
                     type="button"
                     id={property.id}
                     onClick={() => showProperty(property.id)}
@@ -95,9 +99,15 @@ export function Search() {
 
     console.log(regionId, minPrice, maxPrice, propertyTypeId, isFilterUsed);
     return (
-        <section className="max-w-7xl m-auto mt-5 p-4 xl:p-0 min-h-[80vh]">
+        <section className="max-w-7xl m-auto mt-5 p-4 xl:p-0">
+            {/* <LayoutModal>
+                <FilterModal />
+            </LayoutModal> */}
             <h2>Search properties</h2>
-            <SearchFilter setData={setFilterProperties} isLoadingFilter={setIsLoadingFilter} />
+            <SearchFilter
+                setData={setFilterProperties}
+                isLoadingFilter={setIsLoadingFilter}
+            />
             <div className="grid grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-4 mt-8 mb-5">
                 {isLoading || isLoadingFilter
                     ? showLoaderCards()
