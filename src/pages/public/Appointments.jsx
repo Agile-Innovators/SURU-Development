@@ -2,7 +2,7 @@ import { MainButton } from '../../components/ui/buttons/MainButton';
 import { ROUTE_PATHS } from '../../routes';
 import { Clock, MapPin } from 'lucide-react';
 import React, { useState } from 'react';
-import { AppointmentsModal } from '../../components/ui/modals/AppointmentsModal';
+import { FiltersAppointmentsModal } from '../../components/ui/modals/FiltersAppointmentsModal';
 
 export function Appointments() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -69,15 +69,13 @@ export function Appointments() {
         </div>
 
         <div className="flex gap-5">
-          <MainButton
-            text="Filters"
-            variant="border"
-            type="link"
-            customClass="border-r border-gray-300"
-            onClick={() => {
-                handleFiltersClick();
-              }}
-          />
+        <button
+          className="text-secondary border-2 border-secondary hover:bg-secondary hover:text-white px-4 py-2 rounded-md transition-colors duration-150 cursor-pointer"
+          onClick={handleFiltersClick}
+          >
+        Filters
+        </button>
+
           <MainButton
             text="Add New"
             type="link"
@@ -126,15 +124,25 @@ export function Appointments() {
 
           {/* Botón de "More Info" */}
           <div>
-            <button className="border border-gray-300 text-gray-600 px-4 py-2 rounded-md">
-              More Info <span className="ml-2">▼</span>
-            </button>
+          <MainButton
+            text="More Info"
+            variant="border"
+            type="link"
+            customClass="border-r border-gray-300"
+            
+            onClick={() => {
+              console.log('MainButton clicked'); // Verificar si el botón es clickeado
+              handleFiltersClick()
+            }}
+                
+          />
           </div>
         </div>
       </div>
 
       {/* NUEVO: Renderización condicional del modal */}
-      {isModalOpen && <AppointmentsModal closeModal={closeModal} />}  {/* Mostrar el modal solo si isModalOpen es true */}
+      {console.log('Is modal open?', isModalOpen)}
+      {isModalOpen && <FiltersAppointmentsModal closeModal={closeModal} />}  {/* Mostrar el modal solo si isModalOpen es true */}
     </div>
   );
 }

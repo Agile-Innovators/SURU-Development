@@ -57,12 +57,13 @@ export default {
                     fontFamily: theme('fontFamily.primary'),
                     fontWeight: '600', //Semi-bold
                 },
+                /*
                 h5: {
                     fontSize: '1rem', //16px
                     color: theme('colors.primary'),
                     fontFamily: theme('fontFamily.primary'),
                     fontWeight: '400', //Regular
-                },
+                },*/
                 span: {
                     fontSize: '1rem', //16px
                     color: theme('colors.primary'),
