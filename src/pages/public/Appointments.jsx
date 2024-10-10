@@ -99,6 +99,10 @@ export function Appointments() {
         </div>
       </div>
 
+
+<div className='gap-4 grid'>
+
+
       {/* Listado de citas */}
       <div className="gap-4 grid">
         <div className="border border-gray-300 rounded-md p-4 flex items-center justify-between">
@@ -152,6 +156,7 @@ export function Appointments() {
         </div>
       </div>
 
+</div>
       
       {console.log('TEST_MODAL_ISAAC', isFiltersModalOpen)}
       {console.log('TEST2_MODAL_ISAAC', isAddNewModalOpen)}
@@ -159,7 +164,7 @@ export function Appointments() {
       {/* Modal de Filtros */}
       {isFiltersModalOpen && <FiltersAppointmentsModal closeModal={closeFiltersModal} />}
       
-      {/* NUEVO: Modal de "Add New" */}
+      {/* Modal de "Add New" */}
       {isAddNewModalOpen && <RequestAppointmentModal closeModal={closeAddNewModal} />} 
     </div>
   );
