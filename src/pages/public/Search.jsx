@@ -6,7 +6,6 @@ import { useFetchFilter } from '../../components/hooks/useFetchFilter';
 import { MainButton } from '../../components/ui/buttons/MainButton';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes';
-import { Frown } from 'lucide-react';
 import { SkeletonLoader } from '../../components/ui/SkeletonLoader';
 import { FilterModal } from '../../components/ui/modals/FilterModal';
 import { LayoutModal } from '../../components/ui/modals/LayoutModal';
@@ -24,6 +23,7 @@ export function Search() {
     const navigate = useNavigate();
     const [isLoadingFilter, setIsLoadingFilter] = useState(false);
     const [properties, setProperties] = useState(data);
+    const [isOpenModal, setIsOpenModal] = useState(false);
 
     const setFilterProperties = (data) => {
         setProperties(data);
@@ -59,7 +59,6 @@ export function Search() {
 
     function showFilteredProperties(properties) {
         if (!properties || properties.length === 0) {
-
             return <span>No properties found</span>;
         }
 
@@ -100,13 +99,15 @@ export function Search() {
     console.log(regionId, minPrice, maxPrice, propertyTypeId, isFilterUsed);
     return (
         <section className="max-w-7xl m-auto mt-5 p-4 xl:p-0">
-            {/* <LayoutModal>
-                <FilterModal />
-            </LayoutModal> */}
+            <LayoutModal customClass="pb-20" status={isOpenModal}>
+                <FilterModal handleModal={setIsOpenModal} />
+            </LayoutModal>
+
             <h2>Search properties</h2>
             <SearchFilter
                 setData={setFilterProperties}
                 isLoadingFilter={setIsLoadingFilter}
+                handleModal={setIsOpenModal}
             />
             <div className="grid grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-4 mt-8 mb-5">
                 {isLoading || isLoadingFilter
