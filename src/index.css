@@ -33,3 +33,11 @@
 .text-control {
     font-size: 14px;
 }
+
+
+.h5{
+    font-size: '1rem';
+    color: #0A1029;
+    font-family: 'Poppins', 'sans-serif';
+    font-weight: '400';
+}
