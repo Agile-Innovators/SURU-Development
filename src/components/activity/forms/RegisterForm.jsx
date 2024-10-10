@@ -49,12 +49,9 @@ export function RegisterForm() {
             const response = await axios.post('/register', data);
             const { token, user } = response.data;
             login(token, user);
-            console.log('Login successful:', token, user);
             navigate(ROUTE_PATHS.HOME);
-            navigate('/prueba-registro');
         } catch (err) {
-            setError(err.response.data.error.message);
-            console.error('Registration error:', err);
+            setError(err.response?.data?.message || 'An error occurred');
         } finally {
             setLoading(false);
         }

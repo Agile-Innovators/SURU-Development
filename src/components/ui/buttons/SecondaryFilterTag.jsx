@@ -4,7 +4,7 @@ import { globalProvider } from '../../../global/GlobalProvider';
 export function SecondaryFilterTag({
     text,
     idValue,
-    groupType,
+    groupType = 'individual',
     isActivate,
     handleSelectedValue,
     manageExternalState,
@@ -56,7 +56,7 @@ export function SecondaryFilterTag({
             type="button"
             id={id}
             onClick={(e) => handleEventButton(e)}
-            className={` flex justify-between transition-colors duration-150 group border-2 border-gray-300 rounded-md p-2 hover:border-secondary ${
+            className={` flex justify-between gap-2 transition-colors duration-150 group border-2 border-gray-300 rounded-md p-2 hover:border-secondary ${
                 isChecked ? 'border-secondary hover:border-light-blue' : ''
             } `}
         >
