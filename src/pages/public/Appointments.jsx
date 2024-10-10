@@ -3,13 +3,17 @@ import { ROUTE_PATHS } from '../../routes';
 import { Clock, MapPin } from 'lucide-react';
 import React, { useState } from 'react';
 import { FiltersAppointmentsModal } from '../../components/ui/modals/FiltersAppointmentsModal';
+import { RequestAppointmentModal } from '../../components/ui/modals/RequestAppointmentModal'; 
 
 export function Appointments() {
   const [currentPage, setCurrentPage] = useState(1);
   
-  // NUEVO: Estado para controlar si el modal está abierto o cerrado
-  const [isModalOpen, setIsModalOpen] = useState(false);  
+ //Estado para controlar si el modal de filtros está abierto o cerrado
+  const [isFiltersModalOpen, setIsFiltersModalOpen] = useState(false);
   
+  //Estado para controlar si el modal de "Add New" está abierto o cerrado
+  const [isAddNewModalOpen, setIsAddNewModalOpen] = useState(false);
+
   const totalPages = 10;
 
   const handlePageChange = (newPage) => {
@@ -18,16 +22,26 @@ export function Appointments() {
     }
   };
 
-  // NUEVO: Función para abrir el modal
+  // Función para abrir el modal de filtros
   const handleFiltersClick = () => {
-    console.log('Filters button clicked');  // Agrega este log para verificar
-    setIsModalOpen(true);  // Cambia el estado a "true"
+    console.log('Filters button clicked');
+    setIsFiltersModalOpen(true);
   };
-  
 
-  // NUEVO: Función para cerrar el modal
-  const closeModal = () => {
-    setIsModalOpen(false);  // Cambiar el estado a "false" para cerrar el modal
+  // Función para cerrar el modal de filtros
+  const closeFiltersModal = () => {
+    setIsFiltersModalOpen(false);
+  };
+
+  //Función para abrir el modal de "Add New"
+  const handleAddNewClick = () => {
+    console.log('Add New button clicked');
+    setIsAddNewModalOpen(true);
+  };
+
+  //Función para cerrar el modal de "Add New"
+  const closeAddNewModal = () => {
+    setIsAddNewModalOpen(false);
   };
 
   return (
@@ -35,7 +49,7 @@ export function Appointments() {
       <h1 className="mt-10">Appointments</h1>
       <p>Everything about your appointments</p>
 
-      {/* Botones */}
+      
       <div className="flex flex-row mt-10 justify-between mb-10 ">
         <div className="flex gap-2">
           <MainButton
@@ -69,19 +83,19 @@ export function Appointments() {
         </div>
 
         <div className="flex gap-5">
-        <button
-          className="text-secondary border-2 border-secondary hover:bg-secondary hover:text-white px-4 py-2 rounded-md transition-colors duration-150 cursor-pointer"
-          onClick={handleFiltersClick}
+          <button
+            className="text-secondary border-2 border-secondary hover:bg-secondary hover:text-white px-4 py-2 rounded-md transition-colors duration-150 cursor-pointer"
+            onClick={handleFiltersClick}
           >
-        Filters
-        </button>
+            Filters
+          </button>
 
-          <MainButton
-            text="Add New"
-            type="link"
-            customClass="border-r border-gray-300"
-            to={ROUTE_PATHS.NOT_FOUND}
-          />
+          <button
+            className="bg-secondary text-white hover:bg-light-blue hover:text-white px-4 py-2 rounded-md"
+            onClick={handleAddNewClick} 
+          >
+            Add New
+          </button>
         </div>
       </div>
 
@@ -101,12 +115,12 @@ export function Appointments() {
           <div className="flex flex-col space-y-1 text-gray-600">
             {/* Hora */}
             <div className="flex items-center space-x-2">
-              <Clock size={16} className="text-gray-500" /> {/* Ícono de reloj */}
+              <Clock size={16} className="text-gray-500" /> 
               <span>9:00 am — 10:00 am</span>
             </div>
             {/* Lugar */}
             <div className="flex items-center space-x-2">
-              <MapPin size={16} className="text-gray-500" /> {/* Ícono de ubicación */}
+              <MapPin size={16} className="text-gray-500" /> 
               <span>Ciudad Quesada, Costa Rica</span>
             </div>
           </div>
@@ -124,25 +138,29 @@ export function Appointments() {
 
           {/* Botón de "More Info" */}
           <div>
-          <MainButton
-            text="More Info"
-            variant="border"
-            type="link"
-            customClass="border-r border-gray-300"
-            
-            onClick={() => {
-              console.log('MainButton clicked'); // Verificar si el botón es clickeado
-              handleFiltersClick()
-            }}
-                
-          />
+            <MainButton
+              text="More Info"
+              variant="border"
+              type="link"
+              customClass="border-r border-gray-300"
+              onClick={() => {
+                console.log('MainButton clicked');
+                handleFiltersClick();
+              }}
+            />
           </div>
         </div>
       </div>
 
-      {/* NUEVO: Renderización condicional del modal */}
-      {console.log('Is modal open?', isModalOpen)}
-      {isModalOpen && <FiltersAppointmentsModal closeModal={closeModal} />}  {/* Mostrar el modal solo si isModalOpen es true */}
+      
+      {console.log('TEST_MODAL_ISAAC', isFiltersModalOpen)}
+      {console.log('TEST2_MODAL_ISAAC', isAddNewModalOpen)}
+      
+      {/* Modal de Filtros */}
+      {isFiltersModalOpen && <FiltersAppointmentsModal closeModal={closeFiltersModal} />}
+      
+      {/* NUEVO: Modal de "Add New" */}
+      {isAddNewModalOpen && <RequestAppointmentModal closeModal={closeAddNewModal} />} 
     </div>
   );
 }
