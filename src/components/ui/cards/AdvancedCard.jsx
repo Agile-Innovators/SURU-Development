@@ -1,7 +1,7 @@
 import { PropTypes } from 'prop-types';
 import { HeartIcon } from '../../../assets/icons/HeartIcon';
 import { MapPin, BedDouble, Bath, Car, PawPrint } from 'lucide-react';
-
+import { LikeButton } from '../buttons/LIkeButton';
 export function AdvancedCard({
     srcImage,
     children,
@@ -17,9 +17,9 @@ export function AdvancedCard({
     return (
         <div className="rounded-md overflow-hidden border border-light-grey">
             <div className="overflow-hidden relative">
-                <div className="absolute top-3 right-3 p-2 size-12 bg-white border-2 border-white bg-opacity-75 rounded-full cursor-pointer">
-                    <HeartIcon />
-                </div>
+                <LikeButton />
+
+
                 <img
                     className="w-full object-cover aspect-video"
                     src={srcImage}

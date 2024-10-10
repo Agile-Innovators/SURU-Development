@@ -18,7 +18,6 @@ import { PropertyDetails } from '../pages/public/PropertyDetails.jsx';
 import { Appointments } from '../pages/public/Appointments.jsx';
 import { RequestAppointment } from '../pages/public/RequestAppointment.jsx';
 import { UserProfile } from '../pages/public/UserProfile.jsx';
-
 export function PublicRoutes() {
     return (
         <Routes>
@@ -69,6 +68,7 @@ export function PublicRoutes() {
                 element={<RequestAppointment />}
             />
             <Route path={ROUTE_PATHS.USER_PROFILE} element={<UserProfile />} />
+
         </Routes>
     );
 }
