@@ -6,7 +6,7 @@ import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { SkeletonLoader } from '../SkeletonLoader';
 
-export function SearchFilter({ setData, isLoadingFilter }) {
+export function SearchFilter({ setData, isLoadingFilter, handleModal }) {
     const { regions, isLoadingRegions } = useFetchRegions();
     const { propertyCategories, isLoadingPropsCats } =
         useFetchPropertyCategories();
@@ -22,6 +22,7 @@ export function SearchFilter({ setData, isLoadingFilter }) {
 
         if (maxPrice !== 'max') {
             if (minPrice > maxPrice) {
+                
                 toast.error('min price must not be higher than the max price', {
                     position: 'top-center',
                     autoClose: 3000,
@@ -33,6 +34,7 @@ export function SearchFilter({ setData, isLoadingFilter }) {
                     theme: 'light',
                     transition: Bounce,
                 });
+
                 return;
             }
         }
@@ -145,6 +147,10 @@ export function SearchFilter({ setData, isLoadingFilter }) {
         propsCatsSelect.value = 0;
     };
 
+    const handleOpenModal = () => {
+        handleModal((prev) => !prev);
+    }
+
     return (
         <form
             id="form_filters"
@@ -241,6 +247,7 @@ export function SearchFilter({ setData, isLoadingFilter }) {
                     type="button"
                     customClass="p-3 h-fit w-full sm:w-auto"
                     variant="border"
+                    onClick={handleOpenModal}
                 />
                 <MainButton
                     text="Clear"

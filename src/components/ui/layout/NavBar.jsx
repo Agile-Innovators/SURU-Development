@@ -79,7 +79,6 @@ export function NavBar() {
             const response = await axios.post('/logout', authToken);
 
             if (response.status === 200){
-                console.log('Server response:', response);
                 logout();
                 navigate(ROUTE_PATHS.LOGIN);
             }else{
