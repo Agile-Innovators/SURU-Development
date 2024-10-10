@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../../routes/index.js';
 import { useAuth } from '../../../global/AuthProvider.jsx';
+import { useAxios } from '../../hooks/useAxios.js';
 
 const initialNavigation = [
     { name: 'Home', href: ROUTE_PATHS.HOME, current: false, isLogin: true },
@@ -60,6 +61,7 @@ export function NavBar() {
     const { getUser, logout } = useAuth();
     const user = getUser().user;
     const authToken = getUser().authToken;
+    const axios = useAxios();
     const [navigation, setNavigation] = useState(initialNavigation);
 
     useEffect(() => {
@@ -72,7 +74,21 @@ export function NavBar() {
         );
     }, [location]);
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        try {
+            const response = await axios.post('/logout', authToken);
+
+            if (response.status === 200){
+                console.log('Server response:', response);
+                logout();
+                navigate(ROUTE_PATHS.LOGIN);
+            }else{
+                console.error('Logout error:', response);
+            }
+        } catch (err) {
+            console.error('Logout error:', err);
+        }
+
         logout();
         navigate(ROUTE_PATHS.LOGIN);
     };
