@@ -48,6 +48,7 @@ const userNavigationLinks = [
         to: ROUTE_PATHS.PROPERTY_MANAGEMENT,
         imageRoute: '/public/PropetiesIcon.svg',
     },
+    { name: 'My Appointments', to: ROUTE_PATHS.APPOINTMENTS, imageRoute: '/public/LogoutIcon.svg' },
     { name: 'Log out', to: '#', imageRoute: '/public/LogoutIcon.svg' },
 ];
 

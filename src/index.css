@@ -18,6 +18,7 @@
 
 #body{
     min-height: 100vh;
+    display: grid;
 }
 
 .swiper-pagination-bullet {
@@ -33,7 +34,6 @@
 .text-control {
     font-size: 14px;
 }
-
 
 .h5{
     font-size: '1rem';
