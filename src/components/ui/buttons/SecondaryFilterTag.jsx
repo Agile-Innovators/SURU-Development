@@ -10,6 +10,7 @@ export function SecondaryFilterTag({
     manageExternalState,
     fillData,
     id,
+    ...props
 }) {
     // const { propTypeForm, propTransacTypeForm } = useContext(globalProvider);
     const [isChecked, setIsChecked] = useState(isActivate);
@@ -59,6 +60,7 @@ export function SecondaryFilterTag({
             className={` flex justify-between gap-2 transition-colors duration-150 group border-2 border-gray-300 rounded-md p-2 hover:border-secondary ${
                 isChecked ? 'border-secondary hover:border-light-blue' : ''
             } `}
+            {...props}
         >
             <span className="flex">
                 <span

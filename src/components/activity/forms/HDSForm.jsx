@@ -3,17 +3,10 @@ import BaseFormsInfo from '../pricing/BaseFormsInfo';
 import { InputForms } from '../../ui/forms/InputForms';
 import { SecondaryFilterTag } from '../../ui/buttons/SecondaryFilterTag';
 import { PriceDetailsSelector } from '../pricing/PriceDetailsSelector';
-import { useEffect} from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const HDSForm = ({
-    title,
-    transactionType,
-    fillData,
-    fillUtilities,
-}) => {
-
-    console.log('dd');
+const HDSForm = ({ title, transactionType, fillData, fillUtilities }) => {
     useEffect(() => {
         if (fillData) {
             fillData('pets_allowed', '0');
