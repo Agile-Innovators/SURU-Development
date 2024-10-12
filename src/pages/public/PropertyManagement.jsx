@@ -61,16 +61,16 @@ export function PropertyManagement() {
 
     const renderPropertiesIndex = (items) => {
         return (
-            <div className='grid grid-cols-1 gap-4'>
+            <div className='grid grid-cols-1 gap-4 mb-6'>
                 {items.map((item) => {
                     return (
                         <div
                             key={item.id}
-                            className="flex flex-col sm:flex-row border rounded-md p-4 text-left justify-center sm:justify-between items-center"
+                            className="flex flex-row border rounded-md p-4 text-left justify-between items-center"
                         >
                             <div className="grid gap-2 text-center sm:text-left">
-                                <h3>{item.title}</h3>
-                                <div className="flex gap-3 justify-center sm:justify-start">
+                                <h3 className='text-start'>{item.title}</h3>
+                                <div className="flex gap-3 sm:justify-start">
                                     <MapPin size={22} strokeWidth={1} className="text-grey" />
                                     <p>{item.city || 'City not available'}</p>
                                 </div>
@@ -135,7 +135,7 @@ export function PropertyManagement() {
     };
 
     return (
-        <div className="max-w-7xl m-auto mt-5 p-4 xl:p-0">
+        <div className="max-w-7xl min-h-[70vh] m-auto mt-5 p-4 xl:p-0">
             <ToastContainer
                 position="top-center"
                 autoClose={200}
@@ -149,7 +149,7 @@ export function PropertyManagement() {
                 theme="light"
             />
             <div className="text-center grid gap-4">
-                <div className='grid gap-4 items-center mt-4'>
+                <div className='flex flex-col md:flex-row justify-between gap-4 items-center mt-4'>
                     <section className='flex gap-4'>
                         <BackButton />
                         <h1 className="text-center sm:text-start">

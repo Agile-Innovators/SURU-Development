@@ -16,11 +16,6 @@
     box-sizing: border-box;
 }
 
-#body{
-    min-height: 100vh;
-    display: grid;
-}
-
 .swiper-pagination-bullet {
     background-color: white !important;
     opacity: 0.2;
