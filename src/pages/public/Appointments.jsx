@@ -1,29 +1,33 @@
 import { MainButton } from '../../components/ui/buttons/MainButton';
 import { ROUTE_PATHS } from '../../routes';
-import { Clock, MapPin, MoreHorizontal, Check, X, Eye } from 'lucide-react'; // Añadimos el ícono Eye
+import { Clock, MapPin, MoreHorizontal, Check, X, Eye } from 'lucide-react'; 
 import React, { useState } from 'react';
 import { FiltersAppointmentsModal } from '../../components/ui/modals/FiltersAppointmentsModal';
 import { RequestAppointmentModal } from '../../components/ui/modals/RequestAppointmentModal';
 import { LayoutModal } from '../../components/ui/modals/LayoutModal';
+import Swal from 'sweetalert2';
 
 export function Appointments() {
     const [isFiltersOpen, setIsFiltersOpen] = useState(false);
     const [isRequestOpen, setIsRequestOpen] = useState(false);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Controla el menú desplegable
-    const [isMenuOpen, setIsMenuOpen] = useState(false); // Controla el menú hamburguesa
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // Estado para controlar el modal de eliminación
 
     // Función para abrir el modal de filtros
-    const handleFiltersClick = () => {
-        console.log('Filters button clicked');
-        setIsFiltersOpen(true);
-    };
-
-    const handleRequestModal = () => {
-        setIsRequestOpen(true);
-    };
+    const handleFiltersClick = () => setIsFiltersOpen(true);
+    
+    const handleRequestModal = () => setIsRequestOpen(true);
 
     // Función para alternar el menú desplegable
     const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+
+    // Función para manejar la confirmación de eliminación
+    const handleDeleteConfirmation = () => {
+        console.log('Cita eliminada');
+        setIsDeleteModalOpen(false);
+        
+    };
 
     return (
         <div className="max-w-5xl mx-auto p-4">
@@ -152,8 +156,17 @@ export function Appointments() {
                                     <li
                                         className="px-4 py-2 hover:bg-green-500 hover:text-white flex items-center gap-2 cursor-pointer"
                                         onClick={() => {
-                                            console.log('Confirm clicked');
+                                            // Cierra el dropdown
                                             setIsDropdownOpen(false);
+
+                                            //notificación de confirmar la cita
+                                            Swal.fire({
+                                                position: "center",
+                                                icon: "success",
+                                                title: "La cita ha sido confirmada",
+                                                showConfirmButton: false,
+                                                timer: 1500
+                                            });
                                         }}
                                     >
                                         <Check size={16} /> Confirm Appointment
@@ -161,8 +174,8 @@ export function Appointments() {
                                     <li
                                         className="px-4 py-2 hover:bg-red-500 hover:text-white flex items-center gap-2 cursor-pointer"
                                         onClick={() => {
-                                            console.log('Cancel clicked');
-                                            setIsDropdownOpen(false);
+                                            setIsDropdownOpen(false); 
+                                            setIsDeleteModalOpen(true); 
                                         }}
                                     >
                                         <X size={16} /> Cancel Appointment
@@ -173,6 +186,29 @@ export function Appointments() {
                     </div>
                 </div>
             </div>
+
+            {/* Modal de confirmación de eliminación */}
+            {isDeleteModalOpen && (
+                <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+                    <div className="bg-white p-6 rounded shadow-lg">
+                        <h2 className="text-xl font-semibold mb-4">¿Está seguro que desea eliminar la cita definitivamente?</h2>
+                        <div className="flex justify-end">
+                            <button 
+                                className="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400 mr-2"
+                                onClick={() => setIsDeleteModalOpen(false)}
+                            >
+                                Cancelar
+                            </button>
+                            <button 
+                                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                                onClick={handleDeleteConfirmation}
+                            >
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Modales */}
             <LayoutModal status={isFiltersOpen}>
