@@ -163,7 +163,7 @@ export function Appointments() {
                                             Swal.fire({
                                                 position: "center",
                                                 icon: "success",
-                                                title: "La cita ha sido confirmada",
+                                                title: "Appointment Confirmed",
                                                 showConfirmButton: false,
                                                 timer: 1500
                                             });
@@ -176,6 +176,24 @@ export function Appointments() {
                                         onClick={() => {
                                             setIsDropdownOpen(false); 
                                             setIsDeleteModalOpen(true); 
+
+                                            Swal.fire({
+                                                title: "Are you sure?",
+                                                text: "You won't be able to revert this!",
+                                                icon: "warning",
+                                                showCancelButton: false,
+                                                confirmButtonColor: "#3085d6",
+                                                cancelButtonColor: "#d33",
+                                                confirmButtonText: "Yes, cancel the appointment!"
+                                              }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                  Swal.fire({
+                                                    title: "Deleted!",
+                                                    text: "Your file has been deleted.",
+                                                    icon: "success"
+                                                  });
+                                                }
+                                              });
                                         }}
                                     >
                                         <X size={16} /> Cancel Appointment
@@ -187,28 +205,7 @@ export function Appointments() {
                 </div>
             </div>
 
-            {/* Modal de confirmación de eliminación */}
-            {isDeleteModalOpen && (
-                <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
-                    <div className="bg-white p-6 rounded shadow-lg">
-                        <h2 className="text-xl font-semibold mb-4">¿Está seguro que desea eliminar la cita definitivamente?</h2>
-                        <div className="flex justify-end">
-                            <button 
-                                className="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400 mr-2"
-                                onClick={() => setIsDeleteModalOpen(false)}
-                            >
-                                Cancelar
-                            </button>
-                            <button 
-                                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                                onClick={handleDeleteConfirmation}
-                            >
-                                Eliminar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            
 
             {/* Modales */}
             <LayoutModal status={isFiltersOpen}>
