@@ -41,15 +41,15 @@ const userNavigationLinks = [
     {
         name: 'My account',
         to: ROUTE_PATHS.USER_PROFILE,
-        imageRoute: '/public/UserIcon.svg',
+        imageRoute: '/UserIcon.svg',
     },
     {
         name: 'My properties',
         to: ROUTE_PATHS.PROPERTY_MANAGEMENT,
-        imageRoute: '/public/PropetiesIcon.svg',
+        imageRoute: '/PropetiesIcon.svg',
     },
-    { name: 'My Appointments', to: ROUTE_PATHS.APPOINTMENTS, imageRoute: '/public/LogoutIcon.svg' },
-    { name: 'Log out', to: '#', imageRoute: '/public/LogoutIcon.svg' },
+    { name: 'My Appointments', to: ROUTE_PATHS.APPOINTMENTS, imageRoute: '/LogoutIcon.svg' },
+    { name: 'Log out', to: '#', imageRoute: '/LogoutIcon.svg' },
 ];
 
 function classNames(...classes) {

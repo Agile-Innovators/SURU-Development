@@ -8,7 +8,7 @@ export function PartnersRedirectToForm() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center mx-auto max-w-7xl px-6 lg:px-8">
                 <img
                     className="w-full mx-auto order-1 "
-                    src="/public/PartnersInfo.jpg"
+                    src="/PartnersInfo.jpg"
                     alt="Partners"
                 />
                 <div className="mx-auto max-w-2xl lg:text-left md: order-1">
