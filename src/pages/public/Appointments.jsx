@@ -25,7 +25,7 @@ export function Appointments() {
     const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
     return (
-        <div className="max-w-5xl m-auto p-4">
+        <div className="max-w-5xl m-auto p-4 min-h-[70vh]">
             <h1 className="mt-10">Appointments</h1>
             <p>Everything about your appointments</p>
             <div className="flex flex-row mt-10 justify-between mb-10">
