@@ -6,6 +6,7 @@ import { Routes, Route } from 'react-router-dom';
 import ProtectedRoutes from '../global/ProtectedRoutes.jsx';
 import '../index.css';
 import ScrollToTop from './ScrollToTop.jsx';
+
 export function AppRoutes() {
     return (
         <div id='body' className='min-h-screen'>

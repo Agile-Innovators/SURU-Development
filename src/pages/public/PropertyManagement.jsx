@@ -160,7 +160,7 @@ export function PropertyManagement() {
                         type="link"
                         to={ROUTE_PATHS.CREATE_PROPERTY}
                         text="+ Add New Property"
-                        customClass="w-full sm:w-auto h-fit"
+                        customClass="w-full sm:w-fit h-fit"
                     />
                 </div>
                 {isLoadingProps ? <p>Loading...</p> : renderPropertiesIndex(propertiesData)}

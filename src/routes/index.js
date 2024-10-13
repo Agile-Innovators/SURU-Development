@@ -18,4 +18,8 @@ export const ROUTE_PATHS = {
     APPOINTMENTS: '/appointments',
     REQUEST_APPOINTMENTS: '/request-appointments',
     USER_PROFILE: '/user-profile',
+    GENERAL_INFORMATION: '/user-profile/general-information',
+    PREFERENCES: '/user-profile/preferences',
+    OPERATIONAL_HOURS: '/user-profile/operational-hours',
+    CHANGE_PASSWORD: '/user-profile/change-password',
 };
