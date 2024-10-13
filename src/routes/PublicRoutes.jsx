@@ -22,6 +22,7 @@ import { GeneralInformation } from '../pages/public/GeneralInformation.jsx';
 import { Preferences } from '../pages/public/Preferences.jsx';
 import { OperationalHours } from '../pages/public/OperationalHours.jsx';
 import { ChangePassword } from '../pages/public/ChangePassword.jsx';
+import { EditProperty } from '../pages/public/EditProperty.jsx';
 export function PublicRoutes() {
     return (
         <Routes>
@@ -71,7 +72,10 @@ export function PublicRoutes() {
                 path={ROUTE_PATHS.REQUEST_APPOINTMENTS}
                 element={<RequestAppointment />}
             />
-
+            <Route
+                path={ROUTE_PATHS.EDIT_PROPERTY}
+                element={<EditProperty />}
+            />
             <Route path={ROUTE_PATHS.USER_PROFILE} element={<UserProfile />}>
                 <Route path={ROUTE_PATHS.GENERAL_INFORMATION} element={<GeneralInformation />} />
                 <Route path={ROUTE_PATHS.PREFERENCES} element={<Preferences/>}/>
