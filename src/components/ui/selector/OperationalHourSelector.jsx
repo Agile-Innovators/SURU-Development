@@ -25,7 +25,7 @@ export function OperationalHourSelector({ day, bgColor, textColor }) {
                 className="p-1 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
             />
             <span className={textColor}>|</span>
-            <ToggleSwitch />
+            <ToggleSwitch  />
         </div>
     );
 }

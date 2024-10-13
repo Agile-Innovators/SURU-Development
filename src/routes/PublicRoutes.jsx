@@ -18,7 +18,10 @@ import { PropertyDetails } from '../pages/public/PropertyDetails.jsx';
 import { Appointments } from '../pages/public/Appointments.jsx';
 import { RequestAppointment } from '../pages/public/RequestAppointment.jsx';
 import { UserProfile } from '../pages/public/UserProfile.jsx';
-
+import { GeneralInformation } from '../pages/public/GeneralInformation.jsx';
+import { Preferences } from '../pages/public/Preferences.jsx';
+import { OperationalHours } from '../pages/public/OperationalHours.jsx';
+import { ChangePassword } from '../pages/public/ChangePassword.jsx';
 export function PublicRoutes() {
     return (
         <Routes>
@@ -68,7 +71,14 @@ export function PublicRoutes() {
                 path={ROUTE_PATHS.REQUEST_APPOINTMENTS}
                 element={<RequestAppointment />}
             />
-            <Route path={ROUTE_PATHS.USER_PROFILE} element={<UserProfile />} />
+
+            <Route path={ROUTE_PATHS.USER_PROFILE} element={<UserProfile />}>
+                <Route path={ROUTE_PATHS.GENERAL_INFORMATION} element={<GeneralInformation />} />
+                <Route path={ROUTE_PATHS.PREFERENCES} element={<Preferences/>}/>
+                <Route path={ROUTE_PATHS.OPERATIONAL_HOURS} element={<OperationalHours />} />
+                <Route path={ROUTE_PATHS.CHANGE_PASSWORD} element={<ChangePassword />} />
+                <Route path="" element={<GeneralInformation />} />
+            </Route>
         </Routes>
     );
 }

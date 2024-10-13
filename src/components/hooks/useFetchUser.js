@@ -60,6 +60,20 @@ export function useFetchUser () {
         }
     };
 
+    // Obtener la información del usuario
+    const getUserInformation = async (userId) => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`/user/${userId}`); // Cambié para usar el userId dinámico
+            setData(response.data);
+            setError(null);
+        } catch (error) {
+            setError(error.response?.data);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return {
         loading,
         error,
@@ -67,6 +81,7 @@ export function useFetchUser () {
         updateUserProfile,
         updateUserPassword,
         updateUserOperationalHours,
+        getUserInformation,
     };
 };
 

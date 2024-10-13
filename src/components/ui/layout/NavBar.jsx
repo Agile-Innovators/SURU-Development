@@ -7,12 +7,13 @@ import {
     MenuItems,
     MenuItem,
 } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, BellIcon, XMarkIcon} from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../../routes/index.js';
 import { useAuth } from '../../../global/AuthProvider.jsx';
 import { useAxios } from '../../hooks/useAxios.js';
+
 
 const initialNavigation = [
     { name: 'Home', href: ROUTE_PATHS.HOME, current: false, isLogin: true },
@@ -41,15 +42,15 @@ const userNavigationLinks = [
     {
         name: 'My account',
         to: ROUTE_PATHS.USER_PROFILE,
-        imageRoute: '/UserIcon.svg',
+        imageRoute: '/public/UserIcon.svg',
     },
     {
         name: 'My properties',
         to: ROUTE_PATHS.PROPERTY_MANAGEMENT,
-        imageRoute: '/PropetiesIcon.svg',
+        imageRoute: '/public/PropetiesIcon.svg',
     },
-    { name: 'My Appointments', to: ROUTE_PATHS.APPOINTMENTS, imageRoute: '/LogoutIcon.svg' },
-    { name: 'Log out', to: '#', imageRoute: '/LogoutIcon.svg' },
+    { name: 'My Appointments', to: ROUTE_PATHS.APPOINTMENTS, imageRoute: '/public/AppointmentsIcon.svg' },
+    { name: 'Log out', to: '#', imageRoute: '/public/LogoutIcon.svg' },
 ];
 
 function classNames(...classes) {
@@ -79,10 +80,10 @@ export function NavBar() {
         try {
             const response = await axios.post('/logout', authToken);
 
-            if (response.status === 200){
+            if (response.status === 200) {
                 logout();
                 navigate(ROUTE_PATHS.LOGIN);
-            }else{
+            } else {
                 console.error('Logout error:', response);
             }
         } catch (err) {
@@ -105,6 +106,7 @@ export function NavBar() {
                             <span className="sr-only">Open main menu</span>
                             <Bars3Icon className="block h-6 w-6 group-data-[open]:hidden" />
                             <XMarkIcon className="hidden h-6 w-6 group-data-[open]:block" />
+                            
                         </DisclosureButton>
                     </div>
                     <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-between">
@@ -136,8 +138,8 @@ export function NavBar() {
                                                         ? 'bg-light-blue hover:bg-cyan-600/85 border-none text-white hover:text-white' //Login button styles
                                                         : item.name ===
                                                             'Sign Up'
-                                                          ? 'bg-none text-gray-600 hover:text-gray-600 bg-gray-300' // Sign Up button styles
-                                                          : '',
+                                                            ? 'bg-none text-gray-600 hover:text-gray-600 bg-gray-300' // Sign Up button styles
+                                                            : '',
                                                     !item.isLogin
                                                         ? 'rounded-md hover:text-primary'
                                                         : '',
