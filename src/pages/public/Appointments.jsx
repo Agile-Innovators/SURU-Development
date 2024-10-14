@@ -30,6 +30,7 @@ export function Appointments() {
     };
 
     return (
+<<<<<<< HEAD
         <div className="max-w-5xl mx-auto p-4">
             <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mt-10">Appointments</h1>
             <p className="text-gray-600">Everything about your appointments</p>
@@ -47,6 +48,13 @@ export function Appointments() {
             {/* Botones en pantallas grandes o menú hamburguesa en móviles */}
             <div className={`sm:flex flex-col sm:flex-row mt-10 justify-between mb-10 gap-4 ${isMenuOpen ? 'block' : 'hidden'} sm:block`}>
                 <div className="flex flex-wrap gap-2">
+=======
+        <div className="max-w-5xl m-auto p-4 min-h-[70vh]">
+            <h1 className="mt-10">Appointments</h1>
+            <p>Everything about your appointments</p>
+            <div className="flex flex-row mt-10 justify-between mb-10">
+                <div className="flex gap-2">
+>>>>>>> main
                     <MainButton
                         text="Upcoming"
                         variant="border"

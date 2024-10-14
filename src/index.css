@@ -16,10 +16,6 @@
     box-sizing: border-box;
 }
 
-#body{
-    min-height: 100vh;
-}
-
 .swiper-pagination-bullet {
     background-color: white !important;
     opacity: 0.2;
@@ -33,7 +29,6 @@
 .text-control {
     font-size: 14px;
 }
-
 
 .h5{
     font-size: '1rem';
