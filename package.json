@@ -30,6 +30,7 @@
         "react-router-dom": "^6.26.1",
         "react-toastify": "^10.0.5",
         "resend": "^4.0.0",
+        "sweetalert2": "^11.14.2",
         "swiper": "^11.1.14"
     },
     "devDependencies": {

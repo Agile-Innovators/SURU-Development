@@ -53,6 +53,7 @@ export function RequestAppointmentModal({ handleModal }) {
                 ))}
               </select>
             </div>
+            
             <span className="text-gray-500">—</span>
             {/* Hora final */}
             <div className="flex items-center w-full border p-2 rounded-md border-gray-300">
