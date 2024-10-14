@@ -4,7 +4,7 @@ import SectionDivider from '../../ui/layout/SectionDivider';
 import TimeframeSelect from '../../ui/forms/TimeFrameSelect';
 import PriceInput from '../../ui/forms/PriceInput';
 
-const PriceDetails = ({ type, fillData }) => {
+const PriceDetails = ({ type, fillData, initialData }) => {
     return (
         <div>
             <SectionDivider text="Price details" />
@@ -15,6 +15,8 @@ const PriceDetails = ({ type, fillData }) => {
                         inputId="Rent"
                         labelText="Rent Price"
                         required={true}
+                        initialPrice={initialData.rent_price}
+                        initialCurrency={initialData.currency_code}
                         onChange={(value) =>
                             fillData('rent_price', value.price, value.currency)
                         }
@@ -24,12 +26,10 @@ const PriceDetails = ({ type, fillData }) => {
                         inputId="Deposit"
                         labelText="Deposit"
                         placeholder="Just if is needed"
+                        initialPrice={initialData.deposit_price}
+                        initialCurrency={initialData.currency_code}
                         onChange={(value) =>
-                            fillData(
-                                'deposit_price',
-                                value.price,
-                                value.currency
-                            )
+                            fillData('deposit_price', value.price, value.currency)
                         }
                     />
                     <TimeframeSelect
@@ -45,6 +45,8 @@ const PriceDetails = ({ type, fillData }) => {
                     inputName="Sale"
                     inputId="Sale"
                     labelText="Sale Price (Total amount)"
+                    initialPrice={initialData.price}
+                    initialCurrency={initialData.currency_code}
                     onChange={(value) =>
                         fillData('sale_price', value.price, value.currency)
                     }
@@ -56,6 +58,8 @@ const PriceDetails = ({ type, fillData }) => {
                         inputId="Rent"
                         labelText="Rent Price"
                         required={true}
+                        initialPrice={initialData.rent_price}
+                        initialCurrency={initialData.currency_code}
                         onChange={(value) =>
                             fillData('rent_price', value.price, value.currency)
                         }
@@ -65,18 +69,18 @@ const PriceDetails = ({ type, fillData }) => {
                         inputId="Deposit"
                         labelText="Deposit"
                         placeholder="Just if is needed"
+                        initialPrice={initialData.deposit_price}
+                        initialCurrency={initialData.currency_code}
                         onChange={(value) =>
-                            fillData(
-                                'deposit_price',
-                                value.price,
-                                value.currency
-                            )
+                            fillData('deposit_price', value.price, value.currency)
                         }
                     />
                     <PriceInput
                         inputName="Sale"
                         inputId="Sale"
                         labelText="Sale Price (Total amount)"
+                        initialPrice={initialData.price}
+                        initialCurrency={initialData.currency_code}
                         onChange={(value) =>
                             fillData('sale_price', value.price, value.currency)
                         }
@@ -97,6 +101,12 @@ const PriceDetails = ({ type, fillData }) => {
 PriceDetails.propTypes = {
     type: PropTypes.oneOf(['Rent', 'Sale', 'Both']).isRequired,
     fillData: PropTypes.func.isRequired,
+    initialData: PropTypes.shape({
+        price: PropTypes.string,
+        rent_price: PropTypes.string,
+        deposit_price: PropTypes.string,
+        currency_code: PropTypes.string,
+    }).isRequired,
 };
 
 export default PriceDetails;

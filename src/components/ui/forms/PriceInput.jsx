@@ -1,6 +1,4 @@
-// PriceInput.jsx
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 export function PriceInput({
@@ -11,9 +9,22 @@ export function PriceInput({
     customClass = '',
     required = false,
     onChange,
+    initialPrice = '',
+    initialCurrency = 'CRC',
 }) {
     const [priceValue, setPriceValue] = useState('');
-    const [currency, setCurrency] = useState('CRC'); // Estado para la moneda
+    const [currency, setCurrency] = useState(initialCurrency); // Estado para la moneda
+
+    useEffect(() => {
+        // Establece el precio inicial formateado
+        if (initialPrice) {
+            const formattedPrice = parseFloat(initialPrice).toLocaleString('en-US', {
+                maximumFractionDigits: 2,
+            });
+            setPriceValue(formattedPrice);
+        }
+    }, [initialPrice]);
+
     const commonClasses = `border border-light-grey bg-transparent rounded-md px-4 py-3 mt-2 focus:outline-light-blue ${customClass}`;
 
     const handleInputChange = (value) => {
@@ -82,6 +93,8 @@ PriceInput.propTypes = {
     required: PropTypes.bool,
     customClass: PropTypes.string,
     onChange: PropTypes.func,
+    initialPrice: PropTypes.string,
+    initialCurrency: PropTypes.string,
 };
 
 export default PriceInput;

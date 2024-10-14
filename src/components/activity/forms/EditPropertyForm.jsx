@@ -1,24 +1,27 @@
+// src/components/activity/forms/EditPropertyForm.jsx
 import { X, House, Hotel, Warehouse, Store, Fence } from 'lucide-react';
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, useCallback } from 'react';
 import SectionDivider from '../../ui/layout/SectionDivider';
 import { MainButton } from '../../ui/buttons/MainButton';
 import HDSForm from './HDSForm';
 import RetailSpaceForm from './RetailSpaceForm';
 import { useAxios } from '../../hooks/useAxios';
+import { useFetchProperties } from '../../hooks/useFetchProperties';
 import { MainFilterTag } from '../../ui/buttons/MainFilterTag';
 import { SecondaryFilterTag } from '../../ui/buttons/SecondaryFilterTag';
 import { BareLandForm } from './BareLandForm';
 import { globalProvider } from '../../../global/GlobalProvider';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ROUTE_PATHS } from '../../../routes/index.js';
 import { BackButton } from '../../ui/buttons/BackButton';
 
 const EditPropertyForm = () => {
-    const axios = useAxios();
-    const { setPropTypeForm, setPropTransacTypeForm } =
-        useContext(globalProvider);
+    const { id } = useParams(); // Obtener el ID de la propiedad desde los params
+    const { properties, isLoadingProps } = useFetchProperties();
+    const [selectedProperty, setSelectedProperty] = useState(null);
+    const { setPropTypeForm, setPropTransacTypeForm } = useContext(globalProvider);
     const [images, setImages] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
     const [data, setData] = useState({});
@@ -27,45 +30,95 @@ const EditPropertyForm = () => {
     const [filterPropTransaction, setFilterPropTransaction] = useState(1);
     const [userId, setUserId] = useState();
     const navigate = useNavigate();
+    const axios = useAxios();
 
+    // Establecer el ID de usuario desde localStorage
     useEffect(() => {
-        const data = localStorage.getItem('user');
-        if (data) {
-            const userData = JSON.parse(data);
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            const userData = JSON.parse(storedUser);
             setUserId(userData.id);
-            console.log(userData.id);
+            console.log('User ID set to:', userData.id); // Depuración
         }
-    });
+    }, []);
 
+    // Manejar el límite de imágenes
     useEffect(() => {
-      if (images.length+1 > 6) {
-        toast.error("You can only upload up to 6 images");
-          return;
-      }
-  }, [images]);
+        if (images.length > 6) {
+            toast.error("You can only upload up to 6 images");
+            setImages(images.slice(0, 6));
+        }
+    }, [images]);
 
-    //manejar el valor de tipo de propiedad
-    const handleFilterPropType = (filterId) => {
+    // Población del formulario con los datos de la propiedad seleccionada
+    useEffect(() => {
+        if (!isLoadingProps && properties.length > 0) {
+            const propertyToEdit = properties.find(prop => prop.id === parseInt(id));
+            if (propertyToEdit) {
+                setSelectedProperty(propertyToEdit);
+                populateForm(propertyToEdit); // Verifica si esto está causando el bucle
+            } else {
+                toast.error("Property not found");
+                navigate(ROUTE_PATHS.PROPERTY_MANAGEMENT);
+            }
+        }
+    }, [isLoadingProps, properties, id, navigate]);
+
+    const populateForm = (property) => {
+        console.log('Populating form with property:', property); // Depuración
+        const initialType = property.property_category_id || 1; // Valor por defecto
+        const initialTransaction = property.property_transaction_type_id || 1; // Valor por defecto
+        
+        setFilterPropType(initialType);
+        setPropTypeForm(initialType);
+        
+        setFilterPropTransaction(initialTransaction);
+        setPropTransacTypeForm(initialTransaction);
+        
+        setData({
+            ...property,
+            city_id: property.city_id || '', // Asegúrate de que city_id esté en el objeto de propiedad
+        });
+        setUtilities(property.utilities || []);
+        
+        // Si hay imágenes, establecer las vistas previas
+        if (property.images && property.images.length > 0) {
+            const previews = property.images.map(img => img.url); // Ajustar según tu estructura de imágenes
+            setImagePreviews(previews);
+            setImages([]); // Asumiendo que las imágenes existentes se manejan por separado
+        }
+        
+        // Manejar campos que pueden ser nulos
+        if (property.furnished === undefined) {
+            setData(prevData => ({ ...prevData, furnished: 0 }));
+        }
+        if (property.services === undefined) {
+            setData(prevData => ({ ...prevData, services: [] }));
+        }
+        console.log('Data state set to:', property); // Depuración
+    };
+
+    // Memoizar las funciones para evitar cambios en sus referencias
+    const handleFilterPropType = useCallback((filterId) => {
         setFilterPropType(filterId);
         setPropTypeForm(filterId);
         setData({});
         setUtilities([]);
-    };
+    }, [setPropTypeForm]);
 
-    //manejar el valor de tipo de transaccion
-    const handleFilterPropTransaction = (id) => {
+    const handleFilterPropTransaction = useCallback((id) => {
         setFilterPropTransaction(id);
         setPropTransacTypeForm(id);
         setData({});
         setUtilities([]);
-    };
+    }, [setPropTransacTypeForm]);
 
-    const clearData = () => {
+    const clearData = useCallback(() => {
         setData({});
-    };
+    }, []);
 
-    //manejar el valor de las utilidades de la propiedad
-    const handleUtilitiesData = (value, method) => {
+    const handleUtilitiesData = useCallback((value, method) => {
+        console.log(`Handling utility: ${value}, method: ${method}`); // Depuración
         if (method === 'remove') {
             setUtilities((prevUtilities) =>
                 prevUtilities.filter((utility) => utility !== value)
@@ -73,50 +126,51 @@ const EditPropertyForm = () => {
         } else {
             setUtilities((prevUtilities) => [...prevUtilities, value]);
         }
-    };
+    }, []);
 
-    //manejar el valor de los inputs de la propiedad
-    const handleInputChange = (key, value) => {
+    const handleInputChange = useCallback((key, value) => {
+        console.log(`Updating key: ${key} with value: ${value}`); // Depuración
         setData((prevData) => {
-            let updatedData;
-            if (value) {
-                updatedData = { ...prevData, [key]: value };
-            } else {
-                const { [key]: removed, ...rest } = prevData;
+            let updatedData = { ...prevData, [key]: value };
+            if (value === '' || value === null || value === undefined) {
+                const { [key]: removed, ...rest } = updatedData;
                 updatedData = rest;
             }
             return updatedData;
         });
-    };
+    }, []);
 
-    //manejar el cambio de imagenes
+    // Verificar cambios en data
+    useEffect(() => {
+        console.log('Current data state:', data); // Depuración
+    }, [data]);
+
     const handleImageChange = (event) => {
-      const files = Array.from(event.target.files);
-      const newImages = [...images];
-      const newPreviews = [...imagePreviews];
-  
-      // Limitar la cantidad de imágenes, se dejan subir hasta 6
-      if (newImages.length + files.length > 6) {
-          toast.error("You can only upload up to 6 images");
-          return; 
-      }
-  
-      files.forEach((file) => {
-          if (newImages.length < 6) {
-              newImages.push(file);
-              console.log("Image uploaded:", file.name);
-              const reader = new FileReader();
-              reader.onloadend = () => {
-                  newPreviews.push(reader.result);
-                  setImagePreviews([...newPreviews]);
-              };
-              reader.readAsDataURL(file);
-          }
-      });
-  
-      setImages(newImages);
-      event.target.value = ''; // Resetear el input para permitir la selección de la misma imagen
-  };
+        const files = Array.from(event.target.files);
+        const newImages = [...images];
+        const newPreviews = [...imagePreviews];
+
+        if (newImages.length + files.length > 6) {
+            toast.error("You can only upload up to 6 images");
+            return;
+        }
+
+        files.forEach((file) => {
+            if (newImages.length < 6) {
+                newImages.push(file);
+                console.log("Image uploaded:", file.name);
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    newPreviews.push(reader.result);
+                    setImagePreviews([...newPreviews]);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        setImages(newImages);
+        event.target.value = '';
+    };
 
     const removeImage = (index) => {
         const newImages = images.filter((_, i) => i !== index);
@@ -125,122 +179,135 @@ const EditPropertyForm = () => {
         setImagePreviews(newPreviews);
     };
 
-    //enviar los datos de la propiedad para el POST
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Verificar si se han subido imágenes
-        if (images.length < 3) {
-          toast.error("Upload at least 3 images");
+    
+        // Verificar el número mínimo de imágenes
+        if (images.length < 3 && !imagePreviews.length) {
+            toast.error("Upload at least 3 images");
             return;
         }
-
+    
+        // Crear un objeto final con todos los datos necesarios
         const finalData = {
             ...data,
+            availability_date: data.availability_date || '',
+            city_id: data.city_id || '',
+            currency_id: data.currency_id || '',
+            description: data.description || '',
             property_category_id: filterPropType,
             property_transaction_type_id: filterPropTransaction,
             user_id: userId,
+            existing_images_id: imagePreviews,
+            size_in_m2: data.size_in_m2 || '',
+            title: data.title || '',
         };
-
-        //Objeto para enviar los datos
+    
         const formData = new FormData();
-
-        //agregar imagenes a la consulta
+    
+        // Añadir imágenes al FormData
         images.forEach((image) => {
             formData.append('images[]', image);
         });
-
-        //agregar los datos a la consulta
-        for (let key in finalData) {
-            formData.append(key, finalData[key]);
-        }
-
-        //agregar las utilidades
+    
+        // Llenar el formData con los datos de finalData
+        Object.entries(finalData).forEach(([key, value]) => {
+            if (value !== null && value !== undefined) {
+                formData.append(key, value);
+            }
+        });
+    
+        // Añadir utilidades al FormData
         utilities.forEach((utility) => {
             formData.append('utilities[]', utility);
         });
-
-        for (let [key, value] of formData.entries()) {
-            console.log(`${key}:`, value);
-        }
-
+    
         try {
-            const response = await axios.post('/properties', formData, {
+            const response = await axios.put(`/properties/update/${id}`, formData, { 
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            if (response.status === 201) {
+            
+            // Manejar la respuesta correctamente
+            if (response.status === 200) { 
+                toast.success('Property updated successfully'); // Mensaje de éxito
                 navigate(ROUTE_PATHS.PROPERTY_MANAGEMENT);
             } else {
-                alert('Error creating property');
+                toast.error('Error updating property');
             }
         } catch (error) {
-            console.log(error);
+            // Manejar errores más detalladamente
+            console.error('Update error:', error);
+            toast.error('An error occurred while updating the property');
         }
-        return;
     };
+    
+    
+    
+    
 
     const renderFormulario = () => {
         if (!filterPropType || !filterPropTransaction) return null;
 
         const formulariosPorTipo = {
-            //casa
             1: (
                 <HDSForm
                     title={'House details'}
                     transactionType={filterPropTransaction}
                     fillData={handleInputChange}
                     fillUtilities={handleUtilitiesData}
-                    propertyType={filterPropType}
-                    clearData={clearData}
+                    initialData={data} // Pasar initialData
                 />
             ),
-            //apartment
             2: (
                 <HDSForm
                     title={'Apartment details'}
                     transactionType={filterPropTransaction}
                     fillData={handleInputChange}
                     fillUtilities={handleUtilitiesData}
-                    propertyType={filterPropType}
-                    clearData={clearData}
+                    initialData={data}
                 />
             ),
-            //studio
             3: (
                 <HDSForm
                     title={'Studio details'}
                     transactionType={filterPropTransaction}
                     fillData={handleInputChange}
                     fillUtilities={handleUtilitiesData}
-                    propertyType={filterPropType}
-                    clearData={clearData}
+                    initialData={data}
                 />
             ),
-            //bare land
             4: (
                 <BareLandForm
                     transactionType={filterPropTransaction}
                     fillData={handleInputChange}
                     fillUtilities={handleUtilitiesData}
+                    initialData={data}
                 />
             ),
-            //retail
             5: (
                 <RetailSpaceForm
                     transactionType={filterPropTransaction}
                     fillData={handleInputChange}
                     fillUtilities={handleUtilitiesData}
+                    initialData={data}
                 />
             ),
         };
         return formulariosPorTipo[filterPropType] || null;
     };
 
+    if (isLoadingProps) {
+        return <div>Loading...</div>;
+    }
+
+    if (!selectedProperty) {
+        return <div>Property not found.</div>;
+    }
     return (
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <ToastContainer
+            <ToastContainer
                 position="top-center"
                 autoClose={900}
                 hideProgressBar
@@ -253,10 +320,10 @@ const EditPropertyForm = () => {
                 theme="light"
             />
             <section className='mt-10 flex flex-col sm:flex-row gap-4'>
-              <BackButton />
-              <h1 className="text-center sm:text-start">
-                  Let&apos;s add a property
-              </h1>
+                <BackButton />
+                <h1 className="text-center sm:text-start">
+                    Edit Property
+                </h1>
             </section>
             <div className="container mx-auto">
                 <SectionDivider text="Property type" />
@@ -300,27 +367,21 @@ const EditPropertyForm = () => {
                             <SecondaryFilterTag
                                 text={'Sale'}
                                 isActivate={filterPropTransaction === 1}
-                                handleSelectedValue={
-                                    handleFilterPropTransaction
-                                }
+                                handleSelectedValue={handleFilterPropTransaction}
                                 groupType={'group'}
                                 idValue={1}
                             />
                             <SecondaryFilterTag
                                 text={'Rent'}
                                 isActivate={filterPropTransaction === 2}
-                                handleSelectedValue={
-                                    handleFilterPropTransaction
-                                }
+                                handleSelectedValue={handleFilterPropTransaction}
                                 groupType={'group'}
                                 idValue={2}
                             />
                             <SecondaryFilterTag
                                 text={'Both'}
                                 isActivate={filterPropTransaction === 3}
-                                handleSelectedValue={
-                                    handleFilterPropTransaction
-                                }
+                                handleSelectedValue={handleFilterPropTransaction}
                                 groupType={'group'}
                                 idValue={3}
                             />
@@ -329,14 +390,13 @@ const EditPropertyForm = () => {
                         <form onSubmit={handleSubmit}>
                             {renderFormulario()}
                             <MainButton
-                                text="Publish Property"
+                                text="Update Property"
                                 type="submit"
                                 variant="fill"
-                                disabled={false} // Aquí puedes gestionar el estado de loading si lo deseas
+                                disabled={false} // Puedes gestionar el estado de loading si lo deseas
                                 customClass="mt-4 w-full"
                             />
                         </form>
-                        {/* {error && <p>Error: {error.message}</p>} */}
                     </div>
 
                     <div>
@@ -350,7 +410,7 @@ const EditPropertyForm = () => {
                             </label>
 
                             <p>
-                                Please upload a image file (JPG, JPGE, PNG, or
+                                Please upload a image file (JPG, JPEG, PNG, or
                                 WEBP). Max size: 5MB.
                             </p>
 
@@ -365,8 +425,7 @@ const EditPropertyForm = () => {
                             <div className="image-preview-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 gap-4">
                                 {imagePreviews.map((image, index) => (
                                     <div key={index} className="relative">
-                                  
-                                      <img
+                                        <img
                                             src={image}
                                             alt={`Preview ${index + 1}`}
                                             className="w-full h-40 object-cover rounded-md mr-2 grid"
@@ -374,7 +433,7 @@ const EditPropertyForm = () => {
                                         <button
                                             type="button"
                                             onClick={() => removeImage(index)}
-                                            className="absolute top-2 right-2  bg-red-500 text-white rounded-full p-1"
+                                            className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1"
                                         >
                                             <X size={12} />
                                         </button>
