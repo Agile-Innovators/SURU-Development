@@ -30,9 +30,7 @@ export function Appointments() {
 
     return (
         <div className="max-w-5xl mx-auto p-4">
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mt-10">Appointments</h1>
-            <p className="text-gray-600">Everything about your appointments</p>
-
+        
             {/* Menú Hamburguesa para móviles */}
             <div className="sm:hidden flex justify-start mt-10 mb-10">
                 <button
