@@ -1,9 +1,10 @@
 // src/components/activity/forms/EditPropertyForm.jsx
+
 import { X, House, Hotel, Warehouse, Store, Fence } from 'lucide-react';
 import { useState, useContext, useEffect, useCallback } from 'react';
 import SectionDivider from '../../ui/layout/SectionDivider';
 import { MainButton } from '../../ui/buttons/MainButton';
-import HDSForm from './HDSForm';
+import HDSForm from './HDSForm.jsx';
 import RetailSpaceForm from './RetailSpaceForm';
 import { useAxios } from '../../hooks/useAxios';
 import { useFetchProperties } from '../../hooks/useFetchProperties';
@@ -22,13 +23,15 @@ const EditPropertyForm = () => {
     const { properties, isLoadingProps } = useFetchProperties();
     const [selectedProperty, setSelectedProperty] = useState(null);
     const { setPropTypeForm, setPropTransacTypeForm } = useContext(globalProvider);
-    const [images, setImages] = useState([]);
-    const [imagePreviews, setImagePreviews] = useState([]);
+    const [images, setImages] = useState([]); // Nuevas imágenes
+    const [newImagePreviews, setNewImagePreviews] = useState([]); // Previews de nuevas imágenes
+    const [existing_images_id, setExistingImagesId] = useState([]); // IDs de imágenes existentes
+    const [existingImagePreviews, setExistingImagePreviews] = useState([]); // Previews de imágenes existentes
     const [data, setData] = useState({});
     const [utilities, setUtilities] = useState([]);
     const [filterPropType, setFilterPropType] = useState(1);
     const [filterPropTransaction, setFilterPropTransaction] = useState(1);
-    const [userId, setUserId] = useState();
+    const [userId, setUserId] = useState(null);
     const navigate = useNavigate();
     const axios = useAxios();
 
@@ -44,74 +47,91 @@ const EditPropertyForm = () => {
 
     // Manejar el límite de imágenes
     useEffect(() => {
-        if (images.length > 6) {
-            toast.error("You can only upload up to 6 images");
-            setImages(images.slice(0, 6));
+        const maxImages = 6;
+        const totalImages = existing_images_id.length + images.length;
+        if (totalImages > maxImages) {
+            toast.error(`You can only upload up to ${maxImages} images in total`);
+            const allowedNewImages = maxImages - existing_images_id.length;
+            setImages(images.slice(0, allowedNewImages));
+            setNewImagePreviews(newImagePreviews.slice(0, allowedNewImages));
         }
-    }, [images]);
+    }, [images, existing_images_id.length, newImagePreviews]);
 
-    // Población del formulario con los datos de la propiedad seleccionada
-    useEffect(() => {
-        if (!isLoadingProps && properties.length > 0) {
-            const propertyToEdit = properties.find(prop => prop.id === parseInt(id));
-            if (propertyToEdit) {
-                setSelectedProperty(propertyToEdit);
-                populateForm(propertyToEdit); // Verifica si esto está causando el bucle
-            } else {
-                toast.error("Property not found");
-                navigate(ROUTE_PATHS.PROPERTY_MANAGEMENT);
-            }
-        }
-    }, [isLoadingProps, properties, id, navigate]);
-
-    const populateForm = (property) => {
+    // Función para poblar el formulario con los datos de la propiedad
+    const populateForm = useCallback((property) => {
         console.log('Populating form with property:', property); // Depuración
         const initialType = property.property_category_id || 1; // Valor por defecto
         const initialTransaction = property.property_transaction_type_id || 1; // Valor por defecto
-        
+
         setFilterPropType(initialType);
         setPropTypeForm(initialType);
-        
+
         setFilterPropTransaction(initialTransaction);
         setPropTransacTypeForm(initialTransaction);
-        
+
         setData({
             ...property,
             city_id: property.city_id || '', // Asegúrate de que city_id esté en el objeto de propiedad
         });
         setUtilities(property.utilities || []);
-        
-        // Si hay imágenes, establecer las vistas previas
+
+        // Manejar imágenes existentes
         if (property.images && property.images.length > 0) {
-            const previews = property.images.map(img => img.url); // Ajustar según tu estructura de imágenes
-            setImagePreviews(previews);
-            setImages([]); // Asumiendo que las imágenes existentes se manejan por separado
+            const existingPreviews = property.images.map((img) => img.url); // Ajusta según tu estructura de imágenes
+            const existingIds = property.images.map((img) => img.id);
+            setExistingImagePreviews(existingPreviews);
+            setExistingImagesId(existingIds);
+            setImages([]); // Limpiar nuevas imágenes
+            setNewImagePreviews([]); // Limpiar previews de nuevas imágenes
         }
-        
+
         // Manejar campos que pueden ser nulos
         if (property.furnished === undefined) {
-            setData(prevData => ({ ...prevData, furnished: 0 }));
+            setData((prevData) => ({ ...prevData, furnished: 0 }));
         }
         if (property.services === undefined) {
-            setData(prevData => ({ ...prevData, services: [] }));
+            setData((prevData) => ({ ...prevData, services: [] }));
         }
+
         console.log('Data state set to:', property); // Depuración
-    };
+    }, [setPropTypeForm, setPropTransacTypeForm]);
+
+    // Población del formulario con los datos de la propiedad seleccionada
+    useEffect(() => {
+        if (!isLoadingProps && properties.length > 0) {
+            const propertyToEdit = properties.find(
+                (prop) => prop.id === parseInt(id, 10)
+            );
+            if (propertyToEdit) {
+                setSelectedProperty(propertyToEdit);
+                populateForm(propertyToEdit); // Ahora memoizado
+            } else {
+                toast.error('Property not found');
+                navigate(ROUTE_PATHS.PROPERTY_MANAGEMENT);
+            }
+        }
+    }, [isLoadingProps, properties, id, navigate, populateForm]);
 
     // Memoizar las funciones para evitar cambios en sus referencias
-    const handleFilterPropType = useCallback((filterId) => {
-        setFilterPropType(filterId);
-        setPropTypeForm(filterId);
-        setData({});
-        setUtilities([]);
-    }, [setPropTypeForm]);
+    const handleFilterPropType = useCallback(
+        (filterId) => {
+            setFilterPropType(filterId);
+            setPropTypeForm(filterId);
+            setData({});
+            setUtilities([]);
+        },
+        [setPropTypeForm]
+    );
 
-    const handleFilterPropTransaction = useCallback((id) => {
-        setFilterPropTransaction(id);
-        setPropTransacTypeForm(id);
-        setData({});
-        setUtilities([]);
-    }, [setPropTransacTypeForm]);
+    const handleFilterPropTransaction = useCallback(
+        (id) => {
+            setFilterPropTransaction(id);
+            setPropTransacTypeForm(id);
+            setData({});
+            setUtilities([]);
+        },
+        [setPropTransacTypeForm]
+    );
 
     const clearData = useCallback(() => {
         setData({});
@@ -148,21 +168,36 @@ const EditPropertyForm = () => {
     const handleImageChange = (event) => {
         const files = Array.from(event.target.files);
         const newImages = [...images];
-        const newPreviews = [...imagePreviews];
+        const newPreviews = [...newImagePreviews];
 
-        if (newImages.length + files.length > 6) {
-            toast.error("You can only upload up to 6 images");
-            return;
-        }
-
-        files.forEach((file) => {
-            if (newImages.length < 6) {
+        // Verificar el límite total de imágenes (existentes + nuevas)
+        const maxImages = 6;
+        const totalImages = existing_images_id.length + newImages.length + files.length;
+        if (totalImages > maxImages) {
+            toast.error(`You can only upload up to ${maxImages} images in total`);
+            const allowedNewImages = maxImages - existing_images_id.length - newImages.length;
+            const allowedFiles = files.slice(0, allowedNewImages);
+            allowedFiles.forEach((file) => {
                 newImages.push(file);
                 console.log("Image uploaded:", file.name);
                 const reader = new FileReader();
                 reader.onloadend = () => {
-                    newPreviews.push(reader.result);
-                    setImagePreviews([...newPreviews]);
+                    setNewImagePreviews((prevPreviews) => [...prevPreviews, reader.result]);
+                };
+                reader.readAsDataURL(file);
+            });
+            setImages(newImages);
+            event.target.value = '';
+            return;
+        }
+
+        files.forEach((file) => {
+            if (newImages.length < maxImages - existing_images_id.length) {
+                newImages.push(file);
+                console.log("Image uploaded:", file.name);
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setNewImagePreviews((prevPreviews) => [...prevPreviews, reader.result]);
                 };
                 reader.readAsDataURL(file);
             }
@@ -172,25 +207,33 @@ const EditPropertyForm = () => {
         event.target.value = '';
     };
 
-    const removeImage = (index) => {
-        const newImages = images.filter((_, i) => i !== index);
-        const newPreviews = imagePreviews.filter((_, i) => i !== index);
-        setImages(newImages);
-        setImagePreviews(newPreviews);
+    const removeImage = (index, type) => {
+        if (type === 'existing') {
+            // Eliminar de existing_images_id y existingImagePreviews
+            const updatedExistingPreviews = existingImagePreviews.filter((_, i) => i !== index);
+            const updatedExistingIds = existing_images_id.filter((_, i) => i !== index);
+            setExistingImagePreviews(updatedExistingPreviews);
+            setExistingImagesId(updatedExistingIds);
+        } else if (type === 'new') {
+            // Eliminar de images y newImagePreviews
+            const updatedNewPreviews = newImagePreviews.filter((_, i) => i !== index);
+            const updatedNewImages = images.filter((_, i) => i !== index);
+            setNewImagePreviews(updatedNewPreviews);
+            setImages(updatedNewImages);
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
-        // Verificar el número mínimo de imágenes
-        if (images.length < 3 && !imagePreviews.length) {
-            toast.error("Upload at least 3 images");
+
+        // Verificar el número mínimo de imágenes (existentes + nuevas)
+        if ((existing_images_id.length + images.length) < 3) {
+            toast.error("You must have at least 3 images in total");
             return;
         }
-    
+
         // Crear un objeto final con todos los datos necesarios
         const finalData = {
-            ...data,
             availability_date: data.availability_date || '',
             city_id: data.city_id || '',
             currency_id: data.currency_id || '',
@@ -198,39 +241,66 @@ const EditPropertyForm = () => {
             property_category_id: filterPropType,
             property_transaction_type_id: filterPropTransaction,
             user_id: userId,
-            existing_images_id: imagePreviews,
             size_in_m2: data.size_in_m2 || '',
             title: data.title || '',
+            price: data.price || null,
+            rent_price: data.rent_price || null,
+            deposit_price: data.deposit_price || null,
+            bedrooms: data.bedrooms || null,
+            bathrooms: data.bathrooms || null,
+            floors: data.floors || null,
+            garages: data.garages || null,
+            pools: data.pools || null,
+            pets_allowed: data.pets_allowed || false,
+            green_area: data.green_area || false,
+            payment_frequency_id: data.payment_frequency_id || null,
         };
-    
+
+        // Mostrar el objeto finalData en la consola para depuración
+        console.log('Final Data to submit:', finalData);
+
         const formData = new FormData();
-    
-        // Añadir imágenes al FormData
+
+        // Añadir imagenes al FormData
         images.forEach((image) => {
             formData.append('images[]', image);
         });
-    
+      
+        // Añadir IDs de imágenes existentes al FormData
+        existing_images_id.forEach((id) => {
+            formData.append('existing_images_id[]', id);
+        });
+
         // Llenar el formData con los datos de finalData
         Object.entries(finalData).forEach(([key, value]) => {
             if (value !== null && value !== undefined) {
-                formData.append(key, value);
+                if (Array.isArray(value)) {
+                    value.forEach(item => formData.append(`${key}[]`, item));
+                } else {
+                    formData.append(key, value);
+                }
             }
         });
-    
+
         // Añadir utilidades al FormData
         utilities.forEach((utility) => {
             formData.append('utilities[]', utility);
         });
-    
+
+        // Mostrar los pares clave-valor de FormData para depuración
+        for (let pair of formData.entries()) {
+            console.log(`${pair[0]}: ${pair[1]}`);
+        }
+
         try {
-            const response = await axios.put(`/properties/update/${id}`, formData, { 
+            const response = await axios.put(`/properties/update/${id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            
+
             // Manejar la respuesta correctamente
-            if (response.status === 200) { 
+            if (response.status === 200) {
                 toast.success('Property updated successfully'); // Mensaje de éxito
                 navigate(ROUTE_PATHS.PROPERTY_MANAGEMENT);
             } else {
@@ -239,13 +309,18 @@ const EditPropertyForm = () => {
         } catch (error) {
             // Manejar errores más detalladamente
             console.error('Update error:', error);
-            toast.error('An error occurred while updating the property');
+            if (error.response && error.response.data && error.response.data.errors) {
+                // Mostrar errores de validación específicos
+                Object.entries(error.response.data.errors).forEach(([field, messages]) => {
+                    messages.forEach(message => {
+                        toast.error(`${field}: ${message}`);
+                    });
+                });
+            } else {
+                toast.error('An error occurred while updating the property');
+            }
         }
     };
-    
-    
-    
-    
 
     const renderFormulario = () => {
         if (!filterPropType || !filterPropTransaction) return null;
@@ -305,6 +380,7 @@ const EditPropertyForm = () => {
     if (!selectedProperty) {
         return <div>Property not found.</div>;
     }
+
     return (
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <ToastContainer
@@ -319,11 +395,9 @@ const EditPropertyForm = () => {
                 pauseOnHover
                 theme="light"
             />
-            <section className='mt-10 flex flex-col sm:flex-row gap-4'>
+            <section className="mt-10 flex flex-col sm:flex-row gap-4">
                 <BackButton />
-                <h1 className="text-center sm:text-start">
-                    Edit Property
-                </h1>
+                <h1 className="text-center sm:text-start">Edit Property</h1>
             </section>
             <div className="container mx-auto">
                 <SectionDivider text="Property type" />
@@ -410,7 +484,7 @@ const EditPropertyForm = () => {
                             </label>
 
                             <p>
-                                Please upload a image file (JPG, JPEG, PNG, or
+                                Please upload an image file (JPG, JPEG, PNG, or
                                 WEBP). Max size: 5MB.
                             </p>
 
@@ -423,16 +497,35 @@ const EditPropertyForm = () => {
                                 multiple
                             />
                             <div className="image-preview-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 gap-4">
-                                {imagePreviews.map((image, index) => (
-                                    <div key={index} className="relative">
+                                {/* Imágenes existentes */}
+                                {existingImagePreviews.map((image, index) => (
+                                    <div key={`existing-${index}`} className="relative">
                                         <img
                                             src={image}
-                                            alt={`Preview ${index + 1}`}
-                                            className="w-full h-40 object-cover rounded-md mr-2 grid"
+                                            alt={`Existing Preview ${index + 1}`}
+                                            className="w-full h-40 object-cover rounded-md mr-2"
                                         />
                                         <button
                                             type="button"
-                                            onClick={() => removeImage(index)}
+                                            onClick={() => removeImage(index, 'existing')}
+                                            className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1"
+                                        >
+                                            <X size={12} />
+                                        </button>
+                                    </div>
+                                ))}
+
+                                {/* Nuevas imágenes */}
+                                {newImagePreviews.map((image, index) => (
+                                    <div key={`new-${index}`} className="relative">
+                                        <img
+                                            src={image}
+                                            alt={`New Preview ${index + 1}`}
+                                            className="w-full h-40 object-cover rounded-md mr-2"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => removeImage(index, 'new')}
                                             className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1"
                                         >
                                             <X size={12} />

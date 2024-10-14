@@ -6,12 +6,20 @@ export function PriceDetailsSelector({ transactionType, fillData, initialData })
     const [currency, setCurrency] = useState(initialData?.currency_id || '1'); // Set default currency from initialData
     const [paymentFrequency, setPaymentFrequency] = useState(initialData?.payment_frequency_id || '');
 
-    //cargar currency al renderizarse el componente
+    // Cargar currency al renderizarse el componente
     useEffect(() => {
-        fillData('currency_id', currency);
-    }, [currency, fillData]);
+        // Llenar datos si no hay initialData
+        if (!initialData) {
+            fillData('currency_id', currency);
+            fillData('payment_frequency_id', paymentFrequency);
+        } else {
+            // Si hay initialData, asegúrate de que se sincroniza con el estado
+            setCurrency(initialData.currency_id);
+            setPaymentFrequency(initialData.payment_frequency_id);
+        }
+    }, [initialData, currency, paymentFrequency, fillData]);
 
-    //actualizar todos los valores de los selects de currency
+    // Actualizar todos los valores de los selects de currency
     const updateCurrencyForAllSelectors = (newCurrency) => {
         const container = document.getElementById('priceDetailsContainer');
         const currencySelects = container.querySelectorAll('select.currencySelect');
@@ -20,7 +28,7 @@ export function PriceDetailsSelector({ transactionType, fillData, initialData })
         });
     };
 
-    //manejar los cambios en los select de currency
+    // Manejar los cambios en los select de currency
     const handleCurrencyChange = (e) => {
         const newCurrency = e.target.value;
         setCurrency(newCurrency);

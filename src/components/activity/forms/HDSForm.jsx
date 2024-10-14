@@ -89,7 +89,6 @@ const HDSForm = ({
                 />
 
                 <SecondaryFilterTag
-                    id={'petsAllowedInput'}
                     text={'Pets allowed'}
                     groupType={'individual'}
                     isActivate={initialData?.pets_allowed === 1} // Comparar con número

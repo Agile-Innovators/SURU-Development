@@ -2,7 +2,7 @@ import { X, House, Hotel, Warehouse, Store, Fence } from 'lucide-react';
 import { useState, useContext, useEffect } from 'react';
 import SectionDivider from '../../ui/layout/SectionDivider';
 import { MainButton } from '../../ui/buttons/MainButton';
-import HDSForm from './HDSForm';
+import HDSForm from './HDSForm.jsx';
 import RetailSpaceForm from './RetailSpaceForm';
 import { useAxios } from '../../hooks/useAxios';
 import { MainFilterTag } from '../../ui/buttons/MainFilterTag';

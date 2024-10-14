@@ -26,30 +26,31 @@ export function SecondaryFilterTag({
         } else {
             setIsChecked((prevChecked) => {
                 const newChecked = !prevChecked;
-
+    
                 if (newChecked) {
                     if (handleSelectedValue) {
                         handleSelectedValue(valueID);
                     }
                     if (fillData) {
-                        fillData(1);
+                        fillData(true); // Cambiar a booleano
                     }
                 } else {
                     if (handleSelectedValue) {
                         handleSelectedValue(valueID, 'remove');
                     }
                     if (fillData) {
-                        fillData('0');
+                        fillData(false); // Cambiar a booleano
                     }
                 }
                 if (manageExternalState) {
                     manageExternalState(newChecked);
                 }
-
+    
                 return newChecked;
             });
         }
     };
+    
 
     return (
         <button
