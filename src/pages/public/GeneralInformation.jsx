@@ -62,14 +62,14 @@ export function GeneralInformation() {
     const handleProfileSubmit = async (e) => {
         e.preventDefault();
         if (user?.id) {
-            await updateUserProfile(user.id, profileData); // Asegúrate de que la actualización se complete antes de continuar
-            getUserInformation(user.id); // Vuelve a obtener la información actualizada del usuario
+            await updateUserProfile(user.id, profileData); 
+            getUserInformation(user.id); 
         }
-        setIsEditing(false); // Deshabilitar edición después de guardar
+        setIsEditing(false); 
     };
 
     const handleEditClick = () => {
-        setIsEditing((prev) => !prev); // Cambiar el estado de edición
+        setIsEditing((prev) => !prev); 
     };
 
     return (
