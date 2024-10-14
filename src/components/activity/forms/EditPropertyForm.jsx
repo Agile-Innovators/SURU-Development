@@ -234,27 +234,31 @@ const EditPropertyForm = () => {
 
         // Crear un objeto final con todos los datos necesarios
         const finalData = {
-            availability_date: data.availability_date || '',
-            city_id: data.city_id || '',
-            currency_id: data.currency_id || '',
-            description: data.description || '',
-            property_category_id: filterPropType,
-            property_transaction_type_id: filterPropTransaction,
-            user_id: userId,
-            size_in_m2: data.size_in_m2 || '',
-            title: data.title || '',
-            price: data.price || null,
-            rent_price: data.rent_price || null,
-            deposit_price: data.deposit_price || null,
-            bedrooms: data.bedrooms || null,
-            bathrooms: data.bathrooms || null,
-            floors: data.floors || null,
-            garages: data.garages || null,
-            pools: data.pools || null,
-            pets_allowed: data.pets_allowed || false,
-            green_area: data.green_area || false,
-            payment_frequency_id: data.payment_frequency_id || null,
+            // availability_date: data.availability_date || '',
+            // city_id: data.city_id || '',
+            // currency_id: 1,
+            // description: data.description || '',
+            // property_category_id: filterPropType,
+            // property_transaction_type_id: filterPropTransaction,
+            // user_id: userId,
+            // size_in_m2: data.size_in_m2 || '',
+            // title: data.title || '',
+            // price: data.price || null,
+            // rent_price: 20000,
+            // deposit_price:  40000,
+            // bedrooms: data.bedrooms || null,
+            // bathrooms: data.bathrooms || null,
+            // floors: data.floors || null,
+            // garages: data.garages || null,
+            // pools: data.pools || null,
+            // pets_allowed: data.pets_allowed || false,
+            // green_area: data.green_area || false,
+            // payment_frequency_id: 1,
+            ...data,
+            _method: "PUT",
         };
+        console.log(data)
+        return;
 
         // Mostrar el objeto finalData en la consola para depuración
         console.log('Final Data to submit:', finalData);
@@ -271,29 +275,25 @@ const EditPropertyForm = () => {
             formData.append('existing_images_id[]', id);
         });
 
-        // Llenar el formData con los datos de finalData
-        Object.entries(finalData).forEach(([key, value]) => {
-            if (value !== null && value !== undefined) {
-                if (Array.isArray(value)) {
-                    value.forEach(item => formData.append(`${key}[]`, item));
-                } else {
-                    formData.append(key, value);
-                }
-            }
-        });
+        for (let key in finalData) {
+            formData.append(key, finalData[key]);
+        }
+
+        console.log("datos del form");
+        
 
         // Añadir utilidades al FormData
         utilities.forEach((utility) => {
             formData.append('utilities[]', utility);
         });
 
-        // Mostrar los pares clave-valor de FormData para depuración
-        for (let pair of formData.entries()) {
-            console.log(`${pair[0]}: ${pair[1]}`);
+
+        for (let [key, value] of formData.entries()) {
+            console.log(`${key}:`, value);
         }
 
         try {
-            const response = await axios.put(`/properties/update/${id}`, formData, {
+            const response = await axios.post(`/properties/update/${id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
