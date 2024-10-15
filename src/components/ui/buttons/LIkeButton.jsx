@@ -29,7 +29,7 @@ export function LikeButton({isLiked, propertyId, refreshFavorites}) {
     return (
         <button
             onClick={handleLike}
-            className={`absolute top-2 right-2 z-10 items-center px-2 py-2  rounded-full   transition duration-300 ease-in-out transform hover:scale-105 ${liked ? 'bg-indigo-950 text-white' : 'bg-gray-300 text-black'
+            className={`absolute top-2 right-2 z-10 items-center px-2 py-2  rounded-full   transition duration-300 ease-in-out transform hover:scale-105 ${liked ? 'bg-cyan-900 text-white' : 'bg-gray-300 text-black'
                 }`}
         >
             {liked ? (

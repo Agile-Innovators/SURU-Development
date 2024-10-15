@@ -14,11 +14,9 @@ export function OperationalHours() {
                     <OperationalHourSelector
                         key={day}
                         day={day}
-
                     />
                 ))}
             </form>
-
         </div>
     );
 }

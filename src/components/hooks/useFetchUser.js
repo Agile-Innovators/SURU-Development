@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useAxios } from './useAxios';
 
-
-export function useFetchUser () {
+export function useFetchUser() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [data, setData] = useState(null);
@@ -11,7 +10,7 @@ export function useFetchUser () {
     const config = {
         headers: {
             'Content-Type': 'application/json',
-        }
+        },
     };
 
     // Actualizar el perfil de usuario
@@ -20,13 +19,17 @@ export function useFetchUser () {
         console.log(userData);
 
         try {
-            const response = await axios.put(`/user/update/${userId}`, userData, config);
+            const response = await axios.put(
+                `/user/update/${userId}`,
+                userData,
+                config
+            );
             console.log(response.data);
             setData(response.data);
             setError(null);
         } catch (error) {
             setError(error.response?.data);
-            console.log("Error", error.response?.data);
+            console.log('Error', error.response?.data);
         } finally {
             setLoading(false);
         }
@@ -36,21 +39,35 @@ export function useFetchUser () {
     const updateUserPassword = async (userId, passwordData) => {
         setLoading(true);
         try {
-            const response = await axios.put(`/api/users/${userId}/password`, passwordData, config);
-            setData(response.data);
-            setError(null);
+            const response = await axios.post(
+                `/user/${userId}/update-password`,
+                passwordData,
+                config
+            );
+            
+            // Retornar la respuesta completa
+            return response.data; // Esto permite acceder a `response.message` en el manejador
         } catch (error) {
-            setError(error.response?.data);
+            if (error.response && error.response.data) {
+                throw new Error(error.response.data.message || 'An unexpected error occurred.');
+            } else {
+                throw new Error('An unexpected error occurred.');
+            }
         } finally {
             setLoading(false);
         }
     };
+    
 
     // Actualizar horas operativas de usuario
     const updateUserOperationalHours = async (userId, operationalHours) => {
         setLoading(true);
         try {
-            const response = await axios.put(`/api/users/${userId}/operational-hours`, { operational_hours: operationalHours }, config);
+            const response = await axios.put(
+                `/api/users/${userId}/operational-hours`,
+                { operational_hours: operationalHours },
+                config
+            );
             setData(response.data);
             setError(null);
         } catch (error) {
@@ -83,6 +100,4 @@ export function useFetchUser () {
         updateUserOperationalHours,
         getUserInformation,
     };
-};
-
-
+}

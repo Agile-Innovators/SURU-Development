@@ -34,7 +34,7 @@ export function UserProfile() {
     };
 
     return (
-        <div className="h-full m-auto max-w-7xl p-4">
+        <div className="h-full m-auto max-w-7xl p-4 min-h-[80vh]">
             <div className="text-start mb-6">
                 <h1>Profile</h1>
             </div>
