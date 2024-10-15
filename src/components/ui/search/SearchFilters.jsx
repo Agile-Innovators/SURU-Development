@@ -22,7 +22,7 @@ export function SearchFilter({ setData, isLoadingFilter, handleModal }) {
 
         if (maxPrice !== 'max') {
             if (minPrice > maxPrice) {
-                
+
                 toast.error('min price must not be higher than the max price', {
                     position: 'top-center',
                     autoClose: 3000,

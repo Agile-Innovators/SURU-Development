@@ -15,7 +15,7 @@ export function GeneralInformation() {
         error,
         data
     } = useFetchUser();
-
+        
     const [userData, setUserData] = useState(null); // Datos del usuario desde la API
     const [profileData, setProfileData] = useState({
         name: "",
@@ -25,7 +25,6 @@ export function GeneralInformation() {
         email: "",
         phone_number: ""
     });
-
     const [isEditing, setIsEditing] = useState(false); // Estado para controlar si se está editando o no
 
     // Efecto para obtener la información del usuario
@@ -41,8 +40,8 @@ export function GeneralInformation() {
             setProfileData({
                 name: data.name || "",
                 username: data.username || "",
-                lastname1: data.profile?.lastname1 || "", // Usa el operador de encadenamiento opcional
-                lastname2: data.profile?.lastname2 || "", // Usa el operador de encadenamiento opcional
+                lastname1: data.profile?.lastname1 || "", 
+                lastname2: data.profile?.lastname2 || "", 
                 email: data.email || "",
                 phone_number: data.phone_number || ""
             });
