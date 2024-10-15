@@ -11,6 +11,7 @@ import { useFetchProperties } from '../../hooks/useFetchProperties.js';
 import { SkeletonLoader } from '../../ui/SkeletonLoader.jsx';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useFetchUserFavoritesIDs } from './../../hooks/useFetchUserFavoritesIDs';
 
 export function PropertiesFilter() {
     const {
@@ -26,6 +27,8 @@ export function PropertiesFilter() {
     const { propertyCategories, isLoadingPropsCats } =
         useFetchPropertyCategories();
     const { properties, isLoadingProps } = useFetchProperties();
+    const { userFavoritesIDs, isLoadingFavoritesIDs } =
+        useFetchUserFavoritesIDs();
 
     const formatPrice = (price) => {
         if (price >= 1e9) return `${(price / 1e9).toFixed(1)}B`;
@@ -98,7 +101,9 @@ export function PropertiesFilter() {
                     }
                     title={property.title}
                     location={`${property.city}, ${property.region}`}
-                    price={formatPrice(property.price ? property.price : property.rent_price)}
+                    price={formatPrice(
+                        property.price ? property.price : property.rent_price
+                    )}
                     frequency={
                         property.payment_frequency
                             ? property.payment_frequency
@@ -108,6 +113,8 @@ export function PropertiesFilter() {
                     qtyBathrooms={property.bathrooms ? property.bathrooms : 0}
                     qtyGarages={property.garages ? property.garages : 0}
                     key={property.id}
+                    isLiked={userFavoritesIDs.includes(property.id)}
+                    propertyId={property.id}
                     customClass={'m-auto'}
                 >
                     <MainButton
@@ -115,7 +122,7 @@ export function PropertiesFilter() {
                         variant="border"
                         type="button"
                         id={property.id}
-                        customClass='h-fit'
+                        customClass="h-fit"
                         onClick={() => showProperty(property.id)}
                     />
                 </AdvancedCard>

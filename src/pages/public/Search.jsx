@@ -9,10 +9,11 @@ import { ROUTE_PATHS } from '../../routes';
 import { SkeletonLoader } from '../../components/ui/SkeletonLoader';
 import { FilterModal } from '../../components/ui/modals/FilterModal';
 import { LayoutModal } from '../../components/ui/modals/LayoutModal';
+import { useFetchUserFavoritesIDs } from '../../components/hooks/useFetchUserFavoritesIDs';
 
 export function Search() {
     const {
-        regionId,
+        regionId,   
         minPrice,
         maxPrice,
         propertyTypeId,
@@ -20,6 +21,7 @@ export function Search() {
         setPropertyID,
     } = useContext(globalProvider);
     const { data, isLoading } = useFetchFilter();
+    const { userFavoritesIDs, isLoadingFavoritesIDs } = useFetchUserFavoritesIDs();
     const navigate = useNavigate();
     const [isLoadingFilter, setIsLoadingFilter] = useState(false);
     const [properties, setProperties] = useState(data);
@@ -82,6 +84,8 @@ export function Search() {
                 qtyBathrooms={property.bathrooms ? property.bathrooms : 0}
                 qtyGarages={property.garages ? property.garages : 0}
                 key={property.id}
+                isLiked={userFavoritesIDs.includes(property.id)}
+                propertyId={property.id}
                 customClass={'m-auto'}
             >
                 <MainButton
