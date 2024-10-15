@@ -100,7 +100,11 @@ export function Search() {
     return (
         <section className="max-w-7xl m-auto mt-5 p-4 xl:p-0">
             <LayoutModal customClass="pb-20" status={isOpenModal}>
-                <FilterModal handleModal={setIsOpenModal} />
+                <FilterModal
+                    handleModal={setIsOpenModal}
+                    setProperties={setFilterProperties}
+                    isLoadingFilter={setIsLoadingFilter}
+                />
             </LayoutModal>
 
             <h2>Search properties</h2>

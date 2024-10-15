@@ -35,8 +35,7 @@ export const useFetchFilter = () => {
                         propertyCategoryId: propertyTypeId,
                     },
                 });
-                console.log('se ejecuto el filtro');
-                console.log(response);
+
                 setIsFilterUsed(false);
             } else {
                 response = await axios.get('/properties');
@@ -44,7 +43,6 @@ export const useFetchFilter = () => {
             }
             const data = await response.data;
             setData(data);
-            console.log(data);
             setIsLoading(false);
         } catch (error) {
             console.log(error);

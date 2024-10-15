@@ -5,16 +5,18 @@ import { useAxios } from '../../hooks/useAxios';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { SkeletonLoader } from '../SkeletonLoader';
+import { useState } from 'react';
 
 export function SearchFilter({ setData, isLoadingFilter, handleModal }) {
     const { regions, isLoadingRegions } = useFetchRegions();
     const { propertyCategories, isLoadingPropsCats } =
         useFetchPropertyCategories();
+    const [ regionId, setRegionId ] = useState(0);
     const axios = useAxios();
 
     const filterProperties = async (e) => {
         e.preventDefault();
-        const regionId = document.getElementById('select_regions').value;
+        // const regionId = document.getElementById('select_regions').value;
         const minPrice = document.getElementById('select_min_price').value;
         const maxPrice = document.getElementById('select_max_price').value;
         const propertyCategoryId =
@@ -22,7 +24,6 @@ export function SearchFilter({ setData, isLoadingFilter, handleModal }) {
 
         if (maxPrice !== 'max') {
             if (minPrice > maxPrice) {
-                
                 toast.error('min price must not be higher than the max price', {
                     position: 'top-center',
                     autoClose: 3000,
@@ -40,6 +41,13 @@ export function SearchFilter({ setData, isLoadingFilter, handleModal }) {
         }
         isLoadingFilter(true);
         try {
+            console.log(
+                'datos a enviar: ',
+                regionId,
+                minPrice,
+                maxPrice,
+                propertyCategoryId
+            );
             const response = await axios.get('/properties/filter', {
                 params: {
                     regionId: regionId,
@@ -74,6 +82,7 @@ export function SearchFilter({ setData, isLoadingFilter, handleModal }) {
     ];
 
     const createRegionsSelect = (items) => {
+        console.log(items)
         return (
             <div className="w-full lg:w-auto flex flex-col">
                 <label
@@ -85,6 +94,8 @@ export function SearchFilter({ setData, isLoadingFilter, handleModal }) {
                 <select
                     id="select_regions"
                     name={`select_regions`}
+                    value={regionId}
+                    onChange={(e) => (setRegionId(e.target.value))}
                     className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                 >
                     <option value="0">all</option>
@@ -149,7 +160,7 @@ export function SearchFilter({ setData, isLoadingFilter, handleModal }) {
 
     const handleOpenModal = () => {
         handleModal((prev) => !prev);
-    }
+    };
 
     return (
         <form

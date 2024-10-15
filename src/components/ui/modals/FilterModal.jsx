@@ -7,9 +7,12 @@ import { useFetchPropertyCategories } from '../../hooks/useFetchPropertyCategori
 import { useFetchRegions } from './../../hooks/useFetchRegions';
 import { useFetchPropertyTransactionTypes } from '../../hooks/useFetchPropertyTransactionTypes';
 import { SkeletonLoader } from '../SkeletonLoader';
+import { useAxios } from '../../hooks/useAxios';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-export function FilterModal({ handleModal }) {
-    const [data, setData] = useState({});
+export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
+    const [data, setData] = useState({ allow_pets: 0, green_area: 0 });
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(0);
     const [bedrooms, setBedrooms] = useState(0);
@@ -25,6 +28,7 @@ export function FilterModal({ handleModal }) {
     const [isActiveGreenArea, setIsActiveGreenArea] = useState(false);
     const [isActiveWifi, setIsActiveWifi] = useState(false);
     const [isActiveFurnished, setIsActiveFurnished] = useState(false);
+    const [currencyId, setCurrencyId] = useState(1);
 
     const [utilities, setUtilities] = useState([]);
     const { regions, isLoadingRegions } = useFetchRegions();
@@ -32,6 +36,7 @@ export function FilterModal({ handleModal }) {
         useFetchPropertyCategories();
     const { transacTypes, isLoadingTransacTypes } =
         useFetchPropertyTransactionTypes();
+    const axios = useAxios();
 
     const handleOpenModal = () => {
         handleModal((prev) => !prev);
@@ -51,6 +56,26 @@ export function FilterModal({ handleModal }) {
         }
     };
 
+    const clearFilterModal = () => {
+        handleOpenModal();
+        setData({ allow_pets: 0, green_area: 0 });
+        setIsActiveAllowPets(false);
+        setIsActiveGreenArea(false);
+        setIsActiveWifi(false);
+        setIsActiveFurnished(false);
+        setMinPrice(0);
+        setMaxPrice(0);
+        setBedrooms(0);
+        setBathrooms(0);
+        setFloors(0);
+        setPools(0);
+        setGarages(0);
+        setSize(0);
+        setPropertyCategory(0);
+        setPropertyTransaction(1);
+        setRegion(0);
+    };
+
     const handleFilter = async (e) => {
         e.preventDefault();
         console.log('Min price: ', minPrice);
@@ -66,6 +91,55 @@ export function FilterModal({ handleModal }) {
         console.log('Category: ', propertyCategory);
         console.log(data);
         console.log(utilities)
+
+        console.log(utilities);
+        const payload = {
+            ...data,
+            minPrice: minPrice,
+            maxPrice: maxPrice,
+            regionId: region,
+            propertyCategoryId: propertyCategory,
+            propertyTransactionId: propertyTransaction,
+            qtyBedrooms: bedrooms,
+            qtyBathrooms: bathrooms,
+            qtyFloors: floors,
+            qtyPools: pools,
+            qtyGarages: garages,
+            size_in_m2: size,
+            utilities: utilities
+        };
+        if (maxPrice !== 'max') {
+            if (minPrice >= maxPrice) {
+                toast.error('min price must not be higher than the max price', {
+                    position: 'top-center',
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'light',
+                    transition: Bounce,
+                });
+                return;
+            }
+        }
+        isLoadingFilter(true);
+        console.log(payload);
+        try {
+            clearFilterModal();
+            const response = await axios.get('/properties/filter', {
+                params: payload,
+            });
+            // console.log(response);
+            const data = await response.data;
+            console.log(data)
+            setProperties(data);
+            isLoadingFilter(false);
+        } catch (error) {
+            console.log(error);
+            isLoadingFilter(false);
+        }
     };
 
     const renderRegionSelect = (items) => {
@@ -168,16 +242,28 @@ export function FilterModal({ handleModal }) {
             onSubmit={(e) => handleFilter(e)}
             className="max-h-[90vh] overflow-hidden overflow-y-auto bg-white p-4 mt-6 rounded-xl overflow-hidden relative h-fit sm:p-8 sm:min-w-[40rem] md:min-w-[50rem]"
         >
+            <ToastContainer
+                position="top-center"
+                autoClose={200}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             <div className="w-full flex justify-between items-center border-b-2">
                 <h3>Filters</h3>
-                <button onClick={handleOpenModal}>
+                <button onClick={handleOpenModal} type="button">
                     <X className="hover:text-blue-500" />
                 </button>
             </div>
             <div className="mt-4">
                 <div>
                     <h4>Price range</h4>
-                    <div className="grid mt-4 sm:grid-cols-2 sm:gap-8">
+                    <div className="grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] mt-4 items-end sm:gap-8">
                         <Input
                             labelText={'minPrice'}
                             inputName={'minPriceInput'}
@@ -196,6 +282,19 @@ export function FilterModal({ handleModal }) {
                             value={maxPrice}
                             onChange={(e) => setMaxPrice(e.target.value)}
                         />
+                        <div className='grid gap-1'>
+                            <label htmlFor="currencySelect">Currency</label>
+                            <select
+                                id="currencySelect"
+                                name={`currencySelect`}
+                                value={currencyId}
+                                onChange={(e) => setCurrencyId(e.target.value)}
+                                className="currencySelect w-full h-12 mb-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                            >
+                                <option value="1">USD</option>
+                                <option value="2">CRC</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div>
