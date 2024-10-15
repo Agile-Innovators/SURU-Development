@@ -22,6 +22,8 @@ import { GeneralInformation } from '../pages/public/GeneralInformation.jsx';
 import { Preferences } from '../pages/public/Preferences.jsx';
 import { OperationalHours } from '../pages/public/OperationalHours.jsx';
 import { ChangePassword } from '../pages/public/ChangePassword.jsx';
+import { Favorites } from '../pages/private/Favorites.jsx';
+
 export function PublicRoutes() {
     return (
         <Routes>
@@ -79,6 +81,8 @@ export function PublicRoutes() {
                 <Route path={ROUTE_PATHS.CHANGE_PASSWORD} element={<ChangePassword />} />
                 <Route path="" element={<GeneralInformation />} />
             </Route>
+
+            <Route path={ROUTE_PATHS.FAVORITES} element={<Favorites />} />
         </Routes>
     );
 }
