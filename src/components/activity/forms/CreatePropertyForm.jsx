@@ -33,7 +33,6 @@ const CreatePropertyForm = () => {
         if (data) {
             const userData = JSON.parse(data);
             setUserId(userData.id);
-            console.log(userData.id);
         }
     });
 

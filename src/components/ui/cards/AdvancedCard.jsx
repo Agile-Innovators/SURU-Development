@@ -13,12 +13,18 @@ export function AdvancedCard({
     qtyBathrooms,
     qtyGarages,
     currency_code = 'CRC',
+    isLiked,
+    propertyId,
+    refreshFavorites,
 }) {
     return (
         <div className="rounded-md overflow-hidden border border-light-grey">
             <div className="overflow-hidden relative">
-                <LikeButton />
-
+                <LikeButton
+                    isLiked={isLiked}
+                    propertyId={propertyId}
+                    refreshFavorites={refreshFavorites}
+                />
 
                 <img
                     className="w-full object-cover aspect-video"

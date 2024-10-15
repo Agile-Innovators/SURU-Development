@@ -1,11 +1,29 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useAddFavoriteProperty } from '../../hooks/useAddFavoriteProperty';
+import { useRemoveFavoriteProperty } from '../../hooks/useRemoveFavoriteProperty';
 
-export function LikeButton() {
-    const [liked, setLiked] = useState(false);
+export function LikeButton({isLiked, propertyId, refreshFavorites}) {
+    const [liked, setLiked] = useState(isLiked );
+    const { addFavoriteProperty } = useAddFavoriteProperty();
+    const { removeFavoriteProperty } = useRemoveFavoriteProperty();
 
     // Función que alterna el estado
     const handleLike = () => {
-        setLiked(!liked);
+        setLiked((prev) => {
+            const newLiked = !prev; 
+            if (newLiked) {
+                addFavoriteProperty(propertyId); 
+            } else {
+                removeFavoriteProperty(propertyId);
+
+                //solo se encarga de refrescar la vista de favoritos de usuario, no es necesaria en otras vistas
+                if(refreshFavorites){
+                    refreshFavorites(propertyId)
+                } 
+            }
+            return newLiked; 
+        });
+        
     };
 
     return (
