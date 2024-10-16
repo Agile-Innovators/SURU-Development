@@ -88,7 +88,7 @@ export function FAQSection() {
                         className={
                             selectedOption === 1
                                 ? 'bg-light-blue text-white px-4 py-2'
-                                : 'px-4 py-2 bg-cyan-200/75 text-secondary/70'
+                                : 'px-4 py-2 bg-cyan-200/55 text-secondary/70'
                         }
                     >
                         Businesses
@@ -98,7 +98,7 @@ export function FAQSection() {
                         className={
                             selectedOption === 2
                                 ? 'bg-light-blue text-white px-4 py-2'
-                                : 'px-4 py-2 bg-cyan-200/75 text-secondary/70'
+                                : 'px-4 py-2 bg-cyan-200/55 text-secondary/70'
                         }
                     >
                         Buyers/Renters
@@ -108,7 +108,7 @@ export function FAQSection() {
                         className={
                             selectedOption === 3
                                 ? 'bg-light-blue text-white px-4 py-2'
-                                : 'px-4 py-2 bg-cyan-200/75 text-secondary/70'
+                                : 'px-4 py-2 bg-cyan-200/55 text-secondary/70'
                         }
                     >
                         Sellers/Landlords

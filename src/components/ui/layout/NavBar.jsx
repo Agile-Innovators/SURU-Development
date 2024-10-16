@@ -19,7 +19,7 @@ const initialNavigation = [
     { name: 'Home', href: ROUTE_PATHS.HOME, current: false, isLogin: true },
     {
         name: 'Partners',
-        href: ROUTE_PATHS.PARTNERS_ANGEL,
+        href: ROUTE_PATHS.PARTNERS,
         current: false,
         isLogin: true,
     },

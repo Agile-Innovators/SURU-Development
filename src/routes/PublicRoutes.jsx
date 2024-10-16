@@ -9,7 +9,6 @@ import { ConfirmPassword } from '../pages/public/ConfirmPassword.jsx';
 import { ForgotPassword } from '../pages/public/ForgotPassword.jsx';
 import { ROUTE_PATHS } from './index.js';
 import { Partners } from '../pages/public/Partners.jsx';
-import { PartnersAngel } from '../pages/public/PartnersAngel.jsx';
 import { Search } from '../pages/public/Search.jsx';
 import { PartnerIntegrationRequest } from '../pages/public/PartnerIntegrationRequest.jsx';
 import { PropertyDetails } from '../pages/public/PropertyDetails.jsx';
@@ -43,31 +42,17 @@ export function PublicRoutes() {
             <Route path={ROUTE_PATHS.PARTNERS} element={<Partners />} />
             <Route path={ROUTE_PATHS.NOT_FOUND} element={<Homepage />} />
             <Route path={ROUTE_PATHS.HOME} element={<Homepage />} />
-            <Route
-                path={ROUTE_PATHS.PARTNERS_ANGEL}
-                element={<PartnersAngel />}
-            />
             <Route path={ROUTE_PATHS.SEARCH} element={<Search />} />
-            <Route
-                path={ROUTE_PATHS.PARTNER_INTEGRATION_REQUEST}
-                element={<PartnerIntegrationRequest />}
-            />
-            <Route
-                path={ROUTE_PATHS.PROPERTY_DETAILS}
-                element={<PropertyDetails />}
-            />
+            <Route path={ROUTE_PATHS.PARTNER_INTEGRATION_REQUEST} element={<PartnerIntegrationRequest />} />
+            <Route path={ROUTE_PATHS.PROPERTY_DETAILS} element={<PropertyDetails />}/>
             <Route path={ROUTE_PATHS.APPOINTMENTS} element={<Appointments />} />
-            <Route
-                path={ROUTE_PATHS.REQUEST_APPOINTMENTS}
-                element={<RequestAppointment />}
-            />
-
+            <Route path={ROUTE_PATHS.REQUEST_APPOINTMENTS} element={<RequestAppointment />}/>
             <Route path={ROUTE_PATHS.USER_PROFILE} element={<UserProfile />}>
-                <Route path={ROUTE_PATHS.GENERAL_INFORMATION} element={<GeneralInformation />} />
-                <Route path={ROUTE_PATHS.PREFERENCES} element={<Preferences/>}/>
-                <Route path={ROUTE_PATHS.OPERATIONAL_HOURS} element={<OperationalHours />} />
-                <Route path={ROUTE_PATHS.CHANGE_PASSWORD} element={<ChangePassword />} />
-                <Route path="" element={<GeneralInformation />} />
+            <Route path={ROUTE_PATHS.GENERAL_INFORMATION} element={<GeneralInformation />} />
+            <Route path={ROUTE_PATHS.PREFERENCES} element={<Preferences/>}/>
+            <Route path={ROUTE_PATHS.OPERATIONAL_HOURS} element={<OperationalHours />} />
+            <Route path={ROUTE_PATHS.CHANGE_PASSWORD} element={<ChangePassword />} />
+            <Route path="" element={<GeneralInformation />} />
             </Route>
         </Routes>
     );
