@@ -1,17 +1,17 @@
 import { AdvancedCard } from './../../components/ui/cards/AdvancedCard';
 import { MainButton } from './../../components/ui/buttons/MainButton';
 import { useFetchUserFavorites } from '../../components/hooks/useFetchUserFavorites';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { SkeletonLoader } from './../../components/ui/SkeletonLoader';
-import { useAxios } from '../../components/hooks/useAxios';
+import { globalProvider } from '../../global/GlobalProvider';
+import { useNavigate } from 'react-router-dom';
+import { ROUTE_PATHS } from '../../routes';
 
 export function Favorites() {
     const { userFavorites, isLoadingFavorites } = useFetchUserFavorites();
     const [favoritesProperties, setFavoritesProperties] = useState([]);
-    const axios = useAxios();
-
-    //para el search, en esta vista no se necesita
-    const [favoritesPropertiesId, setFavoritesPropertiesId] = useState([]);
+    const { setPropertyID } = useContext(globalProvider);
+    const navigate = useNavigate();
 
     useEffect(() => {
         setFavoritesProperties(userFavorites);
@@ -20,15 +20,11 @@ export function Favorites() {
     //refresca la vista de favoritos si se elimina un item de favoritos
     const refreshFavorites = (propertyId) => {
         setFavoritesProperties((prevFavorites) => {
-            return prevFavorites.filter((property) => property.id !== propertyId);
+            return prevFavorites.filter(
+                (property) => property.id !== propertyId
+            );
         });
     };
-
-    // const showProperty = (id) => {
-    //     setPropertyID(id);
-    //     console.log('ID HOME:', id);
-    //     navigate(ROUTE_PATHS.PROPERTY_DETAILS);
-    // };
 
     const showLoaderCards = () => {
         return Array(6)
@@ -41,8 +37,21 @@ export function Favorites() {
             ));
     };
 
+    const showProperty = (id) => {
+        setPropertyID(id);
+        console.log('ID HOME:', id);
+        navigate(ROUTE_PATHS.PROPERTY_DETAILS);
+    };
+
+    const formatPrice = (price) => {
+        if (price >= 1e9) return `${(price / 1e9).toFixed(1)}B`;
+        if (price >= 1e6) return `${(price / 1e6).toFixed(1)}M`;
+        if (price >= 1e3) return `${(price / 1e3).toFixed(1)}K`;
+        return price.toString();
+    };
+
     const createProperties = (properties) => {
-        if(properties.length > 0){
+        if (properties.length > 0) {
             return properties.map((property) => {
                 return (
                     <AdvancedCard
@@ -53,14 +62,20 @@ export function Favorites() {
                         }
                         title={property.title}
                         location={`${property.city}, ${property.region}`}
-                        // price={formatPrice(property.price ? property.price : property.rent_price)}
+                        price={formatPrice(
+                            property.price
+                                ? property.price
+                                : property.rent_price
+                        )}
                         frequency={
                             property.payment_frequency
                                 ? property.payment_frequency
                                 : ''
                         }
                         qtyBedrooms={property.bedrooms ? property.bedrooms : 0}
-                        qtyBathrooms={property.bathrooms ? property.bathrooms : 0}
+                        qtyBathrooms={
+                            property.bathrooms ? property.bathrooms : 0
+                        }
                         qtyGarages={property.garages ? property.garages : 0}
                         key={property.id}
                         customClass={'m-auto'}
@@ -74,16 +89,14 @@ export function Favorites() {
                             type="button"
                             id={property.id}
                             customClass="h-fit"
-                            // onClick={() => showProperty(property.id)}
+                            onClick={() => showProperty(property.id)}
                         />
                     </AdvancedCard>
                 );
             });
+        } else {
+            return <p className="text-center">No favorite properties found</p>;
         }
-        else{
-            return <p className='text-center'>No favorite properties found</p>
-        }
-        
     };
 
     return (
