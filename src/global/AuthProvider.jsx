@@ -12,6 +12,8 @@ export default function AuthProvider({ children }) {
         return savedUser ? JSON.parse(savedUser) : null;
     });
 
+    const [isSessionExpired, setIsSessionExpired] = useState(false);
+
     useEffect(() => {
         authToken
             ? localStorage.setItem('authToken', authToken)
@@ -27,11 +29,13 @@ export default function AuthProvider({ children }) {
     const login = (token, userInfo) => {
         setAuthToken(token);
         setUser(userInfo);
+        setIsSessionExpired(false);
     };
 
     const logout = () => {
         setAuthToken(null);
         setUser(null);
+        setIsSessionExpired(true);
     };
 
     const getAuthToken = () => {
@@ -43,7 +47,7 @@ export default function AuthProvider({ children }) {
     };
 
     return (
-        <AuthContext.Provider value={{ login, logout, getAuthToken, getUser }}>
+        <AuthContext.Provider value={{ login, logout, getAuthToken, getUser, isSessionExpired, setIsSessionExpired }}>
             {children}
         </AuthContext.Provider>
     );

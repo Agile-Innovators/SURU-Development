@@ -2,16 +2,45 @@ import { NavBar } from '../components/ui/layout/NavBar.jsx';
 import { Footer } from '../components/ui/layout/Footer.jsx';
 import { PublicRoutes } from './PublicRoutes.jsx';
 import { PrivateRoutes } from './PrivateRoutes.jsx';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import ProtectedRoutes from '../global/ProtectedRoutes.jsx';
+import { LayoutModal } from '../components/ui/modals/LayoutModal.jsx';
 import '../index.css';
 import ScrollToTop from './ScrollToTop.jsx';
+import { useAuth } from '../global/AuthProvider';
+import { useState, useEffect } from 'react';
+import { SessionExpiredModal } from '../components/ui/modals/SessionExpiredModal.jsx';
+import { ROUTE_PATHS } from './index.js';
 
 export function AppRoutes() {
+    const navigate = useNavigate();
+    const { isSessionExpired, logout } = useAuth();
+    const [isModalVisible, setIsModalVisible] = useState(isSessionExpired);
+
+    useEffect(() => {
+        setIsModalVisible(isSessionExpired);
+
+        //Close modal and session after 3 seconds
+        if (isSessionExpired) {
+            setTimeout(() => {
+                logout();
+                navigate(ROUTE_PATHS.LOGIN);
+                setIsModalVisible(false);
+            }, 3000);
+        }
+    }, [isSessionExpired]);
+
     return (
-        <div id='body' className='min-h-screen'>
+        <div id="body" className="min-h-screen">
             <ScrollToTop />
             <NavBar />
+
+            {isModalVisible && (
+                <LayoutModal status={isModalVisible}>
+                    <SessionExpiredModal handleModal={setIsModalVisible} />
+                </LayoutModal>
+            )}
+
             <Routes>
                 <Route path="/*" element={<PublicRoutes />} />
                 <Route
