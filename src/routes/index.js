@@ -7,7 +7,7 @@ export const ROUTE_PATHS = {
     EMAIL_SEND: '/email-sent',
     RESET_PASSWORD: '/reset-password',
     CONFIRM_PASSWORD: '/confirm-password',
-    CREATE_PROPERTY: '/create-property',
+    CREATE_PROPERTY: 'suru/create-property',
     PARTNERS: '/partners',
     SEARCH: '/search',
     NOT_FOUND: '/*',

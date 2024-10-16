@@ -1,11 +1,19 @@
 import { Routes, Route } from 'react-router-dom';
-// import { ROUTE_PATHS } from "./index.js";
-import { Prueba } from '../pages/private/Prueba.jsx';
+import { ROUTE_PATHS } from "./index.js";
+import { CreateProperty } from "../pages/private/CreateProperty.jsx";
+import { PropertyManagement } from "../pages/private/PropertyManagement.jsx";
 
 export function PrivateRoutes() {
     return (
         <Routes>
-            <Route path="/prueba" element={<Prueba />} />
+            <Route
+                path={ROUTE_PATHS.CREATE_PROPERTY}
+                element={<CreateProperty />}
+            />
+            <Route
+                path={ROUTE_PATHS.PROPERTY_MANAGEMENT}
+                element={<PropertyManagement />}
+            />
         </Routes>
     );
 }
