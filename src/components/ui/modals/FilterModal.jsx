@@ -28,7 +28,8 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
     const [isActiveGreenArea, setIsActiveGreenArea] = useState(false);
     const [isActiveWifi, setIsActiveWifi] = useState(false);
     const [isActiveFurnished, setIsActiveFurnished] = useState(false);
-    const [currencyId, setCurrencyId] = useState(1);
+    const [currencyId, setCurrencyId] = useState(2);
+    const [ paymentFrequency, setPaymentFrequency ] = useState(0);
 
     const [utilities, setUtilities] = useState([]);
     const { regions, isLoadingRegions } = useFetchRegions();
@@ -78,21 +79,6 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
 
     const handleFilter = async (e) => {
         e.preventDefault();
-        console.log('Min price: ', minPrice);
-        console.log('Max price: ', maxPrice);
-        console.log('bedrooms: ', bedrooms);
-        console.log('bathrooms: ', bathrooms);
-        console.log('floors: ', floors);
-        console.log('pools: ', pools);
-        console.log('garages: ', garages);
-        console.log('size: ', size);
-        console.log('region: ', region);
-        console.log('transaction: ', propertyTransaction);
-        console.log('Category: ', propertyCategory);
-        console.log(data);
-        console.log(utilities)
-
-        console.log(utilities);
         const payload = {
             ...data,
             minPrice: minPrice,
@@ -106,7 +92,7 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
             qtyPools: pools,
             qtyGarages: garages,
             size_in_m2: size,
-            utilities: utilities
+            utilities: utilities,
         };
         if (maxPrice !== 'max') {
             if (minPrice >= maxPrice) {
@@ -131,9 +117,8 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
             const response = await axios.get('/properties/filter', {
                 params: payload,
             });
-            // console.log(response);
             const data = await response.data;
-            console.log(data)
+            console.log(data);
             setProperties(data);
             isLoadingFilter(false);
         } catch (error) {
@@ -237,6 +222,80 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
         );
     };
 
+    const renderSaleTransaction = () => {
+        return (
+            <>
+                <h4>Sale options</h4>
+                <div className="grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] mt-4 items-end sm:gap-8">
+                    <Input
+                        labelText={'minPrice'}
+                        inputName={'minPriceInput'}
+                        inputId={'min-price-input'}
+                        type={'number'}
+                        min={0}
+                        value={minPrice}
+                        onChange={(e) => setMinPrice(e.target.value)}
+                    />
+                    <Input
+                        labelText={'maxPrice'}
+                        inputName={'maxPriceInput'}
+                        inputId={'max-price-input'}
+                        type={'number'}
+                        min={0}
+                        value={maxPrice}
+                        onChange={(e) => setMaxPrice(e.target.value)}
+                    />
+                </div>
+            </>
+        );
+    };
+
+    const renderRentTransaction = () => {
+        return (
+            <>
+                <h4>Rent options</h4>
+                <div className="grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] mt-4 items-center sm:gap-8">
+                    <Input
+                        labelText={'rentPrice'}
+                        inputName={'rentPrice'}
+                        inputId={'rent-price-input'}
+                        type={'number'}
+                        min={0}
+                        value={minPrice}
+                        onChange={(e) => setMinPrice(e.target.value)}
+                    />
+                    <Input
+                        labelText={'depositPrice'}
+                        inputName={'depositPriceInput'}
+                        inputId={'deposit-price-input'}
+                        type={'number'}
+                        min={0}
+                        value={maxPrice}
+                        onChange={(e) => setMaxPrice(e.target.value)}
+                    />
+                    <div className="grid gap-1">
+                    <label htmlFor="select_frequency">Frequency</label>
+                    <select
+                        id="select_frequency"
+                        name={`select_frequency`}
+                        value={paymentFrequency}
+                        onChange={(e) => (setPaymentFrequency(e.target.value))}
+                        className="w-full  p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                        required
+                    >
+                        <option value="0" disabled>
+                            Select a payment frequency
+                        </option>
+                        <option value="1">Monthly</option>
+                        <option value="2">Biweekly</option>
+                        <option value="3">Weekly</option>
+                    </select>
+                </div>
+                </div>
+            </>
+        );
+    };
+
     return (
         <form
             onSubmit={(e) => handleFilter(e)}
@@ -261,45 +320,10 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
                 </button>
             </div>
             <div className="mt-4">
-                <div>
-                    <h4>Price range</h4>
-                    <div className="grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] mt-4 items-end sm:gap-8">
-                        <Input
-                            labelText={'minPrice'}
-                            inputName={'minPriceInput'}
-                            inputId={'min-price-input'}
-                            type={'number'}
-                            min={0}
-                            value={minPrice}
-                            onChange={(e) => setMinPrice(e.target.value)}
-                        />
-                        <Input
-                            labelText={'maxPrice'}
-                            inputName={'maxPriceInput'}
-                            inputId={'max-price-input'}
-                            type={'number'}
-                            min={0}
-                            value={maxPrice}
-                            onChange={(e) => setMaxPrice(e.target.value)}
-                        />
-                        <div className='grid gap-1'>
-                            <label htmlFor="currencySelect">Currency</label>
-                            <select
-                                id="currencySelect"
-                                name={`currencySelect`}
-                                value={currencyId}
-                                onChange={(e) => setCurrencyId(e.target.value)}
-                                className="currencySelect w-full h-12 mb-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
-                            >
-                                <option value="1">USD</option>
-                                <option value="2">CRC</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                
                 <div>
                     <h4>Property details</h4>
-                    <div className="grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] mt-4 mb-4 gap-4 sm:gap-8">
+                    <div className="grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] mt-4 mb-4 gap-4 sm:gap-6">
                         <div className="grid">
                             {isLoadingPropsCats
                                 ? showLoaderSelect()
@@ -315,52 +339,83 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
                                 ? showLoaderSelect()
                                 : renderRegionSelect(regions)}
                         </div>
+                        <div className="grid gap-1">
+                        <label htmlFor="currencySelect">Currency</label>
+                        <select
+                            id="currencySelect"
+                            name={`currencySelect`}
+                            value={currencyId}
+                            onChange={(e) => setCurrencyId(e.target.value)}
+                            className="currencySelect w-full h-12 mb-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                        >
+                            <option value="1">USD</option>
+                            <option value="2">CRC</option>
+                        </select>
                     </div>
+                    </div>
+                </div>
+                <div>    
+                    {(propertyTransaction == 1 || propertyTransaction == 3) &&
+                        renderSaleTransaction()}
+                    {(propertyTransaction == 2 || propertyTransaction == 3) &&
+                        renderRentTransaction()}
                 </div>
                 <div>
                     <h4>Structure</h4>
-                    <div className="grid gap-4 grid-cols-[repeat(auto-fit,_minmax(150px,_1fr))] mt-4 sm:gap-6">
-                        <Input
-                            labelText={'Bedrooms'}
-                            type={'number'}
-                            min={0}
-                            value={bedrooms}
-                            onChange={(e) => setBedrooms(e.target.value)}
-                        />
-                        <Input
-                            labelText={'Bathrooms'}
-                            type={'number'}
-                            min={0}
-                            value={bathrooms}
-                            onChange={(e) => setBathrooms(e.target.value)}
-                        />
-                        <Input
-                            labelText={'Floors'}
-                            type={'number'}
-                            min={0}
-                            value={floors}
-                            onChange={(e) => setFloors(e.target.value)}
-                        />
-                        <Input
-                            labelText={'Pools'}
-                            type={'number'}
-                            min={0}
-                            value={pools}
-                            onChange={(e) => setPools(e.target.value)}
-                        />
-                        <Input
-                            labelText={'Garages'}
-                            type={'number'}
-                            min={0}
-                            value={garages}
-                            onChange={(e) => setGarages(e.target.value)}
-                        />
+                    <div className="grid gap-4 grid-cols-[repeat(auto-fill,_minmax(200px,_1fr))] mt-4 sm:gap-6">
+                        {(propertyCategory == 1 ||
+                            propertyCategory == 2 ||
+                            propertyCategory == 5 ||
+                            propertyCategory == 0) && (
+                            <>
+                                <Input
+                                    labelText={'Bedrooms'}
+                                    type={'number'}
+                                    min={0}
+                                    value={bedrooms}
+                                    onChange={(e) =>
+                                        setBedrooms(e.target.value)
+                                    }
+                                />
+                                <Input
+                                    labelText={'Floors'}
+                                    type={'number'}
+                                    min={0}
+                                    value={floors}
+                                    onChange={(e) => setFloors(e.target.value)}
+                                />
+                                <Input
+                                    labelText={'Pools'}
+                                    type={'number'}
+                                    min={0}
+                                    value={pools}
+                                    onChange={(e) => setPools(e.target.value)}
+                                />
+                                <Input
+                                    labelText={'Garages'}
+                                    type={'number'}
+                                    min={0}
+                                    value={garages}
+                                    onChange={(e) => setGarages(e.target.value)}
+                                />
+                            </>
+                        )}
+                        {propertyCategory != 3 && (
+                            <Input
+                                labelText={'Bathrooms'}
+                                type={'number'}
+                                min={0}
+                                value={bathrooms}
+                                onChange={(e) => setBathrooms(e.target.value)}
+                            />
+                        )}
                         <Input
                             labelText={'Size in m2'}
                             type={'number'}
                             min={0}
                             value={size}
                             onChange={(e) => setSize(e.target.value)}
+                            customClass="w-fit"
                         />
                     </div>
                 </div>
