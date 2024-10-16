@@ -4,7 +4,8 @@ export function PartnersHero() {
     return (
         <header
             className="relative h-screen bg-cover bg-center bg-fixed"
-            style={{ backgroundImage: 'url(/public/PartnersHeroImage.jpg)' }}
+            style={{ backgroundImage: 'url(/PartnersHeroImage.jpg)' }}
+
         >
             <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
                 <div className="flex flex-col justify-center items-center text-center px-6 py-12 max-w-3xl ">
