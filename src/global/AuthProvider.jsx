@@ -35,7 +35,6 @@ export default function AuthProvider({ children }) {
     const logout = () => {
         setAuthToken(null);
         setUser(null);
-        setIsSessionExpired(true);
     };
 
     const getAuthToken = () => {
