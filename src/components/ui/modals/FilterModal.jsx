@@ -29,9 +29,9 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
     const [isActiveWifi, setIsActiveWifi] = useState(false);
     const [isActiveFurnished, setIsActiveFurnished] = useState(false);
     const [currencyId, setCurrencyId] = useState(2);
-    const [ paymentFrequency, setPaymentFrequency ] = useState(0);
-    const [ rentPrice, setRentPrice ] = useState(0);
-    const [ depositPrice, setDepositPrice ] = useState(0);
+    // const [ paymentFrequency, setPaymentFrequency ] = useState(0);
+    const [rentPrice, setRentPrice] = useState(0);
+    const [depositPrice, setDepositPrice] = useState(0);
 
     const [utilities, setUtilities] = useState([]);
     const { regions, isLoadingRegions } = useFetchRegions();
@@ -79,7 +79,7 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
         setRegion(0);
         setUtilities([]);
         setCurrencyId(1);
-        setPaymentFrequency(0);
+        // setPaymentFrequency(0);
         setRentPrice(0);
         setDepositPrice(0);
     };
@@ -101,7 +101,7 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
             size_in_m2: size,
             utilities: utilities,
             currencyId: currencyId,
-            paymentFrequencyId: paymentFrequency,
+            // paymentFrequencyId: paymentFrequency,
             rentPrice: rentPrice,
             depositPrice: depositPrice,
         };
@@ -285,24 +285,26 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
                         value={depositPrice}
                         onChange={(e) => setDepositPrice(e.target.value)}
                     />
-                    <div className="grid gap-1">
-                    <label htmlFor="select_frequency">Frequency</label>
-                    <select
-                        id="select_frequency"
-                        name={`select_frequency`}
-                        value={paymentFrequency}
-                        onChange={(e) => (setPaymentFrequency(e.target.value))}
-                        className="w-full  p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
-                        required
-                    >
-                        <option value="0" disabled>
-                            Select a payment frequency
-                        </option>
-                        <option value="1">Monthly</option>
-                        <option value="2">Biweekly</option>
-                        <option value="3">Weekly</option>
-                    </select>
-                </div>
+                    {/* <div className="grid gap-1">
+                        <label htmlFor="select_frequency">Frequency</label>
+                        <select
+                            id="select_frequency"
+                            name={`select_frequency`}
+                            value={paymentFrequency}
+                            onChange={(e) =>
+                                setPaymentFrequency(e.target.value)
+                            }
+                            className="w-full  p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                            required
+                        >
+                            <option value="0" disabled>
+                                Select a payment frequency
+                            </option>
+                            <option value="1">Monthly</option>
+                            <option value="2">Biweekly</option>
+                            <option value="3">Weekly</option>
+                        </select>
+                    </div> */}
                 </div>
             </>
         );
@@ -332,7 +334,6 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
                 </button>
             </div>
             <div className="mt-4">
-                
                 <div>
                     <h4>Property details</h4>
                     <div className="grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] mt-4 mb-4 gap-4 sm:gap-6">
@@ -352,21 +353,21 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
                                 : renderRegionSelect(regions)}
                         </div>
                         <div className="grid gap-1">
-                        <label htmlFor="currencySelect">Currency</label>
-                        <select
-                            id="currencySelect"
-                            name={`currencySelect`}
-                            value={currencyId}
-                            onChange={(e) => setCurrencyId(e.target.value)}
-                            className="currencySelect w-full h-12 mb-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
-                        >
-                            <option value="1">USD</option>
-                            <option value="2">CRC</option>
-                        </select>
-                    </div>
+                            <label htmlFor="currencySelect">Currency</label>
+                            <select
+                                id="currencySelect"
+                                name={`currencySelect`}
+                                value={currencyId}
+                                onChange={(e) => setCurrencyId(e.target.value)}
+                                className="currencySelect w-full h-12 mb-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                            >
+                                <option value="1">USD</option>
+                                <option value="2">CRC</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div>    
+                <div>
                     {(propertyTransaction == 1 || propertyTransaction == 3) &&
                         renderSaleTransaction()}
                     {(propertyTransaction == 2 || propertyTransaction == 3) &&
