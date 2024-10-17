@@ -16,8 +16,9 @@ export function Appointments() {
     const [loading, setLoading] = useState(true); 
     const [error, setError] = useState(null); 
     const [currentStatus, setCurrentStatus] = useState('Cancelled'); 
-    const [openDropdownId, setOpenDropdownId] = useState(null); // Estado para controlar el menú desplegable de cada cita
+    const [openDropdownId, setOpenDropdownId] = useState(null); 
     const axios = useAxios(); 
+
 
     // Llamada inicial a la API para obtener citas
     useEffect(() => {
@@ -34,11 +35,12 @@ export function Appointments() {
                 setLoading(false); 
             })
             .catch(error => {
-                console.error('Error al obtener las citas:', error); 
-                setError('Error al obtener las citas');
+                console.error('Error: I can reach it:', error); 
+                setError('Error: I can reach it');
                 setLoading(false); 
             });
     };
+
 
     const handleButtonClick = (status) => {
         console.log(`Button clicked: ${status}`);
@@ -51,14 +53,14 @@ export function Appointments() {
     // Función para alternar el menú desplegable específico de una cita
     const toggleDropdown = (appointmentId) => {
         if (openDropdownId === appointmentId) {
-            setOpenDropdownId(null); // Cierra si está abierto
+            setOpenDropdownId(null); 
         } else {
-            setOpenDropdownId(appointmentId); // Abre el menú del appointment con este id
+            setOpenDropdownId(appointmentId); 
         }
     };
 
     const handleDeleteConfirmation = () => {
-        console.log('Cita eliminada');
+        console.log('appointment deleted');
         setIsDeleteModalOpen(false);
     };
 
