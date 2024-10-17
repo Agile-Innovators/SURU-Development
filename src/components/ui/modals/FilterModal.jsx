@@ -30,6 +30,8 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
     const [isActiveFurnished, setIsActiveFurnished] = useState(false);
     const [currencyId, setCurrencyId] = useState(2);
     const [ paymentFrequency, setPaymentFrequency ] = useState(0);
+    const [ rentPrice, setRentPrice ] = useState(0);
+    const [ depositPrice, setDepositPrice ] = useState(0);
 
     const [utilities, setUtilities] = useState([]);
     const { regions, isLoadingRegions } = useFetchRegions();
@@ -75,6 +77,11 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
         setPropertyCategory(0);
         setPropertyTransaction(1);
         setRegion(0);
+        setUtilities([]);
+        setCurrencyId(1);
+        setPaymentFrequency(0);
+        setRentPrice(0);
+        setDepositPrice(0);
     };
 
     const handleFilter = async (e) => {
@@ -93,6 +100,10 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
             qtyGarages: garages,
             size_in_m2: size,
             utilities: utilities,
+            currencyId: currencyId,
+            paymentFrequencyId: paymentFrequency,
+            rentPrice: rentPrice,
+            depositPrice: depositPrice,
         };
         if (maxPrice !== 'max') {
             if (minPrice >= maxPrice) {
@@ -110,8 +121,9 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
                 return;
             }
         }
-        isLoadingFilter(true);
         console.log(payload);
+        // return;
+        isLoadingFilter(true);
         try {
             clearFilterModal();
             const response = await axios.get('/properties/filter', {
@@ -261,8 +273,8 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
                         inputId={'rent-price-input'}
                         type={'number'}
                         min={0}
-                        value={minPrice}
-                        onChange={(e) => setMinPrice(e.target.value)}
+                        value={rentPrice}
+                        onChange={(e) => setRentPrice(e.target.value)}
                     />
                     <Input
                         labelText={'depositPrice'}
@@ -270,8 +282,8 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
                         inputId={'deposit-price-input'}
                         type={'number'}
                         min={0}
-                        value={maxPrice}
-                        onChange={(e) => setMaxPrice(e.target.value)}
+                        value={depositPrice}
+                        onChange={(e) => setDepositPrice(e.target.value)}
                     />
                     <div className="grid gap-1">
                     <label htmlFor="select_frequency">Frequency</label>
