@@ -1,5 +1,3 @@
-// src/components/activity/forms/EditPropertyForm.jsx
-
 import { X, House, Hotel, Warehouse, Store, Fence } from 'lucide-react';
 import { useState, useContext, useEffect, useCallback } from 'react';
 import SectionDivider from '../../ui/layout/SectionDivider';
@@ -188,7 +186,7 @@ const EditPropertyForm = () => {
             });
             setImages(newImages);
             event.target.value = '';
-            return;
+          
         }
 
         files.forEach((file) => {
@@ -229,36 +227,17 @@ const EditPropertyForm = () => {
         // Verificar el número mínimo de imágenes (existentes + nuevas)
         if ((existing_images_id.length + images.length) < 3) {
             toast.error("You must have at least 3 images in total");
-            return;
+            
         }
 
         // Crear un objeto final con todos los datos necesarios
         const finalData = {
-            // availability_date: data.availability_date || '',
-            // city_id: data.city_id || '',
-            // currency_id: 1,
-            // description: data.description || '',
-            // property_category_id: filterPropType,
-            // property_transaction_type_id: filterPropTransaction,
-            // user_id: userId,
-            // size_in_m2: data.size_in_m2 || '',
-            // title: data.title || '',
-            // price: data.price || null,
-            // rent_price: 20000,
-            // deposit_price:  40000,
-            // bedrooms: data.bedrooms || null,
-            // bathrooms: data.bathrooms || null,
-            // floors: data.floors || null,
-            // garages: data.garages || null,
-            // pools: data.pools || null,
-            // pets_allowed: data.pets_allowed || false,
-            // green_area: data.green_area || false,
-            // payment_frequency_id: 1,
             ...data,
+
             _method: "PUT",
         };
         console.log(data)
-        return;
+        
 
         // Mostrar el objeto finalData en la consola para depuración
         console.log('Final Data to submit:', finalData);
