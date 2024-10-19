@@ -1,9 +1,15 @@
-
 import { MainButton } from '../../components/ui/buttons/MainButton';
 import { Moon, Sun } from 'lucide-react';
-
+import { useContext } from 'react';
+import { ThemeContext } from '../../routes/ThemeContext'; // Asegúrate de importar el contexto
 
 export function Preferences() {
+    const { theme, toggleTheme } = useContext(ThemeContext); // Usamos el contexto del tema
+
+    const handleThemeChange = (event) => {
+        toggleTheme(event.target.value); // Cambia el tema basado en la selección
+    };
+
     return (
         <div className='p-4'>
             <div className='flex'>
@@ -25,10 +31,10 @@ export function Preferences() {
                     </select>
                 </div>
                 <div className="grid gap-2">
-                    <label htmlFor="language-select">Notifications</label>
+                    <label htmlFor="notifications-select">Notifications</label>
                     <select
-                        name="language"
-                        id="language-select"
+                        name="notifications"
+                        id="notifications-select"
                         className="p-3 border bg-transparent border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                     >
                         <option value="On">On</option>
@@ -36,17 +42,18 @@ export function Preferences() {
                     </select>
                 </div>
                 <div className="grid gap-2">
-                    <label htmlFor="language-select">Theme</label>
+                    <label htmlFor="theme-select">Theme</label>
                     <select
-                        name="language"
-                        id="language-select"
+                        name="theme"
+                        id="theme-select"
+                        value={theme} // El valor actual del tema
+                        onChange={handleThemeChange} // Cambiar tema al seleccionar
                         className="p-3 border bg-transparent border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                     >
-                        <option value="On">Dark</option>
-                        <option value="Off">Light</option>
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
                     </select>
                 </div>
-
             </div>
         </div>
     );
