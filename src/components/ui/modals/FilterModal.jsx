@@ -86,25 +86,57 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
 
     const handleFilter = async (e) => {
         e.preventDefault();
-        const payload = {
+        //data always present
+        let payload = {
             ...data,
-            minPrice: minPrice,
-            maxPrice: maxPrice,
             regionId: region,
             propertyCategoryId: propertyCategory,
             propertyTransactionId: propertyTransaction,
-            qtyBedrooms: bedrooms,
-            qtyBathrooms: bathrooms,
-            qtyFloors: floors,
-            qtyPools: pools,
-            qtyGarages: garages,
-            size_in_m2: size,
-            utilities: utilities,
             currencyId: currencyId,
-            // paymentFrequencyId: paymentFrequency,
-            rentPrice: rentPrice,
-            depositPrice: depositPrice,
+            utilities: utilities,
+            size_in_m2: size,
         };
+
+        //sale and dual transaction
+        if (propertyTransaction == 1 || propertyTransaction == 3) {
+            payload = {
+                ...payload,
+                minPrice: minPrice,
+                maxPrice: Number(maxPrice),
+            };
+        }
+        //rent and dual transaction
+        if (propertyTransaction == 2 || propertyTransaction == 3) {
+            payload = {
+                ...payload,
+                rentPrice: rentPrice,
+                depositPrice: depositPrice,
+            };
+        }
+
+        //property categories (House, apartment, studio)
+        if (
+            propertyCategory == 1 ||
+            propertyCategory == 2 ||
+            propertyCategory == 5
+        ) {
+            payload = {
+                ...payload,
+                qtyBedrooms: bedrooms,
+                qtyBathrooms: bathrooms,
+                qtyFloors: floors,
+                qtyPools: pools,
+                qtyGarages: garages,
+            };
+        }
+        //property category retail space
+        if(propertyCategory == 4){
+            payload = {
+                ...payload,
+                qtyBathrooms: bathrooms,
+            }
+        }
+
         if (maxPrice !== 'max') {
             if (minPrice >= maxPrice) {
                 toast.error('min price must not be higher than the max price', {
