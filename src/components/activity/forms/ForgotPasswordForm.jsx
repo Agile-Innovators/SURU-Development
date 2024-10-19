@@ -6,7 +6,7 @@ import { ROUTE_PATHS } from '../../../routes/index.js';
 export function ForgotPasswordForm() {
     return (
         <form className="m-auto">
-            <h1>Password reset</h1>
+            <h1 className="dark:text-secondary">Password reset</h1>
             <span className="text-grey">
                 Don&apos;t worry, enter your email for instructions
             </span>
@@ -17,7 +17,7 @@ export function ForgotPasswordForm() {
                     inputName="email"
                     inputId="email"
                     labelText="Email Address"
-                    className="mt-4"
+                    className="mt-4 dark:text-black"
                 />
                 <MainButton
                     text="Send Instructions"

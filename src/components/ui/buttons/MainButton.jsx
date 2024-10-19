@@ -16,7 +16,7 @@ export function MainButton({
 }) {
     let variantClasses = {
         fill: 'bg-secondary text-white hover:bg-light-blue hover:text-white',
-        border: 'text-secondary border-2 border-secondary hover:bg-secondary hover:text-white',
+        border: 'text-secondary border-2 border-secondary hover:bg-secondary hover:text-white dark:border-light-blue dark:text-light-blue',
         none: '',
     };
 
