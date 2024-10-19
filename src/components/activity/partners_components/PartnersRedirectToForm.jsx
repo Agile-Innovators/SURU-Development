@@ -12,7 +12,7 @@ export function PartnersRedirectToForm() {
                     alt="Partners"
                 />
                 <div className="mx-auto max-w-2xl lg:text-left md: order-1">
-                    <h3 className="text-base font-semibold leading-7 text-light-blue">
+                    <h3 className="text-base font-semibold leading-7 text-light-blue ">
                         Do you have a service company?
                     </h3>
                     <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary sm:text-4xl">

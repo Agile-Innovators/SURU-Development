@@ -47,10 +47,10 @@ export function StepWizard() {
                     </p>
                 </div>
                 <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
-                    <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-3 lg:gap-y-16">
+                    <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-3 lg:gap-y-16 ">
                         {steps.map((step, index) => (
                             <div className="relative pl-16" key={index}>
-                                <dt className="text-base font-semibold leading-7 text-gray-900">
+                                <dt className="text-base font-semibold leading-7 text-gray-900 dark:text-white">
                                     <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-[#0c9dc1]">
                                         <span className="text-white">
                                             {index + 1}

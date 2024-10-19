@@ -9,7 +9,7 @@ export function PropertyActionSelection() {
                 <h2>Managing Properties Has Never Been This Simple</h2>
                 <p>
                     Access a platform that takes the complexity out of managing
-                    realestate
+                    real estate
                 </p>
             </div>
             <div className="grid grid-cols-auto-300 justify-center mt-5 gap-8 ">

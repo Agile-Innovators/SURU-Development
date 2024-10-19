@@ -1,5 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
-import { globalProvider } from '../../../global/GlobalProvider';
+import { useState, useEffect } from 'react';
 
 export function SecondaryFilterTag({
     text,
@@ -12,7 +11,6 @@ export function SecondaryFilterTag({
     id,
     ...props
 }) {
-    // const { propTypeForm, propTransacTypeForm } = useContext(globalProvider);
     const [isChecked, setIsChecked] = useState(isActivate);
     const valueID = idValue;
 
@@ -57,18 +55,20 @@ export function SecondaryFilterTag({
             type="button"
             id={id}
             onClick={(e) => handleEventButton(e)}
-            className={` flex justify-between gap-2 transition-colors duration-150 group border-2 border-gray-300 rounded-md p-2 hover:border-secondary ${
-                isChecked ? 'border-secondary hover:border-light-blue' : ''
-            } `}
+            className={`flex justify-between gap-2 transition-colors duration-150 group border-2 rounded-md p-2 
+                ${isChecked 
+                    ? 'border-light-blue text-light-blue' 
+                    : 'border-white text-white dark:border-gray-600 dark:text-gray-300'}
+                hover:border-light-blue dark:hover:border-light-blue`}
             {...props}
         >
             <span className="flex">
                 <span
-                    className={`group-hover:text-secondary ${
-                        isChecked
-                            ? 'text-secondary group-hover:text-light-blue'
-                            : ''
-                    }`}
+                    className={`transition-colors duration-150 
+                        ${isChecked 
+                            ? 'text-light-blue' 
+                            : 'text-white dark:text-gray-300'} 
+                        group-hover:text-light-blue`}
                 >
                     {text}
                 </span>
@@ -80,12 +80,7 @@ export function SecondaryFilterTag({
                         checked={isChecked}
                         type="checkbox"
                         onChange={handleEventButton}
-                        className={`peer h-6 w-6 cursor-pointer transition-all appearance-none rounded-full bg-slate-100 shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800"
-                        id="check-custom-style  ${
-                            isChecked
-                                ? 'text-secondary group-hover:bg-light-blue'
-                                : ''
-                        }`}
+                        className={`peer h-6 w-6 cursor-pointer transition-all appearance-none rounded-full bg-slate-100 dark:bg-gray-800 shadow hover:shadow-md border border-slate-300 checked:bg-light-blue checked:border-light-blue`}
                     />
                     <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                         <svg

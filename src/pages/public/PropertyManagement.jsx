@@ -89,38 +89,38 @@ export function PropertyManagement() {
 
                                 {/* Opciones del menú desplegable (los tres puntitos) */}
                                 {openDropdownId === item.id && (
-                                    <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-md shadow-lg z-10">
-                                        <ul className="text-left">
-                                            <li
-                                                className="px-4 py-2 hover:bg-gray-400 hover:text-white flex items-center gap-2 cursor-pointer"
-                                                onClick={() => {
-                                                    showProperty(item.id); // Llamar a showProperty para redirigir
-                                                    setOpenDropdownId(null);
-                                                }}
-                                            >
-                                                <Eye size={16} /> View Property
-                                            </li>
-                                            <li
-                                                className="px-4 py-2 hover:bg-cyan-200 hover:text-white flex items-center gap-2 cursor-pointer"
-                                                onClick={() => {
-                                                    console.log('Edit clicked');
-                                                    setOpenDropdownId(null);
-                                                }}
-                                            >
-                                                <Pencil size={16} /> Edit
-                                            </li>
-                                            <li
-                                                className="px-4 py-2 hover:bg-red-500 hover:text-white flex items-center gap-2 cursor-pointer"
-                                                onClick={() => {
-                                                    deleteProperty(item.id);
-                                                    setOpenDropdownId(null);
-                                                }}
-                                            >
-                                                <Trash2 size={16} /> Delete
-                                            </li>
-                                        </ul>
-                                    </div>
-                                )}
+    <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md shadow-lg z-10">
+        <ul className="text-left">
+            <li
+                className="px-4 py-2 hover:bg-gray-400 dark:hover:bg-gray-600 hover:text-white flex items-center gap-2 cursor-pointer"
+                onClick={() => {
+                    showProperty(item.id);
+                    setOpenDropdownId(null);
+                }}
+            >
+                <Eye size={16} /> View Property
+            </li>
+            <li
+                className="px-4 py-2 hover:bg-cyan-200 dark:hover:bg-cyan-500 hover:text-white flex items-center gap-2 cursor-pointer"
+                onClick={() => {
+                    console.log('Edit clicked');
+                    setOpenDropdownId(null);
+                }}
+            >
+                <Pencil size={16} /> Edit
+            </li>
+            <li
+                className="px-4 py-2 hover:bg-red-500 dark:hover:bg-red-600 hover:text-white flex items-center gap-2 cursor-pointer"
+                onClick={() => {
+                    deleteProperty(item.id);
+                    setOpenDropdownId(null);
+                }}
+            >
+                <Trash2 size={16} /> Delete
+            </li>
+        </ul>
+    </div>
+)}
                             </div>
                             <input
                                 id={`input_prop_id_${item.id}`}

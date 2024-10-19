@@ -2,7 +2,7 @@ import CreatePropertyForm from '../../components/activity/forms/CreatePropertyFo
 
 export function CreateProperty() {
     return (
-        <div>
+        <div >
             <CreatePropertyForm />
         </div>
     );

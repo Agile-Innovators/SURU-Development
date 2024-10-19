@@ -63,13 +63,13 @@ export function FAQSection() {
         ));
     };
     return (
-        <div className="py-20 bg-white">
+        <div className="py-20 bg-white dark:bg-gray-900">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:text-center">
-                    <h3 className="text-base font-semibold leading-7 text-light-blue">
+                    <h3 className="text-base font-semibold leading-7 text-light-blue dark:text-light-blue">
                         Complementary Services
                     </h3>
-                    <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary sm:text-4xl">
+                    <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary sm:text-4xl dark:text-white ">
                         Frequenly Asked Question
                     </h2>
                     <p className="mt-6 text-lg leading-8 text-gray-600">
@@ -87,7 +87,7 @@ export function FAQSection() {
                         onClick={() => setSelectedOption(1)}
                         className={
                             selectedOption === 1
-                                ? 'bg-light-blue text-white px-4 py-2'
+                                ? 'bg-light-blue  text-white px-4 py-2'
                                 : 'px-4 py-2 bg-cyan-200/75 text-secondary/70'
                         }
                     >
@@ -116,7 +116,7 @@ export function FAQSection() {
                 </div>
 
                 {/* Acordeones condicionados por el estado */}
-                <div className="faq-section">
+                <div className="faq-section ">
                     {/* Renderizar acordeones según la opción seleccionada */}
                     {renderAccordions(faqData[selectedOption - 1])}
                 </div>
