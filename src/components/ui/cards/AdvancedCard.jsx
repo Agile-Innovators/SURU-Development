@@ -43,7 +43,7 @@ export function AdvancedCard({
                         <BedDouble
                             size={22}
                             strokeWidth={1}
-                            className="mr-2 text-secondary"
+                            className="mr-2 text-secondary dark:stroke-light-blue"
                         />
                         {qtyBedrooms}
                     </li>
@@ -51,23 +51,23 @@ export function AdvancedCard({
                         <Bath
                             size={22}
                             strokeWidth={1}
-                            className="mr-2 text-secondary"
+                            className="mr-2 text-secondary dark:stroke-light-blue"
                         />
                         {qtyBathrooms}
                     </li>
-                    <li className="flex items-center px-1 border-r-[1px] pr-2 border-grey">
+                    <li className="flex items-center px-1 border-r-[1px] pr-2 border-grey dark:text-light-blue">
                         <Car
                             size={22}
                             strokeWidth={1}
-                            className="mr-2 text-secondary"
+                            className="mr-2 text-secondary dark:stroke-light-blue"
                         />
                         {qtyGarages}
                     </li>
-                    <li className="flex items-center px-1 pr-2 border-grey">
+                    <li className="flex items-center px-1 pr-2 border-grey ">
                         <PawPrint
                             size={22}
                             strokeWidth={1}
-                            className="mr-2 text-secondary"
+                            className="mr-2 text-secondary dark:stroke-light-blue"
                         />
                         Allowed
                     </li>
