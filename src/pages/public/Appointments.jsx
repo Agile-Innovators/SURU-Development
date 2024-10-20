@@ -89,25 +89,25 @@ export function Appointments() {
                             <MainButton
                                 text="Upcoming"
                                 variant="border"
-                                customClass={`w-full h-fit border-r border-gray-300 ${currentStatus === 'Upcoming' ? 'bg-secondary text-white' : ''}`}
+                                customClass={`w-full h-fit border-r border-gray-300 ${currentStatus === 'Upcoming' ? 'bg-gray-500 text-white' : ''}`}
                                 onClick={() => handleButtonClick('Upcoming')}
                             />
                             <MainButton
                                 text="Pending"
                                 variant="border"
-                                customClass={`w-full h-fit border-r border-gray-300 ${currentStatus === 'Pending' ? 'bg-secondary text-white' : ''}`}
+                                customClass={`w-full h-fit border-r border-gray-300 ${currentStatus === 'Pending' ? 'bg-gray-500 text-white' : ''}`}
                                 onClick={() => handleButtonClick('Pending')}
                             />
                             <MainButton
                                 text="Completed"
                                 variant="border"
-                                customClass={`w-full h-fit border-r border-gray-300 ${currentStatus === 'Completed' ? 'bg-secondary text-white' : ''}`}
+                                customClass={`w-full h-fit border-r border-gray-300 ${currentStatus === 'Completed' ? 'bg-gray-500 text-white' : ''}`}
                                 onClick={() => handleButtonClick('Completed')}
                             />
                             <MainButton
                                 text="Cancelled"
                                 variant="border"
-                                customClass={`w-full h-fit border-r border-gray-300 ${currentStatus === 'Cancelled' ? 'bg-secondary text-white' : ''}`}
+                                customClass={`w-full h-fit border-r border-gray-300 ${currentStatus === 'Cancelled' ? 'bg-gray-500 text-white' : ''}`}
                                 onClick={() => handleButtonClick('Cancelled')}
                             />
                             {/* <div className="grid grid-cols-[repeat(auto-fit,_minmax(150px,_1fr))] gap-4"> */}
@@ -204,7 +204,7 @@ export function Appointments() {
                                         </button>
 
                                         {/* Opciones del menú desplegable */}
-                                        {openDropdownId === appointment.id && ( // Solo muestra el menú si este appointment.id está activo
+                                        {openDropdownId === appointment.id && ( 
                                             <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-md shadow-lg z-10">
                                                 <ul className="text-left">
                                                     <li
