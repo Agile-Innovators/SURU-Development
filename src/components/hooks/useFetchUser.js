@@ -7,22 +7,15 @@ export function useFetchUser() {
     const [data, setData] = useState(null);
     const axios = useAxios();
 
-    const config = {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    };
-
     // Actualizar el perfil de usuario
     const updateUserProfile = async (userId, userData) => {
         setLoading(true);
         console.log(userData);
 
         try {
-            const response = await axios.put(
+            const response = await axios.post(
                 `/user/update/${userId}`,
-                userData,
-                config
+                userData
             );
             console.log(response.data);
             setData(response.data);
@@ -41,8 +34,7 @@ export function useFetchUser() {
         try {
             const response = await axios.post(
                 `/user/${userId}/update-password`,
-                passwordData,
-                config
+                passwordData
             );
             
             // Retornar la respuesta completa
@@ -65,8 +57,7 @@ export function useFetchUser() {
         try {
             const response = await axios.put(
                 `/api/users/${userId}/operational-hours`,
-                { operational_hours: operationalHours },
-                config
+                { operational_hours: operationalHours }
             );
             setData(response.data);
             setError(null);
@@ -81,7 +72,7 @@ export function useFetchUser() {
     const getUserInformation = async (userId) => {
         setLoading(true);
         try {
-            const response = await axios.get(`/user/${userId}`); // Cambié para usar el userId dinámico
+            const response = await axios.get(`/user/${userId}`);
             setData(response.data);
             setError(null);
         } catch (error) {

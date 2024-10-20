@@ -3,6 +3,7 @@ import { MainButton } from '../../components/ui/buttons/MainButton';
 import { useState, useEffect } from 'react';
 import { useFetchUser } from "../../components/hooks/useFetchUser";
 import { useAuth } from "../../global/AuthProvider";
+import { Pencil } from 'lucide-react';
 
 export function GeneralInformation() {
 
@@ -15,6 +16,7 @@ export function GeneralInformation() {
         error,
         data
     } = useFetchUser();
+    const [previewImage, setPreviewImage] = useState(user.image_url || "https://res.cloudinary.com/dvwtm566p/image/upload/v1728158504/users/dc8aagfamyqwaspllhz8.jpg");
         
     const [userData, setUserData] = useState(null); // Datos del usuario desde la API
     const [profileData, setProfileData] = useState({
@@ -34,6 +36,38 @@ export function GeneralInformation() {
         }
     }, [user?.id]);
 
+    // Efecto para sincronizar los datos del usuario con profileData
+    useEffect(() => {
+        if (data) {
+            setProfileData({
+                name: data.name || "",
+                username: data.username || "",
+                lastname1: data.profile?.lastname1 || "",
+                lastname2: data.profile?.lastname2 || "",
+                email: data.email || "",
+                phone_number: data.phone_number || ""
+            });
+            setUserData(data);
+        }
+    }, [data]);
+
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setPreviewImage(reader.result);
+          };
+          reader.readAsDataURL(file);
+
+          // Actualizar el estado de profileData con la nueva imagen
+            setProfileData((prevState) => ({
+                ...prevState,
+                image: file
+            }));
+        }
+      };
+
     // Sincronizar los datos obtenidos con profileData
     useEffect(() => {
         if (data) {
@@ -43,7 +77,8 @@ export function GeneralInformation() {
                 lastname1: data.profile?.lastname1 || "", 
                 lastname2: data.profile?.lastname2 || "", 
                 email: data.email || "",
-                phone_number: data.phone_number || ""
+                phone_number: data.phone_number || "",
+                image: data.image_url || ""
             });
             setUserData(data);
         }
@@ -61,7 +96,19 @@ export function GeneralInformation() {
     const handleProfileSubmit = async (e) => {
         e.preventDefault();
         if (user?.id) {
-            await updateUserProfile(user.id, profileData); 
+            const formData = new FormData();
+    
+            for (const key in profileData) {
+                // Solo se envían los datos que no estén vacíos
+                if (profileData[key]) {
+                    formData.append(key, profileData[key]);
+                }
+            }
+    
+            formData.append('_method', 'PUT');
+            console.log([...formData]); // Mostrar los datos que se envían :p
+    
+            await updateUserProfile(user.id, formData); 
             getUserInformation(user.id); 
         }
         setIsEditing(false); 
@@ -75,11 +122,17 @@ export function GeneralInformation() {
         <div className='p-4'>
             <div className='flex justify-center'>
                 <div className='flex flex-col justify-center items-center gap-4'>
-                    <img
-                        src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                        alt="profile avatar"
-                        className="rounded-full object-cover aspect-square w-36"
-                    />
+                    <div className="relative group w-48 mx-auto mt">
+                        <div className="w-48 h-48 mx-auto rounded-full overflow-hidden">
+                                <img src={previewImage} className="object-cover w-full h-full" alt="profile photo"/>
+                        </div>
+                        <button className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <div className="bg-gray-500 opacity-50 rounded-full w-full h-full flex items-center justify-center">
+                            <input type="file" accept=".jpg, .jpeg, .png, .webp" className="w-full cursor-pointer h-full opacity-0 absolute" name="image" onChange={handleImageChange}/>
+                            <Pencil className="text-white" />
+                        </div>
+                        </button>
+                    </div>
                     <h2>Personal Information</h2>
                 </div>
             </div>
