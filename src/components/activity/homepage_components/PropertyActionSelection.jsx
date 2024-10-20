@@ -36,7 +36,7 @@ export function PropertyActionSelection() {
                         text="Publish a Property 🡥"
                         variant="border"
                         type="link"
-                        to={ROUTE_PATHS.CREATE_PROPERTY}
+                        to={`suru${ROUTE_PATHS.CREATE_PROPERTY}`}
                     />
                 </BasicCard>
                 <BasicCard

@@ -18,7 +18,7 @@ const initialNavigation = [
     { name: 'Home', href: ROUTE_PATHS.HOME, current: false, isLogin: true },
     {
         name: 'Partners',
-        href: ROUTE_PATHS.PARTNERS_ANGEL,
+        href: ROUTE_PATHS.PARTNERS,
         current: false,
         isLogin: true,
     },
@@ -45,11 +45,11 @@ const userNavigationLinks = [
     },
     {
         name: 'My properties',
-        to: ROUTE_PATHS.PROPERTY_MANAGEMENT,
+        to: `suru${ROUTE_PATHS.PROPERTY_MANAGEMENT}`,
         imageRoute: '/PropetiesIcon.svg',
     },
-    { name: 'My Appointments', to: ROUTE_PATHS.APPOINTMENTS, imageRoute: '/public/AppointmentsIcon.svg' },
-    { name: 'Log out', to: '#', imageRoute: '/public/LogoutIcon.svg' },
+    { name: 'My Appointments', to: ROUTE_PATHS.APPOINTMENTS, imageRoute: '/AppointmentsIcon.svg' },
+    { name: 'Log out', to: '#', imageRoute: '/LogoutIcon.svg' },
 ];
 
 function classNames(...classes) {

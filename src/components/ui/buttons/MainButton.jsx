@@ -42,7 +42,7 @@ export function MainButton({
         );
     } else if (type === 'link') {
         return (
-            <Link id={id} to={to} className={commonClasses}>
+            <Link id={id} to={to} className={commonClasses} onClick={onClick}>
                 {icon ? icon : text}
             </Link>
         );
