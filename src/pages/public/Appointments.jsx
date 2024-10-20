@@ -11,35 +11,22 @@ export function Appointments() {
     const [isFiltersOpen, setIsFiltersOpen] = useState(false);
     const [isRequestOpen, setIsRequestOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [currentStatus, setCurrentStatus] = useState('Cancelled');
-    const [filters, setFilters] = useState({
-        location: '',
-        date: '',
-        startTime: '',
-        endTime: ''
-    });
     const [openDropdownId, setOpenDropdownId] = useState(null);
     const axios = useAxios();
 
     useEffect(() => {
-        fetchAppointments(currentStatus, filters);
-    }, [currentStatus, filters]);
+        fetchAppointments(currentStatus);
+    }, [currentStatus]);
 
-    const fetchAppointments = (status, filters) => {
+    const fetchAppointments = (status) => {
         setLoading(true);
-        const params = {
-            status,
-            location: filters.location || undefined,
-            date: filters.date || undefined,
-            startTime: filters.startTime || undefined,
-            endTime: filters.endTime || undefined
-        };
-
         axios
-            .get('/appointments/user/2', { params })
+            .get(`/appointments/user/2/status/${status}`)
             .then((response) => {
                 setAppointments(response.data);
                 setLoading(false);
@@ -54,11 +41,6 @@ export function Appointments() {
         setCurrentStatus(newValue);
     };
 
-    const handleFiltersApply = (newFilters) => {
-        setFilters(newFilters);
-        setIsFiltersOpen(false);
-    };
-
     const handleFiltersClick = () => setIsFiltersOpen(true);
     const handleRequestModal = () => setIsRequestOpen(true);
 
@@ -71,7 +53,7 @@ export function Appointments() {
         setIsDeleteModalOpen(false);
     };
 
-    if (loading) return <p>Cargando citas...</p>;
+    //if (loading) return <p>Cargando citas...</p>;
     if (error) return <p>There are no appointments</p>;
 
     return (
@@ -233,7 +215,7 @@ export function Appointments() {
 
                     {/* Modales */}
                     <LayoutModal status={isFiltersOpen}>
-                        <FiltersAppointmentsModal handleModal={setIsFiltersOpen} onApplyFilters={handleFiltersApply} />
+                        <FiltersAppointmentsModal handleModal={setIsFiltersOpen} />
                     </LayoutModal>
 
                     <LayoutModal status={isRequestOpen}>
