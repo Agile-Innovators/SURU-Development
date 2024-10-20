@@ -48,7 +48,11 @@ const userNavigationLinks = [
         to: `suru${ROUTE_PATHS.PROPERTY_MANAGEMENT}`,
         imageRoute: '/PropetiesIcon.svg',
     },
-    { name: 'My Appointments', to: ROUTE_PATHS.APPOINTMENTS, imageRoute: '/AppointmentsIcon.svg' },
+    {
+        name: 'My Appointments',
+        to: ROUTE_PATHS.APPOINTMENTS,
+        imageRoute: '/AppointmentsIcon.svg',
+    },
     { name: 'Log out', to: '#', imageRoute: '/LogoutIcon.svg' },
 ];
 
@@ -60,10 +64,15 @@ export function NavBar() {
     const location = useLocation();
     const navigate = useNavigate();
     const { getUser, logout } = useAuth();
-    const user = getUser().user;
     const authToken = getUser().authToken;
     const axios = useAxios();
     const [navigation, setNavigation] = useState(initialNavigation);
+
+    const [currentUser, setCurrentUser] = useState(getUser().user);
+
+    useEffect(() => {
+        setCurrentUser(getUser().user);
+    }, [getUser()]); 
 
     useEffect(() => {
         const currentPath = location.pathname;
@@ -124,7 +133,7 @@ export function NavBar() {
                                         (item.isLogin ||
                                             (!item.isLogin &&
                                                 !authToken &&
-                                                !user)) && (
+                                                !currentUser)) && (
                                             <Link
                                                 key={item.name}
                                                 to={item.href}
@@ -136,8 +145,8 @@ export function NavBar() {
                                                         ? 'bg-light-blue hover:bg-cyan-600/85 border-none text-white hover:text-white' //Login button styles
                                                         : item.name ===
                                                             'Sign Up'
-                                                            ? 'bg-none text-gray-600 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-200 bg-gray-300 dark:bg-gray-700' // Sign Up button styles
-                                                            : '',
+                                                          ? 'bg-none text-gray-600 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-200 bg-gray-300 dark:bg-gray-700' // Sign Up button styles
+                                                          : '',
                                                     !item.isLogin
                                                         ? 'rounded-md hover:text-primary'
                                                         : '',
@@ -151,7 +160,7 @@ export function NavBar() {
                             </div>
                         </div>
                     </div>
-                    {authToken && user && (
+                    {authToken && currentUser && (
                         <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                             <button
                                 type="button"
@@ -171,7 +180,7 @@ export function NavBar() {
                                         </span>
                                         <img
                                             alt="User"
-                                            src={user.image_url}
+                                            src={currentUser.image_url}
                                             className="h-8 w-8 rounded-full"
                                         />
                                     </MenuButton>

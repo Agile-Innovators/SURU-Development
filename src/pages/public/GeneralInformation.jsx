@@ -1,32 +1,30 @@
 import { Input } from '../../components/ui/forms/Input';
 import { MainButton } from '../../components/ui/buttons/MainButton';
 import { useState, useEffect } from 'react';
-import { useFetchUser } from "../../components/hooks/useFetchUser";
-import { useAuth } from "../../global/AuthProvider";
+import { useFetchUser } from '../../components/hooks/useFetchUser';
+import { useAuth } from '../../global/AuthProvider';
 import { Pencil } from 'lucide-react';
 
 export function GeneralInformation() {
-
     const { getUser } = useAuth();
     const { user } = getUser();
-    const {
-        updateUserProfile,
-        getUserInformation,
-        loading,
-        error,
-        data
-    } = useFetchUser();
-    const [previewImage, setPreviewImage] = useState(user.image_url || "https://res.cloudinary.com/dvwtm566p/image/upload/v1728158504/users/dc8aagfamyqwaspllhz8.jpg");
-        
-    const [userData, setUserData] = useState(null); // Datos del usuario desde la API
+    const { updateUserProfile, getUserInformation, loading, error, data } = useFetchUser();
+
+    // Obtener el userData del contexto de autenticación
+    const [userData, setUserData] = useState(null); 
+
+    //const [userData, setUserData] = useState(null); // Datos del usuario desde la API
+    
     const [profileData, setProfileData] = useState({
-        name: "",
-        username: "",
-        lastname1: "",
-        lastname2: "",
-        email: "",
-        phone_number: ""
+        name: '',
+        username: '',
+        lastname1: '',
+        lastname2: '',
+        email: '',
+        phone_number: '',
+        image: user.image_url || 'https://res.cloudinary.com/dvwtm566p/image/upload/v1728158504/users/dc8aagfamyqwaspllhz8.jpg',
     });
+    
     const [isEditing, setIsEditing] = useState(false); // Estado para controlar si se está editando o no
 
     // Efecto para obtener la información del usuario
@@ -40,12 +38,13 @@ export function GeneralInformation() {
     useEffect(() => {
         if (data) {
             setProfileData({
-                name: data.name || "",
-                username: data.username || "",
-                lastname1: data.profile?.lastname1 || "",
-                lastname2: data.profile?.lastname2 || "",
-                email: data.email || "",
-                phone_number: data.phone_number || ""
+                name: data.name || '',
+                username: data.username || '',
+                lastname1: data.profile?.lastname1 || '',
+                lastname2: data.profile?.lastname2 || '',
+                email: data.email || '',
+                phone_number: data.phone_number || '',
+                image: data.image_url || '',
             });
             setUserData(data);
         }
@@ -54,31 +53,32 @@ export function GeneralInformation() {
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setPreviewImage(reader.result);
-          };
-          reader.readAsDataURL(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const preview = document.getElementById('previewImage');
+                preview.src = reader.result;
+            };
+            reader.readAsDataURL(file);
 
-          // Actualizar el estado de profileData con la nueva imagen
+            // Actualizar el estado de profileData con la nueva imagen
             setProfileData((prevState) => ({
                 ...prevState,
-                image: file
+                image: file,
             }));
         }
-      };
+    };
 
     // Sincronizar los datos obtenidos con profileData
     useEffect(() => {
         if (data) {
             setProfileData({
-                name: data.name || "",
-                username: data.username || "",
-                lastname1: data.profile?.lastname1 || "", 
-                lastname2: data.profile?.lastname2 || "", 
-                email: data.email || "",
-                phone_number: data.phone_number || "",
-                image: data.image_url || ""
+                name: data.name || '',
+                username: data.username || '',
+                lastname1: data.profile?.lastname1 || '',
+                lastname2: data.profile?.lastname2 || '',
+                email: data.email || '',
+                phone_number: data.phone_number || '',
+                image: data.image_url || '',
             });
             setUserData(data);
         }
@@ -89,7 +89,7 @@ export function GeneralInformation() {
         const { name, value } = e.target;
         setProfileData((prevState) => ({
             ...prevState,
-            [name]: value
+            [name]: value,
         }));
     };
 
@@ -99,45 +99,73 @@ export function GeneralInformation() {
             const formData = new FormData();
     
             for (const key in profileData) {
-                // Solo se envían los datos que no estén vacíos
                 if (profileData[key]) {
                     formData.append(key, profileData[key]);
                 }
             }
     
             formData.append('_method', 'PUT');
-            console.log([...formData]); // Mostrar los datos que se envían :p
+            console.log([...formData]); // Mostrar los datos que se envían
     
-            await updateUserProfile(user.id, formData); 
-            getUserInformation(user.id); 
+            const updatedUser = await updateUserProfile(user.id, formData);
+            
+            // Actualizar el estado de profileData con la nueva imagen
+            if (updatedUser?.image_url) {
+                setProfileData((prevState) => ({
+                    ...prevState,
+                    image: updatedUser.image_url, // Aquí se actualiza con la nueva URL
+                }));
+            }
+    
+            // Actualizar los datos del usuario
+            getUserInformation(user.id);
         }
-        setIsEditing(false); 
+        setIsEditing(false);
     };
+    
 
     const handleEditClick = () => {
-        setIsEditing((prev) => !prev); 
+        setIsEditing((prev) => !prev);
     };
 
     return (
-        <div className='p-4'>
-            <div className='flex justify-center'>
-                <div className='flex flex-col justify-center items-center gap-4'>
+        <div className="p-4">
+
+            <button onClick={() => console
+                .log(user)}
+            >Ver usuario</button>
+
+            <div className="flex justify-center">
+                <div className="flex flex-col justify-center items-center gap-4">
                     <div className="relative group w-48 mx-auto mt">
                         <div className="w-48 h-48 mx-auto rounded-full overflow-hidden">
-                                <img src={previewImage} className="object-cover w-full h-full" alt="profile photo"/>
+                            <img 
+                                id='previewImage'
+                                src={profileData.image}
+                                className="object-cover w-full h-full"
+                                alt={user.name}
+                            />
                         </div>
-                        <button className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                        <div className="bg-gray-500 opacity-50 rounded-full w-full h-full flex items-center justify-center">
-                            <input type="file" accept=".jpg, .jpeg, .png, .webp" className="w-full cursor-pointer h-full opacity-0 absolute" name="image" onChange={handleImageChange}/>
-                            <Pencil className="text-white" />
-                        </div>
-                        </button>
+                        {isEditing && (
+                            <button className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                <div className="bg-gray-700 opacity-50 rounded-full w-full h-full flex items-center justify-center">
+                                    <input
+                                        type="file"
+                                        accept=".jpg, .jpeg, .png, .webp"
+                                        className="w-full cursor-pointer h-full opacity-0 absolute"
+                                        name="image"
+                                        onChange={handleImageChange}
+                                    />
+                                    <Pencil className="text-white" />
+                                </div>
+                            </button>
+                        )}
                     </div>
                     <h2>Personal Information</h2>
                 </div>
             </div>
             <form onSubmit={handleProfileSubmit}>
-                <div className="grid grid-cols-1 gap-8 mt-4 sm:grid-cols-3">
+                <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2 md:grid-cols-3">
                     <Input
                         inputName="name"
                         inputId="name-input"
@@ -192,7 +220,7 @@ export function GeneralInformation() {
                 </div>
                 <div className="flex justify-end items-center mt-4">
                     {/* Botón para alternar entre Edit y Save */}
-                    {isEditing &&
+                    {isEditing && (
                         <MainButton
                             type="submit"
                             variant="fill"
@@ -200,23 +228,22 @@ export function GeneralInformation() {
                             customClass="h-12 items-center"
                             onClick={handleProfileSubmit}
                         />
-                    }
+                    )}
                 </div>
             </form>
             <div className="flex justify-end items-center mt-4">
-                {!isEditing &&
+                {!isEditing && (
                     <MainButton
                         type="button"
                         variant="fill"
                         text="Edit"
                         customClass="h-12 items-center"
                         onClick={handleEditClick}
-                    />}
+                    />
+                )}
             </div>
             {error && <p className="text-red-500">{error.message}</p>}
             {loading && <p>Loading...</p>}
         </div>
     );
 }
-
-

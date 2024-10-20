@@ -1,28 +1,27 @@
 import { useState } from 'react';
 import { useAxios } from './useAxios';
+import { useAuth } from '../../global/AuthProvider.jsx';
 
 export function useFetchUser() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [data, setData] = useState(null);
     const axios = useAxios();
+    const { updateUser } = useAuth();
 
     // Actualizar el perfil de usuario
     const updateUserProfile = async (userId, userData) => {
         setLoading(true);
-        console.log(userData);
-
+        console.log("Datos enviados update: ". userData);
         try {
-            const response = await axios.post(
-                `/user/update/${userId}`,
-                userData
-            );
-            console.log(response.data);
+            const response = await axios.post(`/user/update/${userId}`, userData);
             setData(response.data);
             setError(null);
+            // Retornar la respuesta completa en consola
+            console.log('Data respondida', response.data);
+
         } catch (error) {
             setError(error.response?.data);
-            console.log('Error', error.response?.data);
         } finally {
             setLoading(false);
         }
@@ -74,6 +73,9 @@ export function useFetchUser() {
         try {
             const response = await axios.get(`/user/${userId}`);
             setData(response.data);
+            console.log('Get user information:', response.data);
+            // Actualizar la información del usuario en el contexto de autenticación
+            updateUser(response.data);
             setError(null);
         } catch (error) {
             setError(error.response?.data);
