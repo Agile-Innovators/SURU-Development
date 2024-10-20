@@ -103,7 +103,7 @@ export function BaseFormsInfo({ fillData, initialData }) {
                         >
                             <option value="" disabled={!selectedLocation}>
                                 {selectedLocation
-                                    ? locations.find(location => String(location.value) === selectedLocation)?.name || 'Select a location'
+                                    ? locations.find(location => String(location.value) === selectedLocation)?.id || 'Select a location'
                                     : 'Select a location'}
                             </option>
                             {locations.map((location) => (

@@ -19,7 +19,7 @@ const HDSForm = ({
     return (
         <div>
             <SectionDivider text={title} />
-            <BaseFormsInfo fillData={fillData} initialData={initialData} />
+            <BaseFormsInfo fillData={fillData} initialData={initialData} fillUtilities={fillUtilities} />
             <div className="grid grid-cols-2 gap-4 my-4">
                 <InputForms
                     inputName="bedrooms"
@@ -117,28 +117,28 @@ const HDSForm = ({
                             text={'Electricity'}
                             handleSelectedValue={fillUtilities}
                             groupType={'individual'}
-                            isActivate={initialData?.services?.includes(1)}
+                            isActivate={initialData?.utilities?.includes(1)}
                             idValue={1}
                         />
                         <SecondaryFilterTag
                             text={'Water'}
                             handleSelectedValue={fillUtilities}
                             groupType={'individual'}
-                            isActivate={initialData?.services?.includes(2)}
+                            isActivate={initialData?.utilities?.includes(2)}
                             idValue={2}
                         />
                         <SecondaryFilterTag
                             text={'Wifi'}
                             handleSelectedValue={fillUtilities}
                             groupType={'individual'}
-                            isActivate={initialData?.services?.includes(4)}
+                            isActivate={initialData?.utilities?.includes(4)}
                             idValue={4}
                         />
                         <SecondaryFilterTag
                             text={'Cable TV'}
                             handleSelectedValue={fillUtilities}
                             groupType={'individual'}
-                            isActivate={initialData?.services?.includes(5)}
+                            isActivate={initialData?.utilities?.includes(5)}
                             idValue={5}
                         />
                     </div>

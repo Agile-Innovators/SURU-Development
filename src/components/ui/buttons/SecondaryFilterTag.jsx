@@ -1,5 +1,5 @@
-import { useState, useEffect, useContext } from 'react';
-import { globalProvider } from '../../../global/GlobalProvider';
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 export function SecondaryFilterTag({
     text,
@@ -10,8 +10,8 @@ export function SecondaryFilterTag({
     manageExternalState,
     fillData,
     id,
+    ...props
 }) {
-    // const { propTypeForm, propTransacTypeForm } = useContext(globalProvider);
     const [isChecked, setIsChecked] = useState(isActivate);
     const valueID = idValue;
 
@@ -26,48 +26,50 @@ export function SecondaryFilterTag({
         } else {
             setIsChecked((prevChecked) => {
                 const newChecked = !prevChecked;
-    
+
                 if (newChecked) {
                     if (handleSelectedValue) {
                         handleSelectedValue(valueID);
                     }
                     if (fillData) {
-                        fillData(true); // Cambiar a booleano
+                        fillData(1);
                     }
                 } else {
                     if (handleSelectedValue) {
                         handleSelectedValue(valueID, 'remove');
                     }
                     if (fillData) {
-                        fillData(false); // Cambiar a booleano
+                        fillData('0');
                     }
                 }
                 if (manageExternalState) {
                     manageExternalState(newChecked);
                 }
-    
+
                 return newChecked;
             });
         }
     };
-    
 
     return (
         <button
             type="button"
             id={id}
             onClick={(e) => handleEventButton(e)}
-            className={` flex justify-between gap-2 transition-colors duration-150 group border-2 border-gray-300 rounded-md p-2 hover:border-secondary ${
-                isChecked ? 'border-secondary hover:border-light-blue' : ''
-            } `}
+            className={`flex justify-between gap-2 transition-colors duration-150 group border-2 rounded-md p-2 
+                ${isChecked 
+                    ? 'border-secondary text-secondary' 
+                    : 'border-gray-250 text-white '}
+                hover:border-light-blue `}
+            {...props}
         >
             <span className="flex">
                 <span
-                    className={`group-hover:text-secondary ${
-                        isChecked
-                            ? 'text-secondary group-hover:text-light-blue'
-                            : ''
-                    }`}
+                    className={`transition-colors duration-150 
+                        ${isChecked 
+                            ? 'text-secondary' 
+                            : 'text-primary '} 
+                        group-hover:text-light-blue`}
                 >
                     {text}
                 </span>
@@ -79,12 +81,7 @@ export function SecondaryFilterTag({
                         checked={isChecked}
                         type="checkbox"
                         onChange={handleEventButton}
-                        className={`peer h-6 w-6 cursor-pointer transition-all appearance-none rounded-full bg-slate-100 shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800"
-                        id="check-custom-style  ${
-                            isChecked
-                                ? 'text-secondary group-hover:bg-light-blue'
-                                : ''
-                        }`}
+                        className={`peer h-6 w-6 cursor-pointer transition-all appearance-none rounded-full bg-slate-100  shadow hover:shadow-md border border-slate-300 checked:bg-cyan-700 checked:border-cyan-700`}
                     />
                     <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                         <svg
@@ -107,3 +104,27 @@ export function SecondaryFilterTag({
         </button>
     );
 }
+
+export default SecondaryFilterTag;
+
+SecondaryFilterTag.propTypes = {
+    text: PropTypes.string.isRequired,
+    idValue: PropTypes.number.isRequired,
+    groupType: PropTypes.string,
+    isActivate: PropTypes.bool,
+    handleSelectedValue: PropTypes.func,
+    manageExternalState: PropTypes.func,
+    fillData: PropTypes.func,
+    id: PropTypes.string,
+};
+
+SecondaryFilterTag.defaultProps = {
+    text: '',
+    idValue: 0,
+    groupType: 'GroupType',
+    isActivate: false,
+    handleSelectedValue: () => {},
+    manageExternalState: () => {},
+    fillData: () => {}, 
+    id: ''
+};

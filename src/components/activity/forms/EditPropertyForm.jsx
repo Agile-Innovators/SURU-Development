@@ -33,17 +33,14 @@ const EditPropertyForm = () => {
     const navigate = useNavigate();
     const axios = useAxios();
 
-    // Establecer el ID de usuario desde localStorage
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
             const userData = JSON.parse(storedUser);
             setUserId(userData.id);
-            console.log('User ID set to:', userData.id); // Depuración
         }
     }, []);
 
-    // Manejar el límite de imágenes
     useEffect(() => {
         const maxImages = 6;
         const totalImages = existing_images_id.length + images.length;
@@ -55,54 +52,45 @@ const EditPropertyForm = () => {
         }
     }, [images, existing_images_id.length, newImagePreviews]);
 
-    // Función para poblar el formulario con los datos de la propiedad
     const populateForm = useCallback((property) => {
-        console.log('Populating form with property:', property); // Depuración
-        const initialType = property.property_category_id || 1; // Valor por defecto
-        const initialTransaction = property.property_transaction_type_id || 1; // Valor por defecto
-
+        const initialType = property.property_category_id || 1;
+        const initialTransaction = property.property_transaction_id || 1;
+    
         setFilterPropType(initialType);
         setPropTypeForm(initialType);
-
+    
         setFilterPropTransaction(initialTransaction);
         setPropTransacTypeForm(initialTransaction);
-
+    
         setData({
             ...property,
-            city_id: property.city_id || '', // Asegúrate de que city_id esté en el objeto de propiedad
+            city_id: property.city_id || '', 
         });
-        setUtilities(property.utilities || []);
-
-        // Manejar imágenes existentes
+        setUtilities(property.utilities || []); // Corregido typo
+    
         if (property.images && property.images.length > 0) {
-            const existingPreviews = property.images.map((img) => img.url); // Ajusta según tu estructura de imágenes
+            const existingPreviews = property.images.map((img) => img.url);
             const existingIds = property.images.map((img) => img.id);
             setExistingImagePreviews(existingPreviews);
             setExistingImagesId(existingIds);
-            setImages([]); // Limpiar nuevas imágenes
-            setNewImagePreviews([]); // Limpiar previews de nuevas imágenes
+            setImages([]);
+            setNewImagePreviews([]);
         }
-
-        // Manejar campos que pueden ser nulos
+    
         if (property.furnished === undefined) {
             setData((prevData) => ({ ...prevData, furnished: 0 }));
         }
-        if (property.services === undefined) {
-            setData((prevData) => ({ ...prevData, services: [] }));
+        if (property.utilities === undefined) {
+            setData((prevData) => ({ ...prevData, utilities: [] })); // Corregido typo
         }
-
-        console.log('Data state set to:', property); // Depuración
     }, [setPropTypeForm, setPropTransacTypeForm]);
 
-    // Población del formulario con los datos de la propiedad seleccionada
     useEffect(() => {
         if (!isLoadingProps && properties.length > 0) {
-            const propertyToEdit = properties.find(
-                (prop) => prop.id === parseInt(id, 10)
-            );
+            const propertyToEdit = properties.find((prop) => prop.id === parseInt(id, 10));
             if (propertyToEdit) {
                 setSelectedProperty(propertyToEdit);
-                populateForm(propertyToEdit); // Ahora memoizado
+                populateForm(propertyToEdit);
             } else {
                 toast.error('Property not found');
                 navigate(ROUTE_PATHS.PROPERTY_MANAGEMENT);
@@ -110,33 +98,25 @@ const EditPropertyForm = () => {
         }
     }, [isLoadingProps, properties, id, navigate, populateForm]);
 
-    // Memoizar las funciones para evitar cambios en sus referencias
-    const handleFilterPropType = useCallback(
-        (filterId) => {
-            setFilterPropType(filterId);
-            setPropTypeForm(filterId);
-            setData({});
-            setUtilities([]);
-        },
-        [setPropTypeForm]
-    );
+    const handleFilterPropType = useCallback((filterId) => {
+        setFilterPropType(filterId);
+        setPropTypeForm(filterId);
+        setData({});
+        setUtilities([]);
+    }, [setPropTypeForm]);
 
-    const handleFilterPropTransaction = useCallback(
-        (id) => {
-            setFilterPropTransaction(id);
-            setPropTransacTypeForm(id);
-            setData({});
-            setUtilities([]);
-        },
-        [setPropTransacTypeForm]
-    );
+    const handleFilterPropTransaction = useCallback((id) => {
+        setFilterPropTransaction(id);
+        setPropTransacTypeForm(id);
+        setData({});
+        setUtilities([]);
+    }, [setPropTransacTypeForm]);
 
     const clearData = useCallback(() => {
         setData({});
     }, []);
 
-    const handleUtilitiesData = useCallback((value, method) => {
-        console.log(`Handling utility: ${value}, method: ${method}`); // Depuración
+    const handleUtilitiesData = (value, method) => {
         if (method === 'remove') {
             setUtilities((prevUtilities) =>
                 prevUtilities.filter((utility) => utility !== value)
@@ -144,10 +124,10 @@ const EditPropertyForm = () => {
         } else {
             setUtilities((prevUtilities) => [...prevUtilities, value]);
         }
-    }, []);
+    };
+    
 
     const handleInputChange = useCallback((key, value) => {
-        console.log(`Updating key: ${key} with value: ${value}`); // Depuración
         setData((prevData) => {
             let updatedData = { ...prevData, [key]: value };
             if (value === '' || value === null || value === undefined) {
@@ -158,17 +138,11 @@ const EditPropertyForm = () => {
         });
     }, []);
 
-    // Verificar cambios en data
-    useEffect(() => {
-        console.log('Current data state:', data); // Depuración
-    }, [data]);
-
     const handleImageChange = (event) => {
         const files = Array.from(event.target.files);
         const newImages = [...images];
         const newPreviews = [...newImagePreviews];
 
-        // Verificar el límite total de imágenes (existentes + nuevas)
         const maxImages = 6;
         const totalImages = existing_images_id.length + newImages.length + files.length;
         if (totalImages > maxImages) {
@@ -177,7 +151,6 @@ const EditPropertyForm = () => {
             const allowedFiles = files.slice(0, allowedNewImages);
             allowedFiles.forEach((file) => {
                 newImages.push(file);
-                console.log("Image uploaded:", file.name);
                 const reader = new FileReader();
                 reader.onloadend = () => {
                     setNewImagePreviews((prevPreviews) => [...prevPreviews, reader.result]);
@@ -186,13 +159,11 @@ const EditPropertyForm = () => {
             });
             setImages(newImages);
             event.target.value = '';
-          
         }
 
         files.forEach((file) => {
             if (newImages.length < maxImages - existing_images_id.length) {
                 newImages.push(file);
-                console.log("Image uploaded:", file.name);
                 const reader = new FileReader();
                 reader.onloadend = () => {
                     setNewImagePreviews((prevPreviews) => [...prevPreviews, reader.result]);
@@ -207,13 +178,11 @@ const EditPropertyForm = () => {
 
     const removeImage = (index, type) => {
         if (type === 'existing') {
-            // Eliminar de existing_images_id y existingImagePreviews
             const updatedExistingPreviews = existingImagePreviews.filter((_, i) => i !== index);
             const updatedExistingIds = existing_images_id.filter((_, i) => i !== index);
             setExistingImagePreviews(updatedExistingPreviews);
             setExistingImagesId(updatedExistingIds);
         } else if (type === 'new') {
-            // Eliminar de images y newImagePreviews
             const updatedNewPreviews = newImagePreviews.filter((_, i) => i !== index);
             const updatedNewImages = images.filter((_, i) => i !== index);
             setNewImagePreviews(updatedNewPreviews);
@@ -223,84 +192,62 @@ const EditPropertyForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Verificar el número mínimo de imágenes (existentes + nuevas)
-        if ((existing_images_id.length + images.length) < 3) {
-            toast.error("You must have at least 3 images in total");
-            
-        }
-
-        // Crear un objeto final con todos los datos necesarios
-        const finalData = {
-            ...data,
-
-            _method: "PUT",
-        };
-        console.log(data)
         
-
-        // Mostrar el objeto finalData en la consola para depuración
-        console.log('Final Data to submit:', finalData);
-
+        // Crear el objeto final de datos
+        const finalData = Object.keys(data).reduce((acc, key) => {
+            if (data[key] !== '' && data[key] !== null && data[key] !== undefined) {
+                acc[key] = data[key];
+            }
+            return acc;
+        }, {});
+        
+        finalData.property_transaction_type_id = filterPropTransaction || 1;
+        finalData.property_category_id = filterPropType || 1;
+        finalData.user_id = userId;
+        
+        finalData._method = "PUT";
+    
         const formData = new FormData();
 
-        // Añadir imagenes al FormData
-        images.forEach((image) => {
-            formData.append('images[]', image);
-        });
-      
+        // Añadir imágenes nuevas al FormData
+        images.forEach((image) => formData.append('images[]', image));
+    
         // Añadir IDs de imágenes existentes al FormData
-        existing_images_id.forEach((id) => {
-            formData.append('existing_images_id[]', id);
+        existing_images_id.forEach((id) => formData.append('existing_images_id[]', id));
+    
+        // *** Añadir utilidades al FormData ***
+        utilities.forEach((utility) => {
+            formData.append('utilities[]', utility);  // Aquí se añaden las utilidades
         });
-
+    
+        // Añadir los demás datos al FormData
         for (let key in finalData) {
             formData.append(key, finalData[key]);
         }
-
-        console.log("datos del form");
         
-
-        // Añadir utilidades al FormData
-        utilities.forEach((utility) => {
-            formData.append('utilities[]', utility);
-        });
-
-
-        for (let [key, value] of formData.entries()) {
-            console.log(`${key}:`, value);
-        }
-
         try {
             const response = await axios.post(`/properties/update/${id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-
-            // Manejar la respuesta correctamente
+    
             if (response.status === 200) {
-                toast.success('Property updated successfully'); // Mensaje de éxito
+                toast.success('Property updated successfully');
                 navigate(ROUTE_PATHS.PROPERTY_MANAGEMENT);
             } else {
                 toast.error('Error updating property');
             }
         } catch (error) {
-            // Manejar errores más detalladamente
             console.error('Update error:', error);
-            if (error.response && error.response.data && error.response.data.errors) {
-                // Mostrar errores de validación específicos
-                Object.entries(error.response.data.errors).forEach(([field, messages]) => {
-                    messages.forEach(message => {
-                        toast.error(`${field}: ${message}`);
-                    });
-                });
-            } else {
-                toast.error('An error occurred while updating the property');
-            }
+            toast.error('An error occurred while updating the property');
+            
         }
     };
-
+    
+    
+    
+    
     const renderFormulario = () => {
         if (!filterPropType || !filterPropTransaction) return null;
 
@@ -311,7 +258,7 @@ const EditPropertyForm = () => {
                     transactionType={filterPropTransaction}
                     fillData={handleInputChange}
                     fillUtilities={handleUtilitiesData}
-                    initialData={data} // Pasar initialData
+                    initialData={data}
                 />
             ),
             2: (
@@ -446,7 +393,7 @@ const EditPropertyForm = () => {
                                 text="Update Property"
                                 type="submit"
                                 variant="fill"
-                                disabled={false} // Puedes gestionar el estado de loading si lo deseas
+                                disabled={false}
                                 customClass="mt-4 w-full"
                             />
                         </form>
@@ -463,8 +410,7 @@ const EditPropertyForm = () => {
                             </label>
 
                             <p>
-                                Please upload an image file (JPG, JPEG, PNG, or
-                                WEBP). Max size: 5MB.
+                                Please upload an image file (JPG, JPEG, PNG, or WEBP). Max size: 5MB.
                             </p>
 
                             <input
