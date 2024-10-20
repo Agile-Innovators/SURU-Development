@@ -58,14 +58,12 @@ const EditPropertyForm = () => {
     // Función para poblar el formulario con los datos de la propiedad
     const populateForm = useCallback((property) => {
         console.log('Populating form with property:', property); // Depuración
-        const initialType = property.property_category_id || 1; // Selección automática de categoría de propiedad
-        const initialTransaction = property.property_transaction_type_id || 1; // Selección automática del tipo de transacción
+        const initialType = property.property_category_id || 1; // Valor por defecto
+        const initialTransaction = property.property_transaction_type_id || 1; // Valor por defecto
 
-        // Establecer automáticamente la categoría de propiedad
         setFilterPropType(initialType);
         setPropTypeForm(initialType);
 
-        // Establecer automáticamente el tipo de transacción
         setFilterPropTransaction(initialTransaction);
         setPropTransacTypeForm(initialTransaction);
 
@@ -188,6 +186,7 @@ const EditPropertyForm = () => {
             });
             setImages(newImages);
             event.target.value = '';
+          
         }
 
         files.forEach((file) => {
@@ -228,46 +227,46 @@ const EditPropertyForm = () => {
         // Verificar el número mínimo de imágenes (existentes + nuevas)
         if ((existing_images_id.length + images.length) < 3) {
             toast.error("You must have at least 3 images in total");
-            return; // Evitar continuar si hay menos de 3 imágenes
+            
         }
 
-        // Crear un objeto final con los datos de 'data' filtrados para excluir campos vacíos
-        const filteredData = Object.keys(data).reduce((acc, key) => {
-            if (data[key] !== '' && data[key] !== null && data[key] !== undefined) {
-                acc[key] = data[key];
-            }
-            return acc;
-        }, {});
+        // Crear un objeto final con todos los datos necesarios
+        const finalData = {
+            ...data,
 
-        // Añadir _method para actualizar (PUT)
-        filteredData._method = "PUT";
+            _method: "PUT",
+        };
+        console.log(data)
+        
 
-        // Mostrar el objeto filteredData en la consola para depuración
-        console.log('Filtered Data to submit:', filteredData);
+        // Mostrar el objeto finalData en la consola para depuración
+        console.log('Final Data to submit:', finalData);
 
         const formData = new FormData();
 
-        // Añadir imágenes nuevas al FormData
+        // Añadir imagenes al FormData
         images.forEach((image) => {
             formData.append('images[]', image);
         });
-
+      
         // Añadir IDs de imágenes existentes al FormData
         existing_images_id.forEach((id) => {
             formData.append('existing_images_id[]', id);
         });
 
-        // Añadir los datos filtrados al FormData
-        for (let key in filteredData) {
-            formData.append(key, filteredData[key]);
+        for (let key in finalData) {
+            formData.append(key, finalData[key]);
         }
+
+        console.log("datos del form");
+        
 
         // Añadir utilidades al FormData
         utilities.forEach((utility) => {
             formData.append('utilities[]', utility);
         });
 
-        // Mostrar los datos del formData en la consola para depuración
+
         for (let [key, value] of formData.entries()) {
             console.log(`${key}:`, value);
         }
@@ -301,7 +300,6 @@ const EditPropertyForm = () => {
             }
         }
     };
-
 
     const renderFormulario = () => {
         if (!filterPropType || !filterPropTransaction) return null;
