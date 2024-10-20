@@ -3,7 +3,6 @@ import { forceLightMode } from '../../components/hooks/utils.js';
 import { ThemeContext } from '../../global/ThemeContext.jsx';
 import { useEffect, useContext } from 'react';
 
-
 export function Login() {
     const { theme } = useContext(ThemeContext);
 
