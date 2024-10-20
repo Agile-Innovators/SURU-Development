@@ -1,35 +1,24 @@
 import { useState } from 'react';
 import { useAxios } from './useAxios';
+import { useAuth } from '../../global/AuthProvider.jsx';
 
 export function useFetchUser() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [data, setData] = useState(null);
     const axios = useAxios();
-
-    const config = {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    };
+    const { updateUser } = useAuth();
 
     // Actualizar el perfil de usuario
     const updateUserProfile = async (userId, userData) => {
         setLoading(true);
-        console.log(userData);
-
+        console.log("Datos enviados update: ". userData);
         try {
-            const response = await axios.put(
-                `/user/update/${userId}`,
-                userData,
-                config
-            );
-            console.log(response.data);
+            const response = await axios.post(`/user/update/${userId}`, userData);
             setData(response.data);
             setError(null);
         } catch (error) {
             setError(error.response?.data);
-            console.log('Error', error.response?.data);
         } finally {
             setLoading(false);
         }
@@ -42,12 +31,10 @@ export function useFetchUser() {
         try {
             const response = await axios.post(
                 `/user/${userId}/update-password`,
-                passwordData,
-                config
+                passwordData
             );
             
-            // Retornar la respuesta completa
-            return response.data; // Esto permite acceder a `response.message` en el manejador
+            return response.data; 
         } catch (error) {
             if (error.response && error.response.data) {
                 throw new Error(error.response.data.message || 'An unexpected error occurred.');
@@ -82,8 +69,13 @@ export function useFetchUser() {
     const getUserInformation = async (userId) => {
         setLoading(true);
         try {
-            const response = await axios.get(`/user/${userId}`); // Cambié para usar el userId dinámico
+            const response = await axios.get(`/user/${userId}`);
             setData(response.data);
+            console.log('Get user information:', response.data);
+
+            // Actualizar la información del usuario en el contexto de autenticación
+            updateUser(response.data);
+
             setError(null);
         } catch (error) {
             setError(error.response?.data);
