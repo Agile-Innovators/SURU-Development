@@ -9,12 +9,8 @@ export function GeneralInformation() {
     const { getUser } = useAuth();
     const { user } = getUser();
     const { updateUserProfile, getUserInformation, loading, error, data } = useFetchUser();
+    const [userData, setUserData] = useState(null);
 
-    // Obtener el userData del contexto de autenticación
-    const [userData, setUserData] = useState(null); 
-
-    //const [userData, setUserData] = useState(null); // Datos del usuario desde la API
-    
     const [profileData, setProfileData] = useState({
         name: '',
         username: '',
@@ -22,9 +18,11 @@ export function GeneralInformation() {
         lastname2: '',
         email: '',
         phone_number: '',
-        image: user.image_url || 'https://res.cloudinary.com/dvwtm566p/image/upload/v1728158504/users/dc8aagfamyqwaspllhz8.jpg',
+        image:
+            user.image_url ||
+            'https://res.cloudinary.com/dvwtm566p/image/upload/v1728158504/users/dc8aagfamyqwaspllhz8.jpg',
     });
-    
+
     const [isEditing, setIsEditing] = useState(false); // Estado para controlar si se está editando o no
 
     // Efecto para obtener la información del usuario
@@ -97,32 +95,30 @@ export function GeneralInformation() {
         e.preventDefault();
         if (user?.id) {
             const formData = new FormData();
-    
+
             for (const key in profileData) {
                 if (profileData[key]) {
                     formData.append(key, profileData[key]);
                 }
             }
-    
+
             formData.append('_method', 'PUT');
-            console.log([...formData]); // Mostrar los datos que se envían
-    
+            console.log([...formData]);
             const updatedUser = await updateUserProfile(user.id, formData);
-            
+
             // Actualizar el estado de profileData con la nueva imagen
             if (updatedUser?.image_url) {
                 setProfileData((prevState) => ({
                     ...prevState,
-                    image: updatedUser.image_url, // Aquí se actualiza con la nueva URL
+                    image: updatedUser.image_url,
                 }));
             }
-    
+
             // Actualizar los datos del usuario
             getUserInformation(user.id);
         }
         setIsEditing(false);
     };
-    
 
     const handleEditClick = () => {
         setIsEditing((prev) => !prev);
@@ -130,17 +126,12 @@ export function GeneralInformation() {
 
     return (
         <div className="p-4">
-
-            <button onClick={() => console
-                .log(user)}
-            >Ver usuario</button>
-
             <div className="flex justify-center">
                 <div className="flex flex-col justify-center items-center gap-4">
                     <div className="relative group w-48 mx-auto mt">
                         <div className="w-48 h-48 mx-auto rounded-full overflow-hidden">
-                            <img 
-                                id='previewImage'
+                            <img
+                                id="previewImage"
                                 src={profileData.image}
                                 className="object-cover w-full h-full"
                                 alt={user.name}
@@ -172,7 +163,7 @@ export function GeneralInformation() {
                         labelText="Name"
                         value={profileData.name}
                         onChange={handleChange}
-                        disabled={!isEditing} // Deshabilitar cuando no está en modo edición
+                        disabled={!isEditing}
                     />
 
                     <Input
@@ -181,7 +172,7 @@ export function GeneralInformation() {
                         labelText="First Lastname"
                         value={profileData.lastname1}
                         onChange={handleChange}
-                        disabled={!isEditing} // Deshabilitar cuando no está en modo edición
+                        disabled={!isEditing}
                     />
                     <Input
                         inputName="lastname2"
@@ -189,7 +180,7 @@ export function GeneralInformation() {
                         labelText="Second Lastname"
                         value={profileData.lastname2}
                         onChange={handleChange}
-                        disabled={!isEditing} // Deshabilitar cuando no está en modo edición
+                        disabled={!isEditing}
                     />
                     <Input
                         inputName="username"
@@ -197,7 +188,7 @@ export function GeneralInformation() {
                         labelText="Username"
                         value={profileData.username}
                         onChange={handleChange}
-                        disabled={!isEditing} // Deshabilitar cuando no está en modo edición
+                        disabled={!isEditing} 
                     />
                     <Input
                         inputName="email"
@@ -206,7 +197,7 @@ export function GeneralInformation() {
                         type="email"
                         value={profileData.email}
                         onChange={handleChange}
-                        disabled={!isEditing} // Deshabilitar cuando no está en modo edición
+                        disabled={!isEditing}
                     />
                     <Input
                         inputName="phone_number"
@@ -215,7 +206,7 @@ export function GeneralInformation() {
                         type="number"
                         value={profileData.phone_number}
                         onChange={handleChange}
-                        disabled={!isEditing} // Deshabilitar cuando no está en modo edición
+                        disabled={!isEditing}
                     />
                 </div>
                 <div className="flex justify-end items-center mt-4">
