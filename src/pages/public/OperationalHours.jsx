@@ -9,7 +9,7 @@ export function OperationalHours() {
                 <h2>Operational Hours</h2>
                 <p>Choose your prefere hours to receive appointments</p>
             </div>
-            <form className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-3">
+            <form className="grid gap-4 mt-4 grid-cols-auto-250">
                 {daysOfWeek.map((day) => (
                     <OperationalHourSelector
                         key={day}
