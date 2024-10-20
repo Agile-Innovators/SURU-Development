@@ -111,7 +111,7 @@ export function NavBar() {
                         <div className="flex flex-shrink-0 items-center">
                             <Link to={ROUTE_PATHS.HOME}>
                                 <img
-                                    alt="Your Company"
+                                    alt="Suru Logo"
                                     src="/Logo.svg"
                                     className="h-6 w-auto"
                                 />
@@ -171,7 +171,7 @@ export function NavBar() {
                                         </span>
                                         <img
                                             alt="User"
-                                            src="https://i.pinimg.com/564x/e8/d7/d0/e8d7d05f392d9c2cf0285ce928fb9f4a.jpg"
+                                            src={user.image_url}
                                             className="h-8 w-8 rounded-full"
                                         />
                                     </MenuButton>
