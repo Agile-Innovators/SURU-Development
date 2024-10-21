@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Tabs, Tab, Box, Button } from '@mui/material';
-import { Clock, MapPin, MoreHorizontal, Check, X, Eye } from 'lucide-react';
+import { Clock, MapPin, Check, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { FiltersAppointmentsModal } from '../../components/ui/modals/FiltersAppointmentsModal';
@@ -8,9 +8,12 @@ import { RequestAppointmentModal } from '../../components/ui/modals/RequestAppoi
 import { LayoutModal } from '../../components/ui/modals/LayoutModal';
 import { useAxios } from '../../components/hooks/useAxios';
 import Swal from 'sweetalert2';
+import { globalProvider } from '../../global/GlobalProvider';
+import { ROUTE_PATHS } from '../../routes';
+import { useContext } from 'react';
+
 
 export function Appointments() {
-    // Obtener el usuario logeado directamente de localStorage
     const user = JSON.parse(localStorage.getItem('user')) || null;
     const loggedInUserId = user?.id;
 
@@ -20,9 +23,14 @@ export function Appointments() {
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentStatus, setCurrentStatus] = useState('Scheduled');
-    const [openDropdownId, setOpenDropdownId] = useState(null);
     const axios = useAxios();
     const navigate = useNavigate();
+
+    const {
+        setPropertyID,
+    }=useContext(globalProvider);
+
+
 
     useEffect(() => {
         fetchAppointments(currentStatus);
@@ -34,6 +42,7 @@ export function Appointments() {
         axios
             .get(`/appointments/user/22/status/${status}`)
             .then((response) => {
+                console.log("Fetched Appointments:", response.data);
                 setAppointments(response.data || []);
                 setLoading(false);
             })
@@ -45,10 +54,6 @@ export function Appointments() {
 
     const handleTabChange = (event, newValue) => {
         setCurrentStatus(newValue);
-    };
-
-    const toggleDropdown = (appointmentId) => {
-        setOpenDropdownId((prevId) => (prevId === appointmentId ? null : appointmentId));
     };
 
     const confirmAppointment = (appointmentId, userId) => {
@@ -99,6 +104,44 @@ export function Appointments() {
         });
     };
 
+    const handleSelectChange = (appointment, event) => {
+        const action = event.target.value;
+        switch (action) {
+            case 'view':
+                showProperty(appointment.property_id);
+                break;
+            case 'confirm':
+                if (Number(appointment.owner_id) === Number(loggedInUserId) && currentStatus === "Pending") {
+                    confirmAppointment(appointment.id, loggedInUserId);
+                }
+                break;
+            case 'cancel':
+                cancelAppointment(appointment.id, loggedInUserId);
+                break;
+            default:
+                break;
+        }
+    };
+
+    const showProperty = (id) => {
+        setPropertyID(id);
+        console.log('ID HOME:', id);
+        navigate(ROUTE_PATHS.PROPERTY_DETAILS);
+    };
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
     const formatMonthYear = (dateString) => {
         const date = new Date(dateString);
         if (!isNaN(date.getTime())) {
@@ -116,43 +159,6 @@ export function Appointments() {
     const formatTimeRange = (startTime, endTime) => {
         if (!startTime || !endTime) return "Invalid Time";
         return `${startTime} — ${endTime}`;
-    };
-
-    const Navigate = (property_id) => {
-        navigate(`/property/${property_id}`); 
-    };
-
-    const renderMenuOptions = (appointment) => {
-        return (
-            <ul className="text-left">
-                <li
-                    className="px-4 py-2 hover:bg-gray-400 hover:text-white flex items-center gap-2 cursor-pointer"
-                    onClick={() => Navigate(appointment.property_id)}
-                >
-                    <Eye size={16} /> View Property
-                </li>
-                {currentStatus === "Pending" && appointment.owner_id === loggedInUserId && (
-                    <li
-                        className="px-4 py-2 hover:bg-green-500 hover:text-white flex items-center gap-2 cursor-pointer"
-                        onClick={() => {
-                            setOpenDropdownId(null);
-                            confirmAppointment(appointment.id, loggedInUserId);
-                        }}
-                    >
-                        <Check size={16} /> Confirm Appointment
-                    </li>
-                )}
-                <li
-                    className="px-4 py-2 hover:bg-red-500 hover:text-white flex items-center gap-2 cursor-pointer"
-                    onClick={() => {
-                        setOpenDropdownId(null);
-                        cancelAppointment(appointment.id, loggedInUserId);
-                    }}
-                >
-                    <X size={16} /> Cancel Appointment
-                </li>
-            </ul>
-        );
     };
 
     return (
@@ -231,18 +237,25 @@ export function Appointments() {
                                             <p>{appointment.user_message || "No extra comments were given"}</p>
                                         </div>
 
-                                        <div className="relative">
-                                            <button
-                                                className="flex items-center justify-center p-2 rounded-full hover:bg-gray-100"
-                                                onClick={() => toggleDropdown(appointment.id)}
+                                        <div className="relative gap-5 flex">
+                                            <select
+                                                className="p-2 border border-gray-300 rounded-md"
+                                                onChange={(event) => handleSelectChange(appointment, event)}
+                                                defaultValue=""
                                             >
-                                                <MoreHorizontal size={24} />
+                                                <option value="" disabled>Select Action</option>
+                                                {currentStatus === "Pending" && Number(appointment.owner_id) === Number(loggedInUserId) && (
+                                                    <option className='hover:bg-green-300' value="confirm">Confirm Appointment</option>
+                                                )}
+                                                <option value="cancel" className='hover:bg-red-300'>Cancel Appointment</option>
+                                            </select>
+
+                                            <button
+                                                className="text-secondary border-2 border-secondary hover:bg-secondary hover:text-white py-3 px-3"
+                                                onClick={() => showProperty(appointment.property_id)}
+                                            >
+                                                View Property
                                             </button>
-                                            {openDropdownId === appointment.id && (
-                                                <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-md shadow-lg z-10">
-                                                    {renderMenuOptions(appointment)}
-                                                </div>
-                                            )}
                                         </div>
                                     </motion.div>
                                 ))}
