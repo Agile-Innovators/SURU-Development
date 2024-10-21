@@ -12,7 +12,7 @@ import { SkeletonLoader } from '../../ui/SkeletonLoader.jsx';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useFetchUserFavoritesIDs } from './../../hooks/useFetchUserFavoritesIDs';
-// import { useAuth } from '../../../global/AuthProvider.jsx';
+import { useAuth } from '../../../global/AuthProvider.jsx';
 // import { getUser } from '../../../global/AuthProvider.jsx';
 
 export function PropertiesFilter() {
@@ -29,9 +29,10 @@ export function PropertiesFilter() {
     const { propertyCategories, isLoadingPropsCats } =
         useFetchPropertyCategories();
     const { properties, isLoadingProps } = useFetchProperties();
-    const { userFavoritesIDs, isLoadingFavoritesIDs } =
-        useFetchUserFavoritesIDs();
-        // const user = getUser().user;
+    const { userFavoritesIDs, isLoadingFavoritesIDs } = useFetchUserFavoritesIDs();
+    
+    const { getUser } = useAuth();
+    const user = getUser().user;
 
     const formatPrice = (price) => {
         if (price >= 1e9) return `${(price / 1e9).toFixed(1)}B`;
@@ -116,7 +117,7 @@ export function PropertiesFilter() {
                     qtyBathrooms={property.bathrooms ? property.bathrooms : 0}
                     qtyGarages={property.garages ? property.garages : 0}
                     key={property.id}
-                    isLiked={   userFavoritesIDs.includes(property.id)}
+                    //isLiked={user && userFavoritesIDs.includes(property.id)}
                     propertyId={property.id}
                     customClass={'m-auto'}
                 >
