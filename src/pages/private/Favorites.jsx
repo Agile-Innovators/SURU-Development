@@ -6,6 +6,7 @@ import { SkeletonLoader } from './../../components/ui/SkeletonLoader';
 import { globalProvider } from '../../global/GlobalProvider';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes';
+import BackButton from '../../components/ui/buttons/BackButton';
 
 export function Favorites() {
     const { userFavorites, isLoadingFavorites } = useFetchUserFavorites();
@@ -101,8 +102,12 @@ export function Favorites() {
 
     return (
         <section className="mx-auto max-w-7xl mb-10">
-            <h1 className="text-center mt-10">Favorite Properties</h1>
-            <div className="mt-5 grid grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-5">
+            
+            <div className='w-full flex mt-10 flex-wrap'>
+                <BackButton/>
+                <h1 className='m-auto text-center'>Favorite Properties</h1>
+            </div>
+            <div className="mt-10 grid grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-5">
                 {isLoadingFavorites
                     ? showLoaderCards()
                     : createProperties(favoritesProperties)}
