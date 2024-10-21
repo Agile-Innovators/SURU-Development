@@ -20,7 +20,6 @@ import { Preferences } from '../pages/public/Preferences.jsx';
 import { OperationalHours } from '../pages/public/OperationalHours.jsx';
 import { ChangePassword } from '../pages/public/ChangePassword.jsx';
 import { Favorites } from '../pages/private/Favorites.jsx';
-import CreateProperty from '../pages/private/CreateProperty.jsx';
 
 export function PublicRoutes() {
     return (
@@ -43,7 +42,7 @@ export function PublicRoutes() {
             <Route path={ROUTE_PATHS.REQUEST_APPOINTMENTS} element={<RequestAppointment />}/>
             <Route path="/*" element={ROUTE_PATHS.NOT_FOUND} />
             <Route path={ROUTE_PATHS.FAVORITES} element={<Favorites />} />
-            <Route path={ROUTE_PATHS.CREATE_PROPERTY} element={<CreateProperty />}/>        
+            
             <Route path={ROUTE_PATHS.USER_PROFILE} element={<UserProfile />}>
                 <Route path={ROUTE_PATHS.GENERAL_INFORMATION} element={<GeneralInformation />} />
                 <Route path={ROUTE_PATHS.PREFERENCES} element={<Preferences/>}/>
