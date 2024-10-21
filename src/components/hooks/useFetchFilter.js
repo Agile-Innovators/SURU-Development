@@ -7,8 +7,8 @@ export const useFetchFilter = () => {
     let response;
     const {
         regionId,
-        minPrice,
-        maxPrice,
+        // minPrice,
+        // maxPrice,
         propertyTypeId,
         isFilterUsed,
         setIsFilterUsed,
@@ -22,16 +22,16 @@ export const useFetchFilter = () => {
                 console.log(
                     'valores de entrada: ',
                     regionId,
-                    minPrice,
-                    maxPrice,
+                    // minPrice,
+                    // maxPrice,
                     propertyTypeId,
                     isFilterUsed
                 );
                 response = await axios.get('/properties/filter', {
                     params: {
                         regionId: regionId,
-                        minPrice: minPrice,
-                        maxPrice: maxPrice,
+                        // minPrice: minPrice,
+                        // maxPrice: maxPrice,
                         propertyCategoryId: propertyTypeId,
                     },
                 });

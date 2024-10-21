@@ -170,36 +170,36 @@ export function PropertiesFilter() {
         event.preventDefault();
         //obtener valor de los select
         const selectRegion = document.getElementById('select_regions').value;
-        const minPrice = document.getElementById('select_min_price').value;
-        const maxPrice = document.getElementById('select_max_price').value;
+        // const minPrice = document.getElementById('select_min_price').value;
+        // const maxPrice = document.getElementById('select_max_price').value;
         const propertyCategory =
             document.getElementById('select_props_cats').value;
 
-        console.log(selectRegion, minPrice, maxPrice, propertyCategory);
+        
 
         //validar si no se selecciono el precio maximo
-        if (maxPrice !== 'max') {
-            //verificar que el minPrice no sea mayor
-            if (minPrice > maxPrice) {
-                toast.error('min price must not be higher than the max price', {
-                    position: 'top-center',
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: 'light',
-                    transition: Bounce,
-                });
-                return;
-            }
-        }
+        // if (maxPrice !== 'max') {
+        //     //verificar que el minPrice no sea mayor
+        //     if (minPrice > maxPrice) {
+        //         toast.error('min price must not be higher than the max price', {
+        //             position: 'top-center',
+        //             autoClose: 3000,
+        //             hideProgressBar: true,
+        //             closeOnClick: true,
+        //             pauseOnHover: true,
+        //             draggable: true,
+        //             progress: undefined,
+        //             theme: 'light',
+        //             transition: Bounce,
+        //         });
+        //         return;
+        //     }
+        // }
 
         //cargar datos para el globalProvider
         setRegionId(selectRegion);
-        setMinPrice(minPrice);
-        setMaxPrice(maxPrice);
+        // setMinPrice(minPrice);
+        // setMaxPrice(maxPrice);
         setPropertyTypeId(propertyCategory);
         setIsFilterUsed(true);
 
@@ -255,7 +255,7 @@ export function PropertiesFilter() {
                         ? showLoaderSelect()
                         : createRegionsSelect(regions)}
 
-                    {isLoadingPropsCats ? (
+                    {/* {isLoadingPropsCats ? (
                         showLoaderSelect()
                     ) : (
                         <div className="w-full lg:w-auto flex flex-col">
@@ -282,8 +282,8 @@ export function PropertiesFilter() {
                                 )}
                             </select>
                         </div>
-                    )}
-                    {isLoadingPropsCats ? (
+                    )} */}
+                    {/* {isLoadingPropsCats ? (
                         showLoaderSelect()
                     ) : (
                         <div className="w-full lg:w-auto flex flex-col">
@@ -311,8 +311,8 @@ export function PropertiesFilter() {
                                 )}
                             </select>
                         </div>
-                    )}
-                    {/* <input type="range" /> */}
+                    )} */}
+              
                     {isLoadingPropsCats
                         ? showLoaderSelect()
                         : createPropsCatsSelect(propertyCategories)}

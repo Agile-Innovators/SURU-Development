@@ -101,7 +101,7 @@ export function Favorites() {
 
     return (
         <section className="mx-auto max-w-7xl mb-10">
-            <h1 className="text-center mt-10">Favorites Properties</h1>
+            <h1 className="text-center mt-10">Favorite Properties</h1>
             <div className="mt-5 grid grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-5">
                 {isLoadingFavorites
                     ? showLoaderCards()
