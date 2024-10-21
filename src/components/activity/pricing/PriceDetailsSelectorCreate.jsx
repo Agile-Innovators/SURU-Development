@@ -2,33 +2,29 @@ import { Input } from '../../ui/forms/Input';
 import SectionDivider from '../../ui/layout/SectionDivider';
 import { useEffect, useState } from 'react';
 
-export function PriceDetailsSelector({ transactionType, fillData, initialData }) {
-    const [currency, setCurrency] = useState(initialData?.currency_id || '1'); // Set default currency from initialData
-    const [paymentFrequency, setPaymentFrequency] = useState(initialData?.payment_frequency_id || '');
+export function PriceDetailsSelectorCreate({ transactionType, fillData }) {
+    const [currency, setCurrency] = useState('1');
+    const [paymentFrequency, setPaymentFrequency] = useState('');
 
-    // Cargar currency al renderizarse el componente
+    //cargar currency al renderizarse el componente
     useEffect(() => {
-        // Llenar datos si no hay initialData
-        if (!initialData) {
-            fillData('currency_id', currency);
-            fillData('payment_frequency_id', paymentFrequency);
-        } else {
-            // Si hay initialData, asegúrate de que se sincroniza con el estado
-            setCurrency(initialData.currency_id);
-            setPaymentFrequency(initialData.payment_frequency_id);
-        }
-    }, [initialData, currency, paymentFrequency, fillData]);
+        let currencyValueSelect =
+            document.getElementById('currencySelect').value;
+        fillData('currency_id', currencyValueSelect);
+    }, []);
 
-    // Actualizar todos los valores de los selects de currency
+    //actualizar todos los valores de los selects de currency
     const updateCurrencyForAllSelectors = (newCurrency) => {
         const container = document.getElementById('priceDetailsContainer');
-        const currencySelects = container.querySelectorAll('select.currencySelect');
+        const currencySelects = container.querySelectorAll(
+            'select.currencySelect'
+        );
         currencySelects.forEach((select) => {
             select.value = newCurrency;
         });
     };
 
-    // Manejar los cambios en los select de currency
+    //manejar los cambios en los select de currency
     const handleCurrencyChange = (e) => {
         const newCurrency = e.target.value;
         setCurrency(newCurrency);
@@ -37,9 +33,8 @@ export function PriceDetailsSelector({ transactionType, fillData, initialData })
     };
 
     const handlePaymentFrequency = (e) => {
-        const frequencyValue = e.target.value;
-        setPaymentFrequency(frequencyValue);
-        fillData('payment_frequency_id', frequencyValue);
+        setPaymentFrequency(e.target.value);
+        fillData('payment_frequency_id', e.target.value);
     };
 
     const createSaleSection = () => {
@@ -52,14 +47,13 @@ export function PriceDetailsSelector({ transactionType, fillData, initialData })
                     customClass={'h-12 w-full'}
                     required={true}
                     type={'number'}
-                    defaultValue={initialData?.price || ''} // Use initial price if available
                     onChange={(e) => fillData('price', e.target.value)}
                     min={0}
                 />
                 <select
                     id="currencySelect"
                     name={`currencySelect`}
-                    value={currency}
+                    defaultValue={currency}
                     onChange={handleCurrencyChange}
                     className="currencySelect w-fit h-12 mb-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                 >
@@ -81,14 +75,13 @@ export function PriceDetailsSelector({ transactionType, fillData, initialData })
                         customClass={'h-12 w-full'}
                         required={true}
                         type={'number'}
-                        defaultValue={initialData?.rent_price || ''} // Use initial rent price if available
                         onChange={(e) => fillData('rent_price', e.target.value)}
                         min={0}
                     />
                     <select
                         id="currencySelect"
                         name={`currencySelect`}
-                        value={currency}
+                        defaultValue={currency}
                         onChange={handleCurrencyChange}
                         className="currencySelect w-fit h-12 mb-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                     >
@@ -103,14 +96,15 @@ export function PriceDetailsSelector({ transactionType, fillData, initialData })
                         labelText={'Deposit'}
                         required={true}
                         type={'number'}
-                        defaultValue={initialData?.deposit_price || ''} // Use initial deposit price if available
-                        onChange={(e) => fillData('deposit_price', e.target.value)}
+                        onChange={(e) =>
+                            fillData('deposit_price', e.target.value)
+                        }
                         min={0}
                     />
                     <select
                         id="currencySelect"
                         name={`currencySelect`}
-                        value={currency}
+                        defaultValue={currency}
                         onChange={handleCurrencyChange}
                         className="currencySelect w-fit h-12 mb-2 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                     >
@@ -125,7 +119,7 @@ export function PriceDetailsSelector({ transactionType, fillData, initialData })
                         name={`select_frequency`}
                         value={paymentFrequency}
                         onChange={handlePaymentFrequency}
-                        className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                        className="w-full  p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                         required
                     >
                         <option value="" disabled>

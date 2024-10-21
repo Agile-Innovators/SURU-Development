@@ -19,6 +19,7 @@ import { GeneralInformation } from '../pages/public/GeneralInformation.jsx';
 import { Preferences } from '../pages/public/Preferences.jsx';
 import { OperationalHours } from '../pages/public/OperationalHours.jsx';
 import { ChangePassword } from '../pages/public/ChangePassword.jsx';
+import { EditProperty } from '../pages/public/EditProperty.jsx';
 import { Favorites } from '../pages/private/Favorites.jsx';
 
 export function PublicRoutes() {
@@ -39,6 +40,14 @@ export function PublicRoutes() {
             <Route path={ROUTE_PATHS.PARTNER_INTEGRATION_REQUEST} element={<PartnerIntegrationRequest />} />
             <Route path={ROUTE_PATHS.PROPERTY_DETAILS} element={<PropertyDetails />}/>
             <Route path={ROUTE_PATHS.APPOINTMENTS} element={<Appointments />} />
+            <Route
+                path={ROUTE_PATHS.REQUEST_APPOINTMENTS}
+                element={<RequestAppointment />}
+            />
+            <Route
+                path={ROUTE_PATHS.EDIT_PROPERTY}
+                element={<EditProperty />}
+            />
             <Route path={ROUTE_PATHS.REQUEST_APPOINTMENTS} element={<RequestAppointment />}/>
             <Route path="/*" element={ROUTE_PATHS.NOT_FOUND} />
             <Route path={ROUTE_PATHS.FAVORITES} element={<Favorites />} />

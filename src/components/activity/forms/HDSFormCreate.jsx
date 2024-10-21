@@ -1,25 +1,25 @@
 import SectionDivider from '../../ui/layout/SectionDivider';
-import BaseFormsInfo from '../pricing/BaseFormsInfo';
-import { InputFormsEdit } from '../../ui/forms/InputFormsEdit';
+import BaseFormsInfoCreate from '../pricing/BaseFormsInfoCreate';
+import { InputForms } from '../../ui/forms/InputForms';
 import { SecondaryFilterTag } from '../../ui/buttons/SecondaryFilterTag';
-import { PriceDetailsSelector } from '../pricing/PriceDetailsSelector';
+import { PriceDetailsSelectorCreate } from '../pricing/PriceDetailsSelectorCreate';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const HDSForm = ({
-    title,
-    transactionType,
-    fillData,
-    fillUtilities,
-    initialData,
-}) => {
-    console.log('HDSForm initialData:', initialData); // Para depuración
+const HDSFormCreate = ({ title, transactionType, fillData, fillUtilities }) => {
+    useEffect(() => {
+        if (fillData) {
+            fillData('pets_allowed', '0');
+            fillData('green_area', '0');
+        }
+    }, []);
 
     return (
         <div>
             <SectionDivider text={title} />
-            <BaseFormsInfo fillData={fillData} initialData={initialData} />
+            <BaseFormsInfoCreate fillData={fillData} />
             <div className="grid grid-cols-2 gap-4 my-4">
-                <InputFormsEdit
+                <InputForms
                     inputName="bedrooms"
                     inputId="bedroomsInput"
                     type="number"
@@ -28,9 +28,8 @@ const HDSForm = ({
                     required={true}
                     min={0}
                     max={15}
-                    value={initialData?.bedrooms ?? ''}
                 />
-                <InputFormsEdit
+                <InputForms
                     inputName="bathrooms"
                     inputId="bathroomsInput"
                     type="number"
@@ -39,9 +38,8 @@ const HDSForm = ({
                     required={true}
                     min={0}
                     max={15}
-                    value={initialData?.bathrooms ?? ''}
                 />
-                <InputFormsEdit
+                <InputForms
                     inputName="floors"
                     inputId="floorsInput"
                     type="number"
@@ -50,9 +48,8 @@ const HDSForm = ({
                     required={true}
                     min={0}
                     max={3}
-                    value={initialData?.floors ?? ''}
                 />
-                <InputFormsEdit
+                <InputForms
                     inputName="pools"
                     inputId="poolsInput"
                     type="number"
@@ -61,9 +58,8 @@ const HDSForm = ({
                     required={true}
                     min={0}
                     max={3}
-                    value={initialData?.pools ?? ''}
                 />
-                <InputFormsEdit
+                <InputForms
                     inputName="garages"
                     inputId="garagesInput"
                     type="number"
@@ -72,10 +68,9 @@ const HDSForm = ({
                     required={true}
                     min={0}
                     max={3}
-                    value={initialData?.garages ?? ''}
                 />
-                <InputFormsEdit
-                    inputName="size_in_m2"
+                <InputForms
+                    inputName="Size"
                     inputId="sizeInput"
                     type="number"
                     labelText="Size"
@@ -83,30 +78,30 @@ const HDSForm = ({
                     onChange={(value) => fillData('size_in_m2', value)}
                     required={true}
                     min={0}
-                    value={initialData?.size_in_m2 ?? ''}
                 />
 
                 <SecondaryFilterTag
+                    id={'petsAllowedInput'}
                     text={'Pets allowed'}
                     groupType={'individual'}
-                    isActivate={initialData?.pets_allowed === 1} // Comparar con número
+                    isActivate={false}
                     fillData={(value) => fillData('pets_allowed', value)}
                 />
                 <SecondaryFilterTag
                     text={'Green Area'}
                     groupType={'individual'}
-                    isActivate={initialData?.green_area === 1} // Comparar con número
+                    isActivate={false}
                     fillData={(value) => fillData('green_area', value)}
                 />
                 <SecondaryFilterTag
                     text={'Furnished'}
                     handleSelectedValue={fillUtilities}
                     groupType={'individual'}
-                    isActivate={false} // Ajuste para depender de initialData
+                    isActivate={false}
                     idValue={3}
                 />
             </div>
-
+            {/* Transaction type: 2 == rent, 3 == both */}
             {(transactionType === 2 || transactionType === 3) && (
                 <>
                     <SectionDivider text="Include services" />
@@ -115,48 +110,48 @@ const HDSForm = ({
                             text={'Electricity'}
                             handleSelectedValue={fillUtilities}
                             groupType={'individual'}
-                            isActivate={initialData?.utilities?.includes(1)}
+                            isActivate={false}
                             idValue={1}
                         />
                         <SecondaryFilterTag
                             text={'Water'}
                             handleSelectedValue={fillUtilities}
                             groupType={'individual'}
-                            isActivate={initialData?.utilities?.includes(2)}
+                            isActivate={false}
                             idValue={2}
                         />
                         <SecondaryFilterTag
                             text={'Wifi'}
                             handleSelectedValue={fillUtilities}
                             groupType={'individual'}
-                            isActivate={initialData?.utilities?.includes(4)}
+                            isActivate={false}
                             idValue={4}
                         />
                         <SecondaryFilterTag
                             text={'Cable TV'}
                             handleSelectedValue={fillUtilities}
                             groupType={'individual'}
-                            isActivate={initialData?.utilities?.includes(5)}
+                            isActivate={false}
                             idValue={5}
                         />
                     </div>
                 </>
             )}
-            <PriceDetailsSelector
+            <PriceDetailsSelectorCreate
                 transactionType={transactionType}
                 fillData={fillData}
-                initialData={initialData}
             />
         </div>
     );
 };
 
-HDSForm.propTypes = {
+HDSFormCreate.propTypes = {
     title: PropTypes.string.isRequired,
     transactionType: PropTypes.number.isRequired,
     fillData: PropTypes.func.isRequired,
     fillUtilities: PropTypes.func.isRequired,
-    initialData: PropTypes.object, // Añadido
+    propertyType: PropTypes.number.isRequired,
+    clearData: PropTypes.func.isRequired,
 };
 
-export default HDSForm;
+export default HDSFormCreate;

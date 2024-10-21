@@ -22,7 +22,7 @@ export function MainButton({
 
     let commonClasses = `block text-center px-8 py-3 rounded-md transition-colors duration-150 cursor-pointer ${variantClasses[variant]} ${customClass}`;
 
-    //manejar el onClick más dinamico ya que no permite agreagr otras funciones
+    //manejar el onClick mÃ¡s dinamico ya que no permite agreagr otras funciones
     // const handleClick = () => {
     //   if (onClick) {
     //     onClick(id); // Retorna el id al hacer clic
