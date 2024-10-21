@@ -229,7 +229,7 @@ export function Appointments() {
                                             </div>
                                             <div className="flex items-center space-x-2">
                                                 <MapPin size={16} className="text-gray-500" />
-                                                <span>Property ID: {appointment.property_id}</span>
+                                                <span>{appointment.property.city_name}</span>
                                             </div>
                                         </div>
 
