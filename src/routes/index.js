@@ -8,10 +8,9 @@ export const ROUTE_PATHS = {
     RESET_PASSWORD: '/reset-password',
     CONFIRM_PASSWORD: '/confirm-password',
     CREATE_PROPERTY: '/create-property',
-    PARTNERS: '/partners',
     SEARCH: '/search',
     NOT_FOUND: '/*',
-    PARTNERS_ANGEL: '/partners-angel',
+    PARTNERS: '/partners',
     PROPERTY_MANAGEMENT: '/property-management',
     PARTNER_INTEGRATION_REQUEST: '/partner-integration-request',
     PROPERTY_DETAILS: '/property-details',
@@ -23,4 +22,5 @@ export const ROUTE_PATHS = {
     OPERATIONAL_HOURS: '/user-profile/operational-hours',
     CHANGE_PASSWORD: '/user-profile/change-password',
     EDIT_PROPERTY: '/edit-property/:id',
+    FAVORITES: '/favorites',
 };

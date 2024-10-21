@@ -23,14 +23,14 @@ export function MainFilterTag({
         <button
             onClick={() => handleEventButton()}
             className={`transition-colors duration-150 group border-2 rounded-md p-2 relative hover:border-light-blue 
-                ${isChecked ? 'border-light-blue text-light-blue' : 'border-white text-white dark:border-gray-600 dark:text-gray-300'} 
+                ${isChecked ? 'border-light-blue text-light-blue' : 'border-light-grey text-secondary dark:border-gray-600 dark:text-gray-300'} 
                 dark:hover:border-light-blue`}
         >
             <span className="flex flex-col items-start gap-3">
                 {icon && (
                     <span
                         className={`transition-colors duration-150 
-                            ${isChecked ? 'text-light-blue' : 'text-white dark:text-gray-300'} 
+                            ${isChecked ? 'text-light-blue' : 'text-secondary dark:text-gray-300'} 
                             group-hover:text-light-blue`}
                     >
                         {icon}
@@ -38,7 +38,7 @@ export function MainFilterTag({
                 )}
                 <span
                     className={`transition-colors duration-150 
-                        ${isChecked ? 'text-light-blue' : 'text-white dark:text-gray-300'} 
+                        ${isChecked ? 'text-light-blue' : 'text-secondary dark:text-gray-300'} 
                         group-hover:text-light-blue`}
                 >
                     {text}

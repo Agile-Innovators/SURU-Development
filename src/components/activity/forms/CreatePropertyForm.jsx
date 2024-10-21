@@ -17,8 +17,7 @@ import { BackButton } from '../../ui/buttons/BackButton';
 
 const CreatePropertyForm = () => {
     const axios = useAxios();
-    const { setPropTypeForm, setPropTransacTypeForm } =
-        useContext(globalProvider);
+    const { setPropTypeForm, setPropTransacTypeForm } = useContext(globalProvider);
     const [images, setImages] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
     const [data, setData] = useState({});
@@ -33,7 +32,6 @@ const CreatePropertyForm = () => {
         if (data) {
             const userData = JSON.parse(data);
             setUserId(userData.id);
-            console.log(userData.id);
         }
     });
 

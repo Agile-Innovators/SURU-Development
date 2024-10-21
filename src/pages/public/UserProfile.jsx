@@ -34,7 +34,7 @@ export function UserProfile() {
     };
 
     return (
-        <div className="h-full m-auto max-w-7xl p-4">
+        <div className="h-full m-auto max-w-7xl p-4 min-h-[80vh]">
             <div className="text-start mb-6">
                 <h1>Profile</h1>
             </div>
@@ -44,7 +44,11 @@ export function UserProfile() {
                         {sections.map((section) => (
                             <li
                                 key={section.id}
-                                className={`flex cursor-pointer rounded-md gap-2 p-2 transition-all duration-300 hover:shadow-md hover:border-gray-300 hover:scale-105 ${location.pathname.includes(section.to) ? 'bg-gray-100 ' : ''}`}
+                                className={`flex cursor-pointer rounded-md gap-2 p-2 transition-all duration-300 hover:shadow-md hover:border-gray-300 hover:brightness-[.85] dark:hover:brightness-150 ${
+                                    location.pathname.includes(section.to) 
+                                        ? 'bg-[#d5d9e2] dark:bg-[#4d607c] text-black dark:text-gray-300'  // Activo: gris claro en modo claro, gris oscuro en modo oscuro con texto blanco
+                                        : 'bg-gray-100 text-black dark:bg-gray-800 dark:text-gray-300'  // Inactivo: gris claro, o gris más oscuro en modo oscuro
+                                }`}
                             >
                                 <Link to={section.to} className="flex items-center gap-2">
                                     {section.icon} {section.label}

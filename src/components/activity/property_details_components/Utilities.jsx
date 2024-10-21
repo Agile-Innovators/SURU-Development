@@ -8,10 +8,11 @@ const FloorsIcon = () => (
         height="40"
         viewBox="0 0 24 24"
         fill="none"
-        stroke="#000000"
+        stroke="currentColor"
         strokeWidth="1.75"
         strokeLinecap="round"
         strokeLinejoin="round"
+        className="dark:stroke-white"
     >
         <rect width="10" height="4" x="2" y="16" />
         <rect width="10" height="4" x="4" y="12" />
@@ -29,10 +30,11 @@ const PoolIcon = () => (
         height="40"
         viewBox="0 0 24 24"
         fill="none"
-        stroke="#000000"
+        stroke="currentColor"
         strokeWidth="1.75"
         strokeLinecap="round"
         strokeLinejoin="round"
+        className="dark:stroke-white"
     >
         <path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
         <path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" />
@@ -46,8 +48,7 @@ const featuresData = [
     { icon: Bath, label: 'bathrooms', valueKey: 'bathrooms' },
     { icon: FloorsIcon, label: 'floors', valueKey: 'floors' }, // SVG personalizado
     { icon: PoolIcon, label: 'pools', valueKey: 'pools' },     // SVG personalizado
-    { icon: Trees, label: 'backyards', valueKey: 'backyards',  },
-    // { icon: PawPrint, label: 'pets', value: 'Allows', defaultValue: 'Does not allow' },
+    { icon: Trees, label: 'backyards', valueKey: 'backyards'  },
     { icon: LandPlot, label: 'm²', valueKey: 'size_in_m2' }
 ];
 
@@ -62,16 +63,16 @@ export function PropertyFeatures({ property }) {
                             width="40"
                             height="40"
                             fill="none"
-                            stroke="#000"
+                            stroke="currentColor"
                             strokeWidth="1.75"
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            className={`lucide lucide-${Icon.toLowerCase()}`}
+                            className="dark:stroke-white"
                         >
-                            
+                            {/* SVG Content */}
                         </svg>
                     ) : (                        
-                        <Icon size={40} strokeWidth={1.5}/>
+                        <Icon size={40} strokeWidth={1.5} className="dark:stroke-white"/>
                     )}
                     <div className="flex items-baseline space-x-1">
                         <b className="font-bold">

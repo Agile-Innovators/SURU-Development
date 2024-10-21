@@ -21,7 +21,7 @@ export function BasicCard({
             {icon ? (
                 <div className="icon w-24 h-24">{icon}</div>
             ) : (
-                <img className="w-24 h-24" src={src} alt="image card" />
+                <img className="w-24 h-24 dark:invert" src={src} alt="image card" />
             )}
             <h3>{title}</h3>
             <p>{text}</p>

@@ -1,17 +1,33 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useAddFavoriteProperty } from '../../hooks/useAddFavoriteProperty';
+import { useRemoveFavoriteProperty } from '../../hooks/useRemoveFavoriteProperty';
 
-export function LikeButton() {
-    const [liked, setLiked] = useState(false);
+export function LikeButton({isLiked, propertyId, refreshFavorites}) {
+    const [liked, setLiked] = useState(isLiked );
+    const { addFavoriteProperty } = useAddFavoriteProperty();
+    const { removeFavoriteProperty } = useRemoveFavoriteProperty();
 
     // Función que alterna el estado
     const handleLike = () => {
-        setLiked(!liked);
+        setLiked((prev) => {
+            const newLiked = !prev; 
+            if (newLiked) {
+                addFavoriteProperty(propertyId); 
+            } else {
+                removeFavoriteProperty(propertyId);
+
+                if(refreshFavorites){
+                    refreshFavorites(propertyId)
+                } 
+            }
+            return newLiked; 
+        }); 
     };
 
     return (
         <button
             onClick={handleLike}
-            className={`absolute top-2 right-2 z-10 items-center px-2 py-2  rounded-full   transition duration-300 ease-in-out transform hover:scale-105 ${liked ? 'bg-indigo-950 text-white' : 'bg-gray-300 text-black'
+            className={`absolute top-2 right-2 z-10 items-center px-2 py-2  rounded-full   transition duration-300 ease-in-out transform hover:scale-105 ${liked ? 'bg-cyan-900 text-white' : 'bg-gray-300 text-black'
                 }`}
         >
             {liked ? (

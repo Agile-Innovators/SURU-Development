@@ -7,10 +7,13 @@ export default function AuthProvider({ children }) {
     const [authToken, setAuthToken] = useState(
         () => localStorage.getItem('authToken') || null
     );
+
     const [user, setUser] = useState(() => {
         const savedUser = localStorage.getItem('user');
         return savedUser ? JSON.parse(savedUser) : null;
     });
+
+    const [isSessionExpired, setIsSessionExpired] = useState(false);
 
     useEffect(() => {
         authToken
@@ -27,6 +30,7 @@ export default function AuthProvider({ children }) {
     const login = (token, userInfo) => {
         setAuthToken(token);
         setUser(userInfo);
+        setIsSessionExpired(false);
     };
 
     const logout = () => {
@@ -42,8 +46,13 @@ export default function AuthProvider({ children }) {
         return { user, authToken };
     };
 
+    const updateUser = (userData) => {
+        setUser(userData);
+        console.log('User updated with new data from:', user);
+    };
+
     return (
-        <AuthContext.Provider value={{ login, logout, getAuthToken, getUser }}>
+        <AuthContext.Provider value={{ login, logout, getAuthToken, getUser, updateUser, isSessionExpired, setIsSessionExpired }}>
             {children}
         </AuthContext.Provider>
     );
