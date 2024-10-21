@@ -107,6 +107,7 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
         }
         //rent and dual transaction
         if (propertyTransaction == 2 || propertyTransaction == 3) {
+            console.log("rent")
             payload = {
                 ...payload,
                 rentPrice: rentPrice,
@@ -137,7 +138,8 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
             }
         }
 
-        if (maxPrice !== 'max') {
+        console.log(propertyTransaction)
+        if (maxPrice !== 'max' && propertyTransaction != 2 ) {
             if (minPrice >= maxPrice) {
                 toast.error('min price must not be higher than the max price', {
                     position: 'top-center',
