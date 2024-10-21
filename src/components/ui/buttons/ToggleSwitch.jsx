@@ -1,36 +1,43 @@
 import { useState } from 'react';
 
-export function ToggleSwitch() {
-    const [isChecked, setIsChecked] = useState(false);
-
-    const handleCheckboxChange = () => {
-        setIsChecked(!isChecked);
-    };
-
+export function ToggleSwitch({ checked, onChange, disabled = false }) {
     return (
-        <label className="flex cursor-pointer select-none items-center">
+        <label
+            className={`flex items-center select-none ${
+                disabled ? 'cursor-not-allowed' : 'cursor-pointer'
+            }`}
+        >
             <label
-                className="w-20 text-left cursor-pointer font-primary text-gray-700 dark:text-gray-300"
-                onClick={() => handleCheckboxChange()}
+                className={`w-20 text-left font-primary text-gray-700 dark:text-gray-300 ${
+                    disabled ? 'cursor-not-allowed' : 'cursor-pointer'
+                }`}
+                onClick={!disabled ? onChange : undefined}
             >
-                Avalaible
+                Available
             </label>
             <div className="relative">
                 <input
                     type="checkbox"
-                    checked={isChecked}
-                    onChange={handleCheckboxChange}
+                    checked={checked}
+                    onChange={!disabled ? onChange : undefined}
                     className="sr-only"
+                    disabled={disabled}
                 />
-                <div className="block h-8 w-14 rounded-full bg-gray-300 dark:bg-gray-600"></div>
+                <div
+                    className={`block h-8 w-14 rounded-full ${
+                        disabled
+                            ? 'bg-gray-400 dark:bg-gray-500'
+                            : 'bg-gray-300 dark:bg-gray-600'
+                    }`}
+                ></div>
                 <div
                     className={`dot absolute left-[.2rem] top-1 flex h-6 w-6 items-center justify-center rounded-full bg-white dark:bg-gray-100 transition-transform ${
-                        isChecked
+                        checked
                             ? 'translate-x-6 bg-blue-900 dark:bg-blue-500'
                             : 'translate-x-0'
                     }`}
                 >
-                    {isChecked ? (
+                    {checked ? (
                         <span className="active">
                             <svg
                                 width="11"
@@ -69,3 +76,4 @@ export function ToggleSwitch() {
         </label>
     );
 }
+

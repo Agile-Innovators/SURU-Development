@@ -20,7 +20,7 @@ export function OperationalHourSelector({ day, bgColor, textColor }) {
                         name={`${day}-min-hour`}
                         min="06:00"
                         max="20:00"
-                        className=" time-input p-1 border w-full text-black  dark:text-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                        className=" time-input p-1 border w-full text-black  dark:text-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-100"
                     />
                 </div>
                 <div className="grid grid-cols-[60px,1fr] gap-2 items-center w-full">
@@ -31,7 +31,7 @@ export function OperationalHourSelector({ day, bgColor, textColor }) {
                         name={`${day}-min-hour`}
                         min="06:00"
                         max="20:00"
-                        className=" time-input w-full p-1 border text-black dark:text-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                        className="time-input w-full p-1 border text-black bg-transparent dark:text-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-100"
                     />
                 </div>
             </div>

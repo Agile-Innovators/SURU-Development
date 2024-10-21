@@ -1,12 +1,12 @@
 import { X, House, Hotel, Warehouse, Store, Fence } from 'lucide-react';
 import { useState, useContext, useEffect } from 'react';
-import SectionDivider from '../../ui/layout/SectionDivider';
-import { MainButton } from '../../ui/buttons/MainButton';
+import SectionDivider from '../../ui/layout/SectionDivider.jsx';
+import { MainButton } from '../../ui/buttons/MainButton.jsx';
 import HDSForm from './HDSForm';
-import RetailSpaceForm from './RetailSpaceForm';
+import RetailSpaceForm from './RetailSpaceForm.jsx';
 import { useAxios } from '../../hooks/useAxios';
-import { MainFilterTag } from '../../ui/buttons/MainFilterTag';
-import { SecondaryFilterTag } from '../../ui/buttons/SecondaryFilterTag';
+import { MainFilterTag } from '../../ui/buttons/MainFilterTag.jsx';
+import { SecondaryFilterTag } from '../../ui/buttons/SecondaryFilterTag.jsx';
 import { BareLandForm } from './BareLandForm';
 import { globalProvider } from '../../../global/GlobalProvider';
 import { useNavigate } from 'react-router-dom';
@@ -17,8 +17,7 @@ import { BackButton } from '../../ui/buttons/BackButton';
 
 const CreatePropertyForm = () => {
     const axios = useAxios();
-    const { setPropTypeForm, setPropTransacTypeForm } =
-        useContext(globalProvider);
+    const { setPropTypeForm, setPropTransacTypeForm } = useContext(globalProvider);
     const [images, setImages] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
     const [data, setData] = useState({});

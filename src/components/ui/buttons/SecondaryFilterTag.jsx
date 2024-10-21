@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 export function SecondaryFilterTag({
     text,
@@ -80,7 +81,7 @@ export function SecondaryFilterTag({
                         checked={isChecked}
                         type="checkbox"
                         onChange={handleEventButton}
-                        className={`peer h-6 w-6 cursor-pointer transition-all appearance-none rounded-full bg-slate-100 dark:bg-gray-800 shadow hover:shadow-md border border-slate-300 checked:bg-light-blue checked:border-light-blue`}
+                        className={`peer h-6 w-6 cursor-pointer transition-all appearance-none rounded-full bg-slate-100 dark:bg-gray-800 shadow hover:shadow-md border border-slate-300 checked:bg-cyan-700 checked:border-cyan-700`}
                     />
                     <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                         <svg
@@ -103,3 +104,27 @@ export function SecondaryFilterTag({
         </button>
     );
 }
+
+export default SecondaryFilterTag;
+
+SecondaryFilterTag.propTypes = {
+    text: PropTypes.string.isRequired,
+    idValue: PropTypes.number.isRequired,
+    groupType: PropTypes.string,
+    isActivate: PropTypes.bool,
+    handleSelectedValue: PropTypes.func,
+    manageExternalState: PropTypes.func,
+    fillData: PropTypes.func,
+    id: PropTypes.string,
+};
+
+SecondaryFilterTag.defaultProps = {
+    text: '',
+    idValue: 0,
+    groupType: 'GroupType',
+    isActivate: false,
+    handleSelectedValue: () => {},
+    manageExternalState: () => {},
+    fillData: () => {}, 
+    id: ''
+};
