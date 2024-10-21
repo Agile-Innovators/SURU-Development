@@ -58,7 +58,7 @@ export function SecondaryFilterTag({
             className={`flex justify-between gap-2 transition-colors duration-150 group border-2 rounded-md p-2 
                 ${isChecked 
                     ? 'border-light-blue text-light-blue' 
-                    : 'border-white text-white dark:border-gray-600 dark:text-gray-300'}
+                    : 'border-secondary text-secondary dark:border-gray-600 dark:text-gray-300'}
                 hover:border-light-blue dark:hover:border-light-blue`}
             {...props}
         >
@@ -67,7 +67,7 @@ export function SecondaryFilterTag({
                     className={`transition-colors duration-150 
                         ${isChecked 
                             ? 'text-light-blue' 
-                            : 'text-white dark:text-gray-300'} 
+                            : 'text-secondary dark:text-gray-300'} 
                         group-hover:text-light-blue`}
                 >
                     {text}
