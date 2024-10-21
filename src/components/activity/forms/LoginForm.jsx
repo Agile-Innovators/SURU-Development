@@ -43,7 +43,7 @@ export function LoginForm() {
 
     return (
         <form onSubmit={handleSubmit} className="m-auto">
-            <h1>Welcome Back</h1>
+            <h1 className="dark:text-secondary">Welcome Back</h1>
             <span className="text-grey">
                 Sign in by entering the information below
             </span>
@@ -60,6 +60,7 @@ export function LoginForm() {
                     inputId="email"
                     labelText="Email"
                     value={email}
+                    customClass='dark:text-black'
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 <Input
@@ -69,6 +70,7 @@ export function LoginForm() {
                     inputId="password"
                     labelText="Password"
                     value={password}
+                    customClass='dark:text-black'
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 <div className="flex items-center justify-between">

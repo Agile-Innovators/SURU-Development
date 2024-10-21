@@ -52,24 +52,28 @@ export function FAQSection() {
     // Función para renderizar acordeones
     const renderAccordions = (data) => {
         return data.map((faq, index) => (
-            <Accordion key={index}>
+            <Accordion key={index} className="dark:bg-gray-700">
                 <AccordionSummary expandIcon={<ArrowDown />}>
-                    <Typography>{faq.question}</Typography>
+                    <Typography className="dark:text-white/85">
+                        {faq.question}
+                    </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography>{faq.answer}</Typography>
+                    <Typography className="dark:text-white/60">
+                        {faq.answer}
+                    </Typography>
                 </AccordionDetails>
             </Accordion>
         ));
     };
     return (
-        <div className="py-20 bg-white">
+        <div className="py-20 bg-white dark:bg-gray-900">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:text-center">
-                    <h3 className="text-base font-semibold leading-7 text-light-blue">
+                    <h3 className="text-base font-semibold leading-7 text-light-blue dark:text-light-blue">
                         Complementary Services
                     </h3>
-                    <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary sm:text-4xl">
+                    <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary sm:text-4xl dark:text-white ">
                         Frequenly Asked Question
                     </h2>
                     <p className="mt-6 text-lg leading-8 text-gray-600">
@@ -87,8 +91,8 @@ export function FAQSection() {
                         onClick={() => setSelectedOption(1)}
                         className={
                             selectedOption === 1
-                                ? 'bg-light-blue text-white px-4 py-2'
-                                : 'px-4 py-2 bg-cyan-200/75 text-secondary/70'
+                                ? 'bg-light-blue dark:bg-cyan-800 text-white px-4 py-2'
+                                : 'px-4 py-2 bg-cyan-200/55 dark:bg-cyan-200/25 text-secondary/70 dark:text-white/80'
                         }
                     >
                         Businesses
@@ -97,8 +101,8 @@ export function FAQSection() {
                         onClick={() => setSelectedOption(2)}
                         className={
                             selectedOption === 2
-                                ? 'bg-light-blue text-white px-4 py-2'
-                                : 'px-4 py-2 bg-cyan-200/75 text-secondary/70'
+                                ? 'bg-light-blue dark:bg-cyan-800 text-white px-4 py-2'
+                                : 'px-4 py-2 bg-cyan-200/55 dark:bg-cyan-200/25 text-secondary/70 dark:text-white/80'
                         }
                     >
                         Buyers/Renters
@@ -107,8 +111,8 @@ export function FAQSection() {
                         onClick={() => setSelectedOption(3)}
                         className={
                             selectedOption === 3
-                                ? 'bg-light-blue text-white px-4 py-2'
-                                : 'px-4 py-2 bg-cyan-200/75 text-secondary/70'
+                                ? 'bg-light-blue dark:bg-cyan-800 text-white px-4 py-2'
+                                : 'px-4 py-2 bg-cyan-200/55 dark:bg-cyan-200/25 text-secondary/70 dark:text-white/80'
                         }
                     >
                         Sellers/Landlords
@@ -116,7 +120,7 @@ export function FAQSection() {
                 </div>
 
                 {/* Acordeones condicionados por el estado */}
-                <div className="faq-section">
+                <div className="faq-section ">
                     {/* Renderizar acordeones según la opción seleccionada */}
                     {renderAccordions(faqData[selectedOption - 1])}
                 </div>

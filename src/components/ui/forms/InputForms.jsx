@@ -68,8 +68,8 @@ export function InputForms({
 }
 
 InputForms.propTypes = {
-    inputName: PropTypes.string.isRequired,
-    inputId: PropTypes.string.isRequired,
+    inputName: PropTypes.string,
+    inputId: PropTypes.string,
     placeholder: PropTypes.string,
     type: PropTypes.string,
     spanText: PropTypes.string,

@@ -1,7 +1,7 @@
 import { PropTypes } from 'prop-types';
-import { HeartIcon } from '../../../assets/icons/HeartIcon';
 import { MapPin, BedDouble, Bath, Car, PawPrint } from 'lucide-react';
-
+import { LikeButton } from '../buttons/LIkeButton';
+import { useAuth } from '../../../global/AuthProvider';
 export function AdvancedCard({
     srcImage,
     children,
@@ -13,13 +13,24 @@ export function AdvancedCard({
     qtyBathrooms,
     qtyGarages,
     currency_code = 'CRC',
+    isLiked,
+    propertyId,
+    refreshFavorites,
 }) {
+    const { getUser } = useAuth();
+    const { user } = getUser();
     return (
         <div className="rounded-md overflow-hidden border border-light-grey">
             <div className="overflow-hidden relative">
-                <div className="absolute top-3 right-3 p-2 size-12 bg-white border-2 border-white bg-opacity-75 rounded-full cursor-pointer">
-                    <HeartIcon />
-                </div>
+                {/* Se muestra el botón de me gusta solo si el usuario está loggeado */}
+                {user && (
+                    <LikeButton
+                        isLiked={isLiked}
+                        propertyId={propertyId}
+                        refreshFavorites={refreshFavorites}
+                    />
+                )}
+
                 <img
                     className="w-full object-cover aspect-video"
                     src={srcImage}
@@ -37,7 +48,7 @@ export function AdvancedCard({
                         <BedDouble
                             size={22}
                             strokeWidth={1}
-                            className="mr-2 text-secondary"
+                            className="mr-2 text-secondary dark:stroke-light-blue"
                         />
                         {qtyBedrooms}
                     </li>
@@ -45,23 +56,23 @@ export function AdvancedCard({
                         <Bath
                             size={22}
                             strokeWidth={1}
-                            className="mr-2 text-secondary"
+                            className="mr-2 text-secondary dark:stroke-light-blue"
                         />
                         {qtyBathrooms}
                     </li>
-                    <li className="flex items-center px-1 border-r-[1px] pr-2 border-grey">
+                    <li className="flex items-center px-1 border-r-[1px] pr-2 border-grey dark:text-light-blue">
                         <Car
                             size={22}
                             strokeWidth={1}
-                            className="mr-2 text-secondary"
+                            className="mr-2 text-secondary dark:stroke-light-blue"
                         />
                         {qtyGarages}
                     </li>
-                    <li className="flex items-center px-1 pr-2 border-grey">
+                    <li className="flex items-center px-1 pr-2 border-grey ">
                         <PawPrint
                             size={22}
                             strokeWidth={1}
-                            className="mr-2 text-secondary"
+                            className="mr-2 text-secondary dark:stroke-light-blue"
                         />
                         Allowed
                     </li>
@@ -85,4 +96,27 @@ AdvancedCard.propTypes = {
     location: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     frequency: PropTypes.string.isRequired,
+    qtyBedrooms: PropTypes.number.isRequired,
+    qtyBathrooms: PropTypes.number.isRequired,
+    qtyGarages: PropTypes.number.isRequired,
+    currency_code: PropTypes.string,
+    isLiked: PropTypes.bool,
+    propertyId: PropTypes.number,
+    refreshFavorites: PropTypes.func
+};
+
+AdvancedCard.defaultProps = {
+    srcImage: "https://via.placeholder.com/300",
+    children: null,
+    title: 'Title',
+    location: 'Location',
+    price: 0,
+    frequency: 'Frequency',
+    qtyBedrooms: 0,
+    qtyBathrooms: 0,
+    qtyGarages: 0,
+    currency_code: 'CRC',
+    isLiked: false,
+    propertyId: 0,
+    refreshFavorites: null,
 };

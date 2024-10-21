@@ -7,6 +7,8 @@ import { MainButton } from '../../ui/buttons/MainButton.jsx';
 import { ROUTE_PATHS } from '../../../routes/index.js';
 import { useAuth } from '../../../global/AuthProvider.jsx';
 import { useAxios } from '../../../components/hooks/useAxios.js';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function RegisterForm() {
     const [username, setUsername] = useState('');
@@ -18,6 +20,8 @@ export function RegisterForm() {
     const navigate = useNavigate();
     const axios = useAxios();
     const { login } = useAuth();
+
+    
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -46,10 +50,11 @@ export function RegisterForm() {
         };
 
         try {
-            const response = await axios.post('/register', data);
-            const { token, user } = response.data;
-            login(token, user);
-            navigate(ROUTE_PATHS.HOME);
+            toast.error('This action is blocked.');
+            // const response = await axios.post('/register', data);
+            // const { token, user } = response.data;
+            // login(token, user);
+            // navigate(ROUTE_PATHS.HOME);
         } catch (err) {
             setError(err.response?.data?.message || 'An error occurred');
         } finally {
@@ -59,7 +64,19 @@ export function RegisterForm() {
 
     return (
         <form onSubmit={handleSubmit} className="m-auto">
-            <h1>Let&apos;s get started</h1>
+            <ToastContainer
+                position="top-center"
+                autoClose={200}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+            <h1 className="dark:text-secondary">Let&apos;s get started</h1>
             <span className="text-grey">
                 Complete the form below to create your new account
             </span>
@@ -74,6 +91,7 @@ export function RegisterForm() {
                     inputId="username"
                     labelText="Username"
                     value={username}
+                    customClass='dark:text-black'
                     onChange={(e) => setUsername(e.target.value)}
                     spanText="Example: johndoe"
                 />
@@ -84,6 +102,7 @@ export function RegisterForm() {
                     inputId="email"
                     labelText="Email Address"
                     value={email}
+                    customClass='dark:text-black'
                     onChange={(e) => setEmail(e.target.value)}
                     spanText="Example: john@gmail.com"
                 />
@@ -94,6 +113,7 @@ export function RegisterForm() {
                     inputId="password"
                     labelText="Password"
                     value={password}
+                    customClass='dark:text-black'
                     onChange={(e) => setPassword(e.target.value)}
                     spanText="Password must be at least 8 characters"
                 />

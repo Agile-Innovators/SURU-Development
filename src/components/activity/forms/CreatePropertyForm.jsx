@@ -2,12 +2,12 @@ import { X, House, Hotel, Warehouse, Store, Fence } from 'lucide-react';
 import { useState, useContext, useEffect } from 'react';
 import SectionDivider from '../../ui/layout/SectionDivider';
 import { MainButton } from '../../ui/buttons/MainButton';
-import HDSForm from './HDSForm';
-import RetailSpaceForm from './RetailSpaceForm';
+import HDSFormCreate from './HDSFormCreate.jsx';
+import RetailSpaceFormCreate from './RetailSpaceFormCreate';
 import { useAxios } from '../../hooks/useAxios';
 import { MainFilterTag } from '../../ui/buttons/MainFilterTag';
 import { SecondaryFilterTag } from '../../ui/buttons/SecondaryFilterTag';
-import { BareLandForm } from './BareLandForm';
+import { BareLandFormCreate } from './BareLandFormCreate.jsx';
 import { globalProvider } from '../../../global/GlobalProvider';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
@@ -17,8 +17,7 @@ import { BackButton } from '../../ui/buttons/BackButton';
 
 const CreatePropertyForm = () => {
     const axios = useAxios();
-    const { setPropTypeForm, setPropTransacTypeForm } =
-        useContext(globalProvider);
+    const { setPropTypeForm, setPropTransacTypeForm } = useContext(globalProvider);
     const [images, setImages] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
     const [data, setData] = useState({});
@@ -33,7 +32,6 @@ const CreatePropertyForm = () => {
         if (data) {
             const userData = JSON.parse(data);
             setUserId(userData.id);
-            console.log(userData.id);
         }
     });
 
@@ -187,7 +185,7 @@ const CreatePropertyForm = () => {
         const formulariosPorTipo = {
             //casa
             1: (
-                <HDSForm
+                <HDSFormCreate
                     title={'House details'}
                     transactionType={filterPropTransaction}
                     fillData={handleInputChange}
@@ -198,7 +196,7 @@ const CreatePropertyForm = () => {
             ),
             //apartment
             2: (
-                <HDSForm
+                <HDSFormCreate
                     title={'Apartment details'}
                     transactionType={filterPropTransaction}
                     fillData={handleInputChange}
@@ -209,7 +207,7 @@ const CreatePropertyForm = () => {
             ),
             //studio
             3: (
-                <HDSForm
+                <HDSFormCreate
                     title={'Studio details'}
                     transactionType={filterPropTransaction}
                     fillData={handleInputChange}
@@ -220,7 +218,7 @@ const CreatePropertyForm = () => {
             ),
             //bare land
             4: (
-                <BareLandForm
+                <BareLandFormCreate
                     transactionType={filterPropTransaction}
                     fillData={handleInputChange}
                     fillUtilities={handleUtilitiesData}
@@ -228,7 +226,7 @@ const CreatePropertyForm = () => {
             ),
             //retail
             5: (
-                <RetailSpaceForm
+                <RetailSpaceFormCreate
                     transactionType={filterPropTransaction}
                     fillData={handleInputChange}
                     fillUtilities={handleUtilitiesData}
