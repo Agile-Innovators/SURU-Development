@@ -31,7 +31,7 @@ const initialNavigation = [
 
 const userNavigationLinks = [
     {
-        name: 'My account',
+        name: 'Manage account',
         to: ROUTE_PATHS.USER_PROFILE,
         imageRoute: '/UserIcon.svg',
     },
@@ -41,9 +41,14 @@ const userNavigationLinks = [
         imageRoute: '/PropetiesIcon.svg',
     },
     {
-        name: 'My Appointments',
+        name: 'Appointments',
         to: ROUTE_PATHS.APPOINTMENTS,
         imageRoute: '/AppointmentsIcon.svg',
+    },
+    {
+        name: 'Favorite Properties',
+        to: ROUTE_PATHS.FAVORITES,
+        imageRoute: '/LikeIcon.svg',
     },
     { name: 'Log out', to: '#', imageRoute: '/LogoutIcon.svg' },
 ];
@@ -64,7 +69,7 @@ export function NavBar() {
 
     useEffect(() => {
         setCurrentUser(getUser().user);
-    }, [getUser()]); 
+    }, [getUser()]);
 
     useEffect(() => {
         const currentPath = location.pathname;
@@ -137,8 +142,8 @@ export function NavBar() {
                                                         ? 'bg-light-blue hover:bg-cyan-600/85 border-none text-white hover:text-white' //Login button styles
                                                         : item.name ===
                                                             'Sign Up'
-                                                          ? 'bg-none text-gray-600 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-200 bg-gray-300 dark:bg-gray-700' // Sign Up button styles
-                                                          : '',
+                                                            ? 'bg-none text-gray-600 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-200 bg-gray-300 dark:bg-gray-700' // Sign Up button styles
+                                                            : '',
                                                     !item.isLogin
                                                         ? 'rounded-md hover:text-primary'
                                                         : '',
