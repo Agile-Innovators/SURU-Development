@@ -23,6 +23,7 @@ export function useFetchUser() {
             setLoading(false);
         }
     };
+    
 
     // Actualizar la contraseña de usuario
     const updateUserPassword = async (userId, passwordData) => {
@@ -47,21 +48,22 @@ export function useFetchUser() {
     
 
     // Actualizar horas operativas de usuario
-    const updateUserOperationalHours = async (userId, operationalHours) => {
-        setLoading(true);
-        try {
-            const response = await axios.put(
-                `/api/users/${userId}/operational-hours`,
-                { operational_hours: operationalHours }
-            );
-            setData(response.data);
-            setError(null);
-        } catch (error) {
-            setError(error.response?.data);
-        } finally {
-            setLoading(false);
-        }
-    };
+    // const updateUserOperationalHours = async (userId, operationalHours) => {
+    //     setLoading(true);
+    //     try {
+    //         const response = await axios.put(
+    //             `/api/users/${userId}/operational-hours`,
+    //             { operational_hours: operationalHours },
+    //             config
+    //         );
+    //         setData(response.data);
+    //         setError(null);
+    //     } catch (error) {
+    //         setError(error.response?.data);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
 
     // Obtener la información del usuario
     const getUserInformation = async (userId) => {
@@ -88,7 +90,7 @@ export function useFetchUser() {
         data,
         updateUserProfile,
         updateUserPassword,
-        updateUserOperationalHours,
+        
         getUserInformation,
     };
 }
