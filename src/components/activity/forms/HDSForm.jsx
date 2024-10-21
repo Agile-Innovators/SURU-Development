@@ -1,4 +1,3 @@
-// src/components/activity/forms/HDSForm.jsx
 import SectionDivider from '../../ui/layout/SectionDivider';
 import BaseFormsInfo from '../pricing/BaseFormsInfo';
 import { InputForms } from '../../ui/forms/InputForms';
@@ -19,7 +18,7 @@ const HDSForm = ({
     return (
         <div>
             <SectionDivider text={title} />
-            <BaseFormsInfo fillData={fillData} initialData={initialData} fillUtilities={fillUtilities} />
+            <BaseFormsInfo fillData={fillData} initialData={initialData} />
             <div className="grid grid-cols-2 gap-4 my-4">
                 <InputForms
                     inputName="bedrooms"
@@ -108,7 +107,7 @@ const HDSForm = ({
                     idValue={3}
                 />
             </div>
-            {/* Transaction type: 2 == rent, 3 == both */}
+
             {(transactionType === 2 || transactionType === 3) && (
                 <>
                     <SectionDivider text="Include services" />
@@ -147,7 +146,7 @@ const HDSForm = ({
             <PriceDetailsSelector
                 transactionType={transactionType}
                 fillData={fillData}
-                initialData={initialData} // Si PriceDetailsSelector necesita datos iniciales
+                initialData={initialData}
             />
         </div>
     );

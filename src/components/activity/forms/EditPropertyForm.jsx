@@ -66,7 +66,7 @@ const EditPropertyForm = () => {
             ...property,
             city_id: property.city_id || '', 
         });
-        setUtilities(property.utilities || []); // Corregido typo
+        setUtilities(property.utilities || []); 
     
         if (property.images && property.images.length > 0) {
             const existingPreviews = property.images.map((img) => img.url);
@@ -81,7 +81,7 @@ const EditPropertyForm = () => {
             setData((prevData) => ({ ...prevData, furnished: 0 }));
         }
         if (property.utilities === undefined) {
-            setData((prevData) => ({ ...prevData, utilities: [] })); // Corregido typo
+            setData((prevData) => ({ ...prevData, utilities: [] })); 
         }
     }, [setPropTypeForm, setPropTransacTypeForm]);
 
@@ -217,7 +217,7 @@ const EditPropertyForm = () => {
     
         // *** Añadir utilidades al FormData ***
         utilities.forEach((utility) => {
-            formData.append('utilities[]', utility);  // Aquí se añaden las utilidades
+            formData.append('utilities[]', utility);  
         });
     
         // Añadir los demás datos al FormData

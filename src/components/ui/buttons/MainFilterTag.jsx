@@ -24,7 +24,7 @@ export function MainFilterTag({
             onClick={() => handleEventButton()}
             className={`transition-colors duration-150 group border-2 border-gray-300 rounded-md p-2 relative hover:border-secondary ${isChecked ? 'border-secondary hover:border-light-blue' : ''} `}
         >
-            <span className="block flex flex-col items-start gap-3">
+            <span className="flex flex-col items-start gap-3">
                 {icon && (
                     <span
                         className={`${isChecked ? 'group-hover:text-light-blue' : ''}`}
