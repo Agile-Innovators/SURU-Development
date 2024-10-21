@@ -52,12 +52,16 @@ export function FAQSection() {
     // Función para renderizar acordeones
     const renderAccordions = (data) => {
         return data.map((faq, index) => (
-            <Accordion key={index}>
+            <Accordion key={index} className="dark:bg-gray-700">
                 <AccordionSummary expandIcon={<ArrowDown />}>
-                    <Typography>{faq.question}</Typography>
+                    <Typography className="dark:text-white/85">
+                        {faq.question}
+                    </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography>{faq.answer}</Typography>
+                    <Typography className="dark:text-white/60">
+                        {faq.answer}
+                    </Typography>
                 </AccordionDetails>
             </Accordion>
         ));
@@ -87,8 +91,8 @@ export function FAQSection() {
                         onClick={() => setSelectedOption(1)}
                         className={
                             selectedOption === 1
-                                ? 'bg-light-blue text-white px-4 py-2'
-                                : 'px-4 py-2 bg-cyan-200/55 text-secondary/70'
+                                ? 'bg-light-blue dark:bg-cyan-800 text-white px-4 py-2'
+                                : 'px-4 py-2 bg-cyan-200/55 dark:bg-cyan-200/25 text-secondary/70 dark:text-white/80'
                         }
                     >
                         Businesses
@@ -97,8 +101,8 @@ export function FAQSection() {
                         onClick={() => setSelectedOption(2)}
                         className={
                             selectedOption === 2
-                                ? 'bg-light-blue text-white px-4 py-2'
-                                : 'px-4 py-2 bg-cyan-200/55 text-secondary/70'
+                                ? 'bg-light-blue dark:bg-cyan-800 text-white px-4 py-2'
+                                : 'px-4 py-2 bg-cyan-200/55 dark:bg-cyan-200/25 text-secondary/70 dark:text-white/80'
                         }
                     >
                         Buyers/Renters
@@ -107,8 +111,8 @@ export function FAQSection() {
                         onClick={() => setSelectedOption(3)}
                         className={
                             selectedOption === 3
-                                ? 'bg-light-blue text-white px-4 py-2'
-                                : 'px-4 py-2 bg-cyan-200/55 text-secondary/70'
+                                ? 'bg-light-blue dark:bg-cyan-800 text-white px-4 py-2'
+                                : 'px-4 py-2 bg-cyan-200/55 dark:bg-cyan-200/25 text-secondary/70 dark:text-white/80'
                         }
                     >
                         Sellers/Landlords
