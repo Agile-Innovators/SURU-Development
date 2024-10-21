@@ -59,7 +59,7 @@ export function SecondaryFilterTag({
             className={`flex justify-between gap-2 transition-colors duration-150 group border-2 rounded-md p-2 
                 ${isChecked 
                     ? 'border-light-blue text-light-blue' 
-                    : 'border-secondary text-secondary dark:border-gray-600 dark:text-gray-300'}
+                    : 'border-light-grey text-secondary dark:border-gray-600 dark:text-gray-300'}
                 hover:border-light-blue dark:hover:border-light-blue`}
             {...props}
         >
