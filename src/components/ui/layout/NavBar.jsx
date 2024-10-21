@@ -33,7 +33,7 @@ const userNavigationLinks = [
     {
         name: 'Manage account',
         to: ROUTE_PATHS.USER_PROFILE,
-        imageRoute: '/public/UserIcon.svg',
+        imageRoute: '/UserIcon.svg',
     },
     {
         name: 'My properties',
