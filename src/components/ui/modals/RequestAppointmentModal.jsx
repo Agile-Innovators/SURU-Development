@@ -3,16 +3,21 @@ import { MainButton } from '../buttons/MainButton';
 import { Clock, Calendar, X } from 'lucide-react';
 import { useAxios } from '../../hooks/useAxios';
 import Swal from 'sweetalert2';
+import { useAuth } from '../../../global/AuthProvider';
 
-export function RequestAppointmentModal({ handleModal }) {
+
+export function RequestAppointmentModal({ handleModal, userId, propertyId}) {
     const axios = useAxios();
 
     const hours = [
-        '09:00 am', '09:30 am', '10:00 am', '10:30 am', '11:00 am', '11:30 am', '12:00 pm', '12:30 pm',
-        '01:00 pm', '01:30 pm', '02:00 pm', '02:30 pm', '03:00 pm', '03:30 pm', '04:00 pm', '04:30 pm', '05:00 pm', '05:30 pm', '06:00 pm',
+        '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
+        '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00'
     ];
 
-    // Estado local para manejar los valores de los campos
+
+    const { getUser } = useAuth();
+    const { user } = getUser();
+
     const [date, setDate] = useState('');
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
@@ -23,8 +28,15 @@ export function RequestAppointmentModal({ handleModal }) {
         handleModal((prev) => !prev);
     };
 
+    const formatTime = (time) => {
+        const [hours, minutes] = time.split(':');
+        if (hours && minutes) {
+            return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`;
+        }
+        return time;
+    };
+
     const handleSubmit = () => {
-        // Validaciones
         if (!date || !startTime || !endTime) {
             setErrorMessage('All fields must be completed.');
             return;
@@ -35,19 +47,26 @@ export function RequestAppointmentModal({ handleModal }) {
             return;
         }
 
-        setErrorMessage(''); // Limpiar mensaje de error si no hay problemas
+        setErrorMessage('');
 
-        // Crear la cita enviando los datos al backend
+        const formattedStartTime = formatTime(startTime);
+        const formattedEndTime = formatTime(endTime);
+
         const newAppointment = {
-            date,
-            start_time: startTime,
-            end_time: endTime,
-            user_message: extraInfo,
+            date, 
+            start_time: formattedStartTime, 
+            end_time: formattedEndTime, 
+            //owner_id:userId,
+            user_message: extraInfo || "No extra comments were given",
+            user_id: user.id,    
+            property_id: propertyId, 
         };
 
+        console.log("Datos enviados:", newAppointment); // Confirmar la estructura de los datos
+
         axios.post('/appointment', newAppointment)
-            .then(() => {
-                // Mostrar mensaje de éxito
+            .then((response) => {
+                console.log(response.data);
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
@@ -56,7 +75,6 @@ export function RequestAppointmentModal({ handleModal }) {
                     timer: 1500,
                 });
 
-                // Cerrar el modal y limpiar el formulario
                 handleModal(false);
                 setDate('');
                 setStartTime('');
@@ -64,8 +82,11 @@ export function RequestAppointmentModal({ handleModal }) {
                 setExtraInfo('');
             })
             .catch((error) => {
-                console.error("Error creating appointment:", error.response || error);
+                console.error("Error creating appointment:", error.response?.data || error);
                 const errorMessage = error.response?.data?.message || 'Failed to create appointment';
+                if (error.response?.data?.errors) {
+                    console.log("Detalles de errores:", error.response.data.errors);
+                }
                 Swal.fire('Error!', errorMessage, 'error');
             });
     };
@@ -77,7 +98,6 @@ export function RequestAppointmentModal({ handleModal }) {
             </button>
             <h1 className="mb-6">Request an appointment!</h1>
 
-            {/* Mostrar mensaje de error si existe */}
             {errorMessage && <div className="text-red-500 mb-4">{errorMessage}</div>}
 
             <div className="mb-6">
@@ -96,7 +116,6 @@ export function RequestAppointmentModal({ handleModal }) {
             <div className="mb-6">
                 <label className="block text-gray-700">Hour</label>
                 <div className="flex justify-between items-center gap-4">
-                    {/* Hora inicial */}
                     <div className="flex items-center w-full border p-2 rounded-md border-gray-300">
                         <Clock size={16} className="text-gray-500 mr-2" />
                         <select
@@ -115,7 +134,6 @@ export function RequestAppointmentModal({ handleModal }) {
 
                     <span className="text-gray-500">—</span>
 
-                    {/* Hora final */}
                     <div className="flex items-center w-full border p-2 rounded-md border-gray-300">
                         <Clock size={16} className="text-gray-500 mr-2" />
                         <select
@@ -145,7 +163,6 @@ export function RequestAppointmentModal({ handleModal }) {
                 />
             </div>
 
-            {/* Botón de enviar */}
             <MainButton
                 text="Send Request"
                 type="button"

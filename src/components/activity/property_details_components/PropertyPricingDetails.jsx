@@ -1,9 +1,21 @@
+import React, { useState } from 'react';
 import { SkeletonLoader } from '../../ui/SkeletonLoader.jsx';
 import { MainButton } from '../../ui/buttons/MainButton';
-import { Bath, MapPin, BedDouble, CarFront, Trees, PawPrint, LandPlot, Droplet, Wifi, Zap, Tv, } from 'lucide-react';
+import { Bath, MapPin, BedDouble, CarFront, Trees, PawPrint, LandPlot, Droplet, Wifi, Zap, Tv } from 'lucide-react';
+import { RequestAppointmentModal } from '../../ui/modals/RequestAppointmentModal';
 
 export function PropertyPricingDetails({ propertyTemp, isLoading }) {
+    const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar el modal
     const property = propertyTemp;
+    
+    // Obtener el usuario logeado de localStorage
+    const user = JSON.parse(localStorage.getItem('user')) || null;
+    const loggedInUserId = user?.id;
+
+    // Función para alternar el estado del modal
+    const toggleModal = () => {
+        setIsModalOpen((prev) => !prev);
+    };
 
     const showPricingDetails = (property) => {
         return (
@@ -33,7 +45,6 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                         </div>
                     ) : property.property_transaction === "Dual" ? (
                         <div>
-
                             <div className="flex justify-between">
                                 <p>Sale Payment</p>
                                 <p className="font-medium">{property.currency_code} {property.price}</p>
@@ -56,15 +67,17 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                         <p className="font-medium">Transaction type not available</p>
                     )}
 
-
-                    <button className="text-secondary border-2 border-secondary hover:bg-secondary hover:text-white py-3">
+                    {/* Botón para abrir el modal */}
+                    <button 
+                        className="text-secondary border-2 border-secondary hover:bg-secondary hover:text-white py-3" 
+                        onClick={toggleModal}
+                    >
                         Schedule a Visit
                     </button>
                     <MainButton text="Get Property" type="button" />
                 </div>
 
                 <div className="flex flex-col border-2 gap-2 rounded-md p-4">
-                    
                     <h3>Utilities</h3>
                     <div className='flex justify-center gap-4'>
                         {property.utilities && property.utilities.length > 0 ? (
@@ -110,6 +123,7 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
             </div>
         )
     };
+
     const showLoader = () => {
         return (
             <div className="flex flex-col gap-4">
@@ -120,9 +134,19 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
 
     return (
         <div>
-            {isLoading
-                ? showLoader()
-                : showPricingDetails(property)}
+            {isLoading ? showLoader() : showPricingDetails(property)}
+
+            {/* Modal para solicitar una cita */}
+            {isModalOpen && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                    <RequestAppointmentModal 
+                        handleModal={setIsModalOpen} 
+                        userId={loggedInUserId} 
+                        propertyId={property.id}
+                    />
+                    console.log("Owner ID:", property.owner_id);
+                </div>
+            )}
         </div>
     );
 }

@@ -156,7 +156,7 @@ export function Appointments() {
     };
 
     return (
-        <div className="max-w-7xl m-auto p-4">
+        <div className="max-w-7xl m-auto p-4 min-h-[80vh]">
             <div className="sm:hidden flex justify-start mt-10 mb-10">
                 <Button
                     variant="outlined"
