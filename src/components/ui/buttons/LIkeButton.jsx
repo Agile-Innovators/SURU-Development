@@ -22,8 +22,7 @@ export function LikeButton({isLiked, propertyId, refreshFavorites}) {
                 } 
             }
             return newLiked; 
-        });
-        
+        }); 
     };
 
     return (
