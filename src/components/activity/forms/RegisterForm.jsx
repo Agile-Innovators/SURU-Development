@@ -59,7 +59,7 @@ export function RegisterForm() {
 
     return (
         <form onSubmit={handleSubmit} className="m-auto">
-            <h1>Let&apos;s get started</h1>
+            <h1 className="dark:text-secondary">Let&apos;s get started</h1>
             <span className="text-grey">
                 Complete the form below to create your new account
             </span>
@@ -74,6 +74,7 @@ export function RegisterForm() {
                     inputId="username"
                     labelText="Username"
                     value={username}
+                    customClass='dark:text-black'
                     onChange={(e) => setUsername(e.target.value)}
                     spanText="Example: johndoe"
                 />
@@ -84,6 +85,7 @@ export function RegisterForm() {
                     inputId="email"
                     labelText="Email Address"
                     value={email}
+                    customClass='dark:text-black'
                     onChange={(e) => setEmail(e.target.value)}
                     spanText="Example: john@gmail.com"
                 />
@@ -94,6 +96,7 @@ export function RegisterForm() {
                     inputId="password"
                     labelText="Password"
                     value={password}
+                    customClass='dark:text-black'
                     onChange={(e) => setPassword(e.target.value)}
                     spanText="Password must be at least 8 characters"
                 />

@@ -40,16 +40,16 @@ const ExtraServiceCategories = [
 
 export function PartnersServiceSelector() {
     return (
-        <div className="py-20 bg-white">
+        <div className="py-20 bg-white dark:bg-gray-900">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:text-center">
-                    <h3 className="text-base font-semibold leading-7 text-light-blue">
+                    <h3 className="text-base font-semibold leading-7 text-light-blue dark:text-light-blue">
                         Services Categories
                     </h3>
-                    <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary sm:text-4xl">
+                    <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary sm:text-4xl dark:text-white">
                         Partner With Us
                     </h2>
-                    <p className="mt-6 text-lg leading-8 text-gray-600">
+                    <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-white">
                         Join our platform and offer your services to a broad
                         audience. Affiliated businesses gain visibility and
                         access to potential clients looking for trusted
@@ -64,7 +64,7 @@ export function PartnersServiceSelector() {
                                 src={ExtraServiceCategory.image}
                                 title={ExtraServiceCategory.title}
                                 text="10 options"
-                                customClass="m-auto bg-slate-50 w-full h-full flex flex-col justify-between"
+                                customClass="m-auto bg-slate-50 w-full h-full flex flex-col justify-between dark:bg-slate-800 "
                             />
                         )
                     )}

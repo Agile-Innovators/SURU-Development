@@ -16,7 +16,7 @@ export function MainButton({
 }) {
     let variantClasses = {
         fill: 'bg-secondary text-white hover:bg-light-blue hover:text-white',
-        border: 'text-secondary border-2 border-secondary hover:bg-secondary hover:text-white',
+        border: 'text-secondary border-2 border-secondary hover:bg-secondary hover:text-white dark:border-light-blue dark:text-light-blue',
         none: '',
     };
 
@@ -42,7 +42,7 @@ export function MainButton({
         );
     } else if (type === 'link') {
         return (
-            <Link id={id} to={to} className={commonClasses}>
+            <Link id={id} to={to} className={commonClasses} onClick={onClick}>
                 {icon ? icon : text}
             </Link>
         );
