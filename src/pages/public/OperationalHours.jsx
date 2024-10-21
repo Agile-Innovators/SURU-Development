@@ -3,7 +3,8 @@ import { MainButton } from '../../components/ui/buttons/MainButton';
 import { useFetchUserOperationalHours } from '../../components/hooks/useFetchOperationalHours';
 import { useAuth } from '../../global/AuthProvider';
 import { ToggleSwitch } from '../../components/ui/buttons/ToggleSwitch';
-
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export function OperationalHours() {
     // Obtenemos el usuario actual
     const { getUser } = useAuth();
@@ -41,7 +42,7 @@ export function OperationalHours() {
     // Actualiza el estado local cuando llegan los datos de la API
     useEffect(() => {
         if (data) { // Verifica que data esté definido
-            console.log("Estos son los datos de la API", data);
+            // console.log("Estos son los datos de la API", data);
             setOperationalHours(data);
         }
     }, [data]);
@@ -76,7 +77,7 @@ export function OperationalHours() {
                     [day_of_week]: ''
                 }));
                 return newHour;
-                
+
             }
             return hour;
 
@@ -112,7 +113,7 @@ export function OperationalHours() {
             is_closed: hour.is_closed || false
         }));
 
-        console.log("Datos del payload", operationalHoursPayload);
+        // console.log("Datos del payload", operationalHoursPayload);
 
         try {
             // Envía los datos y espera a la respuesta
@@ -121,9 +122,35 @@ export function OperationalHours() {
             // Llama a la función de obtener las horas operativas de nuevo para actualizar el estado
             await getOperationalHours(user.id);
 
+            //muestra un mensaje de éxito
+            toast.success('Operational hours updated successfully', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+
             console.log("Datos actualizados y recargados correctamente");
         } catch (error) {
             console.error("Error al actualizar los datos operacionales", error);
+
+            // Muestra un mensaje de error 
+            toast.error('An unexpected error occurred. Please try again later.', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
         }
     };
 
@@ -138,15 +165,27 @@ export function OperationalHours() {
                         <p>Choose your preferred hours to receive appointments</p>
                     </div>
                     <form onSubmit={handleSubmit}>
+                        <ToastContainer
+                            position="top-center"
+                            autoClose={200}
+                            hideProgressBar
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="light"
+                        />
                         <div className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-3">
-                            {operationalHours.length > 0 ? ( 
+                            {operationalHours.length > 0 ? (
                                 operationalHours.map(({ day_of_week, start_time, end_time, is_closed }) => (
                                     <div key={day_of_week} className={`flex flex-col gap-4 px-3 py-2 border text-left border-gray-300 dark:border-gray-600 rounded-md sm:flex w-full ${errorMessages[day_of_week] ? 'border-red-500' : 'border-gray-300'} dark:border-gray-600`}>
                                         <div className="flex justify-between items-center gap-4">
                                             <p className="text-black dark:text-white">{day_of_week}</p>
                                             <ToggleSwitch
                                                 checked={is_closed} // Pasa el estado de is_closed al ToggleSwitch
-                                                onChange={() => handleToggleChange(day_of_week)} 
+                                                onChange={() => handleToggleChange(day_of_week)}
                                                 disabled={!isEditing}
                                             />
                                         </div>
@@ -185,8 +224,8 @@ export function OperationalHours() {
                         </div>
                         <div className="flex justify-end items-center mt-4">
                             {/* Botón para alternar entre Edit y Save */}
-                            
-                            {isEditing && 
+
+                            {isEditing &&
                                 <MainButton
                                     type="submit"
                                     variant="fill"
@@ -194,7 +233,7 @@ export function OperationalHours() {
                                     customClass="h-12 items-center"
 
                                 />
-                            
+
                             }
                         </div>
                     </form>
