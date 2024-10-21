@@ -3,7 +3,6 @@ import { useFetchLocations } from '../../hooks/useFetchLocations';
 import { useState, useContext, useEffect } from 'react';
 import { globalProvider } from '../../../global/GlobalProvider';
 
-
 export function BaseFormsInfo({ fillData, initialData }) {
     const { locations, isLoadingLocat } = useFetchLocations();
     const [selectedLocation, setSelectedLocation] = useState('');
@@ -27,7 +26,7 @@ export function BaseFormsInfo({ fillData, initialData }) {
                 setSelectedLocation(cityId);
                 fillData('city_id', cityId);
             } else if (!cityExists) {
-                setSelectedLocation('');
+                setSelectedLocation(''); // Si no existe, limpiar el valor.
             }
         }
     }, [initialData, locations, selectedLocation, fillData]);
@@ -102,9 +101,9 @@ export function BaseFormsInfo({ fillData, initialData }) {
                             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                             required
                         >
-                            <option value="" disabled={!selectedLocation}>
+                            <option value="" disabled={!!selectedLocation}>
                                 {selectedLocation
-                                    ? locations.find(location => String(location.value) === selectedLocation)?.id || 'Select a location'
+                                    ? locations.find(location => String(location.value) === selectedLocation)?.name || 'Select a location'
                                     : 'Select a location'}
                             </option>
                             {locations.map((location) => (

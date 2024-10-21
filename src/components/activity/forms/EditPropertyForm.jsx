@@ -63,10 +63,11 @@ const EditPropertyForm = () => {
         setPropTransacTypeForm(initialTransaction);
     
         setData({
-            ...property,
-            city_id: property.city_id || '', 
+            ...property, // Aquí incluimos todos los datos, incluyendo la city_id
+            city_id: property.city_id || '', // Si no hay city_id, usamos un valor vacío
         });
-        setUtilities(property.utilities || []); 
+    
+        setUtilities(property.utilities || []);
     
         if (property.images && property.images.length > 0) {
             const existingPreviews = property.images.map((img) => img.url);
@@ -76,7 +77,7 @@ const EditPropertyForm = () => {
             setImages([]);
             setNewImagePreviews([]);
         }
-        
+    
     }, [setPropTypeForm, setPropTransacTypeForm]);
 
     useEffect(() => {
