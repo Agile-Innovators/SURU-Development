@@ -118,16 +118,6 @@ export function PropertyDetails() {
                         className="w-full object-cover h-full"
                     />
                 </div>
-                <section>
-                    <h6 className="text-lg font-semibold">Owner Information</h6>
-                    <p className="text-gray-600">Karla Marín Arias</p>
-                    <MainButton
-                        type="button"
-                        text="Contact"
-                        variant="border"
-                        customClass="px-2 py-1 text-sm mt-3"
-                    />
-                </section>
             </div>
 
             <div className="mt-10">

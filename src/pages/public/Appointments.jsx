@@ -40,7 +40,7 @@ export function Appointments() {
         setLoading(true);
         setAppointments([]);
         axios
-            .get(`/appointments/user/22/status/${status}`)
+            .get(`/appointments/user/${loggedInUserId}/status/${status}`)
             .then((response) => {
                 console.log("Fetched Appointments:", response.data);
                 setAppointments(response.data || []);
@@ -127,20 +127,8 @@ export function Appointments() {
         setPropertyID(id);
         console.log('ID HOME:', id);
         navigate(ROUTE_PATHS.PROPERTY_DETAILS);
-    };
+};
   
-
-
-
-
-
-
-
-
-
-
-
-
 
     const formatMonthYear = (dateString) => {
         const date = new Date(dateString);
