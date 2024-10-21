@@ -1,28 +1,39 @@
 import { useState, useEffect } from 'react';
-import { useAxios } from "./useAxios";
+import { useAxios } from './useAxios';
+import { useAuth } from '../../global/AuthProvider.jsx';
 
-export function useFetchUserFavoritesIDs(){
+
+export function useFetchUserFavoritesIDs() {
     const [userFavoritesIDs, setUserFavoritesIDs] = useState([]);
     const [isLoadingFavoritesIDs, SetIsLoadingFavoritesIDs] = useState(true);
     const axios = useAxios();
     let userId;
+    const { getUser } = useAuth();
+    const user = getUser().user;
 
     const getData = async () => {
-        const data = localStorage.getItem('user');
-        if (data) {
-            const userData = JSON.parse(data);
-            userId = userData.id;
-        }
+        if (user != null) {
+            const data = localStorage.getItem('user');
+            if (data) {
+                const userData = JSON.parse(data);
+                userId = userData.id;
+            }
 
-        try {
-            console.log("Ejecucion")
-            const response = await axios.get(`user/${userId}/favorites/ids`);
-            const data = await response.data;
-            console.log(data);
-            SetIsLoadingFavoritesIDs(false);
-            setUserFavoritesIDs(data);
-        } catch (error) {
-            console.log(error);
+            try {
+                console.log('Ejecucion');
+                const response = await axios.get(
+                    `user/${userId}/favorites/ids`
+                );
+                const data = await response.data;
+                console.log(data);
+                SetIsLoadingFavoritesIDs(false);
+                setUserFavoritesIDs(data);
+            } catch (error) {
+                console.log(error);
+                SetIsLoadingFavoritesIDs(false);
+            }
+        }
+        else{
             SetIsLoadingFavoritesIDs(false);
         }
     };

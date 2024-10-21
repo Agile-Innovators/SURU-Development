@@ -16,14 +16,12 @@ export function LikeButton({isLiked, propertyId, refreshFavorites}) {
             } else {
                 removeFavoriteProperty(propertyId);
 
-                //solo se encarga de refrescar la vista de favoritos de usuario, no es necesaria en otras vistas
                 if(refreshFavorites){
                     refreshFavorites(propertyId)
                 } 
             }
             return newLiked; 
-        });
-        
+        }); 
     };
 
     return (

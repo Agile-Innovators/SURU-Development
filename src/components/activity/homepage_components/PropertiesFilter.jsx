@@ -12,12 +12,14 @@ import { SkeletonLoader } from '../../ui/SkeletonLoader.jsx';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useFetchUserFavoritesIDs } from './../../hooks/useFetchUserFavoritesIDs';
+import { useAuth } from '../../../global/AuthProvider.jsx';
+// import { getUser } from '../../../global/AuthProvider.jsx';
 
 export function PropertiesFilter() {
     const {
         setRegionId,
-        setMinPrice,
-        setMaxPrice,
+        // setMinPrice,
+        // setMaxPrice,
         setPropertyTypeId,
         setIsFilterUsed,
         setPropertyID,
@@ -27,8 +29,10 @@ export function PropertiesFilter() {
     const { propertyCategories, isLoadingPropsCats } =
         useFetchPropertyCategories();
     const { properties, isLoadingProps } = useFetchProperties();
-    const { userFavoritesIDs, isLoadingFavoritesIDs } =
-        useFetchUserFavoritesIDs();
+    const { userFavoritesIDs, isLoadingFavoritesIDs } = useFetchUserFavoritesIDs();
+    
+    const { getUser } = useAuth();
+    const user = getUser().user;
 
     const formatPrice = (price) => {
         if (price >= 1e9) return `${(price / 1e9).toFixed(1)}B`;
@@ -113,7 +117,7 @@ export function PropertiesFilter() {
                     qtyBathrooms={property.bathrooms ? property.bathrooms : 0}
                     qtyGarages={property.garages ? property.garages : 0}
                     key={property.id}
-                    isLiked={userFavoritesIDs.includes(property.id)}
+                    //isLiked={user && userFavoritesIDs.includes(property.id)}
                     propertyId={property.id}
                     customClass={'m-auto'}
                 >
@@ -170,36 +174,36 @@ export function PropertiesFilter() {
         event.preventDefault();
         //obtener valor de los select
         const selectRegion = document.getElementById('select_regions').value;
-        const minPrice = document.getElementById('select_min_price').value;
-        const maxPrice = document.getElementById('select_max_price').value;
+        // const minPrice = document.getElementById('select_min_price').value;
+        // const maxPrice = document.getElementById('select_max_price').value;
         const propertyCategory =
             document.getElementById('select_props_cats').value;
 
-        console.log(selectRegion, minPrice, maxPrice, propertyCategory);
+        
 
         //validar si no se selecciono el precio maximo
-        if (maxPrice !== 'max') {
-            //verificar que el minPrice no sea mayor
-            if (minPrice > maxPrice) {
-                toast.error('min price must not be higher than the max price', {
-                    position: 'top-center',
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: 'light',
-                    transition: Bounce,
-                });
-                return;
-            }
-        }
+        // if (maxPrice !== 'max') {
+        //     //verificar que el minPrice no sea mayor
+        //     if (minPrice > maxPrice) {
+        //         toast.error('min price must not be higher than the max price', {
+        //             position: 'top-center',
+        //             autoClose: 3000,
+        //             hideProgressBar: true,
+        //             closeOnClick: true,
+        //             pauseOnHover: true,
+        //             draggable: true,
+        //             progress: undefined,
+        //             theme: 'light',
+        //             transition: Bounce,
+        //         });
+        //         return;
+        //     }
+        // }
 
         //cargar datos para el globalProvider
         setRegionId(selectRegion);
-        setMinPrice(minPrice);
-        setMaxPrice(maxPrice);
+        // setMinPrice(minPrice);
+        // setMaxPrice(maxPrice);
         setPropertyTypeId(propertyCategory);
         setIsFilterUsed(true);
 
@@ -255,7 +259,7 @@ export function PropertiesFilter() {
                         ? showLoaderSelect()
                         : createRegionsSelect(regions)}
 
-                    {isLoadingPropsCats ? (
+                    {/* {isLoadingPropsCats ? (
                         showLoaderSelect()
                     ) : (
                         <div className="w-full lg:w-auto flex flex-col">
@@ -282,8 +286,8 @@ export function PropertiesFilter() {
                                 )}
                             </select>
                         </div>
-                    )}
-                    {isLoadingPropsCats ? (
+                    )} */}
+                    {/* {isLoadingPropsCats ? (
                         showLoaderSelect()
                     ) : (
                         <div className="w-full lg:w-auto flex flex-col">
@@ -311,8 +315,8 @@ export function PropertiesFilter() {
                                 )}
                             </select>
                         </div>
-                    )}
-                    {/* <input type="range" /> */}
+                    )} */}
+              
                     {isLoadingPropsCats
                         ? showLoaderSelect()
                         : createPropsCatsSelect(propertyCategories)}
