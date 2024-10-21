@@ -21,5 +21,6 @@ export const ROUTE_PATHS = {
     PREFERENCES: '/user-profile/preferences',
     OPERATIONAL_HOURS: '/user-profile/operational-hours',
     CHANGE_PASSWORD: '/user-profile/change-password',
+    EDIT_PROPERTY: '/edit-property/:id',
     FAVORITES: '/favorites',
 };

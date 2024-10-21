@@ -58,8 +58,8 @@ export function SecondaryFilterTag({
             onClick={(e) => handleEventButton(e)}
             className={`flex justify-between gap-2 transition-colors duration-150 group border-2 rounded-md p-2 
                 ${isChecked 
-                    ? 'border-secondary text-secondary' 
-                    : 'border-gray-250 text-white dark:border-gray-600 dark:text-gray-300'}
+                    ? 'border-light-blue text-light-blue' 
+                    : 'border-light-grey text-secondary dark:border-gray-600 dark:text-gray-300'}
                 hover:border-light-blue dark:hover:border-light-blue`}
             {...props}
         >
@@ -67,8 +67,8 @@ export function SecondaryFilterTag({
                 <span
                     className={`transition-colors duration-150 
                         ${isChecked 
-                            ? 'text-secondary' 
-                            : 'text-white dark:text-gray-300'} 
+                            ? 'text-light-blue' 
+                            : 'text-secondary dark:text-gray-300'} 
                         group-hover:text-light-blue`}
                 >
                     {text}

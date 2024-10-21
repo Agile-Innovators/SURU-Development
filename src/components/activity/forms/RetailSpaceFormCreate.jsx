@@ -1,17 +1,16 @@
 import SectionDivider from '../../ui/layout/SectionDivider';
-import BaseFormsInfo from '../pricing/BaseFormsInfo';
-import  InputFormsEdit  from '../../ui/forms/InputForms';
-import { PriceDetailsSelector } from '../pricing/PriceDetailsSelector';
+import BaseFormsInfoCreate from '../pricing/BaseFormsInfoCreate';
+import { InputForms } from '../../ui/forms/InputForms';
+import { PriceDetailsSelectorCreate } from '../pricing/PriceDetailsSelectorCreate';
 import { SecondaryFilterTag } from '../../ui/buttons/SecondaryFilterTag';
-import PropTypes from 'prop-types';
 
-const RetailSpaceForm = ({ transactionType, fillData, fillUtilities, initialData }) => {
+const RetailSpaceFormCreate = ({ transactionType, fillData, fillUtilities }) => {
     return (
         <div>
             <SectionDivider text="Retail Space details" />
-            <BaseFormsInfo fillData={fillData} initialData={initialData} />
+            <BaseFormsInfoCreate fillData={fillData} />
             <div className="grid grid-cols-2 gap-4 my-4">
-                <InputFormsEdit
+                <InputForms
                     inputName="size"
                     inputId="size"
                     type="number"
@@ -20,9 +19,8 @@ const RetailSpaceForm = ({ transactionType, fillData, fillUtilities, initialData
                     required={true}
                     onChange={(value) => fillData('size_in_m2', value)}
                     min={0}
-                    value={initialData?.size_in_m2 ?? ''}
                 />
-                <InputFormsEdit
+                <InputForms
                     inputName="bathrooms"
                     inputId="bathrooms"
                     type="number"
@@ -31,9 +29,9 @@ const RetailSpaceForm = ({ transactionType, fillData, fillUtilities, initialData
                     onChange={(value) => fillData('bathrooms', value)}
                     min={0}
                     max={10}
-                    value={initialData?.bathrooms ?? ''}
                 />
             </div>
+            {/* Transaction type: 2 = rent, 3 = both */}
             {(transactionType === 2 || transactionType === 3) && (
                 <>
                     <SectionDivider text="Include services" />
@@ -42,47 +40,39 @@ const RetailSpaceForm = ({ transactionType, fillData, fillUtilities, initialData
                             text={'Electricity'}
                             handleSelectedValue={fillUtilities}
                             groupType={'individual'}
-                            isActivate={initialData?.services?.includes(1)}
+                            isActivate={false}
                             idValue={1}
                         />
                         <SecondaryFilterTag
                             text={'Water'}
                             handleSelectedValue={fillUtilities}
                             groupType={'individual'}
-                            isActivate={initialData?.services?.includes(2)}
+                            isActivate={false}
                             idValue={2}
                         />
                         <SecondaryFilterTag
                             text={'Wifi'}
                             handleSelectedValue={fillUtilities}
                             groupType={'individual'}
-                            isActivate={initialData?.services?.includes(4)}
+                            isActivate={false}
                             idValue={4}
                         />
                         <SecondaryFilterTag
                             text={'Cable TV'}
                             handleSelectedValue={fillUtilities}
                             groupType={'individual'}
-                            isActivate={initialData?.services?.includes(5)}
+                            isActivate={false}
                             idValue={5}
                         />
                     </div>
                 </>
             )}
-            <PriceDetailsSelector
+            <PriceDetailsSelectorCreate
                 transactionType={transactionType}
                 fillData={fillData}
-                initialData={initialData} // Añadir initialData si es necesario
             />
         </div>
     );
 };
 
-RetailSpaceForm.propTypes = {
-    transactionType: PropTypes.number.isRequired,
-    fillData: PropTypes.func.isRequired,
-    fillUtilities: PropTypes.func.isRequired,
-    initialData: PropTypes.object, // Añadido
-};
-
-export default RetailSpaceForm;
+export default RetailSpaceFormCreate;
