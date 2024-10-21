@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Tabs, Tab, Box, Button } from '@mui/material';
 import { Clock, MapPin, MoreHorizontal, Check, X, Eye } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { FiltersAppointmentsModal } from '../../components/ui/modals/FiltersAppointmentsModal';
 import { RequestAppointmentModal } from '../../components/ui/modals/RequestAppointmentModal';
 import { LayoutModal } from '../../components/ui/modals/LayoutModal';
@@ -9,6 +10,10 @@ import { useAxios } from '../../components/hooks/useAxios';
 import Swal from 'sweetalert2';
 
 export function Appointments() {
+    // Obtener el usuario logeado directamente de localStorage
+    const user = JSON.parse(localStorage.getItem('user')) || null;
+    const loggedInUserId = user?.id;
+
     const [isFiltersOpen, setIsFiltersOpen] = useState(false);
     const [isRequestOpen, setIsRequestOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,6 +22,7 @@ export function Appointments() {
     const [currentStatus, setCurrentStatus] = useState('Scheduled');
     const [openDropdownId, setOpenDropdownId] = useState(null);
     const axios = useAxios();
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchAppointments(currentStatus);
@@ -24,7 +30,7 @@ export function Appointments() {
 
     const fetchAppointments = (status) => {
         setLoading(true);
-        setAppointments([]); // Limpiar las citas antes de hacer la solicitud
+        setAppointments([]);
         axios
             .get(`/appointments/user/22/status/${status}`)
             .then((response) => {
@@ -41,11 +47,8 @@ export function Appointments() {
         setCurrentStatus(newValue);
     };
 
-    const handleFiltersClick = () => setIsFiltersOpen(true);
-    const handleRequestModal = () => setIsRequestOpen(true);
-
     const toggleDropdown = (appointmentId) => {
-        setOpenDropdownId(openDropdownId === appointmentId ? null : appointmentId);
+        setOpenDropdownId((prevId) => (prevId === appointmentId ? null : appointmentId));
     };
 
     const confirmAppointment = (appointmentId, userId) => {
@@ -59,6 +62,7 @@ export function Appointments() {
                     timer: 1500,
                 });
                 setAppointments(prevAppointments => prevAppointments.filter(appt => appt.id !== appointmentId));
+                setCurrentStatus("Confirmed"); 
                 fetchAppointments("Confirmed");
             })
             .catch(error => {
@@ -83,6 +87,7 @@ export function Appointments() {
                     .then(() => {
                         Swal.fire('Cancelled!', 'Your appointment has been cancelled.', 'success');
                         setAppointments(prevAppointments => prevAppointments.filter(appt => appt.id !== appointmentId));
+                        setCurrentStatus("Cancelled"); 
                         fetchAppointments("Cancelled");
                     })
                     .catch(error => {
@@ -113,6 +118,43 @@ export function Appointments() {
         return `${startTime} — ${endTime}`;
     };
 
+    const Navigate = (property_id) => {
+        navigate(`/property/${property_id}`); 
+    };
+
+    const renderMenuOptions = (appointment) => {
+        return (
+            <ul className="text-left">
+                <li
+                    className="px-4 py-2 hover:bg-gray-400 hover:text-white flex items-center gap-2 cursor-pointer"
+                    onClick={() => Navigate(appointment.property_id)}
+                >
+                    <Eye size={16} /> View Property
+                </li>
+                {currentStatus === "Pending" && appointment.owner_id === loggedInUserId && (
+                    <li
+                        className="px-4 py-2 hover:bg-green-500 hover:text-white flex items-center gap-2 cursor-pointer"
+                        onClick={() => {
+                            setOpenDropdownId(null);
+                            confirmAppointment(appointment.id, loggedInUserId);
+                        }}
+                    >
+                        <Check size={16} /> Confirm Appointment
+                    </li>
+                )}
+                <li
+                    className="px-4 py-2 hover:bg-red-500 hover:text-white flex items-center gap-2 cursor-pointer"
+                    onClick={() => {
+                        setOpenDropdownId(null);
+                        cancelAppointment(appointment.id, loggedInUserId);
+                    }}
+                >
+                    <X size={16} /> Cancel Appointment
+                </li>
+            </ul>
+        );
+    };
+
     return (
         <div className="max-w-7xl m-auto p-4">
             <div className="sm:hidden flex justify-start mt-10 mb-10">
@@ -141,30 +183,12 @@ export function Appointments() {
                         >
                             <Tab label="Scheduled" value="Scheduled" />
                             <Tab label="Pending" value="Pending" />
-                            <Tab label="Confirmed" value="Confirmed" />
                             <Tab label="Rejected" value="Rejected" />
                             <Tab label="Cancelled" value="Cancelled" />
+                            <Tab label="Completed" value="Completed" />
                         </Tabs>
-
-                        <Box className="flex gap-4">
-                            <Button
-                                variant="outlined"
-                                className="text-secondary border-secondary hover:bg-secondary hover:text-white px-4 py-2"
-                                onClick={handleFiltersClick}
-                            >
-                                Filters
-                            </Button>
-                            <Button
-                                variant="contained"
-                                className="bg-secondary text-white hover:bg-light-blue px-4 py-2"
-                                onClick={handleRequestModal}
-                            >
-                                Add New
-                            </Button>
-                        </Box>
                     </Box>
 
-                    {/* Mostrar citas con mensaje cuando esté vacío */}
                     <div className="grid grid-cols-1 gap-4 mt-4">
                         {appointments.length === 0 ? (
                             <p className="text-center text-gray-600 font-bold">No appointments found in this category.</p>
@@ -216,32 +240,7 @@ export function Appointments() {
                                             </button>
                                             {openDropdownId === appointment.id && (
                                                 <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-md shadow-lg z-10">
-                                                    <ul className="text-left">
-                                                        <li
-                                                            className="px-4 py-2 hover:bg-gray-400 hover:text-white flex items-center gap-2 cursor-pointer"
-                                                            onClick={() => setOpenDropdownId(null)}
-                                                        >
-                                                            <Eye size={16} /> View Property
-                                                        </li>
-                                                        <li
-                                                            className="px-4 py-2 hover:bg-green-500 hover:text-white flex items-center gap-2 cursor-pointer"
-                                                            onClick={() => {
-                                                                setOpenDropdownId(null);
-                                                                confirmAppointment(appointment.id, 22);
-                                                            }}
-                                                        >
-                                                            <Check size={16} /> Confirm Appointment
-                                                        </li>
-                                                        <li
-                                                            className="px-4 py-2 hover:bg-red-500 hover:text-white flex items-center gap-2 cursor-pointer"
-                                                            onClick={() => {
-                                                                setOpenDropdownId(null);
-                                                                cancelAppointment(appointment.id, 22);
-                                                            }}
-                                                        >
-                                                            <X size={16} /> Cancel Appointment
-                                                        </li>
-                                                    </ul>
+                                                    {renderMenuOptions(appointment)}
                                                 </div>
                                             )}
                                         </div>
@@ -251,7 +250,6 @@ export function Appointments() {
                         )}
                     </div>
 
-                    {/* Modales */}
                     <LayoutModal status={isFiltersOpen}>
                         <FiltersAppointmentsModal handleModal={setIsFiltersOpen} />
                     </LayoutModal>

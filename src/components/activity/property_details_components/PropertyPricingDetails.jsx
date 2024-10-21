@@ -56,12 +56,10 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                         <p className="font-medium">Transaction type not available</p>
                     )}
 
-                    <MainButton
-                        text="Scheduled a visit"
-                        variant="border"
-                        customClass="mt-4"
-                        type="button"
-                    />
+
+                    <button className="text-secondary border-2 border-secondary hover:bg-secondary hover:text-white py-3">
+                        Schedule a Visit
+                    </button>
                     <MainButton text="Get Property" type="button" />
                 </div>
 
