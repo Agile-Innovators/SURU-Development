@@ -16,13 +16,13 @@ export function MainButton({
 }) {
     let variantClasses = {
         fill: 'bg-secondary text-white hover:bg-light-blue hover:text-white',
-        border: 'text-secondary border-2 border-secondary hover:bg-secondary hover:text-white',
+        border: 'text-secondary border-2 border-secondary hover:bg-secondary hover:text-white dark:border-light-blue dark:text-light-blue',
         none: '',
     };
 
     let commonClasses = `block text-center px-8 py-3 rounded-md transition-colors duration-150 cursor-pointer ${variantClasses[variant]} ${customClass}`;
 
-    //manejar el onClick más dinamico ya que no permite agreagr otras funciones
+    //manejar el onClick mÃ¡s dinamico ya que no permite agreagr otras funciones
     // const handleClick = () => {
     //   if (onClick) {
     //     onClick(id); // Retorna el id al hacer clic
@@ -42,7 +42,7 @@ export function MainButton({
         );
     } else if (type === 'link') {
         return (
-            <Link id={id} to={to} className={commonClasses}>
+            <Link id={id} to={to} className={commonClasses} onClick={onClick}>
                 {icon ? icon : text}
             </Link>
         );

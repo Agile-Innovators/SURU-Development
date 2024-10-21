@@ -59,8 +59,8 @@ export function SecondaryFilterTag({
             className={`flex justify-between gap-2 transition-colors duration-150 group border-2 rounded-md p-2 
                 ${isChecked 
                     ? 'border-secondary text-secondary' 
-                    : 'border-gray-250 text-white '}
-                hover:border-light-blue `}
+                    : 'border-gray-250 text-white dark:border-gray-600 dark:text-gray-300'}
+                hover:border-light-blue dark:hover:border-light-blue`}
             {...props}
         >
             <span className="flex">
@@ -68,7 +68,7 @@ export function SecondaryFilterTag({
                     className={`transition-colors duration-150 
                         ${isChecked 
                             ? 'text-secondary' 
-                            : 'text-primary '} 
+                            : 'text-white dark:text-gray-300'} 
                         group-hover:text-light-blue`}
                 >
                     {text}
@@ -81,7 +81,7 @@ export function SecondaryFilterTag({
                         checked={isChecked}
                         type="checkbox"
                         onChange={handleEventButton}
-                        className={`peer h-6 w-6 cursor-pointer transition-all appearance-none rounded-full bg-slate-100  shadow hover:shadow-md border border-slate-300 checked:bg-cyan-700 checked:border-cyan-700`}
+                        className={`peer h-6 w-6 cursor-pointer transition-all appearance-none rounded-full bg-slate-100 dark:bg-gray-800 shadow hover:shadow-md border border-slate-300 checked:bg-cyan-700 checked:border-cyan-700`}
                     />
                     <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                         <svg

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-export function PriceInput({
+export function PriceInputEdit({
     inputName,
     placeholder = '',
     labelText,
@@ -84,4 +84,4 @@ PriceInput.propTypes = {
     onChange: PropTypes.func,
 };
 
-export default PriceInput;
+export default PriceInputEdit;

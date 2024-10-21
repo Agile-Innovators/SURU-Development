@@ -1,8 +1,7 @@
+// src/ui/forms/InputForms.jsx
 import PropTypes from 'prop-types';
-import { useState, useEffect, useContext } from 'react';
-import { globalProvider } from '../../../global/GlobalProvider';
 
-export function InputForms({
+export function InputFormsEdit({
     inputName,
     placeholder = '',
     type = 'text',
@@ -12,27 +11,20 @@ export function InputForms({
     customClass = '',
     required = false,
     onChange,
+    value, // Añadido
     ...props
 }) {
-    const { propTypeForm, propTransacTypeForm } = useContext(globalProvider);
-    const [inputValue, setInputValue] = useState('');
-
     const commonClasses = `border border-light-grey bg-transparent rounded-md px-4 py-3 mt-2 focus:outline-light-blue ${customClass}`;
 
     const handleInputChange = (e) => {
-        let value = e.target.value;
+        let newValue = e.target.value;
         if (type === 'number') {
-            value = value === '' ? '' : Number(value);
+            newValue = newValue === '' ? '' : Number(newValue);
         }
-        setInputValue(value);
         if (onChange) {
-            onChange(value);
+            onChange(newValue);
         }
     };
-
-    useEffect(() => {
-        setInputValue('');
-    }, [propTypeForm, propTransacTypeForm]);
 
     return (
         <div className="flex flex-col">
@@ -46,7 +38,7 @@ export function InputForms({
                     name={inputName}
                     placeholder={placeholder}
                     className={`${commonClasses} h-32 resize-none`}
-                    value={inputValue}
+                    value={value}
                     onChange={handleInputChange}
                 />
             ) : (
@@ -57,7 +49,7 @@ export function InputForms({
                     name={inputName}
                     placeholder={placeholder}
                     className={commonClasses}
-                    value={inputValue}
+                    value={value}
                     onChange={handleInputChange}
                     {...props}
                 />
@@ -67,9 +59,9 @@ export function InputForms({
     );
 }
 
-InputForms.propTypes = {
-    inputName: PropTypes.string,
-    inputId: PropTypes.string,
+InputFormsEdit.propTypes = {
+    inputName: PropTypes.string.isRequired,
+    inputId: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     type: PropTypes.string,
     spanText: PropTypes.string,
@@ -77,7 +69,11 @@ InputForms.propTypes = {
     required: PropTypes.bool,
     customClass: PropTypes.string,
     onChange: PropTypes.func,
+    value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+    ]),
     clearInput: PropTypes.func,
 };
 
-export default InputForms;
+export default InputFormsEdit;

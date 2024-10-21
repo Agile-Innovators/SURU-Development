@@ -8,7 +8,7 @@ import { useAxios } from '../../hooks/useAxios';
 import { useFetchProperties } from '../../hooks/useFetchProperties';
 import { MainFilterTag } from '../../ui/buttons/MainFilterTag';
 import { SecondaryFilterTag } from '../../ui/buttons/SecondaryFilterTag';
-import { BareLandForm } from './BareLandForm';
+import { BareLandForm } from './BareLandForm.jsx';
 import { globalProvider } from '../../../global/GlobalProvider';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
@@ -76,13 +76,7 @@ const EditPropertyForm = () => {
             setImages([]);
             setNewImagePreviews([]);
         }
-    
-        if (property.furnished === undefined) {
-            setData((prevData) => ({ ...prevData, furnished: 0 }));
-        }
-        if (property.utilities === undefined) {
-            setData((prevData) => ({ ...prevData, utilities: [] })); 
-        }
+        
     }, [setPropTypeForm, setPropTransacTypeForm]);
 
     useEffect(() => {
@@ -192,39 +186,48 @@ const EditPropertyForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        // Crear el objeto final de datos
+    
+        // Filtrar solo los campos seleccionados en 'data'
         const finalData = Object.keys(data).reduce((acc, key) => {
             if (data[key] !== '' && data[key] !== null && data[key] !== undefined) {
                 acc[key] = data[key];
             }
             return acc;
         }, {});
-        
-        finalData.property_transaction_type_id = filterPropTransaction || 1;
-        finalData.property_category_id = filterPropType || 1;
-        finalData.user_id = userId;
-        
-        finalData._method = "PUT";
     
+        // Añadir solo los campos adicionales si son relevantes
+        if (filterPropType) finalData.property_category_id = filterPropType;
+        if (filterPropTransaction) finalData.property_transaction_type_id = filterPropTransaction;
+        if (userId) finalData.user_id = userId;
+    
+        // Añadir el método PUT
+        finalData._method = 'PUT';
+    
+        // Crear el FormData
         const formData = new FormData();
-
-        // Añadir imágenes nuevas al FormData
+    
+        // Añadir nuevas imágenes al FormData
         images.forEach((image) => formData.append('images[]', image));
     
-        // Añadir IDs de imágenes existentes al FormData
+        // Añadir los IDs de las imágenes existentes al FormData
         existing_images_id.forEach((id) => formData.append('existing_images_id[]', id));
     
-        // *** Añadir utilidades al FormData ***
-        utilities.forEach((utility) => {
-            formData.append('utilities[]', utility);  
+        // Añadir cada utilidad individualmente como 'utilities[0]', 'utilities[1]', etc.
+        utilities.forEach((utility, index) => {
+            formData.append(`utilities[${index}]`, utility);
         });
     
         // Añadir los demás datos al FormData
         for (let key in finalData) {
             formData.append(key, finalData[key]);
         }
-        
+    
+        // Debug: log the FormData entries
+        for (let pair of formData.entries()) {
+            console.log(`${pair[0]}: ${pair[1]}`);
+        }
+    
+        // Enviar los datos con axios
         try {
             const response = await axios.post(`/properties/update/${id}`, formData, {
                 headers: {
@@ -241,10 +244,8 @@ const EditPropertyForm = () => {
         } catch (error) {
             console.error('Update error:', error);
             toast.error('An error occurred while updating the property');
-            
         }
     };
-    
     
     
     
