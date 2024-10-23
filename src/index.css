@@ -22,12 +22,12 @@
 }
 
 .swiper-pagination-bullet {
-    background-color: white !important;
+    background-color: white ;
     opacity: 0.2;
 }
 
 .swiper-pagination-bullet-active {
-    background-color: white !important;
+    background-color: white;
     opacity: 1;
 }
 

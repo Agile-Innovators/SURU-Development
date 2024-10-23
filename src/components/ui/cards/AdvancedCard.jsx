@@ -3,19 +3,19 @@ import { MapPin, BedDouble, Bath, Car, PawPrint } from 'lucide-react';
 import { LikeButton } from '../buttons/LIkeButton';
 import { useAuth } from '../../../global/AuthProvider';
 export function AdvancedCard({
-    srcImage,
-    children,
-    title,
-    location,
-    price,
-    frequency,
-    qtyBedrooms,
-    qtyBathrooms,
-    qtyGarages,
+    srcImage = "https://via.placeholder.com/300",
+    children = null,
+    title = 'Title',
+    location = 'Location',
+    price = 0,
+    frequency = 'Frequency',
+    qtyBedrooms = 0,
+    qtyBathrooms = 0,
+    qtyGarages = 0,
     currency_code = 'CRC',
-    isLiked,
-    propertyId,
-    refreshFavorites,
+    isLiked = false,
+    propertyId = 0,
+    refreshFavorites = null,
 }) {
     const { getUser } = useAuth();
     const { user } = getUser();
@@ -89,6 +89,7 @@ export function AdvancedCard({
     );
 }
 
+
 AdvancedCard.propTypes = {
     srcImage: PropTypes.string,
     children: PropTypes.node,
@@ -105,18 +106,3 @@ AdvancedCard.propTypes = {
     refreshFavorites: PropTypes.func
 };
 
-AdvancedCard.defaultProps = {
-    srcImage: "https://via.placeholder.com/300",
-    children: null,
-    title: 'Title',
-    location: 'Location',
-    price: 0,
-    frequency: 'Frequency',
-    qtyBedrooms: 0,
-    qtyBathrooms: 0,
-    qtyGarages: 0,
-    currency_code: 'CRC',
-    isLiked: false,
-    propertyId: 0,
-    refreshFavorites: null,
-};
