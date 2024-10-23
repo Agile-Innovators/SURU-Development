@@ -82,7 +82,7 @@ export function SearchFilter({ setData, isLoadingFilter, handleModal }) {
     // ];
 
     const createRegionsSelect = (items) => {
-        console.log(items)
+
         return (
             <div className="w-full lg:w-auto flex flex-col">
                 <label

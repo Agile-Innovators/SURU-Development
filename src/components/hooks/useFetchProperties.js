@@ -10,7 +10,7 @@ export function useFetchProperties() {
         try {
             const response = await axios.get('properties');
             const data = await response.data;
-            console.log(data);
+            // console.log(data);
             SetIsLoadingProps(false);
             setProperties(data);
         } catch (error) {

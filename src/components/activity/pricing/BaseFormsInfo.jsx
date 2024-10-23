@@ -40,9 +40,9 @@ export function BaseFormsInfo({ fillData, initialData }) {
 
     // Depuración: Verificar los valores
     useEffect(() => {
-        console.log('Initial Data:', initialData);
-        console.log('Locations:', locations);
-        console.log('Selected Location:', selectedLocation);
+        // console.log('Initial Data:', initialData);
+        // console.log('Locations:', locations);
+        // console.log('Selected Location:', selectedLocation);
     }, [initialData, locations, selectedLocation]);
 
     return (

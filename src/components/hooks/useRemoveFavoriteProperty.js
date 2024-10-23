@@ -11,7 +11,6 @@ export function useRemoveFavoriteProperty() {
                 const userData = JSON.parse(localData);
                 userId = userData.id;
             }
-            console.log("userId: ", userId, " propertyId: ", propertyId)
             const response = await axios.delete('user/favorites/remove', {
                 data:{
                     user_id: userId,
@@ -19,7 +18,6 @@ export function useRemoveFavoriteProperty() {
                 }
             });
             const data =  response.data;
-            console.log(data);
         } catch (error) {
             console.log(error);
         }

@@ -37,7 +37,7 @@ export function Search() {
 
     const showProperty = (id) => {
         setPropertyID(id);
-        console.log('ID HOME:', id);
+        // console.log('ID HOME:', id);
         navigate(ROUTE_PATHS.PROPERTY_DETAILS);
     };
 
@@ -100,7 +100,7 @@ export function Search() {
         ));
     }
 
-    console.log(regionId, minPrice, maxPrice, propertyTypeId, isFilterUsed);
+    // console.log(regionId, minPrice, maxPrice, propertyTypeId, isFilterUsed);
     return (
         <section className="max-w-7xl m-auto mt-5 p-4 xl:p-0">
             <LayoutModal customClass="pb-20" status={isOpenModal}>

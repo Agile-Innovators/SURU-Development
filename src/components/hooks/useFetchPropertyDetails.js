@@ -6,7 +6,7 @@ export const useFetchPropertyDetails = () => {
     const { propertyID } = useContext(globalProvider);
     const [propertyDetails, setPropertyDetails] = useState([]);
     const [isLoadingPropsDetails, setIsLoadingPropsDetails] = useState(true);
-    console.log('ID:', propertyID);
+    // console.log('ID:', propertyID);
     const axios = useAxios();
 
   const getData = async () => {
