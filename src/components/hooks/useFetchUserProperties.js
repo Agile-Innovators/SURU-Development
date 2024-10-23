@@ -16,7 +16,7 @@ export function useFetchUserProperties() {
                 '/properties/user/' + user.user.id
             );
             const data = await response.data;
-            console.log('La información de propiedades es la siguiente' + data);
+            // console.log('La información de propiedades es la siguiente' + data);
             const properties = data;
             setProperties(properties);
             setIsLoadingProps(false);

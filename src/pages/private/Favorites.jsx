@@ -40,7 +40,7 @@ export function Favorites() {
 
     const showProperty = (id) => {
         setPropertyID(id);
-        console.log('ID HOME:', id);
+        // console.log('ID HOME:', id);
         navigate(ROUTE_PATHS.PROPERTY_DETAILS);
     };
 
