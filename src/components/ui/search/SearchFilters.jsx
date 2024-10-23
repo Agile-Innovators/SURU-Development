@@ -2,7 +2,7 @@ import { MainButton } from '../buttons/MainButton';
 import { useFetchPropertyCategories } from '../../hooks/useFetchPropertyCategories';
 import { useFetchRegions } from '../../hooks/useFetchRegions';
 import { useAxios } from '../../hooks/useAxios';
-import { Bounce, ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { SkeletonLoader } from '../SkeletonLoader';
 import { useState } from 'react';

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Tabs, Tab, Box, Button } from '@mui/material';
-import { Clock, MapPin, Check, X } from 'lucide-react';
+import { Clock, MapPin } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { FiltersAppointmentsModal } from '../../components/ui/modals/FiltersAppointmentsModal';

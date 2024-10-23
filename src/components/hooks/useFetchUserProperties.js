@@ -6,7 +6,7 @@ export function useFetchUserProperties() {
     const [properties, setProperties] = useState([]);
     const [isLoadingProps, setIsLoadingProps] = useState([true]);
     const axios = useAxios();
-    const { getAuthToken, getUser } = useAuth();
+    const { getUser } = useAuth();
     const user = getUser();
 
     const getData = async () => {
