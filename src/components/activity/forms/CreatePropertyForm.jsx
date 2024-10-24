@@ -38,7 +38,6 @@ const CreatePropertyForm = () => {
     useEffect(() => {
       if (images.length+1 > 6) {
         toast.error("You can only upload up to 6 images");
-          return;
       }
   }, [images]);
 
@@ -176,7 +175,6 @@ const CreatePropertyForm = () => {
         } catch (error) {
             console.log(error);
         }
-        return;
     };
 
     const renderFormulario = () => {

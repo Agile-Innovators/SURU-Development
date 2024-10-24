@@ -13,15 +13,10 @@ import { useFetchUserFavoritesIDs } from '../../components/hooks/useFetchUserFav
 
 export function Search() {
     const {
-        regionId,   
-        minPrice,
-        maxPrice,
-        propertyTypeId,
-        isFilterUsed,
         setPropertyID,
     } = useContext(globalProvider);
     const { data, isLoading } = useFetchFilter();
-    const { userFavoritesIDs, isLoadingFavoritesIDs } = useFetchUserFavoritesIDs();
+    const { userFavoritesIDs } = useFetchUserFavoritesIDs();
     const navigate = useNavigate();
     const [isLoadingFilter, setIsLoadingFilter] = useState(false);
     const [properties, setProperties] = useState(data);
@@ -46,7 +41,7 @@ export function Search() {
             .fill(0)
             .map((_, index) => (
                 <SkeletonLoader
-                    key={`card-${index}`}
+                    key={index}
                     customClass="h-[25rem] w-full"
                 />
             ));
