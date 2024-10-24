@@ -100,9 +100,9 @@ const HDSForm = ({
                 />
                 <SecondaryFilterTag
                     text={'Furnished'}
-                    handleSelectedValue={fillUtilities}
+                    isActivate={initialData?.furnished === 1} // Aquí depende de initialData
+                    handleSelectedValue={() => fillUtilities(3)} // Utilidad: Furnished = 3
                     groupType={'individual'}
-                    isActivate={false} // Ajuste para depender de initialData
                     idValue={3}
                 />
             </div>
@@ -113,35 +113,36 @@ const HDSForm = ({
                     <div className="grid grid-cols-2 gap-4 my-4">
                         <SecondaryFilterTag
                             text={'Electricity'}
-                            handleSelectedValue={fillUtilities}
+                            handleSelectedValue={() => fillUtilities(1)}
                             groupType={'individual'}
-                            isActivate={initialData?.utilities?.includes(1)}
+                            isActivate={initialData?.utilities?.includes(1)} // Comparar si está en el array
                             idValue={1}
                         />
                         <SecondaryFilterTag
                             text={'Water'}
-                            handleSelectedValue={fillUtilities}
+                            handleSelectedValue={() => fillUtilities(2)}
                             groupType={'individual'}
-                            isActivate={initialData?.utilities?.includes(2)}
+                            isActivate={initialData?.utilities?.includes(2)} // Comparar si está en el array
                             idValue={2}
                         />
                         <SecondaryFilterTag
                             text={'Wifi'}
-                            handleSelectedValue={fillUtilities}
+                            handleSelectedValue={() => fillUtilities(4)}
                             groupType={'individual'}
-                            isActivate={initialData?.utilities?.includes(4)}
+                            isActivate={initialData?.utilities?.includes(4)} // Comparar si está en el array
                             idValue={4}
                         />
                         <SecondaryFilterTag
                             text={'Cable TV'}
-                            handleSelectedValue={fillUtilities}
+                            handleSelectedValue={() => fillUtilities(5)}
                             groupType={'individual'}
-                            isActivate={initialData?.utilities?.includes(5)}
+                            isActivate={initialData?.utilities?.includes(5)} // Comparar si está en el array
                             idValue={5}
                         />
                     </div>
                 </>
             )}
+
             <PriceDetailsSelector
                 transactionType={transactionType}
                 fillData={fillData}
