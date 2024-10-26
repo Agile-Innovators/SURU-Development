@@ -97,6 +97,7 @@ export function PartnersAdministration() {
                                     <div className="flex flex-col text-primary">
                                         <span className="text-lg font-bold">
                                             {partner.companyName}
+                                            
                                         </span>
                                         <span className="text-sm text-gray-600">
                                             {formatDate(partner.requestDate)}
