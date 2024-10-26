@@ -80,7 +80,7 @@ export function GeneralInformation() {
             });
             setUserData(data);
         }
-        console.log(data);
+        // console.log(data);
     }, [data]);
 
     const handleChange = (e) => {
@@ -103,7 +103,7 @@ export function GeneralInformation() {
             }
 
             formData.append('_method', 'PUT');
-            console.log([...formData]);
+            // console.log([...formData]);
             const updatedUser = await updateUserProfile(user.id, formData);
 
             // Actualizar el estado de profileData con la nueva imagen

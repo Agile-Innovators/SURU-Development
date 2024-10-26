@@ -33,7 +33,7 @@ const userNavigationLinks = [
     {
         name: 'Manage account',
         to: ROUTE_PATHS.USER_PROFILE,
-        imageRoute: '/public/UserIcon.svg',
+        imageRoute: '/UserIcon.svg',
     },
     {
         name: 'My properties',
@@ -159,7 +159,7 @@ export function NavBar() {
                     </div>
                     {authToken && currentUser && (
                         <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                            <button
+                            {/* <button
                                 type="button"
                                 className="relative rounded-full bg-light-grey dark:bg-gray-700 p-1 text-white hover:bg-light-blue dark:hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 transition duration-300 ease-in-out transform hover:scale-105"
                             >
@@ -167,8 +167,7 @@ export function NavBar() {
                                     View notifications
                                 </span>
                                 <BellIcon className="h-6 w-6" />
-                            </button>
-
+                            </button> */}
                             <Menu as="div" className="relative ml-3">
                                 <div>
                                     <MenuButton className="flex rounded-full bg-gray-800 dark:bg-gray-600 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">

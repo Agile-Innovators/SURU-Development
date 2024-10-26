@@ -18,14 +18,11 @@ export function useFetchUserFavoritesIDs() {
                 const userData = JSON.parse(data);
                 userId = userData.id;
             }
-
             try {
-                console.log('Ejecucion');
                 const response = await axios.get(
                     `user/${userId}/favorites/ids`
                 );
                 const data = await response.data;
-                console.log(data);
                 SetIsLoadingFavoritesIDs(false);
                 setUserFavoritesIDs(data);
             } catch (error) {

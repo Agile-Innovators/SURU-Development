@@ -13,15 +13,10 @@ import { useFetchUserFavoritesIDs } from '../../components/hooks/useFetchUserFav
 
 export function Search() {
     const {
-        regionId,   
-        minPrice,
-        maxPrice,
-        propertyTypeId,
-        isFilterUsed,
         setPropertyID,
     } = useContext(globalProvider);
     const { data, isLoading } = useFetchFilter();
-    const { userFavoritesIDs, isLoadingFavoritesIDs } = useFetchUserFavoritesIDs();
+    const { userFavoritesIDs } = useFetchUserFavoritesIDs();
     const navigate = useNavigate();
     const [isLoadingFilter, setIsLoadingFilter] = useState(false);
     const [properties, setProperties] = useState(data);
@@ -37,7 +32,7 @@ export function Search() {
 
     const showProperty = (id) => {
         setPropertyID(id);
-        console.log('ID HOME:', id);
+        // console.log('ID HOME:', id);
         navigate(ROUTE_PATHS.PROPERTY_DETAILS);
     };
 
@@ -46,7 +41,7 @@ export function Search() {
             .fill(0)
             .map((_, index) => (
                 <SkeletonLoader
-                    key={`card-${index}`}
+                    key={index}
                     customClass="h-[25rem] w-full"
                 />
             ));
@@ -100,7 +95,7 @@ export function Search() {
         ));
     }
 
-    console.log(regionId, minPrice, maxPrice, propertyTypeId, isFilterUsed);
+    // console.log(regionId, minPrice, maxPrice, propertyTypeId, isFilterUsed);
     return (
         <section className="max-w-7xl m-auto mt-5 p-4 xl:p-0">
             <LayoutModal customClass="pb-20" status={isOpenModal}>

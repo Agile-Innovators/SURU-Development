@@ -38,7 +38,6 @@ const CreatePropertyForm = () => {
     useEffect(() => {
       if (images.length+1 > 6) {
         toast.error("You can only upload up to 6 images");
-          return;
       }
   }, [images]);
 
@@ -102,7 +101,7 @@ const CreatePropertyForm = () => {
       files.forEach((file) => {
           if (newImages.length < 6) {
               newImages.push(file);
-              console.log("Image uploaded:", file.name);
+            //   console.log("Image uploaded:", file.name);
               const reader = new FileReader();
               reader.onloadend = () => {
                   newPreviews.push(reader.result);
@@ -176,7 +175,6 @@ const CreatePropertyForm = () => {
         } catch (error) {
             console.log(error);
         }
-        return;
     };
 
     const renderFormulario = () => {
@@ -363,7 +361,6 @@ const CreatePropertyForm = () => {
                             <div className="image-preview-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 gap-4">
                                 {imagePreviews.map((image, index) => (
                                     <div key={index} className="relative">
-                                  
                                       <img
                                             src={image}
                                             alt={`Preview ${index + 1}`}

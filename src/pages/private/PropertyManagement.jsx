@@ -46,14 +46,14 @@ export function PropertyManagement() {
 
             toast.success(data.message);
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             toast.error('An error occurred while deleting the property.');
         }
     };
 
     const showProperty = (id) => {
         setPropertyID(id);
-        console.log('ID HOME:', id);
+        // console.log('ID HOME:', id);
         navigate(ROUTE_PATHS.PROPERTY_DETAILS);
     };
 
@@ -116,7 +116,7 @@ export function PropertyManagement() {
                                             <li
                                                 className="px-4 py-2 hover:bg-cyan-200 dark:hover:bg-cyan-500 hover:text-white flex items-center gap-2 cursor-pointer"
                                                 onClick={() => {
-                                                    console.log('Edit clicked');
+                                                    // console.log('Edit clicked');
                                                     navigate(ROUTE_PATHS.EDIT_PROPERTY.replace(':id', item.id));
                                                     setOpenDropdownId(null);
                                                 }}
