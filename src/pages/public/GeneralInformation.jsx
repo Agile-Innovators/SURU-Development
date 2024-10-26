@@ -146,6 +146,7 @@ export function GeneralInformation() {
                                         className="w-full cursor-pointer h-full opacity-0 absolute"
                                         name="image"
                                         onChange={handleImageChange}
+
                                     />
                                     <Pencil className="text-white" />
                                 </div>

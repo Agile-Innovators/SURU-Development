@@ -2,6 +2,7 @@ import { PropTypes } from 'prop-types';
 import { MapPin, BedDouble, Bath, Car, PawPrint } from 'lucide-react';
 import { LikeButton } from '../buttons/LIkeButton';
 import { useAuth } from '../../../global/AuthProvider';
+
 export function AdvancedCard({
     srcImage = "https://via.placeholder.com/300",
     children = null,
