@@ -124,7 +124,7 @@ export function PartnersAdministration() {
                     {/* Diseño responsive para pantallas pequeñas */}
                     <div className="grid grid-cols-1 gap-4 md:hidden">
                         {partners.map((partner) => (
-                            <div className="bg-white p-4 rounded-lg shadow" key={partner.id}>
+                            <div className="bg-white p-4 rounded-lg shadow overflow-hidden" key={partner.id}>
                                 <div className="flex items-center space-x-2 text-sm">
                                     <div className="font-bold">{partner.companyName}</div>
                                     <div className="p-1.5 text-xs font-medium uppercase tracking-wider text-yellow-800 bg-yellow-200 rounded-lg opacity-50">Pending</div>
@@ -142,9 +142,9 @@ export function PartnersAdministration() {
                                     <p>servicioslimpiezajuanilama2020@gmail.com</p>
                                 </div>
                                 <div className="flex gap-2 mt-2 text-sm">
-                                    <button className="bg-green-500 hover:bg-blue-700 text-white font-bold py px-2 rounded" onClick={() => handleConfirm(partner.id)}>Confirm</button>
+                                    <button className="bg-green-500 hover:bg-green-700 text-white font-bold py px-2 rounded" onClick={() => handleConfirm(partner.id)}>Confirm</button>
                                     <button className="bg-red-500 hover:bg-red-700 text-white font-bold py px-2 rounded" onClick={() => handleDecline(partner.id)}>Decline</button>
-                                    <button className="bg-blue-500 hover:bg-green-700 text-white font-bold py px-2 rounded">Download PDF</button>
+                                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py px-2 rounded">Download PDF</button>
                                 </div>
                             </div>
                         ))}
