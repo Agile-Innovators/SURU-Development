@@ -19,43 +19,41 @@ export function BareLandForm({ transactionType, fillData, fillUtilities, initial
         cable: isUtilitySelected(5),
     });
 
-    // Actualiza los servicios relacionados desactivando cuando ambos accesos están apagados
-    const deactivateAllServices = () => {
-        setServices({
-            water: false,
-            electricity: false,
-            wifi: false,
-            cable: false,
-        });
-        fillUtilities(2, false); // Agua
-        fillUtilities(1, false); // Electricidad
-        fillUtilities(4, false); // Wifi
-        fillUtilities(5, false); // Cable
+    // Función para actualizar servicios cuando ambos accesos están desactivados
+    const resetServices = () => {
+        if (!waterAccess && !electricityAccess) {
+            setServices({
+                water: false,
+                electricity: false,
+                wifi: false,
+                cable: false,
+            });
+            // Desactiva todos los servicios explícitamente pasando `false`
+            fillUtilities(2, false); // Agua
+            fillUtilities(1, false); // Electricidad
+            fillUtilities(4, false); // Wifi
+            fillUtilities(5, false); // Cable
+        }
     };
 
     const handleWaterAccess = (value) => {
         setWaterAccess(value);
         fillUtilities(8, value); // ID 8 para "Water Access"
-        if (!value && !electricityAccess) {
-            deactivateAllServices(); // Desactivar todas las utilidades si ambos accesos están apagados
-        }
+        if (!value) resetServices(); // Reiniciar servicios si ambos accesos están desactivados
     };
 
     const handleElectricityAccess = (value) => {
         setElectricityAccess(value);
         fillUtilities(9, value); // ID 9 para "Electricity Access"
-        if (!value && !waterAccess) {
-            deactivateAllServices(); // Desactivar todas las utilidades si ambos accesos están apagados
-        }
+        if (!value) resetServices(); // Reiniciar servicios si ambos accesos están desactivados
     };
 
     const toggleService = (serviceId, serviceName) => {
-        const newState = !services[serviceName];
         setServices((prev) => ({
             ...prev,
-            [serviceName]: newState,
+            [serviceName]: !prev[serviceName],
         }));
-        fillUtilities(serviceId, newState);
+        fillUtilities(serviceId, !services[serviceName]);
     };
 
     return (

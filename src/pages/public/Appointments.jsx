@@ -163,22 +163,22 @@ export function Appointments() {
             <div className={`mt-10 mb-10 gap-4 ${isMenuOpen ? 'block' : 'hidden'} sm:block`}>
                 <div className="m-auto p-4">
                     <h1 className="mt-10">Appointments</h1>
-                    <p>Everything about your appointments</p>
+                    <p className="dark:text-white">Everything about your appointments</p>
 
-                    <Box className="flex justify-between items-center mt-4 mb-4">
+                    <Box className="flex justify-between items-center mt-4 mb-4 ">
                         <Tabs
                             value={currentStatus}
                             onChange={handleTabChange}
                             variant="scrollable"
                             scrollButtons="auto"
                             aria-label="status tabs"
-                            className="flex-1"
+                            className="flex-1 "
                         >
-                            <Tab label="Scheduled" value="Scheduled" />
-                            <Tab label="Pending" value="Pending" />
-                            <Tab label="Rejected" value="Rejected" />
-                            <Tab label="Cancelled" value="Cancelled" />
-                            <Tab label="Completed" value="Completed" />
+                            <Tab label="Scheduled" value="Scheduled" className="dark:text-white" />
+                            <Tab label="Pending" value="Pending" className="dark:text-white" />
+                            <Tab label="Rejected" value="Rejected" className="dark:text-white"/>
+                            <Tab label="Cancelled" value="Cancelled" className="dark:text-white"/>
+                            <Tab label="Completed" value="Completed" className="dark:text-white"/>
                         </Tabs>
                     </Box>
 
@@ -196,32 +196,32 @@ export function Appointments() {
                                         transition={{ duration: 0.3 }}
                                         className="w-full border border-gray-300 rounded-md p-4 flex flex-col sm:flex-row items-center sm:justify-between gap-4"
                                     >
-                                        <div className="flex flex-col items-center text-primary">
-                                            <span className="text-sm font-medium">
+                                        <div className="flex flex-col items-center text-primary ">
+                                            <span className="text-sm font-medium dark:text-white">
                                                 {formatMonthYear(appointment.date)}
                                             </span>
-                                            <span className="text-3xl font-bold">
+                                            <span className="text-3xl font-bold dark:text-white">
                                                 {formatDay(appointment.date)}
                                             </span>
                                         </div>
 
                                         <div className="hidden sm:block border-l h-12 border-gray-300 mx-4"></div>
 
-                                        <div className="flex flex-col space-y-1 text-gray-600">
+                                        <div className="flex flex-col space-y-1 text-gray-600 ">
                                             <div className="flex items-center space-x-2">
-                                                <Clock size={16} className="text-gray-500" />
-                                                <span>
+                                                <Clock size={16} className="text-gray-500 dark:text-white" />
+                                                <span className="dark:text-white">
                                                     {formatTimeRange(appointment.start_time, appointment.end_time)}
                                                 </span>
                                             </div>
-                                            <div className="flex items-center space-x-2">
-                                                <MapPin size={16} className="text-gray-500" />
-                                                <span>Property ID: {appointment.property_id}</span>
+                                            <div className="flex items-center space-x-2 ">
+                                                <MapPin size={16} className="text-gray-500 dark:text-white" />
+                                                <span className="dark:text-white">Property ID: {appointment.property_id}</span>
                                             </div>
                                         </div>
 
                                         <div className="flex-1 text-gray-600 text-left sm:text-center">
-                                            <p>{appointment.user_message || "No extra comments were given"}</p>
+                                            <p className='dark:text-light-grey'>{appointment.user_message || "No extra comments were given"}</p>
                                         </div>
 
                                         <div className="relative gap-5 flex">
@@ -238,7 +238,7 @@ export function Appointments() {
                                             </select>
 
                                             <button
-                                                className="text-secondary border-2 border-secondary hover:bg-secondary hover:text-white py-3 px-3"
+                                                className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3"
                                                 onClick={() => showProperty(appointment.property_id)}
                                             >
                                                 View Property
