@@ -1,3 +1,5 @@
+// EditPropertyForm.jsx
+
 import { X, House, Hotel, Warehouse, Store, Fence } from 'lucide-react';
 import { useState, useContext, useEffect, useCallback } from 'react';
 import SectionDivider from '../../ui/layout/SectionDivider';
@@ -5,7 +7,7 @@ import { MainButton } from '../../ui/buttons/MainButton';
 import HDSForm from './HDSForm.jsx';
 import RetailSpaceForm from './RetailSpaceForm';
 import { useAxios } from '../../hooks/useAxios';
-import { useFetchProperties } from '../../hooks/useFetchProperties';
+import { useFetchProperty } from '../../hooks/useFetchProperty';
 import { MainFilterTag } from '../../ui/buttons/MainFilterTag';
 import { SecondaryFilterTag } from '../../ui/buttons/SecondaryFilterTag';
 import { BareLandForm } from './BareLandForm.jsx';
@@ -16,27 +18,26 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ROUTE_PATHS } from '../../../routes/index.js';
 import { BackButton } from '../../ui/buttons/BackButton';
 
-const MAX_IMAGES = 6; // Número máximo de imágenes permitidas
-const MIN_IMAGES = 3; // Número mínimo de imágenes requeridas
+const MAX_IMAGES = 6;
+const MIN_IMAGES = 3;
 
 const EditPropertyForm = () => {
-    const { id } = useParams(); // Obtiene el ID de la propiedad de la URL
-    const { properties, isLoadingProps } = useFetchProperties(); // Obtiene las propiedades y su estado de carga
-    const [selectedProperty, setSelectedProperty] = useState(null); // Propiedad seleccionada para editar
-    const { setPropTypeForm, setPropTransacTypeForm } = useContext(globalProvider); // Actualiza el estado global de la categoría y tipo de transacción
-    const [images, setImages] = useState([]); // Nuevas imágenes a subir
-    const [newImagePreviews, setNewImagePreviews] = useState([]); // Previews de las nuevas imágenes
-    const [existingImagesId, setExistingImagesId] = useState([]); // IDs de las imágenes existentes
-    const [existingImagePreviews, setExistingImagePreviews] = useState([]); // Previews de las imágenes existentes
-    const [data, setData] = useState({}); // Datos del formulario de la propiedad
-    const [utilities, setUtilities] = useState([]); // Utilidades seleccionadas para la propiedad
-    const [filterPropType, setFilterPropType] = useState(1); // Filtro de tipo de propiedad
-    const [filterPropTransaction, setFilterPropTransaction] = useState(1); // Filtro de tipo de transacción
-    const [userId, setUserId] = useState(null); // ID del usuario actual
+    const { id } = useParams();
+    const { property, isLoadingProp } = useFetchProperty(id);
+    const [selectedProperty, setSelectedProperty] = useState(null);
+    const { setPropTypeForm, setPropTransacTypeForm } = useContext(globalProvider);
+    const [images, setImages] = useState([]);
+    const [newImagePreviews, setNewImagePreviews] = useState([]);
+    const [existingImagesId, setExistingImagesId] = useState([]);
+    const [existingImagePreviews, setExistingImagePreviews] = useState([]);
+    const [data, setData] = useState(); // city_id inicializado seguro
+    const [utilities, setUtilities] = useState([]);
+    const [filterPropType, setFilterPropType] = useState(1);
+    const [filterPropTransaction, setFilterPropTransaction] = useState(1);
+    const [userId, setUserId] = useState(null);
     const navigate = useNavigate();
-    const axios = useAxios(); // Hook personalizado para usar Axios
+    const axios = useAxios();
 
-    // Obtiene el usuario del localStorage y guarda su ID
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem('user'));
         if (storedUser) {
@@ -44,8 +45,7 @@ const EditPropertyForm = () => {
         }
     }, []);
 
-    // Verifica el límite de imágenes permitidas
-    const checkImageLimits = () => {
+    const checkImageLimits = useCallback(() => {
         const totalImages = existingImagesId.length + images.length;
         if (totalImages > MAX_IMAGES) {
             const allowedNewImages = MAX_IMAGES - existingImagesId.length;
@@ -53,13 +53,13 @@ const EditPropertyForm = () => {
             setImages(images.slice(0, allowedNewImages));
             setNewImagePreviews(newImagePreviews.slice(0, allowedNewImages));
         }
-    };
+    }, [existingImagesId.length, images.length, newImagePreviews]);
 
-    // Ejecuta la verificación del límite de imágenes cada vez que cambian las imágenes
-    useEffect(checkImageLimits, [images, existingImagesId.length, newImagePreviews]);
+    useEffect(checkImageLimits, [images, existingImagesId.length, newImagePreviews, checkImageLimits]);
 
-    // Pobla el formulario con los datos de la propiedad seleccionada
     const populateForm = useCallback((property) => {
+        if (!property) return;
+
         const initialType = property.property_category_id || 1;
         const initialTransaction = property.property_transaction_id || 1;
 
@@ -68,17 +68,21 @@ const EditPropertyForm = () => {
         setFilterPropTransaction(initialTransaction);
         setPropTransacTypeForm(initialTransaction);
 
-        setData({
+        setData((prevData) => ({
+            ...prevData,
             ...property,
-            city_id: property.city_id || '',
-        });
+            city_id: property.city_id || prevData.city_id || '', // city_id se mantiene si ya tiene valor
+        }));
 
-        setUtilities(property.utilities || []);
         populateImages(property.images);
+
+        if (property.utilities && property.utilities.length > 0) {
+            const utilityIds = property.utilities.map((utility) => utility.id);
+            setUtilities(utilityIds);
+        }
     }, [setPropTypeForm, setPropTransacTypeForm]);
 
-    // Población de las imágenes existentes de la propiedad
-    const populateImages = (images) => {
+    const populateImages = useCallback((images) => {
         if (images && images.length > 0) {
             const existingPreviews = images.map((img) => img.url);
             const existingIds = images.map((img) => img.id);
@@ -86,59 +90,46 @@ const EditPropertyForm = () => {
             setExistingImagesId(existingIds);
             resetNewImages();
         }
-    };
+    }, []);
 
-    // Resetea las imágenes nuevas cargadas
-    const resetNewImages = () => {
+    const resetNewImages = useCallback(() => {
         setImages([]);
         setNewImagePreviews([]);
-    };
+    }, []);
 
-    // Carga la propiedad a editar cuando termina la carga de propiedades
     useEffect(() => {
-        if (!isLoadingProps && properties.length > 0) {
-            const propertyToEdit = properties.find((prop) => prop.id === parseInt(id, 10));
-            if (propertyToEdit) {
-                console.log('Property utilities:', propertyToEdit.utilities); // Debug
-                setSelectedProperty(propertyToEdit);
-                populateForm(propertyToEdit);
-            } else {
-                toast.error('Property not found');
-                navigate(ROUTE_PATHS.PROPERTY_MANAGEMENT);
-            }
+        if (!isLoadingProp && property) {
+            setSelectedProperty(property);
+            populateForm(property);
+        } else if (!isLoadingProp && !property) {
+            toast.error('Property not found');
+            navigate(ROUTE_PATHS.PROPERTY_MANAGEMENT);
         }
-    }, [isLoadingProps, properties, id, navigate, populateForm]);
+    }, [isLoadingProp, property, navigate, populateForm]);
 
-    // Maneja la selección del tipo de propiedad
     const handleFilterPropType = useCallback((filterId) => {
         setFilterPropType(filterId);
         setPropTypeForm(filterId);
         resetFormData();
     }, [setPropTypeForm]);
 
-    // Maneja la selección del tipo de transacción
     const handleFilterPropTransaction = useCallback((id) => {
         setFilterPropTransaction(id);
         setPropTransacTypeForm(id);
         resetFormData();
     }, [setPropTransacTypeForm]);
 
-    // Restablece los datos del formulario
-    const resetFormData = () => {
-        setData({});
+    const resetFormData = useCallback(() => {
+        setData((prevData) => ({ ...prevData, city_id: property?.city_id || prevData.city_id || '' }));
         setUtilities([]);
-    };
+    }, [property]);
 
-    // Maneja la selección y eliminación de utilidades
-    const handleUtilitiesData = (value, method) => {
-        if (method === 'remove') {
-            setUtilities((prevUtilities) => prevUtilities.filter((utility) => utility !== value));
-        } else {
-            setUtilities((prevUtilities) => [...prevUtilities, value]);
-        }
-    };
+    const handleUtilitiesData = useCallback((utilityId) => {
+        setUtilities((prevUtilities) => prevUtilities.includes(utilityId)
+            ? prevUtilities.filter((utility) => utility !== utilityId)
+            : [...prevUtilities, utilityId]);
+    }, []);
 
-    // Actualiza los datos del formulario en tiempo real
     const handleInputChange = useCallback((key, value) => {
         setData((prevData) => ({
             ...prevData,
@@ -146,25 +137,28 @@ const EditPropertyForm = () => {
         }));
     }, []);
 
-    // Maneja la subida de imágenes nuevas
-    const handleImageChange = (event) => {
-        const files = Array.from(event.target.files);
-        const newImages = [...images];
-        const newPreviews = [...newImagePreviews];
+    const handleCityChange = useCallback((cityId) => {
+        setData((prevData) => ({
+            ...prevData,
+            city_id: cityId,
+        }));
+    }, []);
 
-        const totalImages = existingImagesId.length + newImages.length + files.length;
+    const handleImageChange = useCallback((event) => {
+        const files = Array.from(event.target.files);
+        const totalImages = existingImagesId.length + images.length + files.length;
         if (totalImages > MAX_IMAGES) {
             toast.error(`You can only upload up to ${MAX_IMAGES} images in total`);
-            const allowedFiles = files.slice(0, MAX_IMAGES - existingImagesId.length - newImages.length);
-            processImages(allowedFiles, newImages, newPreviews);
+            const allowedFiles = files.slice(0, MAX_IMAGES - existingImagesId.length - images.length);
+            processImages(allowedFiles);
             event.target.value = '';
         } else {
-            processImages(files, newImages, newPreviews);
+            processImages(files);
         }
-    };
+    }, [existingImagesId.length, images.length]);
 
-    // Procesa las imágenes cargadas por el usuario
-    const processImages = (files, newImages, newPreviews) => {
+    const processImages = useCallback((files) => {
+        const newImages = [...images];
         files.forEach((file) => {
             if (newImages.length < MAX_IMAGES - existingImagesId.length) {
                 newImages.push(file);
@@ -176,10 +170,9 @@ const EditPropertyForm = () => {
             }
         });
         setImages(newImages);
-    };
+    }, [existingImagesId.length, images]);
 
-    // Elimina una imagen (existente o nueva)
-    const removeImage = (index, type) => {
+    const removeImage = useCallback((index, type) => {
         if (type === 'existing') {
             setExistingImagePreviews((prev) => prev.filter((_, i) => i !== index));
             setExistingImagesId((prev) => prev.filter((_, i) => i !== index));
@@ -187,14 +180,12 @@ const EditPropertyForm = () => {
             setNewImagePreviews((prev) => prev.filter((_, i) => i !== index));
             setImages((prev) => prev.filter((_, i) => i !== index));
         }
-    };
+    }, []);
 
-    // Maneja el envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
         const totalImages = existingImagesId.length + images.length;
 
-        // Verifica si hay al menos 3 imágenes
         if (totalImages < MIN_IMAGES) {
             toast.error('You must have at least 3 images');
             return;
@@ -205,6 +196,7 @@ const EditPropertyForm = () => {
             property_category_id: filterPropType,
             property_transaction_type_id: filterPropTransaction,
             user_id: userId,
+            city_id: data.city_id,
             _method: 'PUT',
         };
 
@@ -226,17 +218,24 @@ const EditPropertyForm = () => {
         }
     };
 
-    // Prepara los datos del formulario para ser enviados
     const prepareFormData = (finalData) => {
         const formData = new FormData();
         images.forEach((image) => formData.append('images[]', image));
         existingImagesId.forEach((id) => formData.append('existing_images_id[]', id));
-        utilities.forEach((utility, index) => formData.append(`utilities[${index}]`, utility));
-        Object.entries(finalData).forEach(([key, value]) => formData.append(key, value));
+
+        Object.entries(finalData).forEach(([key, value]) => {
+            if (key !== 'utilities' && value !== undefined && value !== null && value !== '') {
+                formData.append(key, value);
+            }
+        });
+
+        if (utilities.length > 0) {
+            utilities.forEach((utilityId) => formData.append('utilities[]', utilityId));
+        }
+
         return formData;
     };
 
-    // Renderiza el formulario según el tipo de propiedad seleccionado
     const renderFormulario = () => {
         if (!filterPropType || !filterPropTransaction) return null;
         const formulariosPorTipo = {
@@ -249,7 +248,7 @@ const EditPropertyForm = () => {
         return formulariosPorTipo[filterPropType] || null;
     };
 
-    if (isLoadingProps) return <div>Loading...</div>;
+    if (isLoadingProp) return <div>Loading...</div>;
     if (!selectedProperty) return <div>Property not found.</div>;
 
     return (
