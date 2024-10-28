@@ -40,7 +40,7 @@ export function Appointments() {
         setLoading(true);
         setAppointments([]);
         axios
-            .get(`/appointments/user/22/status/${status}`)
+            .get(`/appointments/user/${loggedInUserId}/status/${status}`)
             .then((response) => {
                 console.log("Fetched Appointments:", response.data);
                 setAppointments(response.data || []);

@@ -29,7 +29,6 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
     const [isActiveWifi, setIsActiveWifi] = useState(false);
     const [isActiveFurnished, setIsActiveFurnished] = useState(false);
     const [currencyId, setCurrencyId] = useState(2);
-    // const [ paymentFrequency, setPaymentFrequency ] = useState(0);
     const [rentPrice, setRentPrice] = useState(0);
     const [depositPrice, setDepositPrice] = useState(0);
 
@@ -79,7 +78,6 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
         setRegion(0);
         setUtilities([]);
         setCurrencyId(1);
-        // setPaymentFrequency(0);
         setRentPrice(0);
         setDepositPrice(0);
     };
@@ -319,26 +317,6 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
                         value={depositPrice}
                         onChange={(e) => setDepositPrice(e.target.value)}
                     />
-                    {/* <div className="grid gap-1">
-                        <label htmlFor="select_frequency">Frequency</label>
-                        <select
-                            id="select_frequency"
-                            name={`select_frequency`}
-                            value={paymentFrequency}
-                            onChange={(e) =>
-                                setPaymentFrequency(e.target.value)
-                            }
-                            className="w-full  p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
-                            required
-                        >
-                            <option value="0" disabled>
-                                Select a payment frequency
-                            </option>
-                            <option value="1">Monthly</option>
-                            <option value="2">Biweekly</option>
-                            <option value="3">Weekly</option>
-                        </select>
-                    </div> */}
                 </div>
             </>
         );
@@ -347,7 +325,7 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
     return (
         <form
             onSubmit={(e) => handleFilter(e)}
-            className="max-h-[90vh] overflow-hidden overflow-y-auto bg-white p-4 mt-6 rounded-xl overflow-hidden relative h-fit sm:p-8 sm:min-w-[40rem] md:min-w-[50rem]"
+            className="max-h-[90vh] overflow-hidden overflow-y-auto bg-white p-4 mt-6 rounded-xl relative h-fit sm:p-8 sm:min-w-[40rem] md:min-w-[50rem]"
         >
             <ToastContainer
                 position="top-center"
