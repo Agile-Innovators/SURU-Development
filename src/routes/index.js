@@ -24,4 +24,6 @@ export const ROUTE_PATHS = {
     CHANGE_PASSWORD: '/user-profile/change-password',
     EDIT_PROPERTY: '/edit-property/:id',
     FAVORITES: '/favorites',
+    PARTNER_PROFILE: '/partner-profile',
+    SEARCH_PARTNERS: '/search-partners',
 };
