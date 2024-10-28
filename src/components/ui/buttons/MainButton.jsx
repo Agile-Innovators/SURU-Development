@@ -13,6 +13,7 @@ export function MainButton({
     onClick = () => {},
     isChecked = false,
     id = null, // Nueva prop de id
+    ...props
 }) {
     let variantClasses = {
         fill: 'bg-secondary text-white hover:bg-light-blue hover:text-white',
@@ -36,6 +37,7 @@ export function MainButton({
                 className={commonClasses}
                 onClick={onClick}
                 type="button"
+                {...props}
             >
                 {icon ? icon : text}
             </button>
@@ -54,13 +56,14 @@ export function MainButton({
                 className={commonClasses}
                 target="_blank"
                 rel="noopener noreferrer"
+                {...props}
             >
                 {icon ? icon : text}
             </a>
         );
     } else if (type === 'submit') {
         return (
-            <button id={id} className={commonClasses} type="submit">
+            <button id={id} className={commonClasses} type="submit" {...props}>
                 {icon ? icon : text}
             </button>
         );
@@ -72,6 +75,7 @@ export function MainButton({
                 className={`${commonClasses} ${variantClasses[booleanVariant]}`}
                 onClick={handleClick}
                 type="button"
+                {...props}
             >
                 {text}
             </button>
