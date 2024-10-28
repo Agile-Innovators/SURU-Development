@@ -5,16 +5,55 @@ import { PriceDetailsSelector } from '../pricing/PriceDetailsSelector';
 import { useState } from 'react';
 import { SecondaryFilterTag } from '../../ui/buttons/SecondaryFilterTag';
 
-export function BareLandForm({ transactionType, fillData, fillUtilities, initialData }) {
-    const [waterAccess, setWaterAccess] = useState(initialData?.waterAccess || false);
-    const [electricityAccess, setElectricityAccess] = useState(initialData?.electricityAccess || false);
+export function BareLandForm({ transactionType, fillData, fillUtilities, initialData = {} }) {
+    const isUtilitySelected = (utilityId) => {
+        return initialData.utilities && initialData.utilities.some((utility) => utility.id === utilityId);
+    };
+
+    const [waterAccess, setWaterAccess] = useState(isUtilitySelected(8)); // ID 8 para "Water Access"
+    const [electricityAccess, setElectricityAccess] = useState(isUtilitySelected(9)); // ID 9 para "Electricity Access"
+    const [services, setServices] = useState({
+        water: isUtilitySelected(2),
+        electricity: isUtilitySelected(1),
+        wifi: isUtilitySelected(4),
+        cable: isUtilitySelected(5),
+    });
+
+    // Función para actualizar servicios cuando ambos accesos están desactivados
+    const resetServices = () => {
+        if (!waterAccess && !electricityAccess) {
+            setServices({
+                water: false,
+                electricity: false,
+                wifi: false,
+                cable: false,
+            });
+            // Desactiva todos los servicios explícitamente pasando `false`
+            fillUtilities(2, false); // Agua
+            fillUtilities(1, false); // Electricidad
+            fillUtilities(4, false); // Wifi
+            fillUtilities(5, false); // Cable
+        }
+    };
 
     const handleWaterAccess = (value) => {
         setWaterAccess(value);
+        fillUtilities(8, value); // ID 8 para "Water Access"
+        if (!value) resetServices(); // Reiniciar servicios si ambos accesos están desactivados
     };
 
     const handleElectricityAccess = (value) => {
         setElectricityAccess(value);
+        fillUtilities(9, value); // ID 9 para "Electricity Access"
+        if (!value) resetServices(); // Reiniciar servicios si ambos accesos están desactivados
+    };
+
+    const toggleService = (serviceId, serviceName) => {
+        setServices((prev) => ({
+            ...prev,
+            [serviceName]: !prev[serviceName],
+        }));
+        fillUtilities(serviceId, !services[serviceName]);
     };
 
     return (
@@ -41,18 +80,18 @@ export function BareLandForm({ transactionType, fillData, fillUtilities, initial
                 <SecondaryFilterTag
                     text={'Water Access'}
                     groupType={'individual'}
-                    isActivate={initialData?.waterAccess ?? false}
+                    isActivate={waterAccess}
                     idValue={8}
-                    handleSelectedValue={fillUtilities}
-                    manageExternalState={handleWaterAccess}
+                    handleSelectedValue={handleWaterAccess}
+                    manageExternalState={setWaterAccess}
                 />
                 <SecondaryFilterTag
                     text={'Electricity Access'}
                     groupType={'individual'}
-                    isActivate={initialData?.electricityAccess ?? false}
+                    isActivate={electricityAccess}
                     idValue={9}
-                    handleSelectedValue={fillUtilities}
-                    manageExternalState={handleElectricityAccess}
+                    handleSelectedValue={handleElectricityAccess}
+                    manageExternalState={setElectricityAccess}
                 />
             </div>
 
@@ -66,9 +105,9 @@ export function BareLandForm({ transactionType, fillData, fillUtilities, initial
                                     <SecondaryFilterTag
                                         text={'Water'}
                                         groupType={'individual'}
-                                        isActivate={initialData?.services?.includes(2)}
+                                        isActivate={services.water}
                                         idValue={2}
-                                        handleSelectedValue={fillUtilities}
+                                        handleSelectedValue={() => toggleService(2, 'water')}
                                     />
                                 )}
                                 {electricityAccess && (
@@ -76,23 +115,23 @@ export function BareLandForm({ transactionType, fillData, fillUtilities, initial
                                         <SecondaryFilterTag
                                             text={'Electricity'}
                                             groupType={'individual'}
-                                            isActivate={initialData?.services?.includes(1)}
+                                            isActivate={services.electricity}
                                             idValue={1}
-                                            handleSelectedValue={fillUtilities}
+                                            handleSelectedValue={() => toggleService(1, 'electricity')}
                                         />
                                         <SecondaryFilterTag
                                             text={'Wifi'}
                                             groupType={'individual'}
-                                            isActivate={initialData?.services?.includes(4)}
+                                            isActivate={services.wifi}
                                             idValue={4}
-                                            handleSelectedValue={fillUtilities}
+                                            handleSelectedValue={() => toggleService(4, 'wifi')}
                                         />
                                         <SecondaryFilterTag
                                             text={'Cable'}
                                             groupType={'individual'}
-                                            isActivate={initialData?.services?.includes(5)}
+                                            isActivate={services.cable}
                                             idValue={5}
-                                            handleSelectedValue={fillUtilities}
+                                            handleSelectedValue={() => toggleService(5, 'cable')}
                                         />
                                     </>
                                 )}
@@ -104,7 +143,7 @@ export function BareLandForm({ transactionType, fillData, fillUtilities, initial
             <PriceDetailsSelector
                 transactionType={transactionType}
                 fillData={fillData}
-                initialData={initialData} // Añadir initialData si es necesario
+                initialData={initialData}
             />
         </div>
     );

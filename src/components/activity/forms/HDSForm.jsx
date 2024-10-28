@@ -10,9 +10,14 @@ const HDSForm = ({
     transactionType,
     fillData,
     fillUtilities,
-    initialData,
+    initialData = {}, // Valor por defecto para evitar undefined
 }) => {
-    // console.log('HDSForm initialData:', initialData); // Para depuración
+    console.log('HDSForm initialData:', initialData); // Para depuración
+
+    // Función para verificar si una utilidad está seleccionada, usando id
+    const isUtilitySelected = (utilityId) => {
+        return initialData.utilities && initialData.utilities.some((utility) => utility.id === utilityId);
+    };
 
     return (
         <div>
@@ -86,23 +91,25 @@ const HDSForm = ({
                     value={initialData?.size_in_m2 ?? ''}
                 />
 
+                {/* Utilidades con activación automática basada en initialData */}
                 <SecondaryFilterTag
                     text={'Pets allowed'}
                     groupType={'individual'}
-                    isActivate={initialData?.pets_allowed === 1} // Comparar con número
+                    isActivate={initialData?.pets_allowed === 1}
                     fillData={(value) => fillData('pets_allowed', value)}
                 />
                 <SecondaryFilterTag
                     text={'Green Area'}
                     groupType={'individual'}
-                    isActivate={initialData?.green_area === 1} // Comparar con número
+                    isActivate={initialData?.green_area === 1}
                     fillData={(value) => fillData('green_area', value)}
                 />
+                
                 <SecondaryFilterTag
                     text={'Furnished'}
-                    handleSelectedValue={fillUtilities}
+                    isActivate={isUtilitySelected(3)}
+                    handleSelectedValue={() => fillUtilities(3)}
                     groupType={'individual'}
-                    isActivate={false} // Ajuste para depender de initialData
                     idValue={3}
                 />
             </div>
@@ -113,35 +120,36 @@ const HDSForm = ({
                     <div className="grid grid-cols-2 gap-4 my-4">
                         <SecondaryFilterTag
                             text={'Electricity'}
-                            handleSelectedValue={fillUtilities}
+                            isActivate={isUtilitySelected(1)}
+                            handleSelectedValue={() => fillUtilities(1)}
                             groupType={'individual'}
-                            isActivate={initialData?.utilities?.includes(1)}
                             idValue={1}
                         />
                         <SecondaryFilterTag
                             text={'Water'}
-                            handleSelectedValue={fillUtilities}
+                            isActivate={isUtilitySelected(5)}
+                            handleSelectedValue={() => fillUtilities(5)}
                             groupType={'individual'}
-                            isActivate={initialData?.utilities?.includes(2)}
                             idValue={2}
                         />
                         <SecondaryFilterTag
                             text={'Wifi'}
-                            handleSelectedValue={fillUtilities}
+                            isActivate={isUtilitySelected(4)}
+                            handleSelectedValue={() => fillUtilities(4)}
                             groupType={'individual'}
-                            isActivate={initialData?.utilities?.includes(4)}
                             idValue={4}
                         />
                         <SecondaryFilterTag
                             text={'Cable TV'}
-                            handleSelectedValue={fillUtilities}
+                            isActivate={isUtilitySelected(6)}
+                            handleSelectedValue={() => fillUtilities(6)}
                             groupType={'individual'}
-                            isActivate={initialData?.utilities?.includes(5)}
                             idValue={5}
                         />
                     </div>
                 </>
             )}
+
             <PriceDetailsSelector
                 transactionType={transactionType}
                 fillData={fillData}
@@ -156,7 +164,7 @@ HDSForm.propTypes = {
     transactionType: PropTypes.number.isRequired,
     fillData: PropTypes.func.isRequired,
     fillUtilities: PropTypes.func.isRequired,
-    initialData: PropTypes.object, // Añadido
+    initialData: PropTypes.object,
 };
 
 export default HDSForm;
