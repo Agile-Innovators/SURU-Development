@@ -13,7 +13,7 @@ export function RequestAppointmentForm() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log('Form submitted:', { date, hour, extraDetails });
+        // console.log('Form submitted:', { date, hour, extraDetails });
     };
 
     return (

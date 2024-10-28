@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Tabs, Tab, Box, Button } from '@mui/material';
-import { Clock, MapPin, Check, X } from 'lucide-react';
+import { Clock, MapPin } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { FiltersAppointmentsModal } from '../../components/ui/modals/FiltersAppointmentsModal';
@@ -10,7 +10,7 @@ import { useAxios } from '../../components/hooks/useAxios';
 import Swal from 'sweetalert2';
 import { globalProvider } from '../../global/GlobalProvider';
 import { ROUTE_PATHS } from '../../routes';
-import { useContext } from 'react';
+
 
 
 export function Appointments() {
@@ -28,7 +28,7 @@ export function Appointments() {
 
     const {
         setPropertyID,
-    }=useContext(globalProvider);
+    } = useContext(globalProvider);
 
 
 
@@ -67,7 +67,7 @@ export function Appointments() {
                     timer: 1500,
                 });
                 setAppointments(prevAppointments => prevAppointments.filter(appt => appt.id !== appointmentId));
-                setCurrentStatus("Confirmed"); 
+                setCurrentStatus("Confirmed");
                 fetchAppointments("Confirmed");
             })
             .catch(error => {
@@ -92,7 +92,7 @@ export function Appointments() {
                     .then(() => {
                         Swal.fire('Cancelled!', 'Your appointment has been cancelled.', 'success');
                         setAppointments(prevAppointments => prevAppointments.filter(appt => appt.id !== appointmentId));
-                        setCurrentStatus("Cancelled"); 
+                        setCurrentStatus("Cancelled");
                         fetchAppointments("Cancelled");
                     })
                     .catch(error => {
@@ -125,10 +125,9 @@ export function Appointments() {
 
     const showProperty = (id) => {
         setPropertyID(id);
-        console.log('ID HOME:', id);
+        // console.log('ID HOME:', id);
         navigate(ROUTE_PATHS.PROPERTY_DETAILS);
-};
-  
+    };
 
     const formatMonthYear = (dateString) => {
         const date = new Date(dateString);

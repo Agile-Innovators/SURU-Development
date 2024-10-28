@@ -8,7 +8,7 @@ export function useFetchData() {
 
     const sendData = async (url, data) => {
         setLoading(true);
-        console.log('Sending data:', data);
+        // console.log('Sending data:', data);
         try {
             const response = await axiosInstance.post(url, data);
             setLoading(false);

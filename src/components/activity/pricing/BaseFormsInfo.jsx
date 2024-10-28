@@ -2,6 +2,7 @@ import { InputFormsEdit } from '../../ui/forms/InputFormsEdit';
 import { useFetchLocations } from '../../hooks/useFetchLocations';
 import { useState, useContext, useEffect } from 'react';
 import { globalProvider } from '../../../global/GlobalProvider';
+import PropTypes from 'prop-types';
 
 export function BaseFormsInfo({ fillData, initialData }) {
     const { locations, isLoadingLocat } = useFetchLocations();
@@ -40,9 +41,9 @@ export function BaseFormsInfo({ fillData, initialData }) {
 
     // Depuración: Verificar los valores
     useEffect(() => {
-        console.log('Initial Data:', initialData);
-        console.log('Locations:', locations);
-        console.log('Selected Location:', selectedLocation);
+        // console.log('Initial Data:', initialData);
+        // console.log('Locations:', locations);
+        // console.log('Selected Location:', selectedLocation);
     }, [initialData, locations, selectedLocation]);
 
     return (
@@ -121,5 +122,11 @@ export function BaseFormsInfo({ fillData, initialData }) {
         </div>
     );
 }
+
+//se validan los props
+BaseFormsInfo.propTypes = {
+    fillData: PropTypes.func.isRequired,
+    initialData: PropTypes.object.isRequired,
+};
 
 export default BaseFormsInfo;

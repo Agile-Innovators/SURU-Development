@@ -12,7 +12,7 @@ export function useFetchUser() {
     // Actualizar el perfil de usuario
     const updateUserProfile = async (userId, userData) => {
         setLoading(true);
-        console.log("Datos enviados update: ". userData);
+        // console.log("Datos enviados update: ". userData);
         try {
             const response = await axios.post(`/user/update/${userId}`, userData);
             setData(response.data);
@@ -46,32 +46,13 @@ export function useFetchUser() {
         }
     };
     
-
-    // Actualizar horas operativas de usuario
-    // const updateUserOperationalHours = async (userId, operationalHours) => {
-    //     setLoading(true);
-    //     try {
-    //         const response = await axios.put(
-    //             `/api/users/${userId}/operational-hours`,
-    //             { operational_hours: operationalHours },
-    //             config
-    //         );
-    //         setData(response.data);
-    //         setError(null);
-    //     } catch (error) {
-    //         setError(error.response?.data);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
-
     // Obtener la información del usuario
     const getUserInformation = async (userId) => {
         setLoading(true);
         try {
             const response = await axios.get(`/user/${userId}`);
             setData(response.data);
-            console.log('Get user information:', response.data);
+            // console.log('Get user information:', response.data);
 
             // Actualizar la información del usuario en el contexto de autenticación
             updateUser(response.data);
