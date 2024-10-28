@@ -13,13 +13,11 @@ export function useAddFavoriteProperty() {
             }
     
             const response = await axios.post('user/favorites/add', {
-                
                     user_id: userId,
                     property_id: propertyId
                 
             });
-            const data =  response.data;
-            console.log(data);
+
         } catch (error) {
             console.log(error);
         }

@@ -19,14 +19,14 @@ export const useFetchFilter = () => {
     const getData = async () => {
         try {
             if (isFilterUsed) {
-                console.log(
-                    'valores de entrada: ',
-                    regionId,
-                    // minPrice,
-                    // maxPrice,
-                    propertyTypeId,
-                    isFilterUsed
-                );
+                // console.log(
+                //     'valores de entrada: ',
+                //     regionId,
+                //     // minPrice,
+                //     // maxPrice,
+                //     propertyTypeId,
+                //     isFilterUsed
+                // );
                 response = await axios.get('/properties/filter', {
                     params: {
                         regionId: regionId,
@@ -39,7 +39,7 @@ export const useFetchFilter = () => {
                 setIsFilterUsed(false);
             } else {
                 response = await axios.get('/properties');
-                console.log('get properties');
+                // console.log('get properties');
             }
             const data = await response.data;
             setData(data);

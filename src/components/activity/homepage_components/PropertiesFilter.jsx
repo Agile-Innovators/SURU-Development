@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { AdvancedCard } from '../../ui/cards/AdvancedCard.jsx';
 import { Divider } from '@mui/joy';
 import { MainButton } from '../../ui/buttons/MainButton.jsx';
@@ -9,7 +9,7 @@ import { useFetchPropertyCategories } from '../../hooks/useFetchPropertyCategori
 import { globalProvider } from '../../../global/GlobalProvider.jsx';
 import { useFetchProperties } from '../../hooks/useFetchProperties.js';
 import { SkeletonLoader } from '../../ui/SkeletonLoader.jsx';
-import { Bounce, ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useFetchUserFavoritesIDs } from './../../hooks/useFetchUserFavoritesIDs';
 import { useAuth } from '../../../global/AuthProvider.jsx';
@@ -213,7 +213,7 @@ export function PropertiesFilter() {
     // Por esto
     const showProperty = (id) => {
         setPropertyID(id);
-        console.log('ID HOME:', id);
+        // console.log('ID HOME:', id);
         navigate(ROUTE_PATHS.PROPERTY_DETAILS);
     };
 

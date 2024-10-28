@@ -1,3 +1,5 @@
+// EditPropertyForm.jsx
+
 import { X, House, Hotel, Warehouse, Store, Fence } from 'lucide-react';
 import { useState, useContext, useEffect, useCallback } from 'react';
 import SectionDivider from '../../ui/layout/SectionDivider';
@@ -5,7 +7,7 @@ import { MainButton } from '../../ui/buttons/MainButton';
 import HDSForm from './HDSForm.jsx';
 import RetailSpaceForm from './RetailSpaceForm';
 import { useAxios } from '../../hooks/useAxios';
-import { useFetchProperties } from '../../hooks/useFetchProperties';
+import { useFetchProperty } from '../../hooks/useFetchProperty';
 import { MainFilterTag } from '../../ui/buttons/MainFilterTag';
 import { SecondaryFilterTag } from '../../ui/buttons/SecondaryFilterTag';
 import { BareLandForm } from './BareLandForm.jsx';
@@ -16,16 +18,19 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ROUTE_PATHS } from '../../../routes/index.js';
 import { BackButton } from '../../ui/buttons/BackButton';
 
+const MAX_IMAGES = 6;
+const MIN_IMAGES = 3;
+
 const EditPropertyForm = () => {
-    const { id } = useParams(); // Obtener el ID de la propiedad desde los params
-    const { properties, isLoadingProps } = useFetchProperties();
+    const { id } = useParams();
+    const { property, isLoadingProp } = useFetchProperty(id);
     const [selectedProperty, setSelectedProperty] = useState(null);
     const { setPropTypeForm, setPropTransacTypeForm } = useContext(globalProvider);
-    const [images, setImages] = useState([]); // Nuevas imágenes
-    const [newImagePreviews, setNewImagePreviews] = useState([]); // Previews de nuevas imágenes
-    const [existing_images_id, setExistingImagesId] = useState([]); // IDs de imágenes existentes
-    const [existingImagePreviews, setExistingImagePreviews] = useState([]); // Previews de imágenes existentes
-    const [data, setData] = useState({});
+    const [images, setImages] = useState([]);
+    const [newImagePreviews, setNewImagePreviews] = useState([]);
+    const [existingImagesId, setExistingImagesId] = useState([]);
+    const [existingImagePreviews, setExistingImagePreviews] = useState([]);
+    const [data, setData] = useState(); // city_id inicializado seguro
     const [utilities, setUtilities] = useState([]);
     const [filterPropType, setFilterPropType] = useState(1);
     const [filterPropTransaction, setFilterPropTransaction] = useState(1);
@@ -34,130 +39,128 @@ const EditPropertyForm = () => {
     const axios = useAxios();
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
+        const storedUser = JSON.parse(localStorage.getItem('user'));
         if (storedUser) {
-            const userData = JSON.parse(storedUser);
-            setUserId(userData.id);
+            setUserId(storedUser.id);
         }
     }, []);
 
-    useEffect(() => {
-        const maxImages = 6;
-        const totalImages = existing_images_id.length + images.length;
-        if (totalImages > maxImages) {
-            toast.error(`You can only upload up to ${maxImages} images in total`);
-            const allowedNewImages = maxImages - existing_images_id.length;
+    const checkImageLimits = useCallback(() => {
+        const totalImages = existingImagesId.length + images.length;
+        if (totalImages > MAX_IMAGES) {
+            const allowedNewImages = MAX_IMAGES - existingImagesId.length;
+            toast.error(`You can only upload up to ${MAX_IMAGES} images in total`);
             setImages(images.slice(0, allowedNewImages));
             setNewImagePreviews(newImagePreviews.slice(0, allowedNewImages));
         }
-    }, [images, existing_images_id.length, newImagePreviews]);
+    }, [existingImagesId.length, images.length, newImagePreviews]);
+
+    useEffect(checkImageLimits, [images, existingImagesId.length, newImagePreviews, checkImageLimits]);
 
     const populateForm = useCallback((property) => {
+        if (!property) return;
+
         const initialType = property.property_category_id || 1;
         const initialTransaction = property.property_transaction_id || 1;
-    
+
         setFilterPropType(initialType);
         setPropTypeForm(initialType);
-    
         setFilterPropTransaction(initialTransaction);
         setPropTransacTypeForm(initialTransaction);
-    
-        setData({
-            ...property, // Aquí incluimos todos los datos, incluyendo la city_id
-            city_id: property.city_id || '', // Si no hay city_id, usamos un valor vacío
-        });
-    
-        setUtilities(property.utilities || []);
-    
-        if (property.images && property.images.length > 0) {
-            const existingPreviews = property.images.map((img) => img.url);
-            const existingIds = property.images.map((img) => img.id);
-            setExistingImagePreviews(existingPreviews);
-            setExistingImagesId(existingIds);
-            setImages([]);
-            setNewImagePreviews([]);
+
+        setData((prevData) => ({
+            ...prevData,
+            ...property,
+            city_id: property.city_id || prevData.city_id || '', // city_id se mantiene si ya tiene valor
+        }));
+
+        populateImages(property.images);
+
+        if (property.utilities && property.utilities.length > 0) {
+            const utilityIds = property.utilities.map((utility) => utility.id);
+            setUtilities(utilityIds);
         }
-    
     }, [setPropTypeForm, setPropTransacTypeForm]);
 
-    useEffect(() => {
-        if (!isLoadingProps && properties.length > 0) {
-            const propertyToEdit = properties.find((prop) => prop.id === parseInt(id, 10));
-            if (propertyToEdit) {
-                setSelectedProperty(propertyToEdit);
-                populateForm(propertyToEdit);
-            } else {
-                toast.error('Property not found');
-                navigate(ROUTE_PATHS.PROPERTY_MANAGEMENT);
-            }
+    const populateImages = useCallback((images) => {
+        if (images && images.length > 0) {
+            const existingPreviews = images.map((img) => img.url);
+            const existingIds = images.map((img) => img.id);
+            setExistingImagePreviews(existingPreviews);
+            setExistingImagesId(existingIds);
+            resetNewImages();
         }
-    }, [isLoadingProps, properties, id, navigate, populateForm]);
+    }, []);
+
+    const resetNewImages = useCallback(() => {
+        setImages([]);
+        setNewImagePreviews([]);
+    }, []);
+
+    useEffect(() => {
+        if (!isLoadingProp && property) {
+            setSelectedProperty(property);
+            populateForm(property);
+        } else if (!isLoadingProp && !property) {
+            toast.error('Property not found');
+            navigate(ROUTE_PATHS.PROPERTY_MANAGEMENT);
+        }
+    }, [isLoadingProp, property, navigate, populateForm]);
 
     const handleFilterPropType = useCallback((filterId) => {
         setFilterPropType(filterId);
         setPropTypeForm(filterId);
-        setData({});
-        setUtilities([]);
+        resetFormData();
     }, [setPropTypeForm]);
 
     const handleFilterPropTransaction = useCallback((id) => {
         setFilterPropTransaction(id);
         setPropTransacTypeForm(id);
-        setData({});
-        setUtilities([]);
+        resetFormData();
     }, [setPropTransacTypeForm]);
 
-    const clearData = useCallback(() => {
-        setData({});
-    }, []);
+    const resetFormData = useCallback(() => {
+        setData((prevData) => ({ ...prevData, city_id: property?.city_id || prevData.city_id || '' }));
+        setUtilities([]);
+    }, [property]);
 
-    const handleUtilitiesData = (value, method) => {
-        if (method === 'remove') {
-            setUtilities((prevUtilities) =>
-                prevUtilities.filter((utility) => utility !== value)
-            );
-        } else {
-            setUtilities((prevUtilities) => [...prevUtilities, value]);
-        }
-    };
-    
+    const handleUtilitiesData = useCallback((utilityId) => {
+        setUtilities((prevUtilities) => prevUtilities.includes(utilityId)
+            ? prevUtilities.filter((utility) => utility !== utilityId)
+            : [...prevUtilities, utilityId]);
+    }, []);
 
     const handleInputChange = useCallback((key, value) => {
-        setData((prevData) => {
-            let updatedData = { ...prevData, [key]: value };
-            if (value === '' || value === null || value === undefined) {
-                const { [key]: removed, ...rest } = updatedData;
-                updatedData = rest;
-            }
-            return updatedData;
-        });
+        setData((prevData) => ({
+            ...prevData,
+            [key]: value === '' ? undefined : value,
+        }));
     }, []);
 
-    const handleImageChange = (event) => {
+    const handleCityChange = useCallback((cityId) => {
+        setData((prevData) => ({
+            ...prevData,
+            city_id: cityId,
+        }));
+    }, []);
+
+    const handleImageChange = useCallback((event) => {
         const files = Array.from(event.target.files);
-        const newImages = [...images];
-        const newPreviews = [...newImagePreviews];
-
-        const maxImages = 6;
-        const totalImages = existing_images_id.length + newImages.length + files.length;
-        if (totalImages > maxImages) {
-            toast.error(`You can only upload up to ${maxImages} images in total`);
-            const allowedNewImages = maxImages - existing_images_id.length - newImages.length;
-            const allowedFiles = files.slice(0, allowedNewImages);
-            allowedFiles.forEach((file) => {
-                newImages.push(file);
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    setNewImagePreviews((prevPreviews) => [...prevPreviews, reader.result]);
-                };
-                reader.readAsDataURL(file);
-            });
-            setImages(newImages);
+        const totalImages = existingImagesId.length + images.length + files.length;
+        if (totalImages > MAX_IMAGES) {
+            toast.error(`You can only upload up to ${MAX_IMAGES} images in total`);
+            const allowedFiles = files.slice(0, MAX_IMAGES - existingImagesId.length - images.length);
+            processImages(allowedFiles);
             event.target.value = '';
+        } else {
+            processImages(files);
         }
+    }, [existingImagesId.length, images.length]);
 
+    const processImages = useCallback((files) => {
+        const newImages = [...images];
         files.forEach((file) => {
-            if (newImages.length < maxImages - existing_images_id.length) {
+            if (newImages.length < MAX_IMAGES - existingImagesId.length) {
                 newImages.push(file);
                 const reader = new FileReader();
                 reader.onloadend = () => {
@@ -166,76 +169,43 @@ const EditPropertyForm = () => {
                 reader.readAsDataURL(file);
             }
         });
-
         setImages(newImages);
-        event.target.value = '';
-    };
+    }, [existingImagesId.length, images]);
 
-    const removeImage = (index, type) => {
+    const removeImage = useCallback((index, type) => {
         if (type === 'existing') {
-            const updatedExistingPreviews = existingImagePreviews.filter((_, i) => i !== index);
-            const updatedExistingIds = existing_images_id.filter((_, i) => i !== index);
-            setExistingImagePreviews(updatedExistingPreviews);
-            setExistingImagesId(updatedExistingIds);
-        } else if (type === 'new') {
-            const updatedNewPreviews = newImagePreviews.filter((_, i) => i !== index);
-            const updatedNewImages = images.filter((_, i) => i !== index);
-            setNewImagePreviews(updatedNewPreviews);
-            setImages(updatedNewImages);
+            setExistingImagePreviews((prev) => prev.filter((_, i) => i !== index));
+            setExistingImagesId((prev) => prev.filter((_, i) => i !== index));
+        } else {
+            setNewImagePreviews((prev) => prev.filter((_, i) => i !== index));
+            setImages((prev) => prev.filter((_, i) => i !== index));
         }
-    };
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
-        // Filtrar solo los campos seleccionados en 'data'
-        const finalData = Object.keys(data).reduce((acc, key) => {
-            if (data[key] !== '' && data[key] !== null && data[key] !== undefined) {
-                acc[key] = data[key];
-            }
-            return acc;
-        }, {});
-    
-        // Añadir solo los campos adicionales si son relevantes
-        if (filterPropType) finalData.property_category_id = filterPropType;
-        if (filterPropTransaction) finalData.property_transaction_type_id = filterPropTransaction;
-        if (userId) finalData.user_id = userId;
-    
-        // Añadir el método PUT
-        finalData._method = 'PUT';
-    
-        // Crear el FormData
-        const formData = new FormData();
-    
-        // Añadir nuevas imágenes al FormData
-        images.forEach((image) => formData.append('images[]', image));
-    
-        // Añadir los IDs de las imágenes existentes al FormData
-        existing_images_id.forEach((id) => formData.append('existing_images_id[]', id));
-    
-        // Añadir cada utilidad individualmente como 'utilities[0]', 'utilities[1]', etc.
-        utilities.forEach((utility, index) => {
-            formData.append(`utilities[${index}]`, utility);
-        });
-    
-        // Añadir los demás datos al FormData
-        for (let key in finalData) {
-            formData.append(key, finalData[key]);
+        const totalImages = existingImagesId.length + images.length;
+
+        if (totalImages < MIN_IMAGES) {
+            toast.error('You must have at least 3 images');
+            return;
         }
-    
-        // Debug: log the FormData entries
-        for (let pair of formData.entries()) {
-            console.log(`${pair[0]}: ${pair[1]}`);
-        }
-    
-        // Enviar los datos con axios
+
+        const finalData = {
+            ...data,
+            property_category_id: filterPropType,
+            property_transaction_type_id: filterPropTransaction,
+            user_id: userId,
+            city_id: data.city_id,
+            _method: 'PUT',
+        };
+
+        const formData = prepareFormData(finalData);
+
         try {
             const response = await axios.post(`/properties/update/${id}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+                headers: { 'Content-Type': 'multipart/form-data' },
             });
-    
             if (response.status === 200) {
                 toast.success('Property updated successfully');
                 navigate(ROUTE_PATHS.PROPERTY_MANAGEMENT);
@@ -247,214 +217,92 @@ const EditPropertyForm = () => {
             toast.error('An error occurred while updating the property');
         }
     };
-    
-    
-    
+
+    const prepareFormData = (finalData) => {
+        const formData = new FormData();
+        images.forEach((image) => formData.append('images[]', image));
+        existingImagesId.forEach((id) => formData.append('existing_images_id[]', id));
+
+        Object.entries(finalData).forEach(([key, value]) => {
+            if (key !== 'utilities' && value !== undefined && value !== null && value !== '') {
+                formData.append(key, value);
+            }
+        });
+
+        if (utilities.length > 0) {
+            utilities.forEach((utilityId) => formData.append('utilities[]', utilityId));
+        }
+
+        return formData;
+    };
+
     const renderFormulario = () => {
         if (!filterPropType || !filterPropTransaction) return null;
-
         const formulariosPorTipo = {
-            1: (
-                <HDSForm
-                    title={'House details'}
-                    transactionType={filterPropTransaction}
-                    fillData={handleInputChange}
-                    fillUtilities={handleUtilitiesData}
-                    initialData={data}
-                />
-            ),
-            2: (
-                <HDSForm
-                    title={'Apartment details'}
-                    transactionType={filterPropTransaction}
-                    fillData={handleInputChange}
-                    fillUtilities={handleUtilitiesData}
-                    initialData={data}
-                />
-            ),
-            3: (
-                <HDSForm
-                    title={'Studio details'}
-                    transactionType={filterPropTransaction}
-                    fillData={handleInputChange}
-                    fillUtilities={handleUtilitiesData}
-                    initialData={data}
-                />
-            ),
-            4: (
-                <BareLandForm
-                    transactionType={filterPropTransaction}
-                    fillData={handleInputChange}
-                    fillUtilities={handleUtilitiesData}
-                    initialData={data}
-                />
-            ),
-            5: (
-                <RetailSpaceForm
-                    transactionType={filterPropTransaction}
-                    fillData={handleInputChange}
-                    fillUtilities={handleUtilitiesData}
-                    initialData={data}
-                />
-            ),
+            1: <HDSForm title="House details" transactionType={filterPropTransaction} fillData={handleInputChange} fillUtilities={handleUtilitiesData} initialData={data} />,
+            2: <HDSForm title="Apartment details" transactionType={filterPropTransaction} fillData={handleInputChange} fillUtilities={handleUtilitiesData} initialData={data} />,
+            3: <HDSForm title="Studio details" transactionType={filterPropTransaction} fillData={handleInputChange} fillUtilities={handleUtilitiesData} initialData={data} />,
+            4: <BareLandForm transactionType={filterPropTransaction} fillData={handleInputChange} fillUtilities={handleUtilitiesData} initialData={data} />,
+            5: <RetailSpaceForm transactionType={filterPropTransaction} fillData={handleInputChange} fillUtilities={handleUtilitiesData} initialData={data} />,
         };
         return formulariosPorTipo[filterPropType] || null;
     };
 
-    if (isLoadingProps) {
-        return <div>Loading...</div>;
-    }
-
-    if (!selectedProperty) {
-        return <div>Property not found.</div>;
-    }
+    if (isLoadingProp) return <div>Loading...</div>;
+    if (!selectedProperty) return <div>Property not found.</div>;
 
     return (
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <ToastContainer
-                position="top-center"
-                autoClose={900}
-                hideProgressBar
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-            />
+            <ToastContainer position="top-center" autoClose={900} hideProgressBar theme="light" />
             <section className="mt-10 flex flex-col sm:flex-row gap-4">
                 <BackButton />
                 <h1 className="text-center sm:text-start">Edit Property</h1>
             </section>
             <div className="container mx-auto">
                 <SectionDivider text="Property type" />
-                <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center mx-auto max-w-7xl">
-                    <MainFilterTag
-                        text={'House'}
-                        icon={<House size={20} />}
-                        isActivate={filterPropType === 1}
-                        handleActivateButton={() => handleFilterPropType(1)}
-                    />
-                    <MainFilterTag
-                        text={'Apartment'}
-                        icon={<Hotel size={20} />}
-                        isActivate={filterPropType === 2}
-                        handleActivateButton={() => handleFilterPropType(2)}
-                    />
-                    <MainFilterTag
-                        text={'Studio'}
-                        icon={<Warehouse size={20} />}
-                        isActivate={filterPropType === 3}
-                        handleActivateButton={() => handleFilterPropType(3)}
-                    />
-                    <MainFilterTag
-                        text={'Bare land'}
-                        icon={<Fence size={20} />}
-                        isActivate={filterPropType === 4}
-                        handleActivateButton={() => handleFilterPropType(4)}
-                    />
-                    <MainFilterTag
-                        text={'Retail space'}
-                        icon={<Store size={20} />}
-                        isActivate={filterPropType === 5}
-                        handleActivateButton={() => handleFilterPropType(5)}
-                    />
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
+                    <MainFilterTag text="House" icon={<House size={20} />} isActivate={filterPropType === 1} handleActivateButton={() => handleFilterPropType(1)} />
+                    <MainFilterTag text="Apartment" icon={<Hotel size={20} />} isActivate={filterPropType === 2} handleActivateButton={() => handleFilterPropType(2)} />
+                    <MainFilterTag text="Studio" icon={<Warehouse size={20} />} isActivate={filterPropType === 3} handleActivateButton={() => handleFilterPropType(3)} />
+                    <MainFilterTag text="Bare land" icon={<Fence size={20} />} isActivate={filterPropType === 4} handleActivateButton={() => handleFilterPropType(4)} />
+                    <MainFilterTag text="Retail space" icon={<Store size={20} />} isActivate={filterPropType === 5} handleActivateButton={() => handleFilterPropType(5)} />
                 </div>
 
                 <div className="flex flex-col-reverse sm:grid sm:grid-cols-2 gap-8">
                     <div className="mb-10">
                         <SectionDivider text="What will you do with this property?" />
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center mx-auto max-w-7xl">
-                            <SecondaryFilterTag
-                                text={'Sale'}
-                                isActivate={filterPropTransaction === 1}
-                                handleSelectedValue={handleFilterPropTransaction}
-                                groupType={'group'}
-                                idValue={1}
-                            />
-                            <SecondaryFilterTag
-                                text={'Rent'}
-                                isActivate={filterPropTransaction === 2}
-                                handleSelectedValue={handleFilterPropTransaction}
-                                groupType={'group'}
-                                idValue={2}
-                            />
-                            <SecondaryFilterTag
-                                text={'Both'}
-                                isActivate={filterPropTransaction === 3}
-                                handleSelectedValue={handleFilterPropTransaction}
-                                groupType={'group'}
-                                idValue={3}
-                            />
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                            <SecondaryFilterTag text="Sale" isActivate={filterPropTransaction === 1} handleSelectedValue={handleFilterPropTransaction} groupType="group" idValue={1} />
+                            <SecondaryFilterTag text="Rent" isActivate={filterPropTransaction === 2} handleSelectedValue={handleFilterPropTransaction} groupType="group" idValue={2} />
+                            <SecondaryFilterTag text="Both" isActivate={filterPropTransaction === 3} handleSelectedValue={handleFilterPropTransaction} groupType="group" idValue={3} />
                         </div>
-                        {/* Formulario de publicación */}
                         <form onSubmit={handleSubmit}>
                             {renderFormulario()}
-                            <MainButton
-                                text="Update Property"
-                                type="submit"
-                                variant="fill"
-                                disabled={false}
-                                customClass="mt-4 w-full"
-                            />
+                            <MainButton text="Update Property" type="submit" variant="fill" customClass="mt-4 w-full" />
                         </form>
                     </div>
 
                     <div>
                         <SectionDivider text="Upload at least 3 images" />
                         <div className="image-upload-container">
-                            <label
-                                htmlFor="file-input"
-                                className="block text-center px-8 py-3 rounded-md transition-colors duration-150 cursor-pointer bg-secondary text-white hover:bg-light-blue hover:text-primary"
-                            >
+                            <label htmlFor="file-input" className="block text-center px-8 py-3 rounded-md bg-secondary text-white cursor-pointer hover:bg-light-blue">
                                 Add
                             </label>
-
-                            <p>
-                                Please upload an image file (JPG, JPEG, PNG, or WEBP). Max size: 5MB.
-                            </p>
-
-                            <input
-                                id="file-input"
-                                type="file"
-                                accept="image/*"
-                                onChange={handleImageChange}
-                                className="hidden"
-                                multiple
-                            />
-                            <div className="image-preview-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 gap-4">
-                                {/* Imágenes existentes */}
+                            <p>Please upload an image file (JPG, JPEG, PNG, or WEBP). Max size: 5MB.</p>
+                            <input id="file-input" type="file" accept="image/*" onChange={handleImageChange} className="hidden" multiple />
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 gap-4">
                                 {existingImagePreviews.map((image, index) => (
                                     <div key={`existing-${index}`} className="relative">
-                                        <img
-                                            src={image}
-                                            alt={`Existing Preview ${index + 1}`}
-                                            className="w-full h-40 object-cover rounded-md mr-2"
-                                        />
-                                        <button
-                                            type="button"
-                                            onClick={() => removeImage(index, 'existing')}
-                                            className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1"
-                                        >
+                                        <img src={image} alt={`Existing Preview ${index + 1}`} className="w-full h-40 object-cover rounded-md" />
+                                        <button type="button" onClick={() => removeImage(index, 'existing')} className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1">
                                             <X size={12} />
                                         </button>
                                     </div>
                                 ))}
-
-                                {/* Nuevas imágenes */}
                                 {newImagePreviews.map((image, index) => (
                                     <div key={`new-${index}`} className="relative">
-                                        <img
-                                            src={image}
-                                            alt={`New Preview ${index + 1}`}
-                                            className="w-full h-40 object-cover rounded-md mr-2"
-                                        />
-                                        <button
-                                            type="button"
-                                            onClick={() => removeImage(index, 'new')}
-                                            className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1"
-                                        >
+                                        <img src={image} alt={`New Preview ${index + 1}`} className="w-full h-40 object-cover rounded-md" />
+                                        <button type="button" onClick={() => removeImage(index, 'new')} className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1">
                                             <X size={12} />
                                         </button>
                                     </div>

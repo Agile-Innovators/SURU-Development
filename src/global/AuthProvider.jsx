@@ -48,7 +48,7 @@ export default function AuthProvider({ children }) {
 
     const updateUser = (userData) => {
         setUser(userData);
-        console.log('User updated with new data from:', user);
+        // console.log('User updated with new data from:', user);
     };
 
     return (

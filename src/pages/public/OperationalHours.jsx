@@ -11,7 +11,7 @@ export function OperationalHours() {
     const { user } = getUser();
     const [errorMessages, setErrorMessages] = useState({});// Estado para controlar la validez de las horas
     const [isEditing, setIsEditing] = useState(false); // Estado para controlar si se está editando o no
-    console.log(user);
+    // console.log(user);
     const {
         updateUserOperationalHours,
         getOperationalHours,
@@ -28,10 +28,7 @@ export function OperationalHours() {
         const formattedMinutes = String(minutes).padStart(2, '0');
         return `${formattedHours}:${formattedMinutes}`;
     };
-    // Función para alternar entre Edit y Save
-    const handleEditClick = () => {
-        setIsEditing((prev) => !prev);
-    };
+
     // Se obtienen las horas operativas del usuario desde el API
     useEffect(() => {
         if (user?.id) {
@@ -53,7 +50,7 @@ export function OperationalHours() {
         const updatedHours = operationalHours.map(hour => {
             if (hour.day_of_week === day_of_week) {
                 const newHour = { ...hour, [type]: value };
-
+    
                 // Validar si start_time es mayor o igual que end_time
                 if (type === 'start_time' && newHour.end_time && value >= newHour.end_time) {
                     setErrorMessages(prev => ({
@@ -62,7 +59,7 @@ export function OperationalHours() {
                     }));
                     return hour; // No actualizamos si la validación falla
                 }
-
+    
                 // Validar si end_time es menor o igual que start_time
                 if (type === 'end_time' && newHour.start_time && value <= newHour.start_time) {
                     setErrorMessages(prev => ({
@@ -71,20 +68,21 @@ export function OperationalHours() {
                     }));
                     return hour; // No actualizamos si la validación falla
                 }
-                // Se limpia el mensaje de error si la validación es correcta
+    
+                // Limpiar mensajes de error si la validación es correcta
                 setErrorMessages(prev => ({
                     ...prev,
                     [day_of_week]: ''
                 }));
                 return newHour;
-
             }
             return hour;
-
         });
-        // Actualizamos el estado local sin hacer la llamada a la API
+    
+        // Actualizamos el estado local
         setOperationalHours(updatedHours);
     };
+    
 
 
     // Manejar el cambio en el toggle
@@ -104,21 +102,21 @@ export function OperationalHours() {
 
     // Enviar los datos actualizados solo cuando se hace submit
     const handleSubmit = async (e) => {
+        // Evita que la página se recargue
         e.preventDefault();
-
-        const operationalHoursPayload = operationalHours.map(hour => ({
-            day_of_week: hour.day_of_week,
-            start_time: formatTime(hour.start_time),
-            end_time: formatTime(hour.end_time),
-            is_closed: hour.is_closed || false
-        }));
-
-        // console.log("Datos del payload", operationalHoursPayload);
-
         try {
-            // Envía los datos y espera a la respuesta
-            await updateUserOperationalHours(user.id, { operational_hours: operationalHoursPayload });
+            const operationalHoursPayload = operationalHours.map(hour => ({
+                day_of_week: hour.day_of_week,
+                start_time: formatTime(hour.start_time),
+                end_time: formatTime(hour.end_time),
+                is_closed: hour.is_closed || false
+            }));
 
+            // console.log("Datos del payload", operationalHoursPayload);
+            // Envía los datos y espera a la respuesta
+            const userId = user.id;
+
+            await updateUserOperationalHours(userId, { operational_hours: operationalHoursPayload });
             // Llama a la función de obtener las horas operativas de nuevo para actualizar el estado
             await getOperationalHours(user.id);
 
@@ -134,10 +132,11 @@ export function OperationalHours() {
                 theme: "light",
                 transition: Bounce,
             });
+            isEditing && setIsEditing(false);
 
-            console.log("Datos actualizados y recargados correctamente");
+            // console.log("Datos actualizados y recargados correctamente");
         } catch (error) {
-            console.error("Error al actualizar los datos operacionales", error);
+            // console.error("Error al actualizar los datos operacionales", error);
 
             // Muestra un mensaje de error 
             toast.error('An unexpected error occurred. Please try again later.', {
@@ -154,6 +153,10 @@ export function OperationalHours() {
         }
     };
 
+    // Función para alternar entre Edit y Save
+    const handleEditClick = () => {
+        setIsEditing((prev) => !prev);
+    };
     return (
         <div className='p-4'>
             {loading ? (
