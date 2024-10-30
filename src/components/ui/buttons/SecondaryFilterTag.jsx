@@ -13,8 +13,8 @@ export function SecondaryFilterTag({
     ...props
 }) {
     const [isChecked, setIsChecked] = useState(isActivate);
-    const valueID = idValue;
 
+    // Sincronizar isChecked con isActivate cuando isActivate cambia
     useEffect(() => {
         setIsChecked(isActivate);
     }, [isActivate]);
@@ -22,30 +22,23 @@ export function SecondaryFilterTag({
     const handleEventButton = (e) => {
         if (groupType === 'group') {
             setIsChecked(true);
-            handleSelectedValue(valueID);
+            handleSelectedValue(idValue);
         } else {
             setIsChecked((prevChecked) => {
                 const newChecked = !prevChecked;
 
+                // Lógica de activación y manejo de datos
                 if (newChecked) {
-                    if (handleSelectedValue) {
-                        handleSelectedValue(valueID);
-                    }
-                    if (fillData) {
-                        fillData(1);
-                    }
+                    handleSelectedValue && handleSelectedValue(idValue);
+                    fillData && fillData(1);
                 } else {
-                    if (handleSelectedValue) {
-                        handleSelectedValue(valueID, 'remove');
-                    }
-                    if (fillData) {
-                        fillData('0');
-                    }
-                }
-                if (manageExternalState) {
-                    manageExternalState(newChecked);
+                    handleSelectedValue && handleSelectedValue(idValue, 'remove');
+                    fillData && fillData(0);
                 }
 
+                // Actualizar el estado externo si se proporciona
+                manageExternalState && manageExternalState(newChecked);
+                
                 return newChecked;
             });
         }
@@ -55,7 +48,7 @@ export function SecondaryFilterTag({
         <button
             type="button"
             id={id}
-            onClick={(e) => handleEventButton(e)}
+            onClick={handleEventButton}
             className={`flex justify-between gap-2 transition-colors duration-150 group border-2 rounded-md p-2 
                 ${isChecked 
                     ? 'border-light-blue text-light-blue' 

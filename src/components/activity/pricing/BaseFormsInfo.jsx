@@ -9,6 +9,11 @@ export function BaseFormsInfo({ fillData, initialData }) {
     const [selectedLocation, setSelectedLocation] = useState('');
     const { propTypeForm, propTransacTypeForm } = useContext(globalProvider);
 
+    // Log para ver los datos recibidos en initialData
+    useEffect(() => {
+        console.log('Datos recibidos en initialData:', initialData);
+    }, [initialData]);
+
     // Manejar selección de ubicación
     const handleLocationSelect = (e) => {
         const value = e.target.value;
@@ -19,32 +24,25 @@ export function BaseFormsInfo({ fillData, initialData }) {
     };
 
     useEffect(() => {
-        if (initialData && Object.keys(initialData).length > 0 && locations.length > 0) {
+        if (initialData && initialData.city_id && locations.length > 0) {
             const cityId = String(initialData.city_id);
             const cityExists = locations.some(location => String(location.value) === cityId);
 
+            // Si existe el city_id en locations, establecerlo como la ubicación seleccionada
             if (cityExists && cityId !== selectedLocation) {
                 setSelectedLocation(cityId);
                 fillData('city_id', cityId);
-            } else if (!cityExists) {
-                setSelectedLocation(''); // Si no existe, limpiar el valor.
+            } else if (!cityExists && selectedLocation) {
+                setSelectedLocation(''); // Limpiar solo si selectedLocation ya tiene un valor
             }
         }
-    }, [initialData, locations, selectedLocation, fillData]);
+    }, [initialData.city_id, locations, selectedLocation, fillData]);
 
     useEffect(() => {
         if (propTypeForm || propTransacTypeForm) {
-            setSelectedLocation('');
-            fillData('city_id', '');
+            setSelectedLocation(''); 
         }
-    }, [propTypeForm, propTransacTypeForm, fillData]);
-
-    // Depuración: Verificar los valores
-    useEffect(() => {
-        // console.log('Initial Data:', initialData);
-        // console.log('Locations:', locations);
-        // console.log('Selected Location:', selectedLocation);
-    }, [initialData, locations, selectedLocation]);
+    }, [propTypeForm, propTransacTypeForm]);
 
     return (
         <div className="flex flex-col">
@@ -102,7 +100,7 @@ export function BaseFormsInfo({ fillData, initialData }) {
                             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                             required
                         >
-                            <option value="" disabled={!!selectedLocation}>
+                            <option value="" disabled>
                                 {selectedLocation
                                     ? locations.find(location => String(location.value) === selectedLocation)?.name || 'Select a location'
                                     : 'Select a location'}
@@ -123,7 +121,7 @@ export function BaseFormsInfo({ fillData, initialData }) {
     );
 }
 
-//se validan los props
+// Validación de propTypes
 BaseFormsInfo.propTypes = {
     fillData: PropTypes.func.isRequired,
     initialData: PropTypes.object.isRequired,

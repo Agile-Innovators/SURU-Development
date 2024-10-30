@@ -15,7 +15,6 @@ export function PropertyDetails() {
     const { property = {} } = propertyDetails || {};
     const { relatedProperties, isLoading: isLoading } = useFetchRelatedProperties(property.id || null);
 
-
     const showProperty = useShowProperty();
 
     const showLoaderCards = () => {
@@ -110,29 +109,9 @@ export function PropertyDetails() {
                 />
             </div>
 
-            <div className="flex gap-4 justify-between w-fit border-2 rounded-lg p-4 mt-10">
-                <div className="w-[10rem] overflow-hidden rounded-lg">
-                    <img
-                        src="https://picsum.photos/id/77/450/300"
-                        alt=""
-                        className="w-full object-cover h-full"
-                    />
-                </div>
-                <section>
-                    <h6 className="text-lg font-semibold">Owner Information</h6>
-                    <p className="text-gray-600">Karla Marín Arias</p>
-                    <MainButton
-                        type="button"
-                        text="Contact"
-                        variant="border"
-                        customClass="px-2 py-1 text-sm mt-3"
-                    />
-                </section>
-            </div>
-
             <div className="mt-10">
-                <h2>Properties available in the same area</h2>
-                <div className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-4 justify-center items-center mt-10">
+                <h2>You may also like</h2>
+                <div className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-4 justify-center items-center mt-4">
                     {isLoading ? showLoaderCards() : createProperties(relatedProperties)}
                 </div>
             </div>

@@ -12,7 +12,7 @@ export function PartnerIntegrationRequest() {
             </h2>
             <p className="mt-4 text-center sm:text-start">
                 Please fill in all the fields with the required information.
-                It’s important to know that your request will be reviewed by the
+                It&apos;s important to know that your request will be reviewed by the
                 Suru team, so approval may take between 2 to 3 days. We
                 appreciate your interest!
             </p>
@@ -20,13 +20,13 @@ export function PartnerIntegrationRequest() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto max-w-7xl">
                 <PartnerIntegrationRequestForm />
                 <div className="flex flex-col  h-fit text-secondary border-2 border-gray rounded-md p-6 gap-4">
-                    <h4>Do you have any questions you'd like to resolve?"</h4>
+                    <h4>Do you have any questions you&apos;d like to resolve?</h4>
                     <p>
                         Access the Frequently Asked Questions section. You may
                         find the answer here.
                     </p>
                     <MainButton
-                        to={ROUTE_PATHS.PARTNERS_ANGEL}
+                        to={ROUTE_PATHS.PARTNERS}
                         type="link"
                         customClass="w-2/4"
                         text="Go to FAQ"

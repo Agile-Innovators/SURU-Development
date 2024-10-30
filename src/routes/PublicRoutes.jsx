@@ -23,6 +23,7 @@ import { EditProperty } from '../pages/public/EditProperty.jsx';
 import { Favorites } from '../pages/private/Favorites.jsx';
 import {CreateProperty} from '../pages/private/CreateProperty.jsx';
 import {PropertyManagement} from '../pages/private/PropertyManagement.jsx'
+import { PartnersAdministration } from '../pages/public/PartnersAdministration.jsx';
 
 export function PublicRoutes() {
     return (
@@ -42,6 +43,7 @@ export function PublicRoutes() {
             <Route path={ROUTE_PATHS.PARTNER_INTEGRATION_REQUEST} element={<PartnerIntegrationRequest />} />
             <Route path={ROUTE_PATHS.PROPERTY_DETAILS} element={<PropertyDetails />}/>
             <Route path={ROUTE_PATHS.APPOINTMENTS} element={<Appointments />} />
+            <Route path={ROUTE_PATHS.PARTNERS_ADMINISTRATION} element={< PartnersAdministration />} />
             <Route
                 path={ROUTE_PATHS.REQUEST_APPOINTMENTS}
                 element={<RequestAppointment />}

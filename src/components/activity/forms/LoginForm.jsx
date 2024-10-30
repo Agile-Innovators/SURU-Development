@@ -7,11 +7,13 @@ import { CheckBox } from '../../ui/forms/CheckBox.jsx';
 import { TextLink } from '../../ui/navigation/TextLink.jsx';
 import { MainButton } from '../../ui/buttons/MainButton.jsx';
 import { ROUTE_PATHS } from '../../../routes/index.js';
+import PropTypes from 'prop-types';
 
-export function LoginForm() {
+export function LoginForm({successMessage}) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [message] = useState(successMessage);
     const [loading, setLoading] = useState(false);
     const axios = useAxios();
     const { login } = useAuth();
@@ -50,6 +52,11 @@ export function LoginForm() {
             {error && (
                 <div className="error text-red-500 p-1 text-center rounded-sm bg-red-100 mt-2">
                     {error}
+                </div>
+            )}
+            {message && (
+                <div className="text-green-500 p-1 text-center rounded-sm bg-green-100 mt-2">
+                    {message}
                 </div>
             )}
             <div className="grid gap-4 my-4">
@@ -95,9 +102,14 @@ export function LoginForm() {
                 Don&apos;t you have an account?
             </span>
             <TextLink route={ROUTE_PATHS.REGISTER} text="Register" />
+            {error && <p className="error-message">{error}</p>}
             {loading && <p className="text-secondary">Loading...</p>}
         </form>
     );
 }
 
 export default LoginForm;
+
+LoginForm.propTypes = {
+    successMessage: PropTypes.string,
+};

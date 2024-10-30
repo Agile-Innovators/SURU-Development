@@ -11,6 +11,7 @@ export const ROUTE_PATHS = {
     SEARCH: '/search',
     NOT_FOUND: '/*',
     PARTNERS: '/partners',
+    PARTNERS_ADMINISTRATION: '/partners-administration',
     PROPERTY_MANAGEMENT: '/property-management',
     PARTNER_INTEGRATION_REQUEST: '/partner-integration-request',
     PROPERTY_DETAILS: '/property-details',
@@ -23,4 +24,6 @@ export const ROUTE_PATHS = {
     CHANGE_PASSWORD: '/user-profile/change-password',
     EDIT_PROPERTY: '/edit-property/:id',
     FAVORITES: '/favorites',
+    PARTNER_PROFILE: '/partner-profile',
+    SEARCH_PARTNERS: '/search-partners',
 };
