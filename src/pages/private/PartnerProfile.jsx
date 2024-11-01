@@ -3,15 +3,17 @@ import { ServiceCard } from '../../components/ui/cards/ServiceCard';
 import { MapPin } from 'lucide-react';
 import { LayoutModal } from './../../components/ui/modals/LayoutModal';
 import { ContactModal } from '../../components/ui/modals/ContactModal';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useAxios } from '../../components/hooks/useAxios';
 import { OperationalHoursCard } from '../../components/ui/cards/OperationalHoursCard';
 import { SkeletonLoader } from './../../components/ui/SkeletonLoader';
+import { globalProvider } from '../../global/GlobalProvider';
 
 export function PartnerProfile({ partnerId }) {
     const [isOpenModal, setIsOpenModal] = useState(false);
     const [partnerInfo, setPartnerInfo] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    const { partnerID } = useContext(globalProvider);
     const axios = useAxios();
 
     const openModal = () => {
@@ -20,8 +22,8 @@ export function PartnerProfile({ partnerId }) {
 
     const getPartnerInfo = async () => {
         try {
-            // const response = await axios.get(`/partner/${partnerId}`);
-            const response = await axios.get(`/partner/28`);
+            const response = await axios.get(`/partner/${partnerID}`);
+            // const response = await axios.get(`/partner/28`);
             const data = await response.data;
             console.log(data);
             setPartnerInfo(data);
@@ -40,6 +42,23 @@ export function PartnerProfile({ partnerId }) {
                     day={item.day_of_week}
                     startTime={item.start_time}
                     endTime={item.end_time}
+                />
+            );
+        });
+    };
+
+    const renderServices = () => {
+        if (partnerInfo.services.length === 0) {
+            return <p>No Services</p>;
+        }
+        return partnerInfo.services.map((service) => {
+            return (
+                <ServiceCard
+                    key={service.id}
+                    title={service.name}
+                    description={service.description}
+                    price={service.price}
+                    maxPrice={service.price_max}
                 />
             );
         });
@@ -77,7 +96,7 @@ export function PartnerProfile({ partnerId }) {
 
     const showLoaderDescription = () => {
         return <SkeletonLoader customClass="h-[5rem] w-full" />;
-    }
+    };
 
     useEffect(() => {
         getPartnerInfo();
@@ -107,19 +126,22 @@ export function PartnerProfile({ partnerId }) {
                     </>
                 )}
             </header>
-            <div className="grid gap-8 mb-10">
+            <div className="grid gap-10 mb-10">
                 <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))]">
                     {isLoading ? (
                         showLoaderGeneralInfo()
                     ) : (
                         <>
-                            
                             <div className="flex flex-col items-center sm:items-start">
                                 <h2>{partnerInfo.name}</h2>
 
                                 <p>{partnerInfo.category_name}</p>
 
-                                <p>Puntarenas, Costa Rica</p>
+                                {partnerInfo.website_url && (
+                                    <a href={partnerInfo.website_url} >
+                                        {partnerInfo.website_url}
+                                    </a>
+                                )}
                             </div>
                             <div className="flex flex-col justify-end items-center mt-4 sm:items-end">
                                 <MainButton
@@ -135,14 +157,7 @@ export function PartnerProfile({ partnerId }) {
                 <div className="grid gap-4">
                     <h2>Services</h2>
                     <div className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-4">
-                        {isLoading ? (
-                            showLoaderServices()
-                        ) : (
-                            <ServiceCard
-                                title={partnerInfo.category_name}
-                                description={'dsdsdsd'}
-                            />
-                        )}
+                        {isLoading ? showLoaderServices() : renderServices()}
                     </div>
                 </div>
                 <div className="grid gap-4">
@@ -174,7 +189,10 @@ export function PartnerProfile({ partnerId }) {
                     <ContactModal
                         handleModal={setIsOpenModal}
                         email={partnerInfo.email}
-                        phone={partnerInfo.phone}
+                        phone={partnerInfo.phone_number}
+                        instagram={partnerInfo.instagram_url}
+                        facebook={partnerInfo.facebook_url}
+                        tiktok={partnerInfo.tiktok_url}
                     />
                 </LayoutModal>
             )}
