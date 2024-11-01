@@ -1,155 +1,164 @@
-import React, { useState } from 'react';
-import { Tabs, Tab, Box } from '@mui/material';
+import React, { useState, useEffect, useContext } from 'react';
+import { Tabs, Tab, Box, Button } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAxios } from '../../components/hooks/useAxios';
 import Swal from 'sweetalert2';
 
+
 export function PartnersAdministration() {
+    const user = JSON.parse(localStorage.getItem('user')) || null;
+    const loggedInUserId = user?.id;
+
     const [currentStatus, setCurrentStatus] = useState('Pending');
-    const partners = [
-        {
-            id: 1,
-            companyName: 'Servicios de Limpieza Juanilama',
-            requestDate: '2024-10-23',
-        },
-        { id: 2, companyName: 'Mundanzas Martínez', requestDate: '2024-10-22' },
-        {
-            id: 3,
-            companyName: 'Insecticidas Palenque',
-            requestDate: '2024-10-21',
-        },
-    ]; // Placeholder array for demonstration
+    const [partners, setPartners] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const axios = useAxios();
+
+
+    const fetchPartners = (currentStatus) => {
+        if (!loggedInUserId) {
+            console.error("User ID is not available.");
+            return;
+        }
+    
+        setLoading(true);
+        axios
+            .get(`/partner-requests/${currentStatus}/${loggedInUserId}`) 
+            .then((response) => {
+                console.log("Fetched Partners:", response.data);
+                setPartners(response.data || []);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error("Error fetching partners:", error.response ? error.response.data : error.message);
+                Swal.fire('Error!', 'Failed to load partners', 'error');
+                setLoading(false);
+            });
+    };
+
+
+
+    useEffect(() => {
+        fetchPartners(currentStatus);
+    }, [currentStatus]);
 
     const handleTabChange = (event, newValue) => {
         setCurrentStatus(newValue);
     };
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        const options = { day: '2-digit', month: 'short', year: 'numeric' };
-        return date.toLocaleDateString('en-US', options);
+    const approvePartner = (partnerId) => {
+        axios.put(`/partners/approve/${partnerId}`)
+            .then(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Partner Approved',
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                fetchPartners(currentStatus);
+            })
+            .catch(error => {
+                console.error("Error approving partner:", error.response || error);
+                Swal.fire('Error!', 'Failed to approve the partner', 'error');
+            });
     };
 
-    const handleConfirm = (partnerId) => {
+    const rejectPartner = (partnerId) => {
         Swal.fire({
-            title: 'Do you want to confirm this partner?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, confirm it!',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire('Confirmed!', 'The partner has been confirmed.', 'success');
-                // Aquí puedes agregar lógica adicional para manejar la confirmación del socio.
-            }
-        });
-    };
-
-    const handleDecline = (partnerId) => {
-        Swal.fire({
-            title: 'Do you want to decline this partner?',
-            text: 'This action cannot be reverted!',
+            title: 'Are you sure?',
+            text: "This action cannot be undone!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, decline it!',
+            confirmButtonText: 'Yes, reject it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire('Declined!', 'The partner has been declined.', 'success');
-                // Aquí puedes agregar lógica adicional para manejar el rechazo del socio.
+                axios.put(`/partners/reject/${partnerId}`)
+                    .then(() => {
+                        Swal.fire('Rejected!', 'The partner has been rejected.', 'success');
+                        fetchPartners(currentStatus);
+                    })
+                    .catch(error => {
+                        console.error("Error rejecting partner:", error.response || error);
+                        Swal.fire('Error!', 'Failed to reject the partner', 'error');
+                    });
             }
         });
     };
 
-    
-
     return (
         <div className="max-w-7xl m-auto p-4 min-h-[80vh]">
-            <div className="mt-10 mb-10 gap-4 sm:block">
-                <div className="m-auto p-4">
-                    <h1 className="mt-10">Partners Administration</h1>
+            <h1 className="mt-10">Partners Administration</h1>
+            <p className="dark:text-white">Manage partner requests and status</p>
 
-                    <Box className="flex justify-between items-center mt-4 mb-4">
-                        <Tabs
-                            value={currentStatus}
-                            onChange={handleTabChange}
-                            variant="scrollable"
-                            scrollButtons="auto"
-                            aria-label="status tabs"
-                            className="flex-1"
-                        >
-                            <Tab label="Pending" value="Pending" />
-                            <Tab label="Accepted" value="Accepted" />
-                            <Tab label="Declined" value="Declined" />
-                        </Tabs>
-                    </Box>
+            <Box className="flex justify-between items-center mt-4 mb-4">
+                <Tabs
+                    value={currentStatus}
+                    onChange={handleTabChange}
+                    variant="scrollable"
+                    scrollButtons="auto"
+                    aria-label="status tabs"
+                >
+                    <Tab label="Pending" value="Pending" className="dark:text-white" />
+                    <Tab label="Approved" value="Approved" className="dark:text-white" />
+                    <Tab label="Rejected" value="Rejected" className="dark:text-white"/>
+                </Tabs>
+            </Box>
 
-                    {/* Tabla para pantallas grandes */}
-                    <div className="overflow-auto rounded-lg shadow hidden md:block">
-                        <table className="w-full">
-                            <thead className="bg-secondary border-b-2 border-gray-200 text-white">
-                                <tr>
-                                    <th className="p-3 text-sm font-semibold tracking-wide text-center">Company Name</th>
-                                    <th className="w-32 p-3 text-sm font-semibold tracking-wide">Service</th>
-                                    <th className="p-3 text-sm font-semibold tracking-wide">Phone Number</th>
-                                    <th className="p-3 text-sm font-semibold tracking-wide text-center">Email Address</th>
-                                    <th className="w-20 p-3 text-sm font-semibold tracking-wide">Status</th>
-                                    <th className="p-3 text-sm font-semibold tracking-wide text-center">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-300">
-                                {partners.map((partner) => (
-                                    <tr className="bg-white" key={partner.id}>
-                                        <td className="p-3 text-sm text-gray-700 whitespace-nowrap">{partner.companyName}</td>
-                                        <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Cleaning</td>
-                                        <td className="p-3 text-sm text-gray-700 whitespace-nowrap">+50661102677</td>
-                                        <td className="p-3 text-sm text-gray-700 whitespace-nowrap">servicioslimpiezajuanilama2020@gmail.com</td>
-                                        <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                                            <span className="p-1.5 text-xs font-medium uppercase tracking-wider text-yellow-800 bg-yellow-200 rounded-lg opacity-50">Pending</span>
-                                        </td>
-                                        <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                                            <div className="flex gap-2">
-                                                <button className="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded" onClick={() => handleConfirm(partner.id)}>Confirm</button>
-                                                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded" onClick={() => handleDecline(partner.id)}>Decline</button>
-                                                <button className="bg-blue-500 hover:bg-green-700 text-white font-bold py-2 px-2 rounded" onClick={() => handleDownloadPDF(partner.id)}>Download PDF</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    {/* Diseño responsive para pantallas pequeñas */}
-                    <div className="grid grid-cols-1 gap-4 md:hidden">
+            <div className="grid grid-cols-1 gap-4 mt-4">
+                {loading ? (
+                    <p className="text-center text-gray-600 font-bold">Loading...</p>
+                ) : partners.length === 0 ? (
+                    <p className="text-center text-gray-600 font-bold">No partners found in this category.</p>
+                ) : (
+                    <AnimatePresence>
                         {partners.map((partner) => (
-                            <div className="bg-white p-4 rounded-lg shadow overflow-hidden" key={partner.id}>
-                                <div className="flex items-center space-x-2 text-sm">
-                                    <div className="font-bold">{partner.companyName}</div>
-                                    <div className="p-1.5 text-xs font-medium uppercase tracking-wider text-yellow-800 bg-yellow-200 rounded-lg opacity-50">Pending</div>
+                            <motion.div
+                                key={partner.id}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.8 }}
+                                transition={{ duration: 0.3 }}
+                                className="w-full border border-gray-300 rounded-md p-4 flex flex-col sm:flex-row items-center sm:justify-between gap-4"
+                            >
+                                <div className="flex items-center gap-4">
+                                    <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200">
+                                        {partner.image_url && <img src={partner.image_url} alt={`${partner.name} Logo`} />}
+                                    </div>
+                                    <div>
+                                        <h2 className="font-bold">{partner.name}</h2>
+                                        <p className="text-gray-600">{partner.category_name}</p>
+                                    </div>
                                 </div>
-                                <div className="flex gap-2 text-sm mt-2">
-                                    <label className="font-bold">Service:</label>
-                                    <p>Cleaning</p>
+
+                                <div className="flex-1 text-gray-600 text-left sm:text-center">
+                                    <p>{partner.description || "No description available"}</p>
                                 </div>
-                                <div className="flex gap-2 text-sm mt-2">
-                                    <label className="font-bold">Phone Number:</label>
-                                    <p>+50661102677</p>
+
+                                <div className="relative gap-5 flex">
+                                    {currentStatus === "Pending" && (
+                                        <>
+                                            <button
+                                                className="text-green-500 border border-green-500 hover:bg-green-500 hover:text-white py-1 px-3 rounded"
+                                                onClick={() => approvePartner(partner.id)}
+                                            >
+                                                Approve
+                                            </button>
+                                            <button
+                                                className="text-red-500 border border-red-500 hover:bg-red-500 hover:text-white py-1 px-3 rounded"
+                                                onClick={() => rejectPartner(partner.id)}
+                                            >
+                                                Reject
+                                            </button>
+                                        </>
+                                    )}
                                 </div>
-                                <div className="flex gap-2 text-sm mt-2">
-                                    <label className="font-bold">Email:</label>
-                                    <p>servicioslimpiezajuanilama2020@gmail.com</p>
-                                </div>
-                                <div className="flex gap-2 mt-2 text-sm">
-                                    <button className="bg-green-500 hover:bg-green-700 text-white font-bold py px-2 rounded" onClick={() => handleConfirm(partner.id)}>Confirm</button>
-                                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py px-2 rounded" onClick={() => handleDecline(partner.id)}>Decline</button>
-                                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py px-2 rounded">Download PDF</button>
-                                </div>
-                            </div>
+                            </motion.div>
                         ))}
-                    </div>
-                </div>
+                    </AnimatePresence>
+                )}
             </div>
         </div>
     );
