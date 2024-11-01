@@ -8,6 +8,7 @@ export function PartnerIntegrationRequestForm() {
     const axios = useAxios();
     const navigate = useNavigate();
 
+    const [cities, setCities] = useState([]);
     const [categories, setCategories] = useState([]);
     const [currencies, setCurrencies] = useState([]);
     const [formData, setFormData] = useState({
@@ -20,12 +21,22 @@ export function PartnerIntegrationRequestForm() {
         instagram_url: '',
         facebook_url: '',
         tiktok_url: '',
+        city_id: '',
         currency_id: '',
         partner_category_id: '',
         partner_comments: '',
     });
 
     useEffect(() => {
+        const fetchCities = async () => {
+            try {
+                const response = await axios.get('/locations');
+                setCities(response.data);
+            } catch (error) {
+                console.error('Error fetching cities:', error);
+            }
+        };
+
         const fetchCategories = async () => {
             try {
                 const response = await axios.get('/partners-categories');
@@ -44,6 +55,7 @@ export function PartnerIntegrationRequestForm() {
             }
         };
 
+        fetchCities();
         fetchCategories();
         fetchCurrencies();
     }, []);
@@ -73,7 +85,7 @@ export function PartnerIntegrationRequestForm() {
         try {
             const response = await axios.post('/partner-request', formDataToSubmit, {
                 headers: {
-                    'Content-Type': 'multipart/form-data', // Importante para la carga de archivos
+                    'Content-Type': 'multipart/form-data', 
                 },
             });
             console.log('Partner request submitted:', response.data);
@@ -194,6 +206,22 @@ export function PartnerIntegrationRequestForm() {
                     placeholder="Enter your TikTok URL"
                     className="border border-light-grey bg-transparent rounded-md px-4 py-3 mt-2 focus:outline-light-blue h-12"
                 />
+            </div>
+            <div className="flex flex-col mb-4">
+                <label htmlFor="city_id" className="font-medium text-gray-700">City</label>
+                <select
+                    id="city_id"
+                    name="city_id"
+                    value={formData.city_id}
+                    onChange={handleChange}
+                    className="border border-light-grey bg-transparent rounded-md px-4 py-3 mt-2 focus:outline-light-blue h-12"
+                    required
+                >
+                    <option value="">Select a city</option>
+                    {cities.map((city) => (
+                        <option key={city.value} value={city.value}>{city.name}</option>
+                    ))}
+                </select>
             </div>
             <div className="flex flex-col mb-4">
                 <label htmlFor="currency_id" className="font-medium text-gray-700">Currency</label>
