@@ -24,6 +24,7 @@ export function PartnerIntegrationRequestForm() {
         city_id: '',
         currency_id: '',
         partner_category_id: '',
+        address: '',
         partner_comments: '',
     });
 
@@ -208,22 +209,6 @@ export function PartnerIntegrationRequestForm() {
                 />
             </div>
             <div className="flex flex-col mb-4">
-                <label htmlFor="city_id" className="font-medium text-gray-700">City</label>
-                <select
-                    id="city_id"
-                    name="city_id"
-                    value={formData.city_id}
-                    onChange={handleChange}
-                    className="border border-light-grey bg-transparent rounded-md px-4 py-3 mt-2 focus:outline-light-blue h-12"
-                    required
-                >
-                    <option value="">Select a city</option>
-                    {cities.map((city) => (
-                        <option key={city.value} value={city.value}>{city.name}</option>
-                    ))}
-                </select>
-            </div>
-            <div className="flex flex-col mb-4">
                 <label htmlFor="currency_id" className="font-medium text-gray-700">Currency</label>
                 <select
                     id="currency_id"
@@ -256,7 +241,34 @@ export function PartnerIntegrationRequestForm() {
                 </select>
             </div>
             <div className="flex flex-col mb-4">
-                <label htmlFor="partner_comments" className="font-medium text-gray-700">Comments</label>
+                <label htmlFor="city_id" className="font-medium text-gray-700">City</label>
+                <select
+                    id="city_id"
+                    name="city_id"
+                    value={formData.city_id}
+                    onChange={handleChange}
+                    className="border border-light-grey bg-transparent rounded-md px-4 py-3 mt-2 focus:outline-light-blue h-12"
+                    required
+                >
+                    <option value="">Select a city</option>
+                    {cities.map((city) => (
+                        <option key={city.value} value={city.value}>{city.name}</option>
+                    ))}
+                </select>
+            </div>
+            <div className="flex flex-col mb-4">
+                <label htmlFor="partner_comments" className="font-medium text-gray-700">Address</label>
+                <textarea
+                    id="address"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    placeholder="Enter your address if you have a physical location"
+                    className="border border-light-grey bg-transparent rounded-md px-4 py-3 mt-2 focus:outline-light-blue h-32"
+                />
+            </div>
+            <div className="flex flex-col mb-4">
+                <label htmlFor="partner_comments" className="font-medium text-gray-700">Extra Comments</label>
                 <textarea
                     id="partner_comments"
                     name="partner_comments"
