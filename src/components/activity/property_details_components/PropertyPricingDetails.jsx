@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { SkeletonLoader } from '../../ui/SkeletonLoader.jsx';
-import { MainButton } from '../../ui/buttons/MainButton';
 import { Droplet, Wifi, Zap, Tv } from 'lucide-react';
 import { RequestAppointmentModal } from '../../ui/modals/RequestAppointmentModal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PropTypes from 'prop-types';
 
 export function PropertyPricingDetails({ propertyTemp, isLoading }) {
-    const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar el modal
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const property = propertyTemp;
 
     // Obtener el usuario logeado de localStorage
@@ -20,6 +20,28 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
             setIsModalOpen((prev) => !prev);
         } else {
             toast.error('You must be logged in to schedule a visit.');
+        }
+    };
+
+    // Función para contactar al dueño de la propiedad
+    const contactOwner = ({ phone_number }) => {
+        console.log('phone_number', phone_number);
+        if (loggedInUserId) {
+            if (!phone_number) {
+                toast.error('Phone number is not available for this property.');
+                return;
+            }
+
+            toast.success('Contacting owner...');
+            console.log('phone_number', phone_number);
+
+            // Construir la URL de WhatsApp
+            const whatsappURL = `https://wa.me/506${phone_number}`;
+
+            // Redirigir a la URL de WhatsApp
+            window.open(whatsappURL, '_blank');
+        } else {
+            toast.error('You must be logged in to contact the owner.');
         }
     };
 
@@ -113,12 +135,18 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
 
                     {/* Botón para abrir el modal */}
                     <button
-                        className="text-secondary border-2 border-secondary hover:bg-secondary hover:text-white py-3 mt-4"
+                        className="text-secondary border-2 border-secondary hover:bg-secondary hover:text-white py-3 mt-4 rounded-sm"
                         onClick={toggleModal}
                     >
                         Schedule a Visit
                     </button>
-                    <MainButton text="Get Property" type="button" />
+                    <button
+                        className="text-white border-2 border-secondary bg-secondary hover:bg-light-blue hover:border-light-blue hover:text-white py-3 mt-1 rounded-sm"
+                        onClick={() => contactOwner({ phone_number: property.owner_phone })}
+
+                    >
+                        Contact Owner
+                    </button>
                 </div>
 
                 <div className="flex flex-col border-2 gap-2 rounded-md p-4">
@@ -200,9 +228,22 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                         userId={loggedInUserId}
                         propertyId={property.id}
                     />
-                    console.log("Owner ID:", property.owner_id);
                 </div>
             )}
         </div>
     );
 }
+
+export default PropertyPricingDetails;
+
+PropertyPricingDetails.propTypes = {
+    propertyTemp: PropTypes.number,
+    property: PropTypes.object,
+    isLoading: PropTypes.bool,
+    toggleModal: PropTypes.func,
+    contactOwner: PropTypes.func,
+    showPricingDetails: PropTypes.func,
+    showLoader: PropTypes.func,
+    isModalOpen: PropTypes.bool,
+    setIsModalOpen: PropTypes.func
+};
