@@ -12,17 +12,19 @@ export function PartnersAdministration() {
     const [loading, setLoading] = useState(true);
     const axios = useAxios();
 
-    const fetchPartners = (currentStatus) => {
+    const fetchPartners = (status) => {
         if (!loggedInUserId) {
             console.error("User ID is not available.");
             return;
         }
-   
+
         setLoading(true);
+        // Vaciar el estado de partners antes de la solicitud para evitar datos persistentes de una pestaña anterior
+        setPartners([]);
+        
         axios
-            .get(`/partner-requests/${currentStatus}/${loggedInUserId}`)
+            .get(`/partner-requests/${status}/${loggedInUserId}`)
             .then((response) => {
-                console.log("Fetched Partners:", response.data);
                 setPartners(response.data || []);
                 setLoading(false);
             })
@@ -40,25 +42,35 @@ export function PartnersAdministration() {
         setCurrentStatus(newValue);
     };
 
-    const approvePartner = (partnerId) => {
-        axios.put(`/partners/approve/${partnerId}`)
-            .then(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Partner Approved',
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
-                fetchPartners(currentStatus);
-            })
-            .catch(error => {
-                console.error("Error approving partner:", error.response || error);
-                Swal.fire('Error!', 'Failed to approve the partner', 'error');
+    const updatePartnerStatus = (partnerId, newStatus) => {
+        setPartners((prevPartners) =>
+            prevPartners.filter((partner) => partner.id !== partnerId)
+        );
+        if (currentStatus === 'Pending') {
+            Swal.fire({
+                position: 'center',
+                icon: newStatus === 'Approved' ? 'success' : 'error',
+                title: `Partner ${newStatus}`,
+                showConfirmButton: false,
+                timer: 1500,
             });
+        }
     };
 
-    const rejectPartner = (partnerId) => {
+    const approvePartner = (partnerRequestId) => {
+        axios.put(`/partner-request/${partnerRequestId}/${loggedInUserId}`, {
+            status: "Approved",
+        })
+        .then(() => {
+            updatePartnerStatus(partnerRequestId, 'Approved');
+        })
+        .catch(error => {
+            console.error("Error approving partner:", error.response || error);
+            Swal.fire('Error!', 'Failed to approve the partner. Please try again.', 'error');
+        });
+    };
+
+    const rejectPartner = (partnerRequestId) => {
         Swal.fire({
             title: 'Are you sure?',
             text: "This action cannot be undone!",
@@ -69,15 +81,16 @@ export function PartnersAdministration() {
             confirmButtonText: 'Yes, reject it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.put(`/partners/reject/${partnerId}`)
-                    .then(() => {
-                        Swal.fire('Rejected!', 'The partner has been rejected.', 'success');
-                        fetchPartners(currentStatus);
-                    })
-                    .catch(error => {
-                        console.error("Error rejecting partner:", error.response || error);
-                        Swal.fire('Error!', 'Failed to reject the partner', 'error');
-                    });
+                axios.put(`/partner-request/${partnerRequestId}/${loggedInUserId}`, {
+                    status: "Rejected",
+                })
+                .then(() => {
+                    updatePartnerStatus(partnerRequestId, 'Rejected');
+                })
+                .catch(error => {
+                    console.error("Error rejecting partner:", error.response || error);
+                    Swal.fire('Error!', 'Failed to reject the partner. Please try again.', 'error');
+                });
             }
         });
     };
@@ -113,71 +126,75 @@ export function PartnersAdministration() {
                                     <th className="p-3 text-sm font-semibold tracking-wide">Phone</th>
                                     <th className="p-3 text-sm font-semibold tracking-wide text-center">Email Address</th>
                                     <th className="w-20 p-3 text-sm font-semibold tracking-wide">Status</th>
-                                    <th className="p-3 text-sm font-semibold tracking-wide text-center">Actions</th>
+                                    {/* Mostrar columna Actions solo si el estado es 'Pending' */}
+                                    {currentStatus === 'Pending' && (
+                                        <th className="p-3 text-sm font-semibold tracking-wide text-center">Actions</th>
+                                    )}
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-300">
-                                {partners.map((partner) => (
-                                    <tr className="bg-white" key={partner.id}>
-                                        <td className="p-3 text-sm text-gray-700 whitespace-nowrap flex items-center gap-2">
-                                            <img
-                                                src={partner.image_url}
-                                                alt="Company Logo"
-                                                className="w-10 h-10 rounded-full bg-gray-200"
-                                            />
-                                            {partner.name}
-                                        </td>
-                                        <td className="p-3 text-sm text-gray-700 whitespace-nowrap">{partner.category_name || 'N/A'}</td>
-                                        <td className="p-3 text-sm text-gray-700 whitespace-nowrap">{partner.phone_number || 'N/A'}</td>
-                                        <td className="p-3 text-sm text-gray-700 whitespace-nowrap">{partner.email || 'N/A'}</td>
-                                        <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                                            <span className="p-1.5 text-xs font-medium uppercase tracking-wider text-yellow-800 bg-yellow-200 rounded-lg opacity-50">{currentStatus}</span>
-                                        </td>
-                                        <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                                            <div className="flex gap-2">
-                                                <button className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3" onClick={() => approvePartner(partner.id)}>Approve</button>
-                                                <button className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3" onClick={() => rejectPartner(partner.id)}>Reject</button>
-                                                <button className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3">Download PDF</button>
-                                            </div>
+                                {partners.length > 0 ? (
+                                    partners.map((partner) => (
+                                        <tr className="bg-white" key={partner.id}>
+                                            <td className="p-3 text-sm text-gray-700 whitespace-nowrap flex items-center gap-2">
+                                                <img
+                                                    src={partner.image}
+                                                    alt="Company Logo"
+                                                    className="w-10 h-10 rounded-full bg-gray-200"
+                                                />
+                                                {partner.name}
+                                            </td>
+                                            <td className="p-3 text-sm text-gray-700 whitespace-nowrap">{partner.category_name || 'N/A'}</td>
+                                            <td className="p-3 text-sm text-gray-700 whitespace-nowrap">{partner.phone_number || 'N/A'}</td>
+                                            <td className="p-3 text-sm text-gray-700 whitespace-nowrap">{partner.email || 'N/A'}</td>
+                                            <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                                <span
+                                                    className={`p-1.5 text-xs font-medium uppercase tracking-wider rounded-lg opacity-50 ${
+                                                        currentStatus === 'Approved'
+                                                            ? 'text-green-800 bg-green-200'
+                                                            : currentStatus === 'Rejected'
+                                                            ? 'text-red-800 bg-red-200'
+                                                            : 'text-yellow-800 bg-yellow-200'
+                                                    }`}
+                                                >
+                                                    {currentStatus}
+                                                </span>
+                                            </td>
+                                            {/* Mostrar botones de acciones solo si el estado es 'Pending' */}
+                                            {currentStatus === 'Pending' && (
+                                                <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                                    <div className="flex gap-2">
+                                                        <button
+                                                            className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3"
+                                                            onClick={() => approvePartner(partner.id)}
+                                                        >
+                                                            Approve
+                                                        </button>
+                                                        <button
+                                                            className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3"
+                                                            onClick={() => rejectPartner(partner.id)}
+                                                        >
+                                                            Reject
+                                                        </button>
+                                                        <button className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3">
+                                                            Download PDF
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            )}
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan={currentStatus === 'Pending' ? 6 : 5} className="p-3 text-center text-sm text-gray-500">
+                                            {currentStatus === 'Pending'
+                                                ? "There is no pending partners"
+                                                : `No partners in ${currentStatus}`}
                                         </td>
                                     </tr>
-                                ))}
+                                )}
                             </tbody>
                         </table>
-                    </div>
-
-                    {/* Diseño responsive para pantallas pequeñas */}
-                    <div className="grid grid-cols-1 gap-4 md:hidden">
-                        {partners.map((partner) => (
-                            <div className="bg-white p-4 rounded-lg shadow overflow-hidden" key={partner.id}>
-                                <div className="flex items-center space-x-2 text-sm">
-                                    <img
-                                        src={partner.image_url}
-                                        alt="Company Logo"
-                                        className="w-10 h-10 rounded-full"
-                                    />
-                                    <div className="font-bold">{partner.name}</div>
-                                    <div className="p-1.5 text-xs font-medium uppercase tracking-wider text-yellow-800 bg-yellow-200 rounded-lg opacity-50">{currentStatus}</div>
-                                </div>
-                                <div className="flex gap-2 text-sm mt-2">
-                                    <label className="font-bold">Service:</label>
-                                    <p>{partner.category_name || 'N/A'}</p>
-                                </div>
-                                <div className="flex gap-2 text-sm mt-2">
-                                    <label className="font-bold">Phone Number:</label>
-                                    <p>{partner.phone_number || 'N/A'}</p>
-                                </div>
-                                <div className="flex gap-2 text-sm mt-2">
-                                    <label className="font-bold">Email:</label>
-                                    <p>{partner.email || 'N/A'}</p>
-                                </div>
-                                <div className="flex gap-2 mt-2 text-sm">
-                                    <button className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3" onClick={() => approvePartner(partner.id)}>Approve</button>
-                                    <button className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3" onClick={() => rejectPartner(partner.id)}>Reject</button>
-                                    <button className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3">Download PDF</button>
-                                </div>
-                            </div>
-                        ))}
                     </div>
                 </div>
             </div>
