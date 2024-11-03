@@ -2,10 +2,29 @@ import { Input } from '../../ui/forms/Input.jsx';
 import { TextLink } from '../../ui/navigation/TextLink.jsx';
 import { MainButton } from '../../ui/buttons/MainButton.jsx';
 import { ROUTE_PATHS } from '../../../routes/index.js';
+import { useAxios } from '../../hooks/useAxios.js';
+import { useState } from 'react';
 
 export function ForgotPasswordForm() {
+    const axios = useAxios();
+    const [email, setEmail] = useState('');
+    const [message, setMessage] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('/password/email', { email });
+            setMessage(response.data.message);
+        } catch (error) {
+            setMessage(
+                error.response?.data?.message ||
+                    'An error occurred while sending the instructions'
+            );
+        }
+    };
+
     return (
-        <form className="m-auto">
+        <form onSubmit={handleSubmit} className="m-auto">
             <h1 className="dark:text-secondary">Password reset</h1>
             <span className="text-grey">
                 Don&apos;t worry, enter your email for instructions
@@ -18,15 +37,18 @@ export function ForgotPasswordForm() {
                     inputId="email"
                     labelText="Email Address"
                     className="mt-4 dark:text-black"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
                 />
                 <MainButton
                     text="Send Instructions"
-                    type="link"
-                    to={ROUTE_PATHS.EMAIL_SEND}
+                    type="submit"
                     variant="fill"
                     customClass="w-full"
                 />
             </div>
+            {message && <p>{message}</p>}
             <span className="text-grey text-sm mr-1">
                 Do you remember your password?
             </span>
@@ -34,4 +56,3 @@ export function ForgotPasswordForm() {
         </form>
     );
 }
-export default ForgotPasswordForm;
