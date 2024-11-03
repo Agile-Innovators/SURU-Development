@@ -17,8 +17,8 @@ import { Preferences } from '../pages/public/Preferences.jsx';
 import { OperationalHours } from '../pages/public/OperationalHours.jsx';
 import { ChangePassword } from '../pages/public/ChangePassword.jsx';
 import { EditProperty } from '../pages/public/EditProperty.jsx';
-import { PartnerProfile } from '../pages/private/PartnerProfile.jsx';
-import { SearchPartners } from '../pages/private/SearchPartners.jsx';
+import { PartnerProfile } from '../pages/public/PartnerProfile.jsx';
+import { SearchPartners } from '../pages/public/SearchPartners.jsx';
 import { PartnersAdministration } from '../pages/public/PartnersAdministration.jsx';
 import { PropertyManagement } from '../pages/private/PropertyManagement.jsx'
 import { Favorites } from '../pages/public/Favorites.jsx';

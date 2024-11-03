@@ -28,11 +28,8 @@ export function SearchPartners() {
 
     const openPartnerProfile = (partnerId) => {
         setPartnerID(partnerId);
-        const profilePath = ROUTE_PATHS.PARTNER_PROFILE.startsWith('/suru')
-            ? ROUTE_PATHS.PARTNER_PROFILE
-            : `/suru${ROUTE_PATHS.PARTNER_PROFILE}`;
 
-        navigate(profilePath);
+        navigate(`${ROUTE_PATHS.PARTNER_PROFILE.replace(':partnerId', partnerId)}`);
     };
 
     const handleFilterPartners = async (e) => {
