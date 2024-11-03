@@ -209,6 +209,7 @@ export function GeneralInformation() {
                         onChange={handleChange}
                         disabled={!isEditing}
                     />
+                    
                 </div>
                 <div className="flex justify-end items-center mt-4">
                     {/* Botón para alternar entre Edit y Save */}

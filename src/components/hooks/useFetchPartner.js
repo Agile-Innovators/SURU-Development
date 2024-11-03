@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAxios } from './useAxios';
 import { useAuth } from '../../global/AuthProvider.jsx';
 
-export function useFetchUser() {
+export function useFetchPartner() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [data, setData] = useState(null);
@@ -10,7 +10,7 @@ export function useFetchUser() {
     const { updateUser } = useAuth();
 
     // Actualizar el perfil de usuario
-    const updateUserProfile = async (userId, userData) => {
+    const updatePartnerProfile = async (userId, userData) => {
         setLoading(true);
         // console.log("Datos enviados update: ". userData);
         try {
@@ -25,37 +25,16 @@ export function useFetchUser() {
     };
     
 
-    // Actualizar la contraseña de usuario
-    const updateUserPassword = async (userId, passwordData) => {
-        setLoading(true);
-        try {
-            const response = await axios.post(
-                `/user/${userId}/update-password`,
-                passwordData
-            );
-            
-            return response.data; 
-        } catch (error) {
-            if (error.response && error.response.data) {
-                throw new Error(error.response.data.message || 'An unexpected error occurred.');
-            } else {
-                throw new Error('An unexpected error occurred.');
-            }
-        } finally {
-            setLoading(false);
-        }
-    };
-    
     // Obtener la información del usuario
-    const getUserInformation = async (userId) => {
+    const getPartnerInformation = async (userId) => {
         setLoading(true);
         try {
-            const response = await axios.get(`/user/${userId}`);
+            const response = await axios.get(`/partner/${userId}`);
+            const responseAuth = await axios.get(`/user/${userId}`);
             setData(response.data);
-            console.log('Get user information:', response.data);
-
+            // console.log('Get user information:', response.data);
             // Actualizar la información del usuario en el contexto de autenticación
-            updateUser(response.data);
+            updateUser(responseAuth.data);
 
             setError(null);
         } catch (error) {
@@ -69,9 +48,7 @@ export function useFetchUser() {
         loading,
         error,
         data,
-        updateUserProfile,
-        updateUserPassword,
-        
-        getUserInformation,
+        updatePartnerProfile,
+        getPartnerInformation,
     };
 }

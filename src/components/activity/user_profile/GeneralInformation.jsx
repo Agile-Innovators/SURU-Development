@@ -46,20 +46,9 @@ export function GeneralInformation() {
                             value={profileData.username}
                             onChange={(e) => setProfileData({ ...profileData, username: e.target.value })}
                         />
-                        <Input
-                            inputName="firstLastname"
-                            inputId="firstLastname-input"
-                            labelText="First Lastname"
-                            value={profileData.firstLastname}
-                            onChange={(e) => setProfileData({ ...profileData, firstLastname: e.target.value })}
-                        />
-                        <Input
-                            inputName="secondLastname"
-                            inputId="secondLastname-input"
-                            labelText="Second Lastname"
-                            value={profileData.secondLastname}
-                            onChange={(e) => setProfileData({ ...profileData, secondLastname: e.target.value })}
-                        />
+                       
+                        
+                    
                         <Input
                             inputName="email"
                             inputId="email-input"

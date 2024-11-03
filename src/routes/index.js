@@ -19,11 +19,14 @@ export const ROUTE_PATHS = {
     REQUEST_APPOINTMENTS: '/request-appointments',
     USER_PROFILE: '/user-profile',
     GENERAL_INFORMATION: '/user-profile/general-information',
+    GENERAL_INFORMATION_PARTNER: '/user-profile/general-information-partner',
     PREFERENCES: '/user-profile/preferences',
+    PARTNER_SERVICES: '/user-profile/partner-services',
     OPERATIONAL_HOURS: '/user-profile/operational-hours',
     CHANGE_PASSWORD: '/user-profile/change-password',
     EDIT_PROPERTY: '/edit-property/:id',
     FAVORITES: '/favorites',
     PARTNER_PROFILE: '/partner-profile',
     SEARCH_PARTNERS: '/search-partners',
+
 };
