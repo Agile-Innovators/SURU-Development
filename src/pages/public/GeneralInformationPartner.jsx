@@ -52,11 +52,10 @@ export function GeneralInformationPartner() {
                 email: data.email || '',
                 phone_number: data.phone_number || '',
                 description: data.description || '',
-                // Acceso a la primera ubicación
-                city_id: data.locations[0]?.city_id || '',
-                address: data.locations[0]?.address || '',
+                // Asegúrate de que locations tenga elementos antes de acceder a ellos
+                city_id: (data.locations && data.locations.length > 0) ? data.locations[0].city_id : '',
+                address: (data.locations && data.locations.length > 0) ? data.locations[0].address : '',
                 website_url: data.website_url || '',
-                // Puedes eliminar _method y profile_picture si no están presentes en el JSON
                 currency_id: data.currency_id || '',
                 tiktok_url: data.tiktok_url || '',
                 instagram_url: data.instagram_url || '',
