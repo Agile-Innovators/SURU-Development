@@ -1,24 +1,19 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
 import { ROUTE_PATHS } from '../routes';
-import PropTypes from 'prop-types';
 
-const ProtectedRoutes = ({ children }) => {
+const ProtectedRoutes = () => {
     const { getAuthToken } = useAuth();
     const authToken = getAuthToken();
 
-    if (authToken === null) {
+    if (!authToken) {
         console.log(
-            'ProtectedRoute - Not logged user. Redirecting to login page. Token '
+            'ProtectedRoute - Not logged user. Redirecting to login page.'
         );
         return <Navigate to={ROUTE_PATHS.LOGIN} replace />;
     }
 
-    return children;
-};
-
-ProtectedRoutes.propTypes = {
-    children: PropTypes.node,
+    return <Outlet />;
 };
 
 export default ProtectedRoutes;
