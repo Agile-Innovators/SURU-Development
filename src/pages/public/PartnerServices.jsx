@@ -10,7 +10,7 @@ export function PartnerServices() {
 
     const { getUser } = useAuth();
     const { user } = getUser();
-    const { services, loading, error, updatePartnerServices } = useFetchServices();
+    const { services, loading, error, updatePartnerServices } = useFetchServices(1);
 
     if (loading) return <p>Loading services...</p>;
     if (error) return <p>Error: {error}</p>;

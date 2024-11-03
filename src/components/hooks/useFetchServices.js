@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAxios } from './useAxios';
 
-export function useFetchServices() {
+export function useFetchServices(idCategory) {
     const [services, setServices] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -11,7 +11,7 @@ export function useFetchServices() {
         setLoading(true);
         setError(null);
         try {
-            const response = await axios.get('services/category/1');
+            const response = await axios.get(`/services/category/${idCategory}`);
             setServices(response.data);
         } catch (error) {
             const errorMsg = error.response?.data || 'An unexpected error occurred';
@@ -25,7 +25,7 @@ export function useFetchServices() {
         setLoading(true);
         setError(null); // Resetear el error antes de la nueva solicitud
         try {
-            const response = await axios.get(`/partner-services/30`);
+            const response = await axios.get(`/partner-services/${userId}`);
             // Establecer los datos de los servicios
             setData(response.data);
             
