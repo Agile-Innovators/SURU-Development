@@ -8,6 +8,7 @@ import { RequestAppointmentModal } from '../../components/ui/modals/RequestAppoi
 import { LayoutModal } from '../../components/ui/modals/LayoutModal';
 import { useAxios } from '../../components/hooks/useAxios';
 import Swal from 'sweetalert2';
+import { globalProvider } from '../../global/GlobalProvider';
 import { ROUTE_PATHS } from '../../routes';
 
 export function Appointments() {
@@ -22,6 +23,7 @@ export function Appointments() {
     const axios = useAxios();
     const navigate = useNavigate();
 
+    const { setPropertyID } = useContext(globalProvider);
 
     useEffect(() => {
         fetchAppointments(currentStatus);
