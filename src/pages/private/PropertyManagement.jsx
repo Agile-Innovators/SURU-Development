@@ -144,7 +144,7 @@ export function PropertyManagement() {
     };
 
     return (
-        <div className="max-w-7xl min-h-[70vh] m-auto mt-5 p-4 xl:p-0">
+        <div className="max-w-7xl w-full min-h-[70vh] m-auto mt-5 p-4 xl:p-0">
             <ToastContainer
                 position="top-center"
                 autoClose={200}
@@ -158,19 +158,20 @@ export function PropertyManagement() {
                 theme="light"
             />
             <div className="text-center grid gap-4">
-                <div className="flex flex-col md:flex-row justify-between gap-4 items-center mt-4">
-                    <section className="flex gap-4">
+                <div className="flex flex-col  justify-between gap-4 items-center mt-4">
+                    <section className="flex gap-4 justify-between w-full">
                         <BackButton />
                         <h1 className="text-center sm:text-start">
                             Manage Publications
                         </h1>
-                    </section>
-                    <MainButton
+                        <MainButton
                         type="link"
                         to={ROUTE_PATHS.CREATE_PROPERTY}
                         text="+ Add New Property"
                         customClass="w-full sm:w-fit h-fit"
                     />
+                    </section>
+                    
                 </div>
                 {isLoadingProps ? (
                     <p>Loading...</p>

@@ -138,7 +138,7 @@ export function Appointments() {
     };
 
     return (
-        <div className="max-w-7xl m-auto p-4 min-h-[80vh]">
+        <div className="max-w-7xl m-auto p-4 min-h-[80vh] w-full">
             <div className="mt-10 mb-10 gap-4">
                 <div className="m-auto p-4">
                     <h1 className="mt-10">Appointments</h1>

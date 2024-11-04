@@ -98,7 +98,7 @@ export function Favorites() {
     };
 
     return (
-        <section className="mx-auto max-w-7xl mb-10">
+        <section className="mx-auto max-w-7xl mb-10 w-full">
             
             <div className='w-full flex mt-10 flex-wrap'>
                 <BackButton/>
