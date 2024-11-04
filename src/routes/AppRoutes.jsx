@@ -19,7 +19,7 @@ import { ChangePassword } from '../pages/public/ChangePassword.jsx';
 import { EditProperty } from '../pages/public/EditProperty.jsx';
 import { PartnerProfile } from '../pages/public/PartnerProfile.jsx';
 import { SearchPartners } from '../pages/public/SearchPartners.jsx';
-import { PartnersAdministration } from '../pages/public/PartnersAdministration.jsx';
+import { PartnersAdministration } from '../pages/private/PartnersAdministration.jsx';
 import { PropertyManagement } from '../pages/private/PropertyManagement.jsx'
 import { Favorites } from '../pages/public/Favorites.jsx';
 import { CreateProperty } from "../pages/private/CreateProperty.jsx";
@@ -35,7 +35,7 @@ import { Partners } from '../pages/public/Partners.jsx';
 import { Search } from '../pages/public/Search.jsx';
 import { PartnerIntegrationRequest } from '../pages/public/PartnerIntegrationRequest.jsx';
 import { PropertyDetails } from '../pages/public/PropertyDetails.jsx';
-import { Appointments } from '../pages/public/Appointments.jsx';
+import { Appointments } from '../pages/private/Appointments.jsx';
 
 export function AppRoutes() {
     const navigate = useNavigate();
