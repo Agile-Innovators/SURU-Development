@@ -1,8 +1,9 @@
-import { AdvancedCard } from './../../components/ui/cards/AdvancedCard';
-import { MainButton } from './../../components/ui/buttons/MainButton';
+import { AdvancedCard } from '../../components/ui/cards/AdvancedCard';
+import { MainButton } from '../../components/ui/buttons/MainButton';
 import { useFetchUserFavorites } from '../../components/hooks/useFetchUserFavorites';
-import { useState, useEffect } from 'react';
-import { SkeletonLoader } from './../../components/ui/SkeletonLoader';
+import { useState, useEffect, useContext } from 'react';
+import { SkeletonLoader } from '../../components/ui/SkeletonLoader';
+import { globalProvider } from '../../global/GlobalProvider';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes';
 import BackButton from '../../components/ui/buttons/BackButton';
@@ -10,6 +11,7 @@ import BackButton from '../../components/ui/buttons/BackButton';
 export function Favorites() {
     const { userFavorites, isLoadingFavorites } = useFetchUserFavorites();
     const [favoritesProperties, setFavoritesProperties] = useState([]);
+    const { setPropertyID } = useContext(globalProvider);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -38,7 +40,9 @@ export function Favorites() {
     };
 
     const showProperty = (id) => {
-        navigate(`${ROUTE_PATHS.PROPERTY_DETAILS.replace(':propertyId', id)}`);
+        setPropertyID(id);
+        // console.log('ID HOME:', id);
+        navigate(ROUTE_PATHS.PROPERTY_DETAILS);
     };
 
     const formatPrice = (price) => {

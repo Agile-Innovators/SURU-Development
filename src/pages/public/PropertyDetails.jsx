@@ -1,3 +1,4 @@
+import { ROUTE_PATHS } from '../../routes/index.js';
 import { AdvancedCard } from '../../components/ui/cards/AdvancedCard';
 import { MapPin } from 'lucide-react';
 import { MainButton } from '../../components/ui/buttons/MainButton';
@@ -8,14 +9,16 @@ import { PropertyFeatures } from '../../components/activity/property_details_com
 import { SkeletonLoader } from '../../components/ui/SkeletonLoader.jsx';
 import { PropertyPricingDetails } from '../../components/activity/property_details_components/PropertyPricingDetails.jsx';
 import { useFetchRelatedProperties } from '../../components/hooks/useFetchRelatedProperties.js';
-import { formatPrice, useShowProperty } from '../../components/hooks/utils.js';
+import { formatPrice } from '../../components/hooks/utils.js';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export function PropertyDetails() {
-    const { propertyDetails, isLoadingPropsDetails } = useFetchPropertyDetails();
+    const { propertyId } = useParams();
+    const navigate = useNavigate();
+    const { propertyDetails, isLoadingPropsDetails } = useFetchPropertyDetails(propertyId);
     const { property = {} } = propertyDetails || {};
     const { relatedProperties, isLoading: isLoading } = useFetchRelatedProperties(property.id || null);
-
-    const showProperty = useShowProperty();
 
     const showLoaderCards = () => {
         return Array(1)
@@ -56,6 +59,10 @@ export function PropertyDetails() {
                 </div>
             </div>
         );
+    };
+
+    const showProperty = (id) => {
+        navigate(`${ROUTE_PATHS.PROPERTY_DETAILS.replace(':propertyId', id)}`);
     };
 
     const createProperties = (properties) => (

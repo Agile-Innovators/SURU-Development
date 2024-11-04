@@ -14,7 +14,7 @@ export const ROUTE_PATHS = {
     PARTNERS_ADMINISTRATION: '/partners-administration',
     PROPERTY_MANAGEMENT: '/property-management',
     PARTNER_INTEGRATION_REQUEST: '/partner-integration-request',
-    PROPERTY_DETAILS: '/property-details',
+    PROPERTY_DETAILS: '/property-details/:propertyId',
     APPOINTMENTS: '/appointments',
     REQUEST_APPOINTMENTS: '/request-appointments',
     USER_PROFILE: '/user-profile',

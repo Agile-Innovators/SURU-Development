@@ -1,7 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AdvancedCard } from '../../components/ui/cards/AdvancedCard';
 import { SearchFilter } from '../../components/ui/search/SearchFilters';
-import { globalProvider } from '../../global/GlobalProvider';
 import { useFetchFilter } from '../../components/hooks/useFetchFilter';
 import { MainButton } from '../../components/ui/buttons/MainButton';
 import { useNavigate } from 'react-router-dom';
@@ -12,9 +11,6 @@ import { LayoutModal } from '../../components/ui/modals/LayoutModal';
 import { useFetchUserFavoritesIDs } from '../../components/hooks/useFetchUserFavoritesIDs';
 
 export function Search() {
-    const {
-        setPropertyID,
-    } = useContext(globalProvider);
     const { data, isLoading } = useFetchFilter();
     const { userFavoritesIDs } = useFetchUserFavoritesIDs();
     const navigate = useNavigate();
@@ -31,9 +27,7 @@ export function Search() {
     }, [isLoading]);
 
     const showProperty = (id) => {
-        setPropertyID(id);
-        // console.log('ID HOME:', id);
-        navigate(ROUTE_PATHS.PROPERTY_DETAILS);
+        navigate(`${ROUTE_PATHS.PROPERTY_DETAILS.replace(':propertyId', id)}`);
     };
 
     const showLoaderCards = () => {
@@ -95,7 +89,6 @@ export function Search() {
         ));
     }
 
-    // console.log(regionId, minPrice, maxPrice, propertyTypeId, isFilterUsed);
     return (
         <section className="max-w-7xl m-auto mt-5 p-4 xl:p-0">
             <LayoutModal customClass="pb-20" status={isOpenModal}>

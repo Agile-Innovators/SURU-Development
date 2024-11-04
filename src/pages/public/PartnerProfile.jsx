@@ -1,11 +1,9 @@
-import { MainButton } from '../../components/ui/buttons/MainButton';
 import { LayoutModal } from '../../components/ui/modals/LayoutModal';
 import { ContactModal } from '../../components/ui/modals/ContactModal';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect} from 'react';
 import { useAxios } from '../../components/hooks/useAxios';
 import { SkeletonLoader } from '../../components/ui/SkeletonLoader';
-import { globalProvider } from '../../global/GlobalProvider';
-import { X, Instagram, Facebook, Phone, Mail } from 'lucide-react';
+import { X, Phone, Mail } from 'lucide-react';
 import { BackButton } from '../../components/ui/buttons/BackButton';
 import { useParams } from 'react-router-dom';
 
@@ -15,7 +13,6 @@ export function PartnerProfile() {
     const [isLoading, setIsLoading] = useState(true);
     // const { partnerID } = useContext(globalProvider);
     const { partnerId } = useParams();
-    const [isLoadingTest, setIsLoadingTest] = useState(true);
     const axios = useAxios();
 
     const openModal = () => {

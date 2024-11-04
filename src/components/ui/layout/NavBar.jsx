@@ -1,6 +1,7 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
+import { Handshake} from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../../routes/index.js';
 import { useAuth } from '../../../global/AuthProvider.jsx';
@@ -50,8 +51,14 @@ const userNavigationLinks = [
         to: ROUTE_PATHS.FAVORITES,
         imageRoute: '/LikeIcon.svg',
     },
+    {
+        name: 'Partners Administration',
+        to: ROUTE_PATHS.PARTNERS_ADMINISTRATION,
+        imageRoute: '/Partner_Icon2.svg',
+    },
     { name: 'Log out', to: '#', imageRoute: '/LogoutIcon.svg' },
 ];
+
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');

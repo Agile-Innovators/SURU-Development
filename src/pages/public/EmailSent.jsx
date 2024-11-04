@@ -1,7 +1,13 @@
+import { useEffect } from 'react';
+import { forceLightMode } from '../../components/hooks/utils.js';
 import { MainButton } from '../../components/ui/buttons/MainButton.jsx';
 import { Mail } from 'lucide-react';
 
 export function EmailSent() {
+    useEffect(() => {
+        forceLightMode(); // Activa el modo claro al montar el componente
+    }, []);
+
     return (
         <div className="bg-authentication grid">
             <div className="max-w-7xl mx-auto p-5 grid content-center">
@@ -27,7 +33,7 @@ export function EmailSent() {
                     <span className="text-grey text-sm mr-1">
                         Didn&apos;t receive the email?{' '}
                         <span className="text-secondary font-normal text-sm hover:text-light-blue duration-100 cursor-pointer">
-                            Click here to resent
+                            Click here to resend
                         </span>
                     </span>
                 </section>

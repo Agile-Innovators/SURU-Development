@@ -27,8 +27,6 @@ export function SearchPartners() {
     }, [isLoadingPartnersCats]);
 
     const openPartnerProfile = (partnerId) => {
-        setPartnerID(partnerId);
-
         navigate(`${ROUTE_PATHS.PARTNER_PROFILE.replace(':partnerId', partnerId)}`);
     };
 

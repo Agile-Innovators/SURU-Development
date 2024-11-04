@@ -1,13 +1,10 @@
-import {useContext} from 'react';
-import {globalProvider} from '../../global/GlobalProvider.jsx';
 import { useNavigate } from 'react-router-dom';
 import {ROUTE_PATHS} from '../../routes/index.js';
 
-export const forceLightMode = (theme) => {
-    if (theme === 'dark') {
-        document.documentElement.classList.remove('dark');
-    }
-    localStorage.setItem('theme', theme);
+export const forceLightMode = () => {
+    document.documentElement.classList.add('light');  
+    document.documentElement.classList.remove('dark'); 
+    localStorage.setItem('theme', 'light');  
 };
 
 export const formatPrice = (price) => {
@@ -17,14 +14,11 @@ export const formatPrice = (price) => {
     return price.toString();
 };
 
-export const useShowProperty = () => {
-    const { setPropertyID } = useContext(globalProvider);
+export const useShowProperty = (id) => {
     const navigate = useNavigate();
 
     const showProperty = (id) => {
-        setPropertyID(id);
-        // console.log('ID HOME:', id);
-        navigate(ROUTE_PATHS.PROPERTY_DETAILS);
+        navigate(`${ROUTE_PATHS.PROPERTY_DETAILS.replace(':propertyId', id)}`);
     };
 
     return showProperty;

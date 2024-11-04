@@ -3,6 +3,7 @@ import { MainButton } from '../../ui/buttons/MainButton';
 import { useAxios } from '../../../components/hooks/useAxios';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../../routes';
+import Swal from 'sweetalert2';
 
 export function PartnerIntegrationRequestForm() {
     const axios = useAxios();
@@ -89,9 +90,26 @@ export function PartnerIntegrationRequestForm() {
                     'Content-Type': 'multipart/form-data', 
                 },
             });
-            console.log('Partner request submitted:', response.data);
+            Swal.fire({
+                icon: 'success',
+                title: 'Request sent',
+                text: 'Your partner request has been successfully submitted!',
+            });
             navigate(ROUTE_PATHS.PARTNERS);
         } catch (error) {
+            if (error.response && error.response.status === 409) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Request could not be processed',
+                    text: 'We cannot process your request because some information is already registered.',
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'There was an error submitting your request. Please try again later.',
+                });
+            }
             console.error('Error submitting partner request:', error);
         }
     };
