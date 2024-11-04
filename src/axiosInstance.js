@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-    baseURL: 'https://suru-backend.vercel.app/api/api', // https://suru-backend-v2.vercel.app/api/api
+    baseURL: 'https://suru-backend-v2.vercel.app/api/api', // https://suru-backend-v2.vercel.app/api/api
     timeout: 10000,
 });
 
