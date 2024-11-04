@@ -1,5 +1,3 @@
-import {useContext} from 'react';
-import {globalProvider} from '../../global/GlobalProvider.jsx';
 import { useNavigate } from 'react-router-dom';
 import {ROUTE_PATHS} from '../../routes/index.js';
 
@@ -17,14 +15,11 @@ export const formatPrice = (price) => {
     return price.toString();
 };
 
-export const useShowProperty = () => {
-    const { setPropertyID } = useContext(globalProvider);
+export const useShowProperty = (id) => {
     const navigate = useNavigate();
 
     const showProperty = (id) => {
-        setPropertyID(id);
-        // console.log('ID HOME:', id);
-        navigate(ROUTE_PATHS.PROPERTY_DETAILS);
+        navigate(`${ROUTE_PATHS.PROPERTY_DETAILS.replace(':propertyId', id)}`);
     };
 
     return showProperty;

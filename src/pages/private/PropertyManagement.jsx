@@ -8,8 +8,6 @@ import { useFetchUserProperties } from '../../components/hooks/useFetchUserPrope
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import { globalProvider } from '../../global/GlobalProvider.jsx';
-import { useContext } from 'react';
 
 export function PropertyManagement() {
     const { properties, isLoadingProps } = useFetchUserProperties();
@@ -18,7 +16,6 @@ export function PropertyManagement() {
     const axios = useAxios();
     const navigate = useNavigate(); // Inicializar useNavigate
 
-    const { setPropertyID } = useContext(globalProvider);
 
     const formatPrice = (price) => {
         if (price >= 1e9) return `${(price / 1e9).toFixed(1)}B`;
@@ -52,9 +49,7 @@ export function PropertyManagement() {
     };
 
     const showProperty = (id) => {
-        setPropertyID(id);
-        // console.log('ID HOME:', id);
-        navigate(ROUTE_PATHS.PROPERTY_DETAILS);
+        navigate(`${ROUTE_PATHS.PROPERTY_DETAILS.replace(':propertyId', id)}`);
     };
 
     const renderPropertiesIndex = (items) => {
