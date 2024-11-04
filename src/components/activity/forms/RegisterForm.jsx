@@ -50,11 +50,11 @@ export function RegisterForm() {
         };
 
         try {
-            toast.error('This action is blocked.');
-            // const response = await axios.post('/register', data);
-            // const { token, user } = response.data;
-            // login(token, user);
-            // navigate(ROUTE_PATHS.HOME);
+            //toast.error('This action is blocked.');
+            const response = await axios.post('/register', data);
+            const { token, user } = response.data;
+            login(token, user);
+            navigate(ROUTE_PATHS.HOME);
         } catch (err) {
             setError(err.response?.data?.message || 'An error occurred');
         } finally {

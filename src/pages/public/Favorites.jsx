@@ -16,6 +16,7 @@ export function Favorites() {
 
     useEffect(() => {
         setFavoritesProperties(userFavorites);
+        console.log('FAVORITES:', userFavorites);
     }, [isLoadingFavorites]);
 
     //refresca la vista de favoritos si se elimina un item de favoritos
