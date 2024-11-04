@@ -10,7 +10,7 @@ import { SkeletonLoader } from '../../components/ui/SkeletonLoader';
 import BackButton from '../../components/ui/buttons/BackButton';
 
 export function SearchPartners() {
-    const { partners, isLoadingPartners } = useFetchPartners();
+    const { partners, isloadingPartners } = useFetchPartners();
     const { partnersCategories, isLoadingPartnersCats } =
         useFetchPartnersCategories();
     const { setPartnerID } = useContext(globalProvider);
@@ -18,6 +18,7 @@ export function SearchPartners() {
     const [isLoadingCategories, setIsLoadingCategories] = useState(false);
     const [partnersData, setPartnersData] = useState([]);
     const [isLoadingPartnersData, setIsLoadingPartnersData] = useState(false);
+    const [isLoadingTest, setIsLoadingTest] = useState(true);
 
     const navigate = useNavigate();
     const axios = useAxios();
@@ -49,9 +50,15 @@ export function SearchPartners() {
     const showLoaderPartners = () =>{
         return Array(2).fill(0).map((_,index) => {
             return(
-                <SkeletonLoader key={`loader-partner-${index}`} customClass="h-[22rem] w-full"/>
+                <SkeletonLoader key={`loader-partner-${index}`} customClass="h-[15rem] w-full "/>
             )
         });
+    }
+
+    const showLoaderFilters = () => {
+        return(
+            <SkeletonLoader customClass={"h-[5rem] w-full"}/>
+        )
     }
 
     const renderPartnersCat = (partnersCategories) => {
@@ -82,8 +89,8 @@ export function SearchPartners() {
     };
 
     const renderPartners = (partners) => {
-        if(partners.length == 0){
-            return <p>No found</p>
+        if (!partners || partners.length === 0) {
+            return <p>No found</p>;
         }
 
         return partners.map((partner) => {
@@ -138,12 +145,12 @@ export function SearchPartners() {
     };
 
     return (
-        <section className="max-w-7xl m-auto p-4 w-full">
+        <section className="max-w-7xl m-auto items-start justify-start p-4 w-full min-h-full">
             <BackButton />
-            <form className="flex flex-col justify-between mt-4 p-4 border border-light-grey rounded-md sm:flex-row sm:items-center">
-                <div className="flex gap-4">
-                    {(isLoadingPartnersCats || isLoadingCategories)? (
-                        <p>Loading</p>
+            <form className="flex flex-col justify-between gap-4 mt-4 p-4 border border-light-grey rounded-md sm:flex-row sm:items-center">
+                <div className="flex gap-4 w-full">
+                    {(isLoadingPartnersCats) ? (
+                        showLoaderFilters()
                     ) : (
                         renderPartnersCat(partnersCategories)
                     )}
@@ -155,8 +162,8 @@ export function SearchPartners() {
                     onClick={(e) => handleFilterPartners(e)}
                 />
             </form>
-            <div className="mt-5 gap-4 grid">
-                {(isLoadingPartners || isLoadingPartnersData)? (  
+            <div className="mt-5 gap-4 grid w-full">
+                {(isloadingPartners || isLoadingPartnersData) ? (  
                     showLoaderPartners()
                 ) : (
                     renderPartners(partnersData)
