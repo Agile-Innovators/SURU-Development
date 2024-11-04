@@ -37,7 +37,7 @@ const userNavigationLinks = [
     },
     {
         name: 'My properties',
-        to: `suru${ROUTE_PATHS.PROPERTY_MANAGEMENT}`,
+        to: ROUTE_PATHS.PROPERTY_MANAGEMENT,
         imageRoute: '/PropetiesIcon.svg',
     },
     {

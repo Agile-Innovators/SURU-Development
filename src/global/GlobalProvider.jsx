@@ -12,6 +12,7 @@ export function GlobalProvider({ children }) {
     const [propTypeForm, setPropTypeForm] = useState();
     const [propTransacTypeForm, setPropTransacTypeForm] = useState();
     const [propertyID, setPropertyID] = useState('');
+    const [partnerID, setPartnerID] = useState('');
 
     return (
         <globalProvider.Provider
@@ -32,6 +33,8 @@ export function GlobalProvider({ children }) {
                 setPropTransacTypeForm,
                 propertyID,
                 setPropertyID,
+                partnerID,
+                setPartnerID,
             }}
         >
             {children}
