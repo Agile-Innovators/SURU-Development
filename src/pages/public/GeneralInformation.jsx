@@ -4,18 +4,21 @@ import { useState, useEffect } from 'react';
 import { useFetchUser } from '../../components/hooks/useFetchUser';
 import { useAuth } from '../../global/AuthProvider';
 import { Pencil } from 'lucide-react';
+import { useFetchLocations } from '../../components/hooks/useFetchLocations';
 
 export function GeneralInformation() {
     const { getUser } = useAuth();
     const { user } = getUser();
     const { updateUserProfile, getUserInformation, loading, error, data } = useFetchUser();
     const [userData, setUserData] = useState(null);
-
+    const { locations } = useFetchLocations();
+    
     const [profileData, setProfileData] = useState({
         name: '',
         username: '',
         lastname1: '',
         lastname2: '',
+        city_id:'',
         email: '',
         phone_number: '',
         image:
@@ -40,9 +43,7 @@ export function GeneralInformation() {
                 username: data.username || '',
                 lastname1: data.profile?.lastname1 || '',
                 lastname2: data.profile?.lastname2 || '',
-                
-
-
+                city_id: data.location?.city_id || '',
                 email: data.email || '',
                 phone_number: data.phone_number || '',
                 image: data.image_url || '',
@@ -76,6 +77,7 @@ export function GeneralInformation() {
                 name: data.name || '',
                 username: data.username || '',
                 lastname1: data.profile?.lastname1 || '',
+                city_id: data.location?.city_id || '',
                 lastname2: data.profile?.lastname2 || '',
                 email: data.email || '',
                 phone_number: data.phone_number || '',
@@ -105,7 +107,7 @@ export function GeneralInformation() {
                 }
             }
 
-            formData.append('_method', 'POST');
+            formData.append('_method', 'PUT');
             // console.log([...formData]);
             const updatedUser = await updateUserProfile(user.id, formData);
 
@@ -194,6 +196,26 @@ export function GeneralInformation() {
                         onChange={handleChange}
                         disabled={!isEditing} 
                     />
+                                        <div className='flex flex-col'>
+                    <label className="font-medium text-gray-700" className="span">
+                        Ciudad
+                        </label>
+                        <select
+                            name="city_id"
+                            id="city-input"
+                            value={profileData.city_id}
+                            onChange={handleChange}
+                            disabled={!isEditing}
+                            className='border border-light-grey bg-transparent rounded-md min-h-8 px-4 py-2 mt-2 focus:outline-light-blue'
+                        >
+                            {/* Se agrega el mapa de locations */}
+                            {locations.map((location) => (
+                                <option key={location.value} value={location.value}>
+                                    {location.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                     <Input
                         inputName="email"
                         inputId="email-input"
