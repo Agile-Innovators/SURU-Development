@@ -5,7 +5,6 @@ import ProtectedRoutes from '../global/ProtectedRoutes.jsx';
 import { LayoutModal } from '../components/ui/modals/LayoutModal.jsx';
 import '../index.css';
 import ScrollToTop from './ScrollToTop.jsx';
-import { useAuth } from '../global/AuthProvider';
 import { useState, useEffect } from 'react';
 import { SessionExpiredModal } from '../components/ui/modals/SessionExpiredModal.jsx';
 import { ROUTE_PATHS } from './index.js';
@@ -36,11 +35,19 @@ import { Search } from '../pages/public/Search.jsx';
 import { PartnerIntegrationRequest } from '../pages/public/PartnerIntegrationRequest.jsx';
 import { PropertyDetails } from '../pages/public/PropertyDetails.jsx';
 import { Appointments } from '../pages/private/Appointments.jsx';
+import { useAuth } from '../global/AuthProvider';
 
+import { GeneralInformationPartner } from '../pages/public/GeneralInformationPartner.jsx';
+
+import { PartnerServices } from '../pages/public/PartnerServices.jsx';
 export function AppRoutes() {
     const navigate = useNavigate();
-    const { isSessionExpired, logout } = useAuth();
+    const { isSessionExpired, logout, getUser } = useAuth();
     const [isModalVisible, setIsModalVisible] = useState(isSessionExpired);
+
+    //se extrae el usuario
+    const { user } = getUser();
+
 
     useEffect(() => {
         setIsModalVisible(isSessionExpired);
@@ -71,31 +78,42 @@ export function AppRoutes() {
                     <Route path={ROUTE_PATHS.HOME} element={<Homepage />} />
                     <Route path={ROUTE_PATHS.LOGIN} element={<Login />} />
                     <Route path={ROUTE_PATHS.REGISTER} element={<Register />} />
-                    <Route path={ROUTE_PATHS.FORGOT_PASSWORD} element={<ForgotPassword />}/>
+                    <Route path={ROUTE_PATHS.FORGOT_PASSWORD} element={<ForgotPassword />} />
                     <Route path={ROUTE_PATHS.EMAIL_CODE} element={<EmailCode />} />
                     <Route path={ROUTE_PATHS.EMAIL_SEND} element={<EmailSent />} />
                     <Route path={ROUTE_PATHS.RESET_PASSWORD} element={<ResetPassword />} />
-                    <Route path={ROUTE_PATHS.CONFIRM_PASSWORD} element={<ConfirmPassword />}/>
+                    <Route path={ROUTE_PATHS.CONFIRM_PASSWORD} element={<ConfirmPassword />} />
                     <Route path={ROUTE_PATHS.PARTNERS} element={<Partners />} />
                     <Route path={ROUTE_PATHS.NOT_FOUND} element={<Homepage />} />
                     <Route path={ROUTE_PATHS.HOME} element={<Homepage />} />
                     <Route path={ROUTE_PATHS.SEARCH} element={<Search />} />
                     <Route path={ROUTE_PATHS.PARTNER_INTEGRATION_REQUEST} element={<PartnerIntegrationRequest />} />
-                    <Route path={ROUTE_PATHS.PROPERTY_DETAILS} element={<PropertyDetails />}/>
+                    <Route path={ROUTE_PATHS.PROPERTY_DETAILS} element={<PropertyDetails />} />
                     <Route path={ROUTE_PATHS.APPOINTMENTS} element={<Appointments />} />
                     <Route path="/*" element={ROUTE_PATHS.NOT_FOUND} />
                     <Route path={ROUTE_PATHS.PARTNER_PROFILE} element={<PartnerProfile />} />
-                    <Route path={ROUTE_PATHS.SEARCH_PARTNERS} element={<SearchPartners />} /> 
+                    <Route path={ROUTE_PATHS.SEARCH_PARTNERS} element={<SearchPartners />} />
 
                     <Route element={<ProtectedRoutes />}>
                         <Route path={ROUTE_PATHS.USER_PROFILE} element={<UserProfile />}>
-                            <Route path={ROUTE_PATHS.GENERAL_INFORMATION} element={<GeneralInformation />} />
+                            {user !== null && user.user_type === 'partner' && (
+                                <Route path="" element={<GeneralInformationPartner />} />
+                            )}
+                            {user !== null && user.user_type === 'user' && (
+                                <Route path="" element={<GeneralInformation />} />
+                            )}
+
+
+
+                            <Route path={ROUTE_PATHS.GENERAL_INFORMATION_PARTNER} element={<GeneralInformationPartner />} />,
+                            <Route path={ROUTE_PATHS.GENERAL_INFORMATION} element={<GeneralInformation />} />,
+                            <Route path={ROUTE_PATHS.PARTNER_SERVICES} element={<PartnerServices />} />
                             <Route path={ROUTE_PATHS.PREFERENCES} element={<Preferences />} />
                             <Route path={ROUTE_PATHS.OPERATIONAL_HOURS} element={<OperationalHours />} />
                             <Route path={ROUTE_PATHS.CHANGE_PASSWORD} element={<ChangePassword />} />
-                            <Route index element={<GeneralInformation />} />
+
                         </Route>
-                                
+
                         <Route path={ROUTE_PATHS.FAVORITES} element={<Favorites />} />
                         <Route path={ROUTE_PATHS.PROPERTY_MANAGEMENT} element={<PropertyManagement />} />
                         <Route path={ROUTE_PATHS.EDIT_PROPERTY} element={<EditProperty />} />

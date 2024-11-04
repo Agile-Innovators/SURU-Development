@@ -1,37 +1,60 @@
-import React, { useState } from "react";
-import { User } from 'lucide-react';
-import { AppWindowMac } from 'lucide-react';
-import { AlarmClockCheck } from 'lucide-react';
-import { KeyRound } from 'lucide-react';
+import { AlarmClockCheck, KeyRound, AppWindowMac, User } from 'lucide-react'
 import { Outlet, Link, useLocation } from "react-router-dom";  // Asegúrate de agregar `Outlet`
-
 import { ROUTE_PATHS } from '../../routes/index.js';
+import { useAuth } from '../../global/AuthProvider.jsx';
+import { Logs } from 'lucide-react';
+
+
 export function UserProfile() {
-    const [activeSection, setActiveSection] = useState('general');
     //se usa para obtener la ruta actual
     const location = useLocation();
+    //se obtiene el contexto de autenticación
+    const { getUser } = useAuth();
+    //se obtiene el usuario actual
+    const { user } = getUser();
+    //se obtiene el rol del usuario
+    
 
-    const sections = [
-        { id: 'general', label: 'General Information', icon: <User />, to: ROUTE_PATHS.GENERAL_INFORMATION },
-        { id: 'preferences', label: 'Preferences', icon: <AppWindowMac />, to: ROUTE_PATHS.PREFERENCES },
-        { id: 'operationalHours', label: 'Operational Hours', icon: <AlarmClockCheck />, to: ROUTE_PATHS.OPERATIONAL_HOURS },
-        { id: 'changePassword', label: 'Change Password', icon: <KeyRound />, to: ROUTE_PATHS.CHANGE_PASSWORD },
+
+    const sectionsUser = [
+        // General Information section for both user types
+        {
+            id: 'general',
+            label: 'General Information',
+            icon: <User />,
+            to: user.user_type === 'partner' ? ROUTE_PATHS.GENERAL_INFORMATION_PARTNER : ROUTE_PATHS.GENERAL_INFORMATION,
+        },
+        // Services section only for partners
+        ...(user.user_type === 'partner' ? [{
+            id: 'services',
+            label: 'Services',
+            icon: <Logs />,
+            to: ROUTE_PATHS.PARTNER_SERVICES,
+        }] : []),
+        // Common sections for all users
+        {
+            id: 'preferences',
+            label: 'Preferences',
+            icon: <AppWindowMac />,
+            to: ROUTE_PATHS.PREFERENCES,
+        },
+        {
+            id: 'operationalHours',
+            label: 'Operational Hours',
+            icon: <AlarmClockCheck />,
+            to: ROUTE_PATHS.OPERATIONAL_HOURS,
+        },
+        {
+            id: 'changePassword',
+            label: 'Change Password',
+            icon: <KeyRound />,
+            to: ROUTE_PATHS.CHANGE_PASSWORD,
+        },
     ];
+    
 
-    const renderSection = () => {
-        switch (activeSection) {
-            case 'general':
-                return <div>General Information Content</div>;
-            case 'preferences':
-                return <div>Preferences Content</div>;
-            case 'operationalHours':
-                return <div>Operational Hours Content</div>;
-            case 'changePassword':
-                return <div>Change Password</div>;
-            default:
-                return <div>General Information Content</div>;
-        }
-    };
+
+
 
     return (
         <div className="h-full w-full m-auto max-w-7xl p-4 min-h-[80vh]">
@@ -41,14 +64,13 @@ export function UserProfile() {
             <div className="flex sm:flex-row flex-col gap-4">
                 <div>
                     <ul className="grid grid-cols-[1fr_1fr] sm:grid-cols-[1fr] gap-4 flex-grow-0">
-                        {sections.map((section) => (
+                        {sectionsUser.map((section) => (
                             <li
                                 key={section.id}
-                                className={`flex cursor-pointer rounded-md gap-2 p-2 transition-all duration-300 hover:shadow-md hover:border-gray-300 hover:brightness-[.85] dark:hover:brightness-150 ${
-                                    location.pathname.includes(section.to) 
+                                className={`flex cursor-pointer rounded-md gap-2 p-2 transition-all duration-300 hover:shadow-md hover:border-gray-300 hover:brightness-[.85] dark:hover:brightness-150 ${location.pathname.includes(section.to)
                                         ? 'bg-[#d5d9e2] dark:bg-[#4d607c] text-black dark:text-gray-300'  // Activo: gris claro en modo claro, gris oscuro en modo oscuro con texto blanco
                                         : 'bg-gray-100 text-black dark:bg-gray-800 dark:text-gray-300'  // Inactivo: gris claro, o gris más oscuro en modo oscuro
-                                }`}
+                                    }`}
                             >
                                 <Link to={section.to} className="flex items-center gap-2">
                                     {section.icon} {section.label}

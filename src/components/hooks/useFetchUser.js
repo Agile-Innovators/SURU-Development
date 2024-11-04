@@ -9,12 +9,13 @@ export function useFetchUser() {
     const axios = useAxios();
     const { updateUser } = useAuth();
 
-    // Actualizar el perfil de usuario
     const updateUserProfile = async (userId, userData) => {
         setLoading(true);
-        // console.log("Datos enviados update: ". userData);
         try {
-            const response = await axios.post(`/user/update/${userId}`, userData);
+            const response = await axios.post(
+                `/user/update/${userId}`,
+                userData
+            );
             setData(response.data);
             setError(null);
         } catch (error) {
@@ -23,7 +24,6 @@ export function useFetchUser() {
             setLoading(false);
         }
     };
-    
 
     // Actualizar la contraseña de usuario
     const updateUserPassword = async (userId, passwordData) => {
@@ -33,11 +33,14 @@ export function useFetchUser() {
                 `/user/${userId}/update-password`,
                 passwordData
             );
-            
-            return response.data; 
+
+            return response.data;
         } catch (error) {
             if (error.response && error.response.data) {
-                throw new Error(error.response.data.message || 'An unexpected error occurred.');
+                throw new Error(
+                    error.response.data.message ||
+                        'An unexpected error occurred.'
+                );
             } else {
                 throw new Error('An unexpected error occurred.');
             }
@@ -45,14 +48,14 @@ export function useFetchUser() {
             setLoading(false);
         }
     };
-    
+
     // Obtener la información del usuario
     const getUserInformation = async (userId) => {
         setLoading(true);
         try {
             const response = await axios.get(`/user/${userId}`);
             setData(response.data);
-            // console.log('Get user information:', response.data);
+            console.log('Get user information:', response.data);
 
             // Actualizar la información del usuario en el contexto de autenticación
             updateUser(response.data);
@@ -71,7 +74,6 @@ export function useFetchUser() {
         data,
         updateUserProfile,
         updateUserPassword,
-        
         getUserInformation,
     };
 }

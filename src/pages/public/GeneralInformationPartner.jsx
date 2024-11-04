@@ -1,70 +1,78 @@
 import { Input } from '../../components/ui/forms/Input';
 import { MainButton } from '../../components/ui/buttons/MainButton';
 import { useState, useEffect } from 'react';
-import { useFetchUser } from '../../components/hooks/useFetchUser';
+import { useFetchPartner } from '../../components/hooks/useFetchPartner';
 import { useAuth } from '../../global/AuthProvider';
 import { Pencil } from 'lucide-react';
 import { useFetchLocations } from '../../components/hooks/useFetchLocations';
-import { Bounce, ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-
-
-
-
-export function GeneralInformation() {
+export function GeneralInformationPartner() {
     const { getUser } = useAuth();
     const { user } = getUser();
-    const { updateUserProfile, getUserInformation, loading, error, data } = useFetchUser();
+    const { updatePartnerProfile, getPartnerInformation, loading, error, data } = useFetchPartner();
     const [userData, setUserData] = useState(null);
-    const { locations } = useFetchLocations();
     const navigate = useNavigate();
+    const { locations } = useFetchLocations();
 
-
-    if (user.user_type !== "user") {
+    if (user.user_type !== "partner") {
         navigate(ROUTE_PATHS.HOME);
     }
 
     const [profileData, setProfileData] = useState({
         name: '',
-        username: '',
-        lastname1: '',
-        lastname2: '',
         city_id: '',
         email: '',
         phone_number: '',
+        description: '',
+        address: '',
+        website_url: '',
+        _method: 'PUT',
+        profile_picture: '',
+        currency_id: '',
+        tiktok_url: '',
+        instagram_url: '',
+        facebook_url: '',
         image:
             user.image_url ||
             'https://res.cloudinary.com/dvwtm566p/image/upload/v1728158504/users/dc8aagfamyqwaspllhz8.jpg',
     });
 
     const [isEditing, setIsEditing] = useState(false); // Estado para controlar si se está editando o no
-
     // Efecto para obtener la información del usuario
     useEffect(() => {
         if (user?.id) {
-            getUserInformation(user.id);
+            getPartnerInformation(user.id);
         }
     }, [user?.id]);
+
+    // console.log(data);
 
     // Efecto para sincronizar los datos del usuario con profileData
     useEffect(() => {
         if (data) {
             setProfileData({
                 name: data.name || '',
-                username: data.username || '',
-                lastname1: data.profile?.lastname1 || '',
-                lastname2: data.profile?.lastname2 || '',
-                city_id: data.location?.city_id || '',
                 email: data.email || '',
                 phone_number: data.phone_number || '',
+                description: data.description || '',
+                // Asegúrate de que locations tenga elementos antes de acceder a ellos
+                city_id: (data.locations && data.locations.length > 0) ? data.locations[0].city_id : '',
+                address: (data.locations && data.locations.length > 0) ? data.locations[0].address : '',
+                website_url: data.website_url || '',
+                currency_id: data.currency_id || '',
+                tiktok_url: data.tiktok_url || '',
+                instagram_url: data.instagram_url || '',
+                facebook_url: data.facebook_url || '',
                 image: data.image_url || '',
             });
             setUserData(data);
         }
     }, [data]);
+
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -84,24 +92,6 @@ export function GeneralInformation() {
         }
     };
 
-    // Sincronizar los datos obtenidos con profileData
-    useEffect(() => {
-        if (data) {
-            setProfileData({
-                name: data.name || '',
-                username: data.username || '',
-                lastname1: data.profile?.lastname1 || '',
-                city_id: data.location?.city_id || '',
-                lastname2: data.profile?.lastname2 || '',
-                email: data.email || '',
-                phone_number: data.phone_number || '',
-                image: data.image_url || '',
-            });
-            setUserData(data);
-        }
-        // console.log(data);
-    }, [data]);
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setProfileData((prevState) => ({
@@ -115,26 +105,51 @@ export function GeneralInformation() {
         if (user?.id) {
             const formData = new FormData();
 
-            for (const key in profileData) {
-                if (profileData[key]) {
-                    formData.append(key, profileData[key]);
-                }
+            // Asegúrate de agregar todos los campos requeridos
+            formData.append('username', profileData.username);
+            formData.append('email', profileData.email);
+            formData.append('name', profileData.name);
+            formData.append('phone_number', profileData.phone_number);
+
+            // Agrega los campos opcionales según sea necesario
+            if (profileData.city_id) {
+                formData.append('city_id', profileData.city_id);
+            }
+            if (profileData.address) {
+                formData.append('address', profileData.address);
+            }
+            if (profileData.lastname1) {
+                formData.append('lastname1', profileData.lastname1);
+            }
+            if (profileData.lastname2) {
+                formData.append('lastname2', profileData.lastname2);
+            }
+            if (profileData.description) {
+                formData.append('description', profileData.description);
+            }
+            if (profileData.website_url) {
+                formData.append('website_url', profileData.website_url);
+            }
+            if (profileData.facebook_url) {
+                formData.append('facebook_url', profileData.facebook_url);
+            }
+            if (profileData.instagram_url) {
+                formData.append('instagram_url', profileData.instagram_url);
+            }
+            if (profileData.tiktok_url) {
+                formData.append('tiktok_url', profileData.tiktok_url);
+            }
+            if (profileData.currency_id) {
+                formData.append('currency_id', profileData.currency_id);
+            }
+            if (profileData.partner_category_id) {
+                formData.append('partner_category_id', profileData.partner_category_id);
             }
 
-            formData.append('_method', 'PUT');
-            // console.log([...formData]);
-            const updatedUser = await updateUserProfile(user.id, formData);
-
-            // Actualizar el estado de profileData con la nueva imagen
-            if (updatedUser?.image_url) {
-                setProfileData((prevState) => ({
-                    ...prevState,
-                    image: updatedUser.image_url,
-                }));
+            // Incluye la imagen si está presente
+            if (profileData.image) {
+                formData.append('image', profileData.image);
             }
-
-            // Actualizar los datos del usuario
-            getUserInformation(user.id);
             toast.success('Information updated successfully', {
                 position: "top-center",
                 autoClose: 5000,
@@ -146,8 +161,32 @@ export function GeneralInformation() {
                 theme: "light",
                 transition: Bounce,
             });
+            formData.append('_method', 'PUT');
 
+            try {
+                const response = await updatePartnerProfile(user.id, formData);
+                if (response?.data?.image_url) {
+                    setProfileData((prevState) => ({
+                        ...prevState,
+                        image: response.data.image_url,
 
+                    }));
+                }
+                getPartnerInformation(user.id);
+            } catch (err) {
+                console.error("Error al actualizar perfil:", err);
+                toast.error('An unexpected error occurred. Please try again later.', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+            }
         }
         setIsEditing(false);
     };
@@ -158,6 +197,7 @@ export function GeneralInformation() {
 
     return (
         <div className="p-4">
+
             <ToastContainer
                 position="top-center"
                 autoClose={200}
@@ -170,6 +210,8 @@ export function GeneralInformation() {
                 pauseOnHover
                 theme="light"
             />
+
+            <p>PARTNER</p>
             <div className="flex justify-center">
                 <div className="flex flex-col justify-center items-center gap-4">
                     <div className="relative group w-48 mx-auto mt">
@@ -210,33 +252,59 @@ export function GeneralInformation() {
                         onChange={handleChange}
                         disabled={!isEditing}
                     />
+                    <Input
+                        inputName="email"
+                        inputId="email-input"
+                        labelText="Email Address"
+                        type="email"
+                        value={profileData.email}
+                        onChange={handleChange}
+                        disabled={!isEditing}
+                    />
 
                     <Input
-                        inputName="lastname1"
-                        inputId="lastname1-input"
-                        labelText="First Lastname"
-                        value={profileData.lastname1}
+                        inputName="website_url"
+                        inputId="websiteUrl-input"
+                        labelText="Website URL"
+                        value={profileData.website_url}
                         onChange={handleChange}
                         disabled={!isEditing}
                     />
                     <Input
-                        inputName="lastname2"
-                        inputId="lastname2-input"
-                        labelText="Second Lastname"
-                        value={profileData.lastname2}
+                        inputName="tiktok_url"
+                        inputId="tiktokUrl-input"
+                        labelText="TikTok URL"
+                        value={profileData.tiktok_url}
                         onChange={handleChange}
                         disabled={!isEditing}
                     />
                     <Input
-                        inputName="username"
-                        inputId="username-input"
-                        labelText="Username"
-                        value={profileData.username}
+                        inputName="instagram_url"
+                        inputId="instagramUrl-input"
+                        labelText="Instagram URL"
+                        value={profileData.instagram_url}
+                        onChange={handleChange}
+                        disabled={!isEditing}
+                    />
+                    <Input
+                        inputName="facebook_url"
+                        inputId="facebookUrl-input"
+                        labelText="Facebook URL"
+                        value={profileData.facebook_url}
+                        onChange={handleChange}
+                        disabled={!isEditing}
+                    />
+                    <Input
+                        inputName="phone_number"
+                        inputId="phoneNumber-input"
+                        labelText="Phone Number"
+                        type="number"
+                        value={profileData.phone_number}
                         onChange={handleChange}
                         disabled={!isEditing}
                     />
                     <div className='flex flex-col'>
-                        <label className="font-medium text-gray-700">
+                        <label className="font-medium text-gray-700 span" >
                             Ciudad
                         </label>
                         <select
@@ -255,26 +323,40 @@ export function GeneralInformation() {
                             ))}
                         </select>
                     </div>
-                    <Input
-                        inputName="email"
-                        inputId="email-input"
-                        labelText="Email Address"
-                        type="email"
-                        value={profileData.email}
-                        onChange={handleChange}
-                        disabled={!isEditing}
-                    />
-                    <Input
-                        inputName="phone_number"
-                        inputId="phoneNumber-input"
-                        labelText="Phone Number"
-                        type="number"
-                        value={profileData.phone_number}
-                        onChange={handleChange}
-                        disabled={!isEditing}
-                    />
 
+
+
+
+                    <Input
+                        type="select"
+                        inputName="currency_id"
+                        inputId="currency-input"
+                        labelText="Currency"
+                        value={profileData.currency_id}
+                        onChange={handleChange}
+                        disabled={!isEditing}
+                    >
+                    </Input>
                 </div>
+
+                <Input
+                    inputName="address"
+                    inputId="address-input"
+                    labelText="Address"
+                    value={profileData.address} onChange={handleChange}
+                    disabled={!isEditing}
+                />
+
+                <Input
+                    inputName="description"
+                    inputId="description-input"
+                    labelText="Description"
+                    value={profileData.description} onChange={handleChange}
+                    disabled={!isEditing}
+                />
+
+
+
                 <div className="flex justify-end items-center mt-4">
                     {/* Botón para alternar entre Edit y Save */}
                     {isEditing && (

@@ -30,34 +30,7 @@ const initialNavigation = [
     },
 ];
 
-const userNavigationLinks = [
-    {
-        name: 'Manage account',
-        to: ROUTE_PATHS.USER_PROFILE,
-        imageRoute: '/UserIcon.svg',
-    },
-    {
-        name: 'My properties',
-        to: ROUTE_PATHS.PROPERTY_MANAGEMENT,
-        imageRoute: '/PropetiesIcon.svg',
-    },
-    {
-        name: 'Appointments',
-        to: ROUTE_PATHS.APPOINTMENTS,
-        imageRoute: '/AppointmentsIcon.svg',
-    },
-    {
-        name: 'Favorite Properties',
-        to: ROUTE_PATHS.FAVORITES,
-        imageRoute: '/LikeIcon.svg',
-    },
-    {
-        name: 'Partners Administration',
-        to: ROUTE_PATHS.PARTNERS_ADMINISTRATION,
-        imageRoute: '/Partner_Icon2.svg',
-    },
-    { name: 'Log out', to: '#', imageRoute: '/LogoutIcon.svg' },
-];
+
 
 
 function classNames(...classes) {
@@ -87,7 +60,45 @@ export function NavBar() {
             }))
         );
     }, [location]);
-
+    const userNavigationLinks = [
+        {
+            name: 'Manage account',
+            to: ROUTE_PATHS.USER_PROFILE,
+            imageRoute: '/UserIcon.svg',
+        },
+        {
+            name: 'My properties',
+            to: ROUTE_PATHS.PROPERTY_MANAGEMENT,
+            imageRoute: '/PropertiesIcon.svg',
+        },
+        {
+            name: 'Appointments',
+            to: ROUTE_PATHS.APPOINTMENTS,
+            imageRoute: '/AppointmentsIcon.svg',
+        },
+        {
+            name: 'Favorite Properties',
+            to: ROUTE_PATHS.FAVORITES,
+            imageRoute: '/LikeIcon.svg',
+        },
+        // Condicionalmente agregamos la sección de administración de socios
+        ...(currentUser?.user_type === 'admin'
+            ? [
+                  {
+                      name: 'Partners Administration',
+                      to: ROUTE_PATHS.PARTNERS_ADMINISTRATION,
+                      imageRoute: '/Partner_Icon2.svg',
+                  },
+              ]
+            : []
+        ),
+        {
+            name: 'Log out',
+            to: '#',
+            imageRoute: '/LogoutIcon.svg',
+        },
+    ];
+    
     const handleLogout = async () => {
         try {
             const response = await axios.post('/logout', authToken);

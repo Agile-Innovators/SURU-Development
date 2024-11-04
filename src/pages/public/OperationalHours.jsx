@@ -20,6 +20,9 @@ export function OperationalHours() {
         data
     } = useFetchUserOperationalHours();
     const [operationalHours, setOperationalHours] = useState([]); // Se inicia las horas con un array vacío
+
+    
+
     // Función para asegurar que el tiempo esté en formato ##:##
     const formatTime = (time) => {
         const [hours, minutes] = time.split(':');
@@ -38,11 +41,14 @@ export function OperationalHours() {
 
     // Actualiza el estado local cuando llegan los datos de la API
     useEffect(() => {
-        if (data) { // Verifica que data esté definido
-            // console.log("Estos son los datos de la API", data);
-            setOperationalHours(data);
+        if (data && data.operational_hours) {
+            setOperationalHours(data.operational_hours);
+        } else {
+            setOperationalHours([]); // Valor por defecto si no hay datos
         }
     }, [data]);
+
+    
 
     // Manejar el cambio en el tiempo
     //
