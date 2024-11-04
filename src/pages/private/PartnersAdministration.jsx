@@ -3,7 +3,8 @@ import { Tabs, Tab, Box } from '@mui/material';
 import Swal from 'sweetalert2';
 import { useAxios } from '../../components/hooks/useAxios';
 import { useNavigate } from 'react-router-dom';
-import { ROUTE_PATHS } from '../../routes/index';
+import { ROUTE_PATHS } from '../../routes';
+import { globalProvider } from '../../global/GlobalProvider';
 
 export function PartnersAdministration() {
     const user = JSON.parse(localStorage.getItem('user')) || null;
@@ -13,12 +14,10 @@ export function PartnersAdministration() {
 
     const [currentStatus, setCurrentStatus] = useState('Pending');
     const [partners, setPartners] = useState([]);
-    const [setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     const axios = useAxios();
 
-    if(user.user_type!="admin"){
-        navigate(ROUTE_PATHS.HOME);
-    }
+  
 
     const fetchPartners = (status) => {
         if (!loggedInUserId) {
@@ -26,7 +25,7 @@ export function PartnersAdministration() {
             return;
         }
 
-        setLoading(true);
+       // setLoading(true);
         setPartners([]);
 
         axios
@@ -179,7 +178,7 @@ export function PartnersAdministration() {
 
     
         return (
-            <div className="max-w-7xl m-auto p-4 min-h-[80vh]">
+            <div className="w-full m-auto p-4 min-h-[80vh]">
                 <div className="mt-10 mb-10 gap-4 sm:block">
                     <div className="m-auto p-4">
                         <h1 className="mt-10">Partners Administration</h1>
