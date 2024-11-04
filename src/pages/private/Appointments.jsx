@@ -144,12 +144,13 @@ export function Appointments() {
                     <h1 className="mt-10">Appointments</h1>
                     <p className="dark:text-white">Everything about your appointments</p>
 
-                    <Box className="overflow-x-auto scrollbar-hide">
+                    <Box className="overflow-x-auto scrollbar-hide" sx={{ maxWidth: { xs: 310, sm: 680 }}}>
                         <Tabs
                             value={currentStatus}
                             onChange={handleTabChange}
                             variant="scrollable"
-                            scrollButtons="on"
+                            scrollButtons
+                            allowScrollButtonsMobile
                             aria-label="status tabs"
                             className="min-w-[300px] max-w-full"
                         >
