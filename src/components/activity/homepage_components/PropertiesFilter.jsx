@@ -18,8 +18,6 @@ import { useAuth } from '../../../global/AuthProvider.jsx';
 export function PropertiesFilter() {
     const {
         setRegionId,
-        // setMinPrice,
-        // setMaxPrice,
         setPropertyTypeId,
         setIsFilterUsed,
         setPropertyID,
@@ -174,36 +172,11 @@ export function PropertiesFilter() {
         event.preventDefault();
         //obtener valor de los select
         const selectRegion = document.getElementById('select_regions').value;
-        // const minPrice = document.getElementById('select_min_price').value;
-        // const maxPrice = document.getElementById('select_max_price').value;
         const propertyCategory =
             document.getElementById('select_props_cats').value;
 
-        
-
-        //validar si no se selecciono el precio maximo
-        // if (maxPrice !== 'max') {
-        //     //verificar que el minPrice no sea mayor
-        //     if (minPrice > maxPrice) {
-        //         toast.error('min price must not be higher than the max price', {
-        //             position: 'top-center',
-        //             autoClose: 3000,
-        //             hideProgressBar: true,
-        //             closeOnClick: true,
-        //             pauseOnHover: true,
-        //             draggable: true,
-        //             progress: undefined,
-        //             theme: 'light',
-        //             transition: Bounce,
-        //         });
-        //         return;
-        //     }
-        // }
-
         //cargar datos para el globalProvider
         setRegionId(selectRegion);
-        // setMinPrice(minPrice);
-        // setMaxPrice(maxPrice);
         setPropertyTypeId(propertyCategory);
         setIsFilterUsed(true);
 
@@ -259,64 +232,6 @@ export function PropertiesFilter() {
                         ? showLoaderSelect()
                         : createRegionsSelect(regions)}
 
-                    {/* {isLoadingPropsCats ? (
-                        showLoaderSelect()
-                    ) : (
-                        <div className="w-full lg:w-auto flex flex-col">
-                            <label
-                                htmlFor="select_min_price"
-                                className="block text-sm font-medium text-gray-700 mb-2"
-                            >
-                                Min Price
-                            </label>
-                            <select
-                                id="select_min_price"
-                                name="select_min_price"
-                                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
-                            >
-                                {selectPriceOptions.map((option) =>
-                                    option.options.map((priceOption) => (
-                                        <option
-                                            key={priceOption.value}
-                                            value={priceOption.value}
-                                        >
-                                            {priceOption.label}
-                                        </option>
-                                    ))
-                                )}
-                            </select>
-                        </div>
-                    )} */}
-                    {/* {isLoadingPropsCats ? (
-                        showLoaderSelect()
-                    ) : (
-                        <div className="w-full lg:w-auto flex flex-col">
-                            <label
-                                htmlFor="select_max_price"
-                                className="block text-sm font-medium text-gray-700 mb-2"
-                            >
-                                Max Price
-                            </label>
-                            <select
-                                id="select_max_price"
-                                name="select_max_price"
-                                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
-                            >
-                                <option value="max">₡max price</option>
-                                {selectPriceOptions.map((option) =>
-                                    option.options.map((priceOption) => (
-                                        <option
-                                            key={priceOption.value}
-                                            value={priceOption.value}
-                                        >
-                                            {priceOption.label}
-                                        </option>
-                                    ))
-                                )}
-                            </select>
-                        </div>
-                    )} */}
-              
                     {isLoadingPropsCats
                         ? showLoaderSelect()
                         : createPropsCatsSelect(propertyCategories)}
