@@ -1,16 +1,24 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../global/AuthProvider.jsx';
 import { useFetchServices } from '../../components/hooks/useFetchServices';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
 
 export function PartnerServices() {
     const [selectedService, setSelectedService] = useState('');
     const [minPrice, setMinPrice] = useState('');
     const [maxPrice, setMaxPrice] = useState('');
     const [filters, setFilters] = useState([]);
-
+    const navigate = useNavigate();
     const { getUser } = useAuth();
     const { user } = getUser();
     const { services, loading, error, updatePartnerServices } = useFetchServices(1);
+
+    if (user.user_type !== "partner") {
+        navigate(ROUTE_PATHS.HOME);
+    }
 
     if (loading) return <p>Loading services...</p>;
     if (error) return <p>Error: {error}</p>;
@@ -49,6 +57,21 @@ export function PartnerServices() {
             price: parseFloat(filter.minPrice),
             price_max: filter.maxPrice ? parseFloat(filter.maxPrice) : null
         }));
+        if(formattedServices.length === 0) {
+            toast.error('Please add at least one service.', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+            return;
+        }
+
         try {
             await updatePartnerServices(user.id, { services: formattedServices });
             toast.success('Information updated successfully', {
@@ -62,7 +85,6 @@ export function PartnerServices() {
                 theme: "light",
                 transition: Bounce,
             });
-
         } catch (error) {
             toast.error('Failed to update services.', {
                 position: "top-center",
@@ -80,6 +102,22 @@ export function PartnerServices() {
 
     return (
         <div className='p-6'>
+            <ToastContainer
+                position="top-center"
+                autoClose={200}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+
+
+
+
             <div className='border rounded-lg p-6 bg-white'>
                 <h2 className="text-xl font-semibold text-gray-800 mb-4">Add Service</h2>
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
