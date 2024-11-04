@@ -89,7 +89,7 @@ export function PropertyManagement() {
                             </div>
                             <div className="relative">
                                 <button
-                                    className="flex items-center justify-center p-2 rounded-full hover:bg-gray-100"
+                                    className="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
                                     onClick={() => toggleDropdown(item.id)}
                                 >
                                     <EllipsisVertical size={24} />
@@ -109,7 +109,7 @@ export function PropertyManagement() {
                                                 <Eye size={16} /> View Property
                                             </li>
                                             <li
-                                                className="px-4 py-2 hover:bg-cyan-200 dark:hover:bg-cyan-500 hover:text-white flex items-center gap-2 cursor-pointer"
+                                                className="px-4 py-2 hover:bg-cyan-200 dark:hover:bg-gray-600 hover:text-white flex items-center gap-2 cursor-pointer"
                                                 onClick={() => {
                                                     // console.log('Edit clicked');
                                                     navigate(ROUTE_PATHS.EDIT_PROPERTY.replace(':id', item.id));
