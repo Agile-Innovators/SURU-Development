@@ -19,9 +19,8 @@ export function PartnersAdministration() {
         }
 
         setLoading(true);
-        // Vaciar el estado de partners antes de la solicitud para evitar datos persistentes de una pestaña anterior
         setPartners([]);
-        
+
         axios
             .get(`/partner-requests/${status}/${loggedInUserId}`)
             .then((response) => {
@@ -126,7 +125,6 @@ export function PartnersAdministration() {
                                     <th className="p-3 text-sm font-semibold tracking-wide">Phone</th>
                                     <th className="p-3 text-sm font-semibold tracking-wide text-center">Email Address</th>
                                     <th className="w-20 p-3 text-sm font-semibold tracking-wide">Status</th>
-                                    {/* Mostrar columna Actions solo si el estado es 'Pending' */}
                                     {currentStatus === 'Pending' && (
                                         <th className="p-3 text-sm font-semibold tracking-wide text-center">Actions</th>
                                     )}
@@ -160,10 +158,9 @@ export function PartnersAdministration() {
                                                     {currentStatus}
                                                 </span>
                                             </td>
-                                            {/* Mostrar botones de acciones solo si el estado es 'Pending' */}
                                             {currentStatus === 'Pending' && (
                                                 <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                                                    <div className="flex gap-2">
+                                                    <div className="flex gap-2 items-center justify-center">
                                                         <button
                                                             className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3"
                                                             onClick={() => approvePartner(partner.id)}
@@ -175,9 +172,6 @@ export function PartnersAdministration() {
                                                             onClick={() => rejectPartner(partner.id)}
                                                         >
                                                             Reject
-                                                        </button>
-                                                        <button className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3">
-                                                            Download PDF
                                                         </button>
                                                     </div>
                                                 </td>
@@ -196,10 +190,67 @@ export function PartnersAdministration() {
                             </tbody>
                         </table>
                     </div>
+
+                    {/* Vista de tarjeta para pantallas pequeñas */}
+                    <div className="grid grid-cols-1 gap-4 md:hidden">
+                        {partners.length > 0 ? (
+                            partners.map((partner) => (
+                                <div key={partner.id} className="bg-white p-4 rounded-lg shadow">
+                                    <div className="flex items-center gap-4 mb-4">
+                                        <img
+                                            src={partner.image}
+                                            alt="Company Logo"
+                                            className="w-16 h-16 rounded-full bg-gray-200"
+                                        />
+                                        <div>
+                                            <h3 className="text-lg font-semibold">{partner.name}</h3>
+                                            <p className="text-gray-600">{partner.category_name || 'N/A'}</p>
+                                        </div>
+                                    </div>
+                                    <p className="text-sm text-gray-500 mb-2"><strong>Phone:</strong> {partner.phone_number || 'N/A'}</p>
+                                    <p className="text-sm text-gray-500 mb-2"><strong>Email:</strong> {partner.email || 'N/A'}</p>
+                                    <p className="text-sm text-gray-500 mb-4">
+                                        <strong>Status:</strong>{" "}
+                                        <span
+                                            className={`p-1.5 text-xs font-medium uppercase tracking-wider rounded-lg opacity-50 ${
+                                                currentStatus === 'Approved'
+                                                    ? 'text-green-800 bg-green-200'
+                                                    : currentStatus === 'Rejected'
+                                                    ? 'text-red-800 bg-red-200'
+                                                    : 'text-yellow-800 bg-yellow-200'
+                                            }`}
+                                        >
+                                            {currentStatus}
+                                        </span>
+                                    </p>
+                                    {currentStatus === 'Pending' && (
+                                        <div className="flex gap-2">
+                                            <button
+                                                className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3"
+                                                onClick={() => approvePartner(partner.id)}
+                                            >
+                                                Approve
+                                            </button>
+                                            <button
+                                                className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3"
+                                                onClick={() => rejectPartner(partner.id)}
+                                            >
+                                                Reject
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-center text-sm text-gray-500">
+                                {currentStatus === 'Pending'
+                                    ? "There is no pending partners"
+                                    : `No partners in ${currentStatus}`}
+                            </p>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
     );
 }
-
-export default PartnersAdministration;
