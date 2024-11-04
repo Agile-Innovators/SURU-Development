@@ -37,6 +37,10 @@ import { PartnerIntegrationRequest } from '../pages/public/PartnerIntegrationReq
 import { PropertyDetails } from '../pages/public/PropertyDetails.jsx';
 import { Appointments } from '../pages/public/Appointments.jsx';
 
+
+import { GeneralInformationPartner } from '../pages/public/GeneralInformationPartner.jsx';
+
+import { PartnerServices } from '../pages/public/PartnerServices.jsx';
 export function AppRoutes() {
     const navigate = useNavigate();
     const { isSessionExpired, logout } = useAuth();
@@ -71,31 +75,34 @@ export function AppRoutes() {
                     <Route path={ROUTE_PATHS.HOME} element={<Homepage />} />
                     <Route path={ROUTE_PATHS.LOGIN} element={<Login />} />
                     <Route path={ROUTE_PATHS.REGISTER} element={<Register />} />
-                    <Route path={ROUTE_PATHS.FORGOT_PASSWORD} element={<ForgotPassword />}/>
+                    <Route path={ROUTE_PATHS.FORGOT_PASSWORD} element={<ForgotPassword />} />
                     <Route path={ROUTE_PATHS.EMAIL_CODE} element={<EmailCode />} />
                     <Route path={ROUTE_PATHS.EMAIL_SEND} element={<EmailSent />} />
                     <Route path={ROUTE_PATHS.RESET_PASSWORD} element={<ResetPassword />} />
-                    <Route path={ROUTE_PATHS.CONFIRM_PASSWORD} element={<ConfirmPassword />}/>
+                    <Route path={ROUTE_PATHS.CONFIRM_PASSWORD} element={<ConfirmPassword />} />
                     <Route path={ROUTE_PATHS.PARTNERS} element={<Partners />} />
                     <Route path={ROUTE_PATHS.NOT_FOUND} element={<Homepage />} />
                     <Route path={ROUTE_PATHS.HOME} element={<Homepage />} />
                     <Route path={ROUTE_PATHS.SEARCH} element={<Search />} />
                     <Route path={ROUTE_PATHS.PARTNER_INTEGRATION_REQUEST} element={<PartnerIntegrationRequest />} />
-                    <Route path={ROUTE_PATHS.PROPERTY_DETAILS} element={<PropertyDetails />}/>
+                    <Route path={ROUTE_PATHS.PROPERTY_DETAILS} element={<PropertyDetails />} />
                     <Route path={ROUTE_PATHS.APPOINTMENTS} element={<Appointments />} />
                     <Route path="/*" element={ROUTE_PATHS.NOT_FOUND} />
                     <Route path={ROUTE_PATHS.PARTNER_PROFILE} element={<PartnerProfile />} />
-                    <Route path={ROUTE_PATHS.SEARCH_PARTNERS} element={<SearchPartners />} /> 
+                    <Route path={ROUTE_PATHS.SEARCH_PARTNERS} element={<SearchPartners />} />
 
                     <Route element={<ProtectedRoutes />}>
                         <Route path={ROUTE_PATHS.USER_PROFILE} element={<UserProfile />}>
-                            <Route path={ROUTE_PATHS.GENERAL_INFORMATION} element={<GeneralInformation />} />
+
+                            <Route path={ROUTE_PATHS.GENERAL_INFORMATION_PARTNER} element={<GeneralInformationPartner />} />,
+                            <Route path={ROUTE_PATHS.GENERAL_INFORMATION} element={<GeneralInformation />} />,
+                            <Route path={ROUTE_PATHS.PARTNER_SERVICES} element={<PartnerServices />} />
                             <Route path={ROUTE_PATHS.PREFERENCES} element={<Preferences />} />
                             <Route path={ROUTE_PATHS.OPERATIONAL_HOURS} element={<OperationalHours />} />
                             <Route path={ROUTE_PATHS.CHANGE_PASSWORD} element={<ChangePassword />} />
-                            <Route index element={<GeneralInformation />} />
+
                         </Route>
-                                
+
                         <Route path={ROUTE_PATHS.FAVORITES} element={<Favorites />} />
                         <Route path={ROUTE_PATHS.PROPERTY_MANAGEMENT} element={<PropertyManagement />} />
                         <Route path={ROUTE_PATHS.EDIT_PROPERTY} element={<EditProperty />} />

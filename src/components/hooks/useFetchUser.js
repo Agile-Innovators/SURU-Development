@@ -9,20 +9,20 @@ export function useFetchUser() {
     const axios = useAxios();
     const { updateUser } = useAuth();
 
-    // Actualizar el perfil de usuario
-    const updateUserProfile = async (userId, userData) => {
-        setLoading(true);
-        // console.log("Datos enviados update: ". userData);
-        try {
-            const response = await axios.post(`/user/update/${userId}`, userData);
-            setData(response.data);
-            setError(null);
-        } catch (error) {
-            setError(error.response?.data);
-        } finally {
-            setLoading(false);
-        }
-    };
+        // Actualizar el perfil de usuario
+        const updateUserProfile = async (userId, userData) => {
+            setLoading(true);
+            // console.log("Datos enviados update: ". userData);
+            try {
+                const response = await axios.post(`/user/update/${userId}`, userData);
+                setData(response.data);
+                setError(null);
+            } catch (error) {
+                setError(error.response?.data);
+            } finally {
+                setLoading(false);
+            }
+        };
     
 
     // Actualizar la contraseña de usuario
@@ -71,7 +71,6 @@ export function useFetchUser() {
         data,
         updateUserProfile,
         updateUserPassword,
-        
         getUserInformation,
     };
 }
