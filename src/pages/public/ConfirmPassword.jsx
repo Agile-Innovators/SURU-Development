@@ -1,8 +1,14 @@
+import { useEffect } from 'react';
+import { forceLightMode } from '../../components/hooks/utils.js';
 import { MainButton } from '../../components/ui/buttons/MainButton.jsx';
 import { ROUTE_PATHS } from '../../routes/index.js';
 import { Check } from 'lucide-react';
 
 export function ConfirmPassword() {
+    useEffect(() => {
+        forceLightMode(); // Activa el modo claro al montar el componente
+    }, []);
+
     return (
         <div className="bg-authentication grid">
             <div className="max-w-7xl mx-auto p-5 grid content-center">
@@ -12,7 +18,7 @@ export function ConfirmPassword() {
                     </div>
                     <h1>All done!</h1>
                     <span className="text-grey">
-                        Your password has been succesfully reset
+                        Your password has been successfully reset
                     </span>
                     <MainButton
                         text="Go Back to Login"

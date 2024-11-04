@@ -92,7 +92,7 @@ export function RequestAppointmentModal({ handleModal, userId, propertyId}) {
     };
 
     return (
-        <div className="bg-white p-6 rounded-xl overflow-hidden relative h-fit sm:p-8 sm:min-w-96">
+        <div className="bg-white p-6 rounded-xl overflow-hidden relative h-fit sm:p-8 sm:min-w-96 dark:bg-gray-800">
             <button onClick={handleOpenModal}>
                 <X className="hover:text-blue-500" />
             </button>
@@ -101,12 +101,12 @@ export function RequestAppointmentModal({ handleModal, userId, propertyId}) {
             {errorMessage && <div className="text-red-500 mb-4">{errorMessage}</div>}
 
             <div className="mb-6">
-                <label className="block text-gray-700">Date</label>
+                <label className="block text-gray-700 dark:text-white">Date</label>
                 <div className="flex items-center border p-2 rounded-md border-gray-300">
-                    <Calendar size={16} className="text-gray-500 mr-2" />
+                    <Calendar size={16} className="text-gray-500 mr-2 dark:text-white " />
                     <input
                         type="date"
-                        className="w-full focus:outline-none"
+                        className="w-full focus:outline-none dark:bg-gray-700"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
                     />
@@ -114,10 +114,10 @@ export function RequestAppointmentModal({ handleModal, userId, propertyId}) {
             </div>
 
             <div className="mb-6">
-                <label className="block text-gray-700">Hour</label>
+                <label className="block text-gray-700 dark:text-white">Hour</label>
                 <div className="flex justify-between items-center gap-4">
                     <div className="flex items-center w-full border p-2 rounded-md border-gray-300">
-                        <Clock size={16} className="text-gray-500 mr-2" />
+                        <Clock size={16} className="text-gray-500 mr-2 dark:text-white" />
                         <select
                             className="w-full focus:outline-none"
                             value={startTime}
@@ -135,7 +135,7 @@ export function RequestAppointmentModal({ handleModal, userId, propertyId}) {
                     <span className="text-gray-500">—</span>
 
                     <div className="flex items-center w-full border p-2 rounded-md border-gray-300">
-                        <Clock size={16} className="text-gray-500 mr-2" />
+                        <Clock size={16} className="text-gray-500 mr-2 dark:text-white" />
                         <select
                             className="w-full focus:outline-none"
                             value={endTime}
@@ -153,9 +153,9 @@ export function RequestAppointmentModal({ handleModal, userId, propertyId}) {
             </div>
 
             <div className="mb-6">
-                <label className="block text-gray-700">Extra Information (optional)</label>
+                <label className="block text-gray-700 dark:text-white">Extra Information (optional)</label>
                 <textarea
-                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none"
+                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none dark:bg-gray-700"
                     rows="4"
                     value={extraInfo}
                     onChange={(e) => setExtraInfo(e.target.value)}
