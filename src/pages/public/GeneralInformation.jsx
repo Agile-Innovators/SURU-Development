@@ -7,6 +7,12 @@ import { Pencil } from 'lucide-react';
 import { useFetchLocations } from '../../components/hooks/useFetchLocations';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { ROUTE_PATHS } from '../../routes';
+
+
+
+
 
 export function GeneralInformation() {
     const { getUser } = useAuth();
@@ -14,6 +20,12 @@ export function GeneralInformation() {
     const { updateUserProfile, getUserInformation, loading, error, data } = useFetchUser();
     const [userData, setUserData] = useState(null);
     const { locations } = useFetchLocations();
+    const navigate = useNavigate();
+
+
+    if (user.user_type !== "user") {
+        navigate(ROUTE_PATHS.HOME);
+    }
 
     const [profileData, setProfileData] = useState({
         name: '',
@@ -224,7 +236,7 @@ export function GeneralInformation() {
                         disabled={!isEditing}
                     />
                     <div className='flex flex-col'>
-                        <label className="font-medium text-gray-700" className="span">
+                        <label className="font-medium text-gray-700">
                             Ciudad
                         </label>
                         <select
