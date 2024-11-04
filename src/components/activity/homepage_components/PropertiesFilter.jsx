@@ -13,7 +13,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useFetchUserFavoritesIDs } from './../../hooks/useFetchUserFavoritesIDs';
 import { useAuth } from '../../../global/AuthProvider.jsx';
-// import { getUser } from '../../../global/AuthProvider.jsx';
 
 export function PropertiesFilter() {
     const {
@@ -183,11 +182,8 @@ export function PropertiesFilter() {
         navigate(ROUTE_PATHS.SEARCH);
     }
 
-    // Por esto
     const showProperty = (id) => {
-        setPropertyID(id);
-        // console.log('ID HOME:', id);
-        navigate(ROUTE_PATHS.PROPERTY_DETAILS);
+        navigate(`${ROUTE_PATHS.PROPERTY_DETAILS.replace(':propertyId', id)}`);
     };
 
     const clearFilter = (e) => {
