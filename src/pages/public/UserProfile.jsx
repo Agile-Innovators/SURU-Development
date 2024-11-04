@@ -2,6 +2,9 @@ import { AlarmClockCheck, KeyRound, AppWindowMac, User } from 'lucide-react'
 import { Outlet, Link, useLocation } from "react-router-dom";  // Asegúrate de agregar `Outlet`
 import { ROUTE_PATHS } from '../../routes/index.js';
 import { useAuth } from '../../global/AuthProvider.jsx';
+import { Logs } from 'lucide-react';
+
+
 export function UserProfile() {
     //se usa para obtener la ruta actual
     const location = useLocation();
@@ -25,7 +28,7 @@ export function UserProfile() {
         ...(user.user_type === 'partner' ? [{
             id: 'services',
             label: 'Services',
-            icon: <User />,
+            icon: <Logs />,
             to: ROUTE_PATHS.PARTNER_SERVICES,
         }] : []),
         // Common sections for all users

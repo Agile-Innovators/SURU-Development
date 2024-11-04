@@ -5,7 +5,6 @@ import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-
 export function PartnerServices() {
     const [selectedService, setSelectedService] = useState('');
     const [minPrice, setMinPrice] = useState('');
