@@ -3,11 +3,10 @@ import {globalProvider} from '../../global/GlobalProvider.jsx';
 import { useNavigate } from 'react-router-dom';
 import {ROUTE_PATHS} from '../../routes/index.js';
 
-export const forceLightMode = (theme) => {
-    if (theme === 'dark') {
-        document.documentElement.classList.remove('dark');
-    }
-    localStorage.setItem('theme', theme);
+export const forceLightMode = () => {
+    document.documentElement.classList.add('light');  // Activa explícitamente el modo claro
+    document.documentElement.classList.remove('dark'); // Elimina el modo oscuro, si está presente
+    localStorage.setItem('theme', 'light');  // Guarda el tema en 'light' para persistir
 };
 
 export const formatPrice = (price) => {

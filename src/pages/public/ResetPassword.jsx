@@ -1,10 +1,10 @@
-import { useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { MainButton } from '../../components/ui/buttons/MainButton.jsx';
 import { Input } from '../../components/ui/forms/Input.jsx';
 import { useAxios } from '../../components/hooks/useAxios.js';
-import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes/index.js';
+import { forceLightMode } from '../../components/hooks/utils.js';
 
 export function ResetPassword() {
     const axios = useAxios();
@@ -18,6 +18,10 @@ export function ResetPassword() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        forceLightMode(); // Activa el modo claro al montar el componente
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -43,7 +47,7 @@ export function ResetPassword() {
                 navigate(ROUTE_PATHS.LOGIN, {
                     state: { message: 'Password reset successfully!' },
                 });
-            }else{
+            } else {
                 setError(response.data.message);
             }
         } catch (error) {
@@ -74,7 +78,7 @@ export function ResetPassword() {
                         <Input
                             type="password"
                             name="confirm-password"
-                            id="confirm-password"
+                            id="confirm-confirmPassword"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             labelText="Confirm Password"
