@@ -109,7 +109,7 @@ export function PropertyManagement() {
                                                 <Eye size={16} /> View Property
                                             </li>
                                             <li
-                                                className="px-4 py-2 hover:bg-cyan-200 dark:hover:bg-gray-600 hover:text-white flex items-center gap-2 cursor-pointer"
+                                                className="px-4 py-2 hover:bg-gray-500 dark:hover:bg-gray-600 hover:text-white flex items-center gap-2 cursor-pointer"
                                                 onClick={() => {
                                                     // console.log('Edit clicked');
                                                     navigate(ROUTE_PATHS.EDIT_PROPERTY.replace(':id', item.id));
