@@ -134,33 +134,32 @@ export function PartnersAdministration() {
             html: `
                 <div style="padding: 15px; text-align: left; color: #555;">
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                        <Globe size={18} />
                         <p><strong style="color: #333;">Description:</strong> ${partner.description || 'N/A'}</p>
                     </div>
                     <div style="display: flex; align-items: center; gap: 10px;">
-                        <Globe size={18} />
+                        
                         <p><strong>Website:</strong> <a href="${partner.website_url || '#'}" target="_blank" style="color: #007bff;">${partner.website_url || 'N/A'}</a></p>
                     </div>
                     <hr style="border-top: 1px solid #eee; margin: 15px 0;">
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                        <Instagram size={18} />
+                        
                         <p><strong>Instagram:</strong> <a href="${partner.instagram_url || '#'}" target="_blank" style="color: #007bff;">${partner.instagram_url || 'N/A'}</a></p>
                     </div>
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                        <Facebook size={18} />
+                        
                         <p><strong>Facebook:</strong> <a href="${partner.facebook_url || '#'}" target="_blank" style="color: #007bff;">${partner.facebook_url || 'N/A'}</a></p>
                     </div>
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                        <TikTok size={18} />
-                        <p><strong>Tiktok:</strong> <a href="${partner.tiktok_url || '#'}" target="_blank" style="color: #007bff;">${partner.tiktok_url || 'N/A'}</a></p>
+                        
+                        <p><strong>TikTok:</strong> <a href="${partner.tiktok_url || '#'}" target="_blank" style="color: #007bff;">${partner.tiktok_url || 'N/A'}</a></p>
                     </div>
                     <hr style="border-top: 1px solid #eee; margin: 15px 0;">
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                        <DollarSign size={18} />
+                       
                         <p><strong>Currency:</strong> ${partner.currency_id || 'N/A'}</p>
                     </div>
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                        <MessageCircle size={18} />
+                        
                         <p><strong>Partner Comments:</strong> ${partner.partner_comments || 'N/A'}</p>
                     </div>
                 </div>
@@ -174,11 +173,12 @@ export function PartnersAdministration() {
         });
     };
     
+    
 
 
     
         return (
-            <div className="w-full m-auto p-4 min-h-[80vh]">
+            <div className="max-w-7xl p-4 min-h-[80vh] sm:p-6 lg:p-8 sm:ml-10">
                 <div className="mt-10 mb-10 gap-4 sm:block">
                     <div className="m-auto p-4">
                         <h1 className="mt-10">Partners Administration</h1>
@@ -301,7 +301,7 @@ export function PartnersAdministration() {
                                     ) : (
                                         <tr>
                                             <td
-                                                colSpan={6}
+                                                colSpan={10}
                                                 className="p-3 text-center text-sm text-gray-500"
                                             >
                                                 {currentStatus === 'Pending'
