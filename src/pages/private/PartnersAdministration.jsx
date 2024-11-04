@@ -137,7 +137,6 @@ export function PartnersAdministration() {
                         <p><strong style="color: #333;">Description:</strong> ${partner.description || 'N/A'}</p>
                     </div>
                     <div style="display: flex; align-items: center; gap: 10px;">
-                        
                         <p><strong>Website:</strong> <a href="${partner.website_url || '#'}" target="_blank" style="color: #007bff;">${partner.website_url || 'N/A'}</a></p>
                     </div>
                     <hr style="border-top: 1px solid #eee; margin: 15px 0;">
