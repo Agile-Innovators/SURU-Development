@@ -15,12 +15,7 @@ export function GeneralInformationPartner() {
     const { user } = getUser();
     const { updatePartnerProfile, getPartnerInformation, loading, error, data } = useFetchPartner();
     const [userData, setUserData] = useState(null);
-
     const navigate = useNavigate();
-
-    //se importa la funciones de navigate
-
-    // se importan las funciones de useFetchLocations
     const { locations } = useFetchLocations();
 
     if (user.user_type !== "partner") {
@@ -309,7 +304,7 @@ export function GeneralInformationPartner() {
                         disabled={!isEditing}
                     />
                     <div className='flex flex-col'>
-                        <label className="font-medium text-gray-700" className="span">
+                        <label className="font-medium text-gray-700 span" >
                             Ciudad
                         </label>
                         <select

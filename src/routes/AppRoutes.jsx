@@ -5,7 +5,6 @@ import ProtectedRoutes from '../global/ProtectedRoutes.jsx';
 import { LayoutModal } from '../components/ui/modals/LayoutModal.jsx';
 import '../index.css';
 import ScrollToTop from './ScrollToTop.jsx';
-import { useAuth } from '../global/AuthProvider';
 import { useState, useEffect } from 'react';
 import { SessionExpiredModal } from '../components/ui/modals/SessionExpiredModal.jsx';
 import { ROUTE_PATHS } from './index.js';
@@ -36,15 +35,19 @@ import { Search } from '../pages/public/Search.jsx';
 import { PartnerIntegrationRequest } from '../pages/public/PartnerIntegrationRequest.jsx';
 import { PropertyDetails } from '../pages/public/PropertyDetails.jsx';
 import { Appointments } from '../pages/private/Appointments.jsx';
-
+import { useAuth } from '../global/AuthProvider';
 
 import { GeneralInformationPartner } from '../pages/public/GeneralInformationPartner.jsx';
 
 import { PartnerServices } from '../pages/public/PartnerServices.jsx';
 export function AppRoutes() {
     const navigate = useNavigate();
-    const { isSessionExpired, logout } = useAuth();
+    const { isSessionExpired, logout, getUser } = useAuth();
     const [isModalVisible, setIsModalVisible] = useState(isSessionExpired);
+
+    //se extrae el usuario
+    const { user } = getUser();
+
 
     useEffect(() => {
         setIsModalVisible(isSessionExpired);
@@ -93,6 +96,14 @@ export function AppRoutes() {
 
                     <Route element={<ProtectedRoutes />}>
                         <Route path={ROUTE_PATHS.USER_PROFILE} element={<UserProfile />}>
+                            {user !== null && user.user_type === 'partner' && (
+                                <Route path="" element={<GeneralInformationPartner />} />
+                            )}
+                            {user !== null && user.user_type === 'user' && (
+                                <Route path="" element={<GeneralInformation />} />
+                            )}
+
+
 
                             <Route path={ROUTE_PATHS.GENERAL_INFORMATION_PARTNER} element={<GeneralInformationPartner />} />,
                             <Route path={ROUTE_PATHS.GENERAL_INFORMATION} element={<GeneralInformation />} />,
