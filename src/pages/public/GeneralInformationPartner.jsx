@@ -32,7 +32,6 @@ export function GeneralInformationPartner() {
         website_url: '',
         _method: 'PUT',
         profile_picture: '',
-        currency_id: '',
         tiktok_url: '',
         instagram_url: '',
         facebook_url: '',
@@ -63,7 +62,6 @@ export function GeneralInformationPartner() {
                 city_id: (data.locations && data.locations.length > 0) ? data.locations[0].city_id : '',
                 address: (data.locations && data.locations.length > 0) ? data.locations[0].address : '',
                 website_url: data.website_url || '',
-                currency_id: data.currency_id || '',
                 tiktok_url: data.tiktok_url || '',
                 instagram_url: data.instagram_url || '',
                 facebook_url: data.facebook_url || '',
@@ -138,9 +136,6 @@ export function GeneralInformationPartner() {
             }
             if (profileData.tiktok_url) {
                 formData.append('tiktok_url', profileData.tiktok_url);
-            }
-            if (profileData.currency_id) {
-                formData.append('currency_id', profileData.currency_id);
             }
             if (profileData.partner_category_id) {
                 formData.append('partner_category_id', profileData.partner_category_id);
@@ -323,20 +318,6 @@ export function GeneralInformationPartner() {
                             ))}
                         </select>
                     </div>
-
-
-
-
-                    <Input
-                        type="select"
-                        inputName="currency_id"
-                        inputId="currency-input"
-                        labelText="Currency"
-                        value={profileData.currency_id}
-                        onChange={handleChange}
-                        disabled={!isEditing}
-                    >
-                    </Input>
                 </div>
 
                 <Input
@@ -354,8 +335,6 @@ export function GeneralInformationPartner() {
                     value={profileData.description} onChange={handleChange}
                     disabled={!isEditing}
                 />
-
-
 
                 <div className="flex justify-end items-center mt-4">
                     {/* Botón para alternar entre Edit y Save */}

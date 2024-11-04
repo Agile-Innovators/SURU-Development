@@ -19,6 +19,7 @@ export function GeneralInformation() {
     const { locations } = useFetchLocations();
     const axios = useAxios();
     const navigate = useNavigate();
+    const { updateUser } = useAuth();
 
     if (user.user_type == "partner") {
         navigate(ROUTE_PATHS.HOME);
@@ -147,6 +148,9 @@ export function GeneralInformation() {
                         image: updatedUser.image_url,
                     }));
                 }
+
+                // Actualizar los datos del usuario en el contexto de autenticación
+                updateUser(updatedUser);
     
                 // Refrescar la información del usuario
                 getUserInformation(user.id);
