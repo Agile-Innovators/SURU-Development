@@ -7,6 +7,7 @@ import { ROUTE_PATHS } from '../../routes';
 import { useFetchPartnersCategories } from '../../components/hooks/useFetchPartnerCategories';
 import { useAxios } from '../../components/hooks/useAxios';
 import { SkeletonLoader } from '../../components/ui/SkeletonLoader';
+import BackButton from '../../components/ui/buttons/BackButton';
 
 export function SearchPartners() {
     const { partners, isLoadingPartners } = useFetchPartners();
@@ -48,7 +49,7 @@ export function SearchPartners() {
     const showLoaderPartners = () =>{
         return Array(2).fill(0).map((_,index) => {
             return(
-                <SkeletonLoader key={`loader-partner-${index}`} customClass="h-[12rem] w-full"/>
+                <SkeletonLoader key={`loader-partner-${index}`} customClass="h-[22rem] w-full"/>
             )
         });
     }
@@ -137,8 +138,9 @@ export function SearchPartners() {
     };
 
     return (
-        <section className="max-w-7xl m-auto p-4 ">
-            <form className="flex flex-col justify-between  p-4 border border-light-grey rounded-md sm:flex-row sm:items-center">
+        <section className="max-w-7xl m-auto p-4 w-full">
+            <BackButton />
+            <form className="flex flex-col justify-between mt-4 p-4 border border-light-grey rounded-md sm:flex-row sm:items-center">
                 <div className="flex gap-4">
                     {(isLoadingPartnersCats || isLoadingCategories)? (
                         <p>Loading</p>
