@@ -21,6 +21,12 @@ const initialNavigation = [
         current: false,
         isLogin: true,
     },
+    {
+        name: 'Find Partners',
+        href: ROUTE_PATHS.SEARCH_PARTNERS,
+        current: false,
+        isLogin: true,
+    },
     { name: 'Log In', href: ROUTE_PATHS.LOGIN, current: false, isLogin: false },
     {
         name: 'Sign Up',

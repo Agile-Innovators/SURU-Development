@@ -10,10 +10,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes';
 
-
-
-
-
 export function GeneralInformation() {
     const { getUser } = useAuth();
     const { user } = getUser();
@@ -23,7 +19,7 @@ export function GeneralInformation() {
     const navigate = useNavigate();
 
 
-    if (user.user_type !== "user") {
+    if (user.user_type == "partner") {
         navigate(ROUTE_PATHS.HOME);
     }
 
