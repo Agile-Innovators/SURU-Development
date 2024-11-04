@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tabs, Tab, Box, Button } from '@mui/material';
 import { Clock, MapPin } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -112,8 +112,7 @@ export function Appointments() {
     };
 
     const showProperty = (id) => {
-        setPropertyID(id);
-        navigate(ROUTE_PATHS.PROPERTY_DETAILS);
+        navigate(`${ROUTE_PATHS.PROPERTY_DETAILS.replace(':propertyId', id)}`);
     };
 
     const formatMonthYear = (dateString) => {
