@@ -10,6 +10,7 @@ import { useAxios } from '../../components/hooks/useAxios';
 import Swal from 'sweetalert2';
 import { globalProvider } from '../../global/GlobalProvider';
 import { ROUTE_PATHS } from '../../routes';
+import { useContext } from 'react';
 
 export function Appointments() {
     const user = JSON.parse(localStorage.getItem('user')) || null;

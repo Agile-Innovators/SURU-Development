@@ -4,6 +4,8 @@ import { useAxios } from '../../../components/hooks/useAxios';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../../routes';
 import Swal from 'sweetalert2';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function PartnerIntegrationRequestForm() {
     const axios = useAxios();
@@ -79,6 +81,12 @@ export function PartnerIntegrationRequestForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!formData.image) {
+            toast.error('You must apply your company logo.');
+            return; 
+        }
+
         const formDataToSubmit = new FormData();
         for (const key in formData) {
             formDataToSubmit.append(key, formData[key]);
@@ -116,6 +124,18 @@ export function PartnerIntegrationRequestForm() {
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col w-full gap-2">
+            <ToastContainer
+                position="top-center"
+                autoClose={200}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             <div className="flex flex-col mb-4">
                 <label htmlFor="name" className="font-medium text-gray-700">Company Name</label>
                 <input
@@ -168,7 +188,7 @@ export function PartnerIntegrationRequestForm() {
                 />
             </div>
             <div className="flex flex-col mb-4">
-                <label htmlFor="image" className="font-medium text-gray-700">Company Image</label>
+                <label htmlFor="image" className="font-medium text-gray-700">Company Logo</label>
                 <input
                     type="file"
                     id="image"
