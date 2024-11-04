@@ -7,7 +7,8 @@ import { Pencil } from 'lucide-react';
 import { useFetchLocations } from '../../components/hooks/useFetchLocations';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes';
-
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function GeneralInformationPartner() {
     const { getUser } = useAuth();
@@ -154,8 +155,18 @@ export function GeneralInformationPartner() {
             if (profileData.image) {
                 formData.append('image', profileData.image);
             }
-
-            // formData.append('_method', 'PUT');
+            toast.success('Information updated successfully', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+            formData.append('_method', 'PUT');
 
             try {
                 const response = await updatePartnerProfile(user.id, formData);
@@ -169,12 +180,21 @@ export function GeneralInformationPartner() {
                 getPartnerInformation(user.id);
             } catch (err) {
                 console.error("Error al actualizar perfil:", err);
+                toast.error('An unexpected error occurred. Please try again later.', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
             }
         }
         setIsEditing(false);
     };
-
-
 
     const handleEditClick = () => {
         setIsEditing((prev) => !prev);
@@ -182,6 +202,20 @@ export function GeneralInformationPartner() {
 
     return (
         <div className="p-4">
+
+            <ToastContainer
+                position="top-center"
+                autoClose={200}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+
             <p>PARTNER</p>
             <div className="flex justify-center">
                 <div className="flex flex-col justify-center items-center gap-4">

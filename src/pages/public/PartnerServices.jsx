@@ -51,9 +51,30 @@ export function PartnerServices() {
         }));
         try {
             await updatePartnerServices(user.id, { services: formattedServices });
-            alert("Services updated successfully!");
+            toast.success('Information updated successfully', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+
         } catch (error) {
-            alert("Failed to update services.");
+            toast.error('Failed to update services.', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
         }
     };
 

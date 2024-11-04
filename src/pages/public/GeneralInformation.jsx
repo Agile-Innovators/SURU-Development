@@ -5,6 +5,8 @@ import { useFetchUser } from '../../components/hooks/useFetchUser';
 import { useAuth } from '../../global/AuthProvider';
 import { Pencil } from 'lucide-react';
 import { useFetchLocations } from '../../components/hooks/useFetchLocations';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function GeneralInformation() {
     const { getUser } = useAuth();
@@ -12,13 +14,13 @@ export function GeneralInformation() {
     const { updateUserProfile, getUserInformation, loading, error, data } = useFetchUser();
     const [userData, setUserData] = useState(null);
     const { locations } = useFetchLocations();
-    
+
     const [profileData, setProfileData] = useState({
         name: '',
         username: '',
         lastname1: '',
         lastname2: '',
-        city_id:'',
+        city_id: '',
         email: '',
         phone_number: '',
         image:
@@ -121,6 +123,19 @@ export function GeneralInformation() {
 
             // Actualizar los datos del usuario
             getUserInformation(user.id);
+            toast.success('Information updated successfully', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+
+
         }
         setIsEditing(false);
     };
@@ -131,6 +146,18 @@ export function GeneralInformation() {
 
     return (
         <div className="p-4">
+            <ToastContainer
+                position="top-center"
+                autoClose={200}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             <div className="flex justify-center">
                 <div className="flex flex-col justify-center items-center gap-4">
                     <div className="relative group w-48 mx-auto mt">
@@ -194,11 +221,11 @@ export function GeneralInformation() {
                         labelText="Username"
                         value={profileData.username}
                         onChange={handleChange}
-                        disabled={!isEditing} 
+                        disabled={!isEditing}
                     />
-                                        <div className='flex flex-col'>
-                    <label className="font-medium text-gray-700" className="span">
-                        Ciudad
+                    <div className='flex flex-col'>
+                        <label className="font-medium text-gray-700" className="span">
+                            Ciudad
                         </label>
                         <select
                             name="city_id"
@@ -234,7 +261,7 @@ export function GeneralInformation() {
                         onChange={handleChange}
                         disabled={!isEditing}
                     />
-                    
+
                 </div>
                 <div className="flex justify-end items-center mt-4">
                     {/* Botón para alternar entre Edit y Save */}

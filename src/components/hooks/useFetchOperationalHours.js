@@ -34,6 +34,7 @@ export function useFetchUserOperationalHours() {
         try {
             const response = await axios.get(`/user/operational-hours/${userId}`);
             setData(response.data);
+            console.log('Get operational hours:', response.data);
             setError(null);
             // console.log('Esta es la información que se recibe del API:', data);
         } catch (error) {
