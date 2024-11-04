@@ -90,7 +90,7 @@ export function Search() {
     }
 
     return (
-        <section className="max-w-7xl m-auto mt-5 p-4 xl:p-0">
+        <section className="max-w-7xl w-full m-auto mt-5 p-4 xl:p-0">
             <LayoutModal customClass="pb-20" status={isOpenModal}>
                 <FilterModal
                     handleModal={setIsOpenModal}

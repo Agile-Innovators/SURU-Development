@@ -61,7 +61,7 @@ export function AppRoutes() {
 
     return (
         <ThemeProvider>
-            <div id='body' className='min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white'>
+            <div id='body' className=' bg-white dark:bg-gray-900 text-black dark:text-white grid min-h-[100dvh] grid-rows-[auto_1fr_auto]'>
                 <ScrollToTop />
                 <NavBar />
 
