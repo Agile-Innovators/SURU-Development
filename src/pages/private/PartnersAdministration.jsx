@@ -13,7 +13,7 @@ export function PartnersAdministration() {
 
     const [currentStatus, setCurrentStatus] = useState('Pending');
     const [partners, setPartners] = useState([]);
-    const [setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     const axios = useAxios();
 
     if(user.user_type!="admin"){

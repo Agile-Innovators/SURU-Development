@@ -82,7 +82,7 @@ export function NavBar() {
             imageRoute: '/LikeIcon.svg',
         },
         // Condicionalmente agregamos la sección de administración de socios
-        ...(currentUser?.role === 'admin'
+        ...(currentUser?.user_type === 'admin'
             ? [
                   {
                       name: 'Partners Administration',
