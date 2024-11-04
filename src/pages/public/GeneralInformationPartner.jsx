@@ -5,15 +5,28 @@ import { useFetchPartner } from '../../components/hooks/useFetchPartner';
 import { useAuth } from '../../global/AuthProvider';
 import { Pencil } from 'lucide-react';
 import { useFetchLocations } from '../../components/hooks/useFetchLocations';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { ROUTE_PATHS } from '../../routes';
 export function GeneralInformationPartner() {
     const { getUser } = useAuth();
     const { user } = getUser();
     const { updatePartnerProfile, getPartnerInformation, loading, error, data } = useFetchPartner();
     const [userData, setUserData] = useState(null);
+    
+    const navigate = useNavigate();
+
+    //se importa la funciones de navigate
+    
     // se importan las funciones de useFetchLocations
     const { locations } = useFetchLocations();
 
+    useEffect(() => {
+        if (user.user_type === 'user') {
+            console.log('No eres un partner', user.user_type);
 
+            navigate(ROUTE_PATHS.HOMEPAGE);
+        }
+    }, []);
 
     const [profileData, setProfileData] = useState({
         name: '',

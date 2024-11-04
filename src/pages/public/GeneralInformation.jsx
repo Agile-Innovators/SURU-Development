@@ -40,6 +40,9 @@ export function GeneralInformation() {
                 username: data.username || '',
                 lastname1: data.profile?.lastname1 || '',
                 lastname2: data.profile?.lastname2 || '',
+                
+
+
                 email: data.email || '',
                 phone_number: data.phone_number || '',
                 image: data.image_url || '',
@@ -102,7 +105,7 @@ export function GeneralInformation() {
                 }
             }
 
-            formData.append('_method', 'PUT');
+            formData.append('_method', 'POST');
             // console.log([...formData]);
             const updatedUser = await updateUserProfile(user.id, formData);
 
