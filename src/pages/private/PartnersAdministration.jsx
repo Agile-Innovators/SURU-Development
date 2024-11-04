@@ -1,16 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
 import Swal from 'sweetalert2';
 import { useAxios } from '../../components/hooks/useAxios';
+import { useNavigate } from 'react-router-dom';
+import { ROUTE_PATHS } from '../../routes/index';
 
 export function PartnersAdministration() {
     const user = JSON.parse(localStorage.getItem('user')) || null;
     const loggedInUserId = user?.id;
 
+    const navigate = useNavigate();
+
     const [currentStatus, setCurrentStatus] = useState('Pending');
     const [partners, setPartners] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [setLoading] = useState(true);
     const axios = useAxios();
+
+    if(user.user_type!="admin"){
+        navigate(ROUTE_PATHS.HOME);
+    }
 
     const fetchPartners = (status) => {
         if (!loggedInUserId) {
