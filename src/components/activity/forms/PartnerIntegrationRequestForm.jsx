@@ -126,7 +126,7 @@ export function PartnerIntegrationRequestForm() {
         <form onSubmit={handleSubmit} className="flex flex-col w-full gap-2">
             <ToastContainer
                 position="top-center"
-                autoClose={200}
+                autoClose={2500}
                 hideProgressBar
                 newestOnTop={false}
                 closeOnClick
