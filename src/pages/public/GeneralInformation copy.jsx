@@ -5,42 +5,22 @@ import { useFetchUser } from '../../components/hooks/useFetchUser';
 import { useAuth } from '../../global/AuthProvider';
 import { Pencil } from 'lucide-react';
 import { useFetchLocations } from '../../components/hooks/useFetchLocations';
-import { ToastContainer } from 'react-toastify';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes';
-import { useAxios } from '../../components/hooks/useAxios.js';
 
 export function GeneralInformation() {
-    // Traemos al usuario
     const { getUser } = useAuth();
     const { user } = getUser();
-    
-    //Si el usuario es Partner lo devuelve a la vista principal
-    const navigate = useNavigate();
-    if (user.user_type == "partner") {
-        // navigate(ROUTE_PATHS.HOME);
-
-    }
-
-    //Traemos la información del Usuario
     const { updateUserProfile, getUserInformation, loading, error, data } = useFetchUser();
-
-    //Traemos los lugares para mostrar
-    const { locations } = useFetchLocations();
-
-    //Creamos un variable que guarde los datos del usuario
     const [userData, setUserData] = useState(null);
-    
-    // Estado para controlar si se está editando o no
-    const [isEditing, setIsEditing] = useState(false); 
+    const { locations } = useFetchLocations();
+    const navigate = useNavigate();
 
-    // Efecto para obtener la información del usuario
-    useEffect(() => {
-        if (user?.id) {
-            getUserInformation(user.id);
-        }
-    }, [user?.id]);
+    if (user.user_type == "partner") {
+        navigate(ROUTE_PATHS.HOME);
+    }
 
     const [profileData, setProfileData] = useState({
         name: '',
@@ -51,9 +31,18 @@ export function GeneralInformation() {
         email: '',
         phone_number: '',
         image:
-        user.image_url ||
-        'https://res.cloudinary.com/dvwtm566p/image/upload/v1728158504/users/dc8aagfamyqwaspllhz8.jpg',
+            user.image_url ||
+            'https://res.cloudinary.com/dvwtm566p/image/upload/v1728158504/users/dc8aagfamyqwaspllhz8.jpg',
     });
+
+    const [isEditing, setIsEditing] = useState(false); // Estado para controlar si se está editando o no
+
+    // Efecto para obtener la información del usuario
+    useEffect(() => {
+        if (user?.id) {
+            getUserInformation(user.id);
+        }
+    }, [user?.id]);
 
     // Efecto para sincronizar los datos del usuario con profileData
     useEffect(() => {
@@ -67,7 +56,6 @@ export function GeneralInformation() {
                 email: data.email || '',
                 phone_number: data.phone_number || '',
                 image: data.image_url || '',
-                
             });
             setUserData(data);
         }
@@ -120,74 +108,12 @@ export function GeneralInformation() {
     const handleProfileSubmit = async (e) => {
         e.preventDefault();
         if (user?.id) {
-            // Crear un objeto FormData y llenarlo con los datos del perfil
             const formData = new FormData();
-            for (const key in profileData) {
-                formData.append(key, profileData[key]);
-            }
-            formData.append('_method', 'PUT'); // Método PUT para la compatibilidad con Laravel
-    
-            try {
-                const response = await axios.post(`user/update/${user.id}`, formData);
-    
-                // Verificar el estado de la respuesta
-                if (response.status !== 200) {
-                    toast.error('Error updating information', {
-                        position: "top-center",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                        transition: Bounce,
-                    });
-                    console.error('Update failed:', response);
-                    return;
-                }
-    
-                // Actualizar la información del usuario con la respuesta
-                const updatedUser = response.data;
-                console.log('User updated:', updatedUser);
-    
-                if (updatedUser?.image_url) {
-                    setProfileData((prevState) => ({
-                        ...prevState,
-                        image: updatedUser.image_url,
-                    }));
-                }
 
-                // Actualizar los datos del usuario en el contexto de autenticación
-                updateUser(updatedUser);
-    
-                // Refrescar la información del usuario
-                getUserInformation(user.id);
-                toast.success('Information updated successfully', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                    transition: Bounce,
-                });
-                setIsEditing(false);
-            } catch (error) {
-                console.error('Update failed:', error);
-                toast.error('Error updating information', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                    transition: Bounce,
-                });
+            for (const key in profileData) {
+                if (profileData[key]) {
+                    formData.append(key, profileData[key]);
+                }
             }
 
             formData.append('_method', 'PUT');
@@ -204,66 +130,22 @@ export function GeneralInformation() {
 
             // Actualizar los datos del usuario
             getUserInformation(user.id);
+            toast.success('Information updated successfully', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+
+
         }
+        setIsEditing(false);
     };
-    
-
-    // const handleProfileSubmit = async (e) => {
-    //     e.preventDefault();
-    //     if (user?.id) {
-    //         const formData = new FormData();
-
-    //         for (const key in profileData) {
-    //             if (profileData[key]) {
-    //                 formData.append(key, profileData[key]);
-    //             }
-    //         }
-
-    //         formData.append('_method', 'PUT');
-    //         console.log([...formData]);
-    //         const updatedUser = await updateUserProfile(user.id, formData);
-
-    //         if (updatedUser && updatedUser.error) {
-    //             toast.error('Error updating information', {
-    //                 position: "top-center",
-    //                 autoClose: 5000,
-    //                 hideProgressBar: false,
-    //                 closeOnClick: true,
-    //                 pauseOnHover: true,
-    //                 draggable: true,
-    //                 progress: undefined,
-    //                 theme: "light",
-    //                 transition: Bounce,
-    //             });
-    //             return; // Detener la ejecución aquí si hay un error
-    //         }
-
-    //         // Actualizar el estado de profileData con la nueva imagen
-    //         if (updatedUser?.image_url) {
-    //             setProfileData((prevState) => ({
-    //                 ...prevState,
-    //                 image: updatedUser.image_url,
-    //             }));
-    //         }
-
-    //         // Actualizar los datos del usuario
-    //         getUserInformation(user.id);
-    //         toast.success('Information updated successfully', {
-    //             position: "top-center",
-    //             autoClose: 5000,
-    //             hideProgressBar: false,
-    //             closeOnClick: true,
-    //             pauseOnHover: true,
-    //             draggable: true,
-    //             progress: undefined,
-    //             theme: "light",
-    //             transition: Bounce,
-    //         });
-
-
-    //     }
-    //     setIsEditing(false);
-    // };
 
     const handleEditClick = () => {
         setIsEditing((prev) => !prev);

@@ -3,6 +3,7 @@ import { BackButton } from '../../components/ui/buttons/BackButton';
 import { SectionDivider } from '../../components/ui/layout/SectionDivider';
 import { MainButton } from '../../components/ui/buttons/MainButton';
 import { ROUTE_PATHS } from '../../routes';
+
 export function PartnerIntegrationRequest() {
     return (
         <div className="mx-auto max-w-7xl px-6 lg:px-8 gap-2 my-4">

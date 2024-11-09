@@ -5,6 +5,8 @@ import { useAuth } from '../../global/AuthProvider';
 import { ToggleSwitch } from '../../components/ui/buttons/ToggleSwitch';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
+
 export function OperationalHours() {
     // Obtenemos el usuario actual
     const { getUser } = useAuth();
@@ -20,8 +22,6 @@ export function OperationalHours() {
         data
     } = useFetchUserOperationalHours();
     const [operationalHours, setOperationalHours] = useState([]); // Se inicia las horas con un array vacío
-
-    
 
     // Función para asegurar que el tiempo esté en formato ##:##
     const formatTime = (time) => {
@@ -48,15 +48,12 @@ export function OperationalHours() {
         }
     }, [data]);
 
-    
-
     // Manejar el cambio en el tiempo
-    //
     const handleTimeChange = (day_of_week, type, value) => {
         const updatedHours = operationalHours.map(hour => {
             if (hour.day_of_week === day_of_week) {
                 const newHour = { ...hour, [type]: value };
-    
+
                 // Validar si start_time es mayor o igual que end_time
                 if (type === 'start_time' && newHour.end_time && value >= newHour.end_time) {
                     setErrorMessages(prev => ({
@@ -65,7 +62,7 @@ export function OperationalHours() {
                     }));
                     return hour; // No actualizamos si la validación falla
                 }
-    
+
                 // Validar si end_time es menor o igual que start_time
                 if (type === 'end_time' && newHour.start_time && value <= newHour.start_time) {
                     setErrorMessages(prev => ({
@@ -74,7 +71,7 @@ export function OperationalHours() {
                     }));
                     return hour; // No actualizamos si la validación falla
                 }
-    
+
                 // Limpiar mensajes de error si la validación es correcta
                 setErrorMessages(prev => ({
                     ...prev,
@@ -84,12 +81,10 @@ export function OperationalHours() {
             }
             return hour;
         });
-    
+
         // Actualizamos el estado local
         setOperationalHours(updatedHours);
     };
-    
-
 
     // Manejar el cambio en el toggle
     const handleToggleChange = (day_of_week) => {
@@ -117,7 +112,11 @@ export function OperationalHours() {
                 end_time: formatTime(hour.end_time),
                 is_closed: hour.is_closed || false
             }));
-
+            Swal.fire({
+                icon: 'success',
+                title: 'Operational Hours Updated Successfully',
+                text: 'The operational hours have been updated.',
+            });
             // console.log("Datos del payload", operationalHoursPayload);
             // Envía los datos y espera a la respuesta
             const userId = user.id;
@@ -127,17 +126,7 @@ export function OperationalHours() {
             await getOperationalHours(user.id);
 
             //muestra un mensaje de éxito
-            toast.success('Operational hours updated successfully', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
-            });
+
             isEditing && setIsEditing(false);
 
             // console.log("Datos actualizados y recargados correctamente");
@@ -166,13 +155,13 @@ export function OperationalHours() {
     return (
         <div className='p-4'>
             {loading ? (
-                <p>Loading...</p>
+                <div className="flex flex-col items-center justify-center h-48 space-y-4">
+                    <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                    <p className="text-gray-600 font-semibold">Loading...</p>
+                </div>
             ) : (
-                <>
-                    <div className='flex flex-col gap-2'>
-                        <h2>Operational Hours</h2>
-                        <p>Choose your preferred hours to receive appointments</p>
-                    </div>
+
+                <div>
                     <form onSubmit={handleSubmit}>
                         <ToastContainer
                             position="top-center"
@@ -186,6 +175,41 @@ export function OperationalHours() {
                             pauseOnHover
                             theme="light"
                         />
+                        <div className='flex justify-between gap-2 flex-col sm:flex-row'>
+                            <div className='flex flex-col text-center sm:text-left'>
+                                <h2>Operational Hours</h2>
+                                <p>Choose your preferred hours to receive appointments</p>
+                            </div>
+
+                            <div className="flex justify-end items-center mt-4 ">
+                                {!isEditing &&
+                                    <MainButton
+                                        type="button"
+                                        variant="fill"
+                                        text="Edit"
+                                        customClass="h-12 items-center"
+                                        onClick={handleEditClick}
+                                    />}
+
+
+                                {/* Botón para alternar entre Edit y Save */}
+
+                                {isEditing &&
+                                    <MainButton
+                                        type="submit"
+                                        variant="fill"
+                                        text="Save Changes"
+                                        customClass="h-12 items-center "
+
+                                    />
+
+                                }
+
+
+
+                            </div>
+
+                        </div>
                         <div className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-3">
                             {operationalHours.length > 0 ? (
                                 operationalHours.map(({ day_of_week, start_time, end_time, is_closed }) => (
@@ -231,32 +255,11 @@ export function OperationalHours() {
                                 <p>No operational hours available.</p>
                             )}
                         </div>
-                        <div className="flex justify-end items-center mt-4">
-                            {/* Botón para alternar entre Edit y Save */}
 
-                            {isEditing &&
-                                <MainButton
-                                    type="submit"
-                                    variant="fill"
-                                    text="Save Changes"
-                                    customClass="h-12 items-center"
-
-                                />
-
-                            }
-                        </div>
                     </form>
-                    <div className="flex justify-end items-center mt-4">
-                        {!isEditing &&
-                            <MainButton
-                                type="button"
-                                variant="fill"
-                                text="Edit"
-                                customClass="h-12 items-center"
-                                onClick={handleEditClick}
-                            />}
-                    </div>
-                </>
+                </div>
+
+
             )}
         </div>
     );

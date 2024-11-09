@@ -159,19 +159,21 @@ export function PropertyManagement() {
             />
             <div className="text-center grid gap-4">
                 <div className="flex flex-col  justify-between gap-4 items-center mt-4">
-                    <section className="flex gap-4 justify-between w-full">
+                    <section className="flex gap-4 justify-between w-full flex-col">
                         <BackButton />
                         <h1 className="text-center sm:text-start">
                             Manage Publications
                         </h1>
-                        <MainButton
-                        type="link"
-                        to={ROUTE_PATHS.CREATE_PROPERTY}
-                        text="+ Add New Property"
-                        customClass="w-full sm:w-fit h-fit"
-                    />
+                        <div className='flex justify-end'>
+                            <MainButton
+                                type="link"
+                                to={ROUTE_PATHS.CREATE_PROPERTY}
+                                text="+ Add New Property"
+                                customClass="w-full sm:w-fit h-fit"
+                            />
+                        </div>
                     </section>
-                    
+
                 </div>
                 {isLoadingProps ? (
                     <p>Loading...</p>
