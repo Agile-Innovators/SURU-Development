@@ -105,7 +105,7 @@ export function Search() {
                 isLoadingFilter={setIsLoadingFilter}
                 handleModal={setIsOpenModal}
             />
-            <div className="grid grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-4 mt-8 mb-5">
+            <div className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-6 mt-10 mb-14">
                 {isLoading || isLoadingFilter
                     ? showLoaderCards()
                     : showFilteredProperties(properties)}
