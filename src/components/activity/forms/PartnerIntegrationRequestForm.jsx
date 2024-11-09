@@ -6,6 +6,7 @@ import { ROUTE_PATHS } from '../../../routes';
 import Swal from 'sweetalert2';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Input } from '../../ui/forms/Input.jsx';
 
 export function PartnerIntegrationRequestForm() {
     const axios = useAxios();
@@ -19,7 +20,7 @@ export function PartnerIntegrationRequestForm() {
         description: '',
         phone_number: '',
         email: '',
-        image: null, 
+        image: null,
         website_url: '',
         instagram_url: '',
         facebook_url: '',
@@ -84,7 +85,7 @@ export function PartnerIntegrationRequestForm() {
 
         if (!formData.image) {
             toast.error('You must apply your company logo.');
-            return; 
+            return;
         }
 
         const formDataToSubmit = new FormData();
@@ -93,11 +94,15 @@ export function PartnerIntegrationRequestForm() {
         }
 
         try {
-            const response = await axios.post('/partner-request', formDataToSubmit, {
-                headers: {
-                    'Content-Type': 'multipart/form-data', 
-                },
-            });
+            const response = await axios.post(
+                '/partner-request',
+                formDataToSubmit,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }
+            );
             Swal.fire({
                 icon: 'success',
                 title: 'Request sent',
@@ -137,20 +142,27 @@ export function PartnerIntegrationRequestForm() {
                 theme="light"
             />
             <div className="flex flex-col mb-4">
-                <label htmlFor="name" className="font-medium text-gray-700">Company Name</label>
+                <label htmlFor="name" className="font-medium text-gray-700">
+                    Company Name
+                </label>
                 <input
                     type="text"
                     id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    placeholder="Enter your company name"
+                    placeholder="Ex: Suru"
                     className="border border-light-grey bg-transparent rounded-md px-4 py-3 mt-2 focus:outline-light-blue h-12"
                     required
                 />
             </div>
             <div className="flex flex-col mb-4">
-                <label htmlFor="description" className="font-medium text-gray-700">Tell Us About Your Company</label>
+                <label
+                    htmlFor="description"
+                    className="font-medium text-gray-700"
+                >
+                    Tell Us About Your Company
+                </label>
                 <textarea
                     id="description"
                     name="description"
@@ -162,20 +174,27 @@ export function PartnerIntegrationRequestForm() {
                 />
             </div>
             <div className="flex flex-col mb-4">
-                <label htmlFor="phone_number" className="font-medium text-gray-700">Contact Phone Number</label>
-                <input
-                    type="tel"
-                    id="phone_number"
-                    name="phone_number"
+                <label
+                    htmlFor="phone_number"
+                    className="font-medium text-gray-700"
+                >
+                    Contact Phone Number
+                </label>
+                <Input
+                    min={8}
+                    max={8}
+                    inputName="phone_number"
+                    inputId="phoneNumber-input"
+                    type="number"
+                    placeholder='Enter your phone number'
                     value={formData.phone_number}
                     onChange={handleChange}
-                    placeholder="Enter contact phone number"
-                    className="border border-light-grey bg-transparent rounded-md px-4 py-3 mt-2 focus:outline-light-blue h-12"
-                    required
                 />
             </div>
             <div className="flex flex-col mb-4">
-                <label htmlFor="email" className="font-medium text-gray-700">Email Address</label>
+                <label htmlFor="email" className="font-medium text-gray-700">
+                    Email Address
+                </label>
                 <input
                     type="email"
                     id="email"
@@ -188,18 +207,25 @@ export function PartnerIntegrationRequestForm() {
                 />
             </div>
             <div className="flex flex-col mb-4">
-                <label htmlFor="image" className="font-medium text-gray-700">Company Logo</label>
+                <label htmlFor="image" className="font-medium text-gray-700">
+                    Company Logo
+                </label>
                 <input
                     type="file"
                     id="image"
                     name="image"
                     onChange={handleChange}
                     className="border border-light-grey bg-transparent rounded-md px-4 py-3 mt-2 focus:outline-light-blue h-12"
-                    accept="image/*" 
+                    accept="image/*"
                 />
             </div>
             <div className="flex flex-col mb-4">
-                <label htmlFor="website_url" className="font-medium text-gray-700">Website URL</label>
+                <label
+                    htmlFor="website_url"
+                    className="font-medium text-gray-700"
+                >
+                    Website URL (Optional)
+                </label>
                 <input
                     type="url"
                     id="website_url"
@@ -211,7 +237,12 @@ export function PartnerIntegrationRequestForm() {
                 />
             </div>
             <div className="flex flex-col mb-4">
-                <label htmlFor="instagram_url" className="font-medium text-gray-700">Instagram URL</label>
+                <label
+                    htmlFor="instagram_url"
+                    className="font-medium text-gray-700"
+                >
+                    Instagram URL (Optional)
+                </label>
                 <input
                     type="url"
                     id="instagram_url"
@@ -223,7 +254,12 @@ export function PartnerIntegrationRequestForm() {
                 />
             </div>
             <div className="flex flex-col mb-4">
-                <label htmlFor="facebook_url" className="font-medium text-gray-700">Facebook URL</label>
+                <label
+                    htmlFor="facebook_url"
+                    className="font-medium text-gray-700"
+                >
+                    Facebook URL (Optional)
+                </label>
                 <input
                     type="url"
                     id="facebook_url"
@@ -235,7 +271,12 @@ export function PartnerIntegrationRequestForm() {
                 />
             </div>
             <div className="flex flex-col mb-4">
-                <label htmlFor="tiktok_url" className="font-medium text-gray-700">TikTok URL</label>
+                <label
+                    htmlFor="tiktok_url"
+                    className="font-medium text-gray-700"
+                >
+                    TikTok URL (Optional)
+                </label>
                 <input
                     type="url"
                     id="tiktok_url"
@@ -247,7 +288,12 @@ export function PartnerIntegrationRequestForm() {
                 />
             </div>
             <div className="flex flex-col mb-4">
-                <label htmlFor="currency_id" className="font-medium text-gray-700">Currency</label>
+                <label
+                    htmlFor="currency_id"
+                    className="font-medium text-gray-700"
+                >
+                    Currency
+                </label>
                 <select
                     id="currency_id"
                     name="currency_id"
@@ -258,12 +304,19 @@ export function PartnerIntegrationRequestForm() {
                 >
                     <option value="">Select a currency</option>
                     {currencies.map((currency) => (
-                        <option key={currency.id} value={currency.id}>{currency.name}</option>
+                        <option key={currency.id} value={currency.id}>
+                            {currency.name}
+                        </option>
                     ))}
                 </select>
             </div>
             <div className="flex flex-col mb-4">
-                <label htmlFor="partner_category_id" className="font-medium text-gray-700">Category</label>
+                <label
+                    htmlFor="partner_category_id"
+                    className="font-medium text-gray-700"
+                >
+                    Category
+                </label>
                 <select
                     id="partner_category_id"
                     name="partner_category_id"
@@ -274,12 +327,16 @@ export function PartnerIntegrationRequestForm() {
                 >
                     <option value="">Select a category</option>
                     {categories.map((category) => (
-                        <option key={category.id} value={category.id}>{category.name}</option>
+                        <option key={category.id} value={category.id}>
+                            {category.name}
+                        </option>
                     ))}
                 </select>
             </div>
             <div className="flex flex-col mb-4">
-                <label htmlFor="city_id" className="font-medium text-gray-700">City</label>
+                <label htmlFor="city_id" className="font-medium text-gray-700">
+                    City where you are located
+                </label>
                 <select
                     id="city_id"
                     name="city_id"
@@ -290,12 +347,19 @@ export function PartnerIntegrationRequestForm() {
                 >
                     <option value="">Select a city</option>
                     {cities.map((city) => (
-                        <option key={city.value} value={city.value}>{city.name}</option>
+                        <option key={city.value} value={city.value}>
+                            {city.name}
+                        </option>
                     ))}
                 </select>
             </div>
             <div className="flex flex-col mb-4">
-                <label htmlFor="partner_comments" className="font-medium text-gray-700">Address</label>
+                <label
+                    htmlFor="partner_comments"
+                    className="font-medium text-gray-700"
+                >
+                    Physical Address (Optional)
+                </label>
                 <textarea
                     id="address"
                     name="address"
@@ -306,7 +370,12 @@ export function PartnerIntegrationRequestForm() {
                 />
             </div>
             <div className="flex flex-col mb-4">
-                <label htmlFor="partner_comments" className="font-medium text-gray-700">Extra Comments</label>
+                <label
+                    htmlFor="partner_comments"
+                    className="font-medium text-gray-700"
+                >
+                    Extra Comments
+                </label>
                 <textarea
                     id="partner_comments"
                     name="partner_comments"
