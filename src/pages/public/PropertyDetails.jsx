@@ -21,7 +21,7 @@ export function PropertyDetails() {
     const { relatedProperties, isLoading: isLoading } = useFetchRelatedProperties(property.id || null);
 
     const showLoaderCards = () => {
-        return Array(1)
+        return Array(3)
             .fill(0)
             .map((_, index) => (
                 <SkeletonLoader
