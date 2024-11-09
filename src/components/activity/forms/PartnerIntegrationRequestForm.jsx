@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Input } from '../../ui/forms/Input.jsx';
+import { X, ImageUp } from 'lucide-react'; 
 
 export function PartnerIntegrationRequestForm() {
     const axios = useAxios();
@@ -68,16 +69,32 @@ export function PartnerIntegrationRequestForm() {
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (name === 'image') {
-            setFormData((prev) => ({
-                ...prev,
-                image: e.target.files[0],
-            }));
+            const file = e.target.files[0];
+            if (file) {
+                // Verificar si el archivo es una imagen
+                const isImage = file.type.startsWith('image/');
+                if (!isImage) {
+                    toast.error('Please upload a valid image file (jpg, jpeg, png, svg or webp).');
+                    return; 
+                }
+                setFormData((prev) => ({
+                    ...prev,
+                    image: file,
+                }));
+            }
         } else {
             setFormData((prev) => ({
                 ...prev,
                 [name]: value,
             }));
         }
+    };    
+
+    const handleImageRemove = () => {
+        setFormData((prev) => ({
+            ...prev,
+            image: null,
+        }));
     };
 
     const handleSubmit = async (e) => {
@@ -210,14 +227,37 @@ export function PartnerIntegrationRequestForm() {
                 <label htmlFor="image" className="font-medium text-gray-700">
                     Company Logo
                 </label>
-                <input
-                    type="file"
-                    id="image"
-                    name="image"
-                    onChange={handleChange}
-                    className="border border-light-grey bg-transparent rounded-md px-4 py-3 mt-2 focus:outline-light-blue h-12"
-                    accept="image/*"
-                />
+                <div
+                    className="border-2 mt-2 border-dashed border-light-grey justify-center items-center relative rounded-sm size-56 cursor-pointer grid content-center"
+                >
+                    {!formData.image ? (
+                        <>
+                        <ImageUp size={54} className="text-secondary/80 stroke-[1.5] mx-4" />
+                            <span className='text-secondary mx-4'>Drag and drop your logo here, or click to select a file</span>
+                            <input
+                                type="file"
+                                id="image"
+                                name="image"
+                                onChange={handleChange}
+                                accept="image/*"
+                                className="absolute top-0 left-0 w-full h-full opacity-0"
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <img
+                                src={URL.createObjectURL(formData.image)}
+                                alt="Company Logo"
+                                className="w-full h-full object-cover"
+                            />
+                            <X
+                                onClick={handleImageRemove}
+                                size={24}
+                                className="absolute top-2 right-2 text-red-500 cursor-pointer"
+                            />
+                        </>
+                    )}
+                </div>
             </div>
             <div className="flex flex-col mb-4">
                 <label
