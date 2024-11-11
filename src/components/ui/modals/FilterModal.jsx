@@ -233,7 +233,7 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
             <>
                 <label
                     htmlFor={'select_categories'}
-                    className="block text-sm font-medium text-gray-700 mb-2"
+                    className="block text-sm font-medium text-gray-700  mb-2"
                 >
                     Property Transaction
                 </label>
@@ -242,7 +242,7 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
                     name={`select_transaction_type`}
                     value={propertyTransaction}
                     onChange={(e) => setPropertyTransaction(e.target.value)}
-                    className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                    className="p-3 border border-gray-300  rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                 >
                     {items.map((transaction) => (
                         <option
@@ -325,7 +325,7 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
     return (
         <form
             onSubmit={(e) => handleFilter(e)}
-            className="max-h-[90vh] overflow-hidden overflow-y-auto bg-white p-4 mt-6 rounded-xl relative h-fit sm:p-8 sm:min-w-[40rem] md:min-w-[50rem]"
+            className="max-h-[90vh] overflow-hidden overflow-y-auto bg-white dark:bg-gray-800 p-4 mt-6 rounded-xl relative h-fit sm:p-8 sm:min-w-[40rem] md:min-w-[50rem]"
         >
             <ToastContainer
                 position="top-center"
@@ -349,7 +349,7 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
                 <div>
                     <h4>Property details</h4>
                     <div className="grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] mt-4 mb-4 gap-4 sm:gap-6">
-                        <div className="grid">
+                        <div className="grid ">
                             {isLoadingPropsCats
                                 ? showLoaderSelect()
                                 : renderPropsCatsSelect(propertyCategories)}

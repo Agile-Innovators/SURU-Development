@@ -1,3 +1,5 @@
+import { dark } from '@mui/material/styles/createPalette';
+
 /** @type {import('tailwindcss').Config} */
 export default {
     content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -72,6 +74,9 @@ export default {
                     borderRadius: '0.375rem', // 6px
                     transition: 'background-color 0.3s ease, color 0.3s ease',
                     '@apply dark:bg-gray-800 dark:text-white dark:border-gray-600': {}, // Cambios en modo oscuro
+                },
+                label:{
+                    '@apply dark:text-white dark:border-gray-600': {}, 
                 },
                 span: {
                     fontSize: '1rem', //16px
