@@ -5,6 +5,7 @@ import { MainButton } from '../../components/ui/buttons/MainButton';
 import { ROUTE_PATHS } from '../../routes';
 
 export function PartnerIntegrationRequest() {
+
     return (
         <div className="mx-auto max-w-7xl px-6 lg:px-8 gap-2 my-4">
             <BackButton />
@@ -27,7 +28,7 @@ export function PartnerIntegrationRequest() {
                         find the answer here.
                     </p>
                     <MainButton
-                        to={ROUTE_PATHS.PARTNERS}
+                        to={ROUTE_PATHS.FAQ_SECTION}
                         type="link"
                         customClass="w-2/4"
                         text="Go to FAQ"

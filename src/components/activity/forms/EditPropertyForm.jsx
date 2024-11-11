@@ -253,7 +253,7 @@ const EditPropertyForm = () => {
 
     return (
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <ToastContainer position="top-center" autoClose={900} hideProgressBar theme="light" />
+            <ToastContainer position="top-center" autoClose={2500} hideProgressBar theme="light" />
             <section className="mt-10 flex flex-col sm:flex-row gap-4">
                 <BackButton />
                 <h1 className="text-center sm:text-start">Edit Property</h1>

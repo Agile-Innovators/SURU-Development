@@ -50,7 +50,7 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
             <div className="flex flex-col gap-4">
                 <ToastContainer
                     position="top-center"
-                    autoClose={200}
+                    autoClose={2500}
                     hideProgressBar
                     newestOnTop={false}
                     closeOnClick
