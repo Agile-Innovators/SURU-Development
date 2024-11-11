@@ -66,8 +66,7 @@ export function PublicRoutes() {
             <Route path={ROUTE_PATHS.FAVORITES} element={<Favorites />} />
 
             <Route path={ROUTE_PATHS.USER_PROFILE} element={<UserProfile />}>
-                
-                <Route path={ROUTE_PATHS.GENERAL_INFORMATION_PARTNER} element={<GeneralInformationPartner />} />,
+                {/* <Route path={ROUTE_PATHS.GENERAL_INFORMATION_PARTNER} element={<GeneralInformationPartner />} />, */}
                 <Route path={ROUTE_PATHS.GENERAL_INFORMATION} element={<GeneralInformation />} />,
                 <Route path={ROUTE_PATHS.PARTNER_SERVICES} element={<PartnerServices />} />
                 <Route path={ROUTE_PATHS.PREFERENCES} element={<Preferences />} />
