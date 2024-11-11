@@ -20,7 +20,7 @@ import { PartnerProfile } from '../pages/public/PartnerProfile.jsx';
 import { SearchPartners } from '../pages/public/SearchPartners.jsx';
 import { PartnersAdministration } from '../pages/private/PartnersAdministration.jsx';
 import { PropertyManagement } from '../pages/private/PropertyManagement.jsx'
-import { Favorites } from '../pages/public/Favorites.jsx';
+import { Favorites } from '../pages/private/Favorites.jsx';
 import { CreateProperty } from "../pages/private/CreateProperty.jsx";
 import { Homepage } from '../pages/public/Homepage.jsx';
 import { Login } from '../pages/public/Login.jsx';
