@@ -12,8 +12,10 @@ import { useFetchRelatedProperties } from '../../components/hooks/useFetchRelate
 import { formatPrice } from '../../components/hooks/utils.js';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { useFetchUserFavoritesIDs } from '../../components/hooks/useFetchUserFavoritesIDs.js';
 
 export function PropertyDetails() {
+    const { userFavoritesIDs } = useFetchUserFavoritesIDs();
     const { propertyId } = useParams();
     const navigate = useNavigate();
     const { propertyDetails, isLoadingPropsDetails } = useFetchPropertyDetails(propertyId);
@@ -21,7 +23,7 @@ export function PropertyDetails() {
     const { relatedProperties, isLoading: isLoading } = useFetchRelatedProperties(property.id || null);
 
     const showLoaderCards = () => {
-        return Array(1)
+        return Array(3)
             .fill(0)
             .map((_, index) => (
                 <SkeletonLoader
@@ -77,6 +79,7 @@ export function PropertyDetails() {
                 qtyBathrooms={property.bathrooms || 0}
                 qtyGarages={property.garages || 0}
                 key={property.id}
+                isLiked={userFavoritesIDs.includes(property.id)}
                 propertyId={property.id}
                 customClass="m-auto"
             >
@@ -116,12 +119,12 @@ export function PropertyDetails() {
                 />
             </div>
 
-            {/* <div className="mt-10">
+            <div className="mt-10">
                 <h2>You may also like</h2>
                 <div className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-4 justify-center items-center mt-4">
                     {isLoading ? showLoaderCards() : createProperties(relatedProperties)}
                 </div>
-            </div> */}
+            </div>
         </div>
     );
 }

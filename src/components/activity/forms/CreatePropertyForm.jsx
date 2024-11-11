@@ -240,7 +240,7 @@ const CreatePropertyForm = () => {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <ToastContainer
                 position="top-center"
-                autoClose={900}
+                autoClose={2500}
                 hideProgressBar
                 newestOnTop={false}
                 closeOnClick
