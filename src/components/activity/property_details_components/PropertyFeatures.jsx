@@ -24,7 +24,7 @@ export function ImageCarrusel({ propertyTemp, isLoading }) {
                 autoplay={{ delay: 3000 }}
                 spaceBetween={10}
                 slidesPerView={1}
-                className="rounded-md mt-4 w-full max-w-[23rem] sm:w-[38rem] sm:max-w-[40rem] md:w-[45rem] md:max-w-[50rem] lg:w-full lg:max-w-full"
+                className="rounded-md mt-4 w-full max-w-[20rem] sm:w-[38rem] sm:max-w-[40rem] md:w-[45rem] md:max-w-[50rem] lg:w-full lg:max-w-full"
             >
                 {property.images && property.images.length > 0 ? (
                     property.images.map((image) => {

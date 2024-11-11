@@ -119,12 +119,12 @@ export function PropertyDetails() {
                 />
             </div>
 
-            <div className="mt-10">
+            {/* <div className="mt-10">
                 <h2>You may also like</h2>
                 <div className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-4 justify-center items-center mt-4">
                     {isLoading ? showLoaderCards() : createProperties(relatedProperties)}
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }
