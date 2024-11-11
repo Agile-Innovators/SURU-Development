@@ -1,16 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Tabs, Tab, Box, Button } from '@mui/material';
+import React, { useState, useEffect, useContext } from 'react';
+import { Tabs, Tab, Box } from '@mui/material';
 import { Clock, MapPin } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { FiltersAppointmentsModal } from '../../components/ui/modals/FiltersAppointmentsModal';
-import { RequestAppointmentModal } from '../../components/ui/modals/RequestAppointmentModal';
-import { LayoutModal } from '../../components/ui/modals/LayoutModal';
 import { useAxios } from '../../components/hooks/useAxios';
 import Swal from 'sweetalert2';
 import { globalProvider } from '../../global/GlobalProvider';
 import { ROUTE_PATHS } from '../../routes';
-import { useContext } from 'react';
 
 export function Appointments() {
     const user = JSON.parse(localStorage.getItem('user')) || null;
@@ -60,7 +56,6 @@ export function Appointments() {
                     timer: 1500,
                 });
                 setAppointments((prevAppointments) => prevAppointments.filter((appt) => appt.id !== appointmentId));
-                setCurrentStatus('Confirmed');
                 fetchAppointments('Confirmed');
             })
             .catch((error) => {
@@ -84,7 +79,6 @@ export function Appointments() {
                     .then(() => {
                         Swal.fire('Cancelled!', 'Your appointment has been cancelled.', 'success');
                         setAppointments((prevAppointments) => prevAppointments.filter((appt) => appt.id !== appointmentId));
-                        setCurrentStatus('Cancelled');
                         fetchAppointments('Cancelled');
                     })
                     .catch((error) => {
@@ -107,7 +101,9 @@ export function Appointments() {
                 }
                 break;
             case 'cancel':
-                cancelAppointment(appointment.id, loggedInUserId);
+                if (currentStatus === 'Pending' || currentStatus === 'Scheduled') {
+                    cancelAppointment(appointment.id, loggedInUserId);  
+                }
                 break;
             default:
                 break;
@@ -118,25 +114,6 @@ export function Appointments() {
         navigate(`${ROUTE_PATHS.PROPERTY_DETAILS.replace(':propertyId', id)}`);
     };
 
-    const formatMonthYear = (dateString) => {
-        const date = new Date(dateString);
-        if (!isNaN(date.getTime())) {
-            const options = { month: 'short', year: 'numeric' };
-            return date.toLocaleDateString('en-US', options);
-        }
-        return 'Invalid Date';
-    };
-
-    const formatDay = (dateString) => {
-        const date = new Date(dateString);
-        return !isNaN(date.getTime()) ? date.getDate() : 'NaN';
-    };
-
-    const formatTimeRange = (startTime, endTime) => {
-        if (!startTime || !endTime) return 'Invalid Time';
-        return `${startTime} — ${endTime}`;
-    };
-
     return (
         <div className="max-w-7xl m-auto p-4 min-h-[80vh] w-full">
             <div className="mt-10 mb-10 gap-4">
@@ -144,7 +121,7 @@ export function Appointments() {
                     <h1 className="mt-10">Appointments</h1>
                     <p className="dark:text-white">Everything about your appointments</p>
 
-                    <Box className="overflow-x-auto scrollbar-hide" sx={{ maxWidth: { xs: 310, sm: 680 }}}>
+                    <Box className="overflow-x-auto scrollbar-hide " sx={{ maxWidth: { xs: 500, sm: 980 }}}>
                         <Tabs
                             value={currentStatus}
                             onChange={handleTabChange}
@@ -180,10 +157,10 @@ export function Appointments() {
                                     >
                                         <div className="flex flex-col items-center text-primary">
                                             <span className="text-sm font-medium dark:text-white">
-                                                {formatMonthYear(appointment.date)}
+                                                {new Date(appointment.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
                                             </span>
                                             <span className="text-3xl font-bold dark:text-white">
-                                                {formatDay(appointment.date)}
+                                                {new Date(appointment.date).getDate()}
                                             </span>
                                         </div>
 
@@ -193,7 +170,7 @@ export function Appointments() {
                                             <div className="flex items-center justify-center md:justify-start space-x-2">
                                                 <Clock size={16} className="text-gray-500 dark:text-white" />
                                                 <span className="dark:text-white">
-                                                    {formatTimeRange(appointment.start_time, appointment.end_time)}
+                                                    {`${appointment.start_time} — ${appointment.end_time}`}
                                                 </span>
                                             </div>
                                             <div className="flex items-center justify-center md:justify-start space-x-2">
@@ -211,48 +188,32 @@ export function Appointments() {
                                         </div>
 
                                         <div className="relative gap-2 md:gap-4 flex flex-col md:flex-row items-center">
-                                            <select
-                                                className="p-2 border border-gray-300 rounded-md w-full md:w-auto"
-                                                onChange={(event) => handleSelectChange(appointment, event)}
-                                                defaultValue=""
-                                            >
-                                                <option value="" disabled>
-                                                    Select Action
-                                                </option>
-                                                {currentStatus === 'Pending' && Number(appointment.owner_id) === Number(loggedInUserId) && (
-                                                    <option className="hover:bg-green-300" value="confirm">
-                                                        Confirm Appointment
+                                             
+                                            {['Pending', 'Scheduled'].includes(currentStatus) && (
+                                                <select
+                                                    className="p-2 border border-gray-300 rounded-md w-full md:w-auto"
+                                                    onChange={(event) => handleSelectChange(appointment, event)}
+                                                    defaultValue=""
+                                                >
+                                                    <option value="" disabled>
+                                                        Select Action
                                                     </option>
-                                                )}
-                                                <option value="cancel" className="hover:bg-red-300">
-                                                    Cancel Appointment
-                                                </option>
-                                            </select>
-
-                                            <button
-                                                className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3"
-                                                onClick={() => showProperty(appointment.property_id)}
-                                            >
-                                                View Property
-                                            </button>
+                                                    <option value="view">View Property</option>
+                                                    {currentStatus === 'Pending' && <option value="confirm">Confirm Appointment</option>}
+                                                    {(currentStatus === 'Pending' || currentStatus === 'Scheduled') && <option value="cancel">Cancel Appointment</option>}
+                                                </select>
+                                            )}
                                         </div>
                                     </motion.div>
                                 ))}
                             </AnimatePresence>
                         )}
                     </div>
-
-                    <LayoutModal status={isFiltersOpen}>
-                        <FiltersAppointmentsModal handleModal={setIsFiltersOpen} />
-                    </LayoutModal>
-
-                    <LayoutModal status={isRequestOpen}>
-                        <RequestAppointmentModal handleModal={setIsRequestOpen} />
-                    </LayoutModal>
                 </div>
             </div>
         </div>
     );
 }
+
 
 export default Appointments;
