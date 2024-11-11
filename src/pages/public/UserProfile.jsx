@@ -22,7 +22,7 @@ export function UserProfile() {
             id: 'general',
             label: 'General Information',
             icon: <User />,
-            to: user.user_type === 'partner' ? ROUTE_PATHS.GENERAL_INFORMATION_PARTNER : ROUTE_PATHS.GENERAL_INFORMATION,
+            to: ROUTE_PATHS.GENERAL_INFORMATION,
         },
         // Services section only for partners
         ...(user.user_type === 'partner' ? [{

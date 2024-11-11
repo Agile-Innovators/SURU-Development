@@ -68,6 +68,21 @@ export function useFetchUser() {
         }
     };
 
+    const getPartnerInformation = async (userId) => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`/partner/${userId}`);
+            // const responseAuth = await axios.get(`/user/${userId}`);
+            setData(response.data);
+            // updateUser(responseAuth.data);
+            setError(null);
+        } catch (error) {
+            setError(error.response?.data || "Error al obtener la información del usuario");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return {
         loading,
         error,
@@ -75,5 +90,6 @@ export function useFetchUser() {
         updateUserProfile,
         updateUserPassword,
         getUserInformation,
+        getPartnerInformation
     };
 }

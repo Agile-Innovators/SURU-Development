@@ -106,12 +106,8 @@ export function SearchFilter({ setData, isLoadingFilter, handleModal }) {
     const clearFilter = (e) => {
         e.preventDefault();
         const selectRegion = document.getElementById('select_regions');
-        // const minPriceSelect = document.getElementById('select_min_price');
-        // const maxPriceSelect = document.getElementById('select_max_price');
         const propsCatsSelect = document.getElementById('select_props_cats');
         selectRegion.value = 0;
-        // minPriceSelect.value = selectPriceOptions[0].options[0].value;
-        // maxPriceSelect.value = 'max';
         propsCatsSelect.value = 0;
     };
 
@@ -122,7 +118,7 @@ export function SearchFilter({ setData, isLoadingFilter, handleModal }) {
     return (
         <form
             id="form_filters"
-            className="flex flex-col p-4 border-2 rounded-md w-full gap-4 mt-5"
+            className="flex flex-col p-4 border-2 rounded-md w-full gap-4 mt-8"
             onSubmit={(e) => filterProperties(e)}
         >
             <ToastContainer
@@ -137,72 +133,15 @@ export function SearchFilter({ setData, isLoadingFilter, handleModal }) {
                 pauseOnHover
                 theme="light"
             />
-            <div className="grid grid-cols-[repeat(auto-fit,_minmax(00px,_1fr))] gap-4 items-center">
+            <div className="grid grid-cols-[repeat(auto-fit,_minmax(00px,_1fr))] gap-4 sm:gap-8 items-center">
                 {isLoadingPropsCats
                     ? showLoaderSelect()
                     : createRegionsSelect(regions)}
-                {/* {isLoadingPropsCats ? (
-                    showLoaderSelect()
-                ) : (
-                    <div className="w-full lg:w-auto flex flex-col">
-                        <label
-                            htmlFor="select_min_price"
-                            className="block text-sm font-medium text-gray-700 mb-2"
-                        >
-                            Minimum Price
-                        </label>
-                        <select
-                            id="select_min_price"
-                            name="select_min_price"
-                            className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
-                        >
-                            {selectPriceOptions.map((option) =>
-                                option.options.map((priceOption) => (
-                                    <option
-                                        key={priceOption.value}
-                                        value={priceOption.value}
-                                    >
-                                        {priceOption.label}
-                                    </option>
-                                ))
-                            )}
-                        </select>
-                    </div>
-                )} */}
-                {/* {isLoadingPropsCats ? (
-                    showLoaderSelect()
-                ) : (
-                    <div className="w-full lg:w-auto flex flex-col">
-                        <label
-                            htmlFor="select_max_price"
-                            className="block text-sm font-medium text-gray-700 mb-2"
-                        >
-                            Maximum Price
-                        </label>
-                        <select
-                            id="select_max_price"
-                            name="select_max_price"
-                            className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
-                        >
-                            <option value="max">₡max price</option>
-                            {selectPriceOptions.map((option) =>
-                                option.options.map((priceOption) => (
-                                    <option
-                                        key={priceOption.value}
-                                        value={priceOption.value}
-                                    >
-                                        {priceOption.label}
-                                    </option>
-                                ))
-                            )}
-                        </select>
-                    </div>
-                )} */}
                 {isLoadingPropsCats
                     ? showLoaderSelect()
                     : createPropsCatsSelect(propertyCategories)}
             </div>
-            <div className="flex flex-col items-center gap-2 w-full sm:flex-row">
+            <div className="flex flex-col items-center gap-4  w-full sm:flex-row">
                 <MainButton
                     text="Search"
                     type="submit"

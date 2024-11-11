@@ -5,69 +5,92 @@ import { useFetchUser } from '../../components/hooks/useFetchUser';
 import { useAuth } from '../../global/AuthProvider';
 import { Pencil } from 'lucide-react';
 import { useFetchLocations } from '../../components/hooks/useFetchLocations';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes';
 import { useAxios } from '../../components/hooks/useAxios.js';
+import { useFetchPartner } from '../../components/hooks/useFetchPartner';
 
 export function GeneralInformation() {
     // Traemos al usuario
     const { getUser } = useAuth();
     const { user } = getUser();
-    
+
     //Si el usuario es Partner lo devuelve a la vista principal
     const navigate = useNavigate();
     if (user.user_type == "partner") {
         // navigate(ROUTE_PATHS.HOME);
-
+        console.log("Partner");
     }
 
     //Traemos la información del Usuario
-    const { updateUserProfile, getUserInformation, loading, error, data } = useFetchUser();
-
+    const { updateUserProfile, getPartnerInformation, getUserInformation, loading, error, data } = useFetchUser();
+    const { updatePartnerProfile } = useFetchPartner();
     //Traemos los lugares para mostrar
     const { locations } = useFetchLocations();
 
     //Creamos un variable que guarde los datos del usuario
     const [userData, setUserData] = useState(null);
-    
+
     // Estado para controlar si se está editando o no
-    const [isEditing, setIsEditing] = useState(false); 
+    const [isEditing, setIsEditing] = useState(false);
 
     // Efecto para obtener la información del usuario
     useEffect(() => {
-        if (user?.id) {
+        if (user?.id && user?.user_type !== 'partner') {
             getUserInformation(user.id);
+        } else if (user?.user_type === 'partner') {
+            getPartnerInformation(user.id);
         }
     }, [user?.id]);
 
+    // Estado para guardar los datos del perfil del usuario
     const [profileData, setProfileData] = useState({
         name: '',
-        username: '',
-        lastname1: '',
-        lastname2: '',
         city_id: '',
         email: '',
         phone_number: '',
-        image:
-        user.image_url ||
-        'https://res.cloudinary.com/dvwtm566p/image/upload/v1728158504/users/dc8aagfamyqwaspllhz8.jpg',
+        image: user.image_url || 'https://res.cloudinary.com/dvwtm566p/image/upload/v1728158504/users/dc8aagfamyqwaspllhz8.jpg',
+        ...(user.user_type === 'partner' && {
+            address: '',
+            website_url: '',
+            description: '',
+            tiktok_url: '',
+            _method: 'PUT',
+            instagram_url: '',
+            facebook_url: '',
+            currency_id: '',
+        }),
+        ...(user.user_type === 'user' && {
+            lastname1: '',
+            lastname2: '',
+            username: '',
+        }),
     });
 
-    // Efecto para sincronizar los datos del usuario con profileData
+    // Sincronizar los datos obtenidos con profileData
     useEffect(() => {
         if (data) {
             setProfileData({
                 name: data.name || '',
-                username: data.username || '',
-                lastname1: data.profile?.lastname1 || '',
-                lastname2: data.profile?.lastname2 || '',
-                city_id: data.location?.city_id || '',
+                city_id: (data.locations && data.locations.length > 0) ? data.locations[0].city_id : '',
                 email: data.email || '',
                 phone_number: data.phone_number || '',
                 image: data.image_url || '',
-                
+                ...(user.user_type === 'partner' && {
+                    address: (data.locations && data.locations.length > 0) ? data.locations[0].address : '',
+                    website_url: data.website_url || '',
+                    tiktok_url: data.tiktok_url || '',
+                    instagram_url: data.instagram_url || '',
+                    facebook_url: data.facebook_url || '',
+                    description: data.description || '',
+                    currency_id: '',
+                }),
+                ...(user.user_type === 'user' && {
+                    lastname1: data.profile?.lastname1 || '',
+                    lastname2: data.profile?.lastname2 || '',
+                    username: data.username || '',
+                }),
             });
             setUserData(data);
         }
@@ -91,23 +114,6 @@ export function GeneralInformation() {
         }
     };
 
-    // Sincronizar los datos obtenidos con profileData
-    useEffect(() => {
-        if (data) {
-            setProfileData({
-                name: data.name || '',
-                username: data.username || '',
-                lastname1: data.profile?.lastname1 || '',
-                city_id: data.location?.city_id || '',
-                lastname2: data.profile?.lastname2 || '',
-                email: data.email || '',
-                phone_number: data.phone_number || '',
-                image: data.image_url || '',
-            });
-            setUserData(data);
-        }
-        // console.log(data);
-    }, [data]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -117,77 +123,16 @@ export function GeneralInformation() {
         }));
     };
 
+
     const handleProfileSubmit = async (e) => {
         e.preventDefault();
-        if (user?.id) {
-            // Crear un objeto FormData y llenarlo con los datos del perfil
+        if (user?.id || user?.user_type === 'user') {
             const formData = new FormData();
-            for (const key in profileData) {
-                formData.append(key, profileData[key]);
-            }
-            formData.append('_method', 'PUT'); // Método PUT para la compatibilidad con Laravel
-    
-            try {
-                const response = await axios.post(`user/update/${user.id}`, formData);
-    
-                // Verificar el estado de la respuesta
-                if (response.status !== 200) {
-                    toast.error('Error updating information', {
-                        position: "top-center",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                        transition: Bounce,
-                    });
-                    console.error('Update failed:', response);
-                    return;
-                }
-    
-                // Actualizar la información del usuario con la respuesta
-                const updatedUser = response.data;
-                console.log('User updated:', updatedUser);
-    
-                if (updatedUser?.image_url) {
-                    setProfileData((prevState) => ({
-                        ...prevState,
-                        image: updatedUser.image_url,
-                    }));
-                }
 
-                // Actualizar los datos del usuario en el contexto de autenticación
-                updateUser(updatedUser);
-    
-                // Refrescar la información del usuario
-                getUserInformation(user.id);
-                toast.success('Information updated successfully', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                    transition: Bounce,
-                });
-                setIsEditing(false);
-            } catch (error) {
-                console.error('Update failed:', error);
-                toast.error('Error updating information', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                    transition: Bounce,
-                });
+            for (const key in profileData) {
+                if (profileData[key]) {
+                    formData.append(key, profileData[key]);
+                }
             }
 
             formData.append('_method', 'PUT');
@@ -205,65 +150,71 @@ export function GeneralInformation() {
             // Actualizar los datos del usuario
             getUserInformation(user.id);
         }
+
+        if(user?.id || user?.user_type === 'partner'){
+            console.log("Enviando datos de Partner");
+            const formData = new FormData();
+
+            // Asegúrate de agregar todos los campos requeridos
+            formData.append('username', profileData.username);
+            formData.append('email', profileData.email);
+            formData.append('name', profileData.name);
+            formData.append('phone_number', profileData.phone_number);
+
+            // Agrega los campos opcionales según sea necesario
+            if (profileData.city_id) {
+                formData.append('city_id', profileData.city_id);
+            }
+            if (profileData.address) {
+                formData.append('address', profileData.address);
+            }
+            if (profileData.lastname1) {
+                formData.append('lastname1', profileData.lastname1);
+            }
+            if (profileData.lastname2) {
+                formData.append('lastname2', profileData.lastname2);
+            }
+            if (profileData.description) {
+                formData.append('description', profileData.description);
+            }
+            if (profileData.website_url) {
+                formData.append('website_url', profileData.website_url);
+            }
+            if (profileData.facebook_url) {
+                formData.append('facebook_url', profileData.facebook_url);
+            }
+            if (profileData.instagram_url) {
+                formData.append('instagram_url', profileData.instagram_url);
+            }
+            if (profileData.tiktok_url) {
+                formData.append('tiktok_url', profileData.tiktok_url);
+            }
+            if (profileData.partner_category_id) {
+                formData.append('partner_category_id', profileData.partner_category_id);
+            }
+
+            // Incluye la imagen si está presente
+            if (profileData.image) {
+                formData.append('image', profileData.image);
+            }
+
+            formData.append('_method', 'PUT');
+            try {
+                const response = await updatePartnerProfile(user.id, formData);
+                if (response?.data?.image_url) {
+                    setProfileData((prevState) => ({
+                        ...prevState,
+                        image: response.data.image_url,
+
+                    }));
+                }
+                getPartnerInformation(user.id);
+            } catch (err) {
+                console.error("Error al actualizar perfil:", err);
+            }
+        }
+        setIsEditing(false);
     };
-    
-
-    // const handleProfileSubmit = async (e) => {
-    //     e.preventDefault();
-    //     if (user?.id) {
-    //         const formData = new FormData();
-
-    //         for (const key in profileData) {
-    //             if (profileData[key]) {
-    //                 formData.append(key, profileData[key]);
-    //             }
-    //         }
-
-    //         formData.append('_method', 'PUT');
-    //         console.log([...formData]);
-    //         const updatedUser = await updateUserProfile(user.id, formData);
-
-    //         if (updatedUser && updatedUser.error) {
-    //             toast.error('Error updating information', {
-    //                 position: "top-center",
-    //                 autoClose: 5000,
-    //                 hideProgressBar: false,
-    //                 closeOnClick: true,
-    //                 pauseOnHover: true,
-    //                 draggable: true,
-    //                 progress: undefined,
-    //                 theme: "light",
-    //                 transition: Bounce,
-    //             });
-    //             return; // Detener la ejecución aquí si hay un error
-    //         }
-
-    //         // Actualizar el estado de profileData con la nueva imagen
-    //         if (updatedUser?.image_url) {
-    //             setProfileData((prevState) => ({
-    //                 ...prevState,
-    //                 image: updatedUser.image_url,
-    //             }));
-    //         }
-
-    //         // Actualizar los datos del usuario
-    //         getUserInformation(user.id);
-    //         toast.success('Information updated successfully', {
-    //             position: "top-center",
-    //             autoClose: 5000,
-    //             hideProgressBar: false,
-    //             closeOnClick: true,
-    //             pauseOnHover: true,
-    //             draggable: true,
-    //             progress: undefined,
-    //             theme: "light",
-    //             transition: Bounce,
-    //         });
-
-
-    //     }
-    //     setIsEditing(false);
-    // };
 
     const handleEditClick = () => {
         setIsEditing((prev) => !prev);
@@ -271,18 +222,6 @@ export function GeneralInformation() {
 
     return (
         <div className="p-4">
-            <ToastContainer
-                position="top-center"
-                autoClose={200}
-                hideProgressBar
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-            />
             {loading ? (
                 <div className="flex flex-col items-center justify-center h-48 space-y-4">
                     <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
@@ -322,92 +261,46 @@ export function GeneralInformation() {
                     </div>
                     <form onSubmit={handleProfileSubmit}>
                         <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2 md:grid-cols-3">
-                            <Input
-                                inputName="name"
-                                inputId="name-input"
-                                labelText="Name"
-                                value={profileData.name}
-                                onChange={handleChange}
-                                disabled={!isEditing}
-                            />
+                            <Input inputName="name" inputId="name-input" labelText="Name" value={profileData.name} onChange={handleChange} disabled={!isEditing} />
+                            {user.user_type !== 'partner' && (
+                                <>
+                                    <Input inputName="lastname1" inputId="lastname1-input" labelText="First Lastname" value={profileData.lastname1} onChange={handleChange} disabled={!isEditing} />
+                                    <Input inputName="lastname2" inputId="lastname2-input" labelText="Second Lastname" value={profileData.lastname2} onChange={handleChange} disabled={!isEditing} />
+                                    <Input inputName="username" inputId="username-input" labelText="Username" value={profileData.username} onChange={handleChange} disabled={!isEditing} />
+                                </>
+                            )}
 
-                            <Input
-                                inputName="lastname1"
-                                inputId="lastname1-input"
-                                labelText="First Lastname"
-                                value={profileData.lastname1}
-                                onChange={handleChange}
-                                disabled={!isEditing}
-                            />
-                            <Input
-                                inputName="lastname2"
-                                inputId="lastname2-input"
-                                labelText="Second Lastname"
-                                value={profileData.lastname2}
-                                onChange={handleChange}
-                                disabled={!isEditing}
-                            />
-                            <Input
-                                inputName="username"
-                                inputId="username-input"
-                                labelText="Username"
-                                value={profileData.username}
-                                onChange={handleChange}
-                                disabled={!isEditing}
-                            />
                             <div className='flex flex-col'>
-                                <label className="font-medium text-gray-700">
-                                    Ciudad
-                                </label>
-                                <select
-                                    name="city_id"
-                                    id="city-input"
-                                    value={profileData.city_id}
-                                    onChange={handleChange}
-                                    disabled={!isEditing}
-                                    className='border border-light-grey bg-transparent rounded-md min-h-8 px-4 py-2 mt-2 focus:outline-light-blue'
-                                >
-                                    {/* Se agrega el mapa de locations */}
+                                <label className="font-medium text-gray-700">Ciudad</label>
+                                <select name="city_id" id="city-input" value={profileData.city_id} onChange={handleChange} disabled={!isEditing} className='border border-light-grey bg-transparent rounded-md min-h-8 px-4 py-2 mt-2 focus:outline-light-blue'>
                                     {locations.map((location) => (
-                                        <option key={location.value} value={location.value}>
-                                            {location.name}
-                                        </option>
+                                        <option key={location.value} value={location.value}> {location.name} </option>
                                     ))}
                                 </select>
                             </div>
-                            <Input
-                                inputName="email"
-                                inputId="email-input"
-                                labelText="Email Address"
-                                type="email"
-                                value={profileData.email}
-                                onChange={handleChange}
-                                disabled={!isEditing}
-                            />
-                            <Input
-                                inputName="phone_number"
-                                inputId="phoneNumber-input"
-                                labelText="Phone Number"
-                                type="number"
-                                value={profileData.phone_number}
-                                onChange={handleChange}
-                                disabled={!isEditing}
-                            />
+                            <Input inputName="email" inputId="email-input" labelText="Email Address" type="email" value={profileData.email} onChange={handleChange} disabled={!isEditing} />
+                            <Input inputName="phone_number" inputId="phoneNumber-input" labelText="Phone Number" type="number" value={profileData.phone_number} onChange={handleChange} disabled={!isEditing} />
+                            {user.user_type === 'partner' && (
+                                <>
+                                    <Input inputName="address" inputId="address-input" labelText="Address" value={profileData.address} onChange={handleChange} disabled={!isEditing} />
+                                    <Input inputName="website_url" inputId="website-input" labelText="Website URL" value={profileData.website_url} onChange={handleChange} disabled={!isEditing} />
+                                    <Input inputName="tiktok_url" inputId="tiktok-input" labelText="TikTok URL" value={profileData.tiktok_url} onChange={handleChange} disabled={!isEditing} />
+                                    <Input inputName="instagram_url" inputId="instagram-input" labelText="Instagram URL" value={profileData.instagram_url} onChange={handleChange} disabled={!isEditing} />
+                                    <Input inputName="facebook_url" inputId="facebook-input" labelText="Facebook URL" value={profileData.facebook_url} onChange={handleChange} disabled={!isEditing} />
+                                    <Input inputName="description" inputId="description-input" labelText="Description" value={profileData.description} onChange={handleChange} disabled={!isEditing} />
+                                    <Input inputName="currency_id" inputId="currency-input" labelText="Currency" value={profileData.currency_id} onChange={handleChange} disabled={!isEditing} />
 
+                                </>
+                            )}
                         </div>
                         <div className="flex justify-end items-center mt-4">
-                            {/* Botón para alternar entre Edit y Save */}
                             {isEditing && (
-                                <MainButton
-                                    type="submit"
-                                    variant="fill"
-                                    text="Save Changes"
-                                    customClass="h-12 items-center"
-                                    onClick={handleProfileSubmit}
-                                />
+                                <MainButton type="submit" variant="fill" text="Save Changes" customClass="h-12 items-center" />
+
                             )}
                         </div>
                     </form>
+
                     <div className="flex justify-end items-center mt-4">
                         {!isEditing && (
                             <MainButton
@@ -421,7 +314,6 @@ export function GeneralInformation() {
                     </div>
                 </div>
             )}
-            {/* { error && <p className="text-red-500">{error.message}</p> } */}
         </div >
     );
 }

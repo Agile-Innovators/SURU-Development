@@ -131,7 +131,7 @@ export function PartnerProfile() {
     }, []);
 
     return (
-        <section className="max-w-7xl m-auto p-4">
+        <section className="max-w-7xl m-auto p-2 w-full">
             <BackButton customClass={'absolute top-1'}/>
             <header className="mb-4 mt-10 border border-light-grey rounded-md">
                 
