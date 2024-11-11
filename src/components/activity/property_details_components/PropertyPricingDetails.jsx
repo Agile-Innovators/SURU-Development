@@ -135,7 +135,7 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
 
                     {/* Botón para abrir el modal */}
                     <button
-                        className="text-secondary border-2 border-secondary hover:bg-secondary hover:text-white py-3 mt-4 rounded-sm"
+                        className="text-secondary dark:text-light-blue dark:border-light-blue border-2 border-secondary hover:bg-secondary hover:text-white py-3 mt-4 rounded-sm"
                         onClick={toggleModal}
                     >
                         Schedule a Visit
