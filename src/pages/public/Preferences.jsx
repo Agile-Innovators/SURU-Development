@@ -30,6 +30,7 @@ export function Preferences() {
                         <option value="Inglés">English</option>
                     </select>
                 </div>
+                
                 <div className="grid gap-2">
                     <label htmlFor="notifications-select" className="dark:text-white">Notifications</label>
                     <select

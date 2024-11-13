@@ -29,7 +29,7 @@ export function GeneralInformation() {
     const { updatePartnerProfile } = useFetchPartner();
     //Traemos los lugares para mostrar
     const { locations } = useFetchLocations();
-
+    console.log("Locations", locations);
     //Creamos un variable que guarde los datos del usuario
     const [userData, setUserData] = useState(null);
 
@@ -72,14 +72,18 @@ export function GeneralInformation() {
     // Sincronizar los datos obtenidos con profileData
     useEffect(() => {
         if (data) {
+            console.log("Data", data.location);
+
             setProfileData({
                 name: data.name || '',
-                city_id: (data.locations && data.locations.length > 0) ? data.locations[0].city_id : '',
+                city_id: data.location?.city_id || '',
                 email: data.email || '',
                 phone_number: data.phone_number || '',
                 image: data.image_url || '',
                 ...(user.user_type === 'partner' && {
                     address: (data.locations && data.locations.length > 0) ? data.locations[0].address : '',
+                    city_id: (data.locations && data.locations.length > 0) ? data.locations[0].city_id : '',
+
                     website_url: data.website_url || '',
                     tiktok_url: data.tiktok_url || '',
                     instagram_url: data.instagram_url || '',
@@ -97,7 +101,7 @@ export function GeneralInformation() {
         }
     }, [data]);
 
-    
+
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -199,7 +203,11 @@ export function GeneralInformation() {
                     image: updatedUser.image_url,
                 }));
             }
-
+            Swal.fire({
+                icon: 'success',
+                title: 'Personal Information Updated Successfully',
+                text: 'The personal information have been updated.',
+            })
             // Actualizar los datos del usuario
             getUserInformation(user.id);
         }
@@ -263,14 +271,14 @@ export function GeneralInformation() {
                 }
                 Swal.fire({
                     icon: 'success',
-                    title: 'Operational Hours Updated Successfully',
-                    text: 'The operational hours have been updated.',
+                    title: 'Personal Information Updated Successfully',
+                    text: 'The personal information have been updated.',
                 })
                 getPartnerInformation(user.id);
             } catch (err) {
                 Swal.fire({
                     icon: 'error',
-                    title:'An unexpected error occurred.',
+                    title: 'An unexpected error occurred.',
                     text: 'Please try again later.',
                 });
                 console.error("Error al actualizar perfil:", err);
@@ -320,6 +328,8 @@ export function GeneralInformation() {
                                 )}
                             </div>
                             <h2>Personal Information</h2>
+                            <div className="flex justify-end items-center mt-4 ">
+                            </div>
                         </div>
                     </div>
                     <form onSubmit={handleProfileSubmit}>
@@ -336,6 +346,7 @@ export function GeneralInformation() {
                             <div className='flex flex-col'>
                                 <label className="font-medium text-gray-700">Ciudad</label>
                                 <select name="city_id" id="city-input" value={profileData.city_id} onChange={handleChange} disabled={!isEditing} className='border border-light-grey bg-transparent rounded-md min-h-8 px-4 py-2 mt-2 focus:outline-light-blue'>
+
                                     {locations.map((location) => (
                                         <option key={location.value} value={location.value}> {location.name} </option>
                                     ))}
@@ -378,8 +389,6 @@ export function GeneralInformation() {
                                             )}
                                         </select>
                                     </div> */}
-
-
                                 </>
                             )}
                         </div>
@@ -391,11 +400,8 @@ export function GeneralInformation() {
                                     text="Save Changes"
                                     customClass={`block text-white text-center px-8 py-3 rounded-md transition-colors duration-150  ${isSaving ? 'cursor-not-allowed bg-grey ' : 'cursor-pointer bg-secondary'}`}
                                     disabled={isSaving}
-                                    
+
                                 />
-
-
-
                             )}
                         </div>
                     </form>

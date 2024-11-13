@@ -204,9 +204,6 @@ export function OperationalHours() {
                                     />
 
                                 }
-
-
-
                             </div>
 
                         </div>

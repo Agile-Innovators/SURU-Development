@@ -9,11 +9,13 @@ import PropTypes from 'prop-types';
 export function PropertyPricingDetails({ propertyTemp, isLoading }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const property = propertyTemp;
-
+    console.log('property', property);
     // Obtener el usuario logeado de localStorage
     const user = JSON.parse(localStorage.getItem('user')) || null;
     const loggedInUserId = user?.id;
 
+
+    
     // Función para alternar el estado del modal
     const toggleModal = () => {
         if (loggedInUserId) {
