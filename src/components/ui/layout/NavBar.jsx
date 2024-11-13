@@ -1,7 +1,6 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState, useContext } from 'react';
-import { Handshake } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../../routes/index.js';
 import { useAuth } from '../../../global/AuthProvider.jsx';
@@ -45,15 +44,16 @@ export function NavBar() {
         );
     }, [location]);
 
+    // Lista de enlaces de navegación para el usuario con los iconos que cambian según el tema
     const userNavigationLinks = [
-        { name: 'Manage account', to: ROUTE_PATHS.USER_PROFILE, imageRoute: '/UserIcon.svg' },
-        { name: 'My properties', to: ROUTE_PATHS.PROPERTY_MANAGEMENT, imageRoute: '/PropertiesIcon.svg' },
-        { name: 'Appointments', to: ROUTE_PATHS.APPOINTMENTS, imageRoute: '/AppointmentsIcon.svg' },
-        { name: 'Favorite Properties', to: ROUTE_PATHS.FAVORITES, imageRoute: '/LikeIcon.svg' },
+        { name: 'Manage account', to: ROUTE_PATHS.USER_PROFILE, imageBase: '/UserIcon' },
+        { name: 'My properties', to: ROUTE_PATHS.PROPERTY_MANAGEMENT, imageBase: '/PropertiesIcon' },
+        { name: 'Appointments', to: ROUTE_PATHS.APPOINTMENTS, imageBase: '/AppointmentsIcon' },
+        { name: 'Favorite Properties', to: ROUTE_PATHS.FAVORITES, imageBase: '/LikeIcon' },
         ...(currentUser?.user_type === 'admin'
-            ? [{ name: 'Partners Administration', to: ROUTE_PATHS.PARTNERS_ADMINISTRATION, imageRoute: '/Partner_Icon2.svg' }]
+            ? [{ name: 'Partners Administration', to: ROUTE_PATHS.PARTNERS_ADMINISTRATION, imageBase: '/Partner_Icon2' }]
             : []),
-        { name: 'Log out', to: '#', imageRoute: '/LogoutIcon.svg' },
+        { name: 'Log out', to: '#', imageBase: '/LogoutIcon' },
     ];
 
     const handleLogout = async () => {
@@ -131,12 +131,12 @@ export function NavBar() {
                                         <MenuItem key={item.name} className="flex items-center gap-1">
                                             {item.name === 'Log out' ? (
                                                 <button onClick={handleLogout} className="block px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-light-blue dark:hover:bg-gray-600 w-full text-left">
-                                                    <img src={item.imageRoute} alt={item.name} className="h-6 w-6 inline mr-2" />
+                                                    <img src={`${item.imageBase}${theme === 'dark' ? 'Dark' : ''}.svg`} alt={item.name} className="h-6 w-6 inline mr-2" />
                                                     {item.name}
                                                 </button>
                                             ) : (
                                                 <Link to={item.to} className="block px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-light-blue dark:hover:bg-gray-600">
-                                                    <img src={item.imageRoute} alt={item.name} className="h-6 w-6 inline mr-2" />
+                                                    <img src={`${item.imageBase}${theme === 'dark' ? 'Dark' : ''}.svg`} alt={item.name} className="h-6 w-6 inline mr-2" />
                                                     {item.name}
                                                 </Link>
                                             )}
