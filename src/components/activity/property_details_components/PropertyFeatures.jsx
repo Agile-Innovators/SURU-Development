@@ -42,7 +42,7 @@ export function ImageCarrusel({ propertyTemp, isLoading }) {
             </Swiper>
         );
     };
-
+    
     return (
         <div>
             {isLoading

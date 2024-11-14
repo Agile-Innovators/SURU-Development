@@ -15,7 +15,7 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
     const loggedInUserId = user?.id;
 
 
-    
+
     // Función para alternar el estado del modal
     const toggleModal = () => {
         if (loggedInUserId) {
@@ -29,19 +29,34 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
     const contactOwner = ({ phone_number }) => {
         console.log('phone_number', phone_number);
         if (loggedInUserId) {
-            if (!phone_number) {
-                toast.error('Phone number is not available for this property.');
-                return;
-            }
+            // if (!phone_number) {
+            //     toast.error('Phone number is not available for this property.');
+            //     return;
+            // }
 
-            toast.success('Contacting owner...');
-            console.log('phone_number', phone_number);
+            // toast.success('Contacting owner...');
+            // console.log('phone_number', phone_number);
 
-            // Construir la URL de WhatsApp
-            const whatsappURL = `https://wa.me/506${phone_number}`;
+            // // Construir la URL de WhatsApp
+            // const whatsappURL = `https://wa.me/506${phone_number}`;
 
-            // Redirigir a la URL de WhatsApp
-            window.open(whatsappURL, '_blank');
+            // // Redirigir a la URL de WhatsApp
+            // window.open(whatsappURL, '_blank');
+
+            // ----> Comentado para evitar redirección a WhatsApp
+
+            //modal que muestra la información del usuario que vende
+            
+            
+
+
+
+
+
+
+
+
+
         } else {
             toast.error('You must be logged in to contact the owner.');
         }
