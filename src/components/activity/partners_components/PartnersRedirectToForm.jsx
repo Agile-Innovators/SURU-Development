@@ -11,13 +11,13 @@ export function PartnersRedirectToForm() {
                     alt="Partners"
                 />
                 <div className="mx-auto max-w-2xl lg:text-left md: order-1">
-                    <h3 className="text-base font-semibold leading-7 text-light-blue ">
+                    <h3 className="text-base font-semibold leading-7 text-light-blue dark:text-light-blue ">
                         Do you have a service company?
                     </h3>
                     <h2 className="mt-2 text-3xl font-bold tracking-tight text-primary sm:text-4xl">
                         Empower Your Business with Our Platform
                     </h2>
-                    <p className="mt-2 text-lg leading-8 text-gray-600">
+                    <p className="mt-2 text-lg leading-8 text-gray-600 dark:text-white">
                         Connect with property owners and renters looking for the
                         services you provide. Expand your reach and enjoy
                         exclusive opportunities.
