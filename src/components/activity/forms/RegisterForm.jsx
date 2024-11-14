@@ -1,4 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from "react";
+
+export function LayoutModal({ children, customClass = '', status, onClose }) {
+    const [isOpen, setIsOpen] = useState(status);
+
+    useEffect(() => {
+        setIsOpen(status);
+        if (status) {
+            document.body.classList.add('overflow-hidden');
+        } else {
+            document.body.classList.remove('overflow-hidden');
+        }
+        return () => {
+            document.body.classList.remove('overflow-hidden');
+        };
+    }, [status]);
+
+    return (
+        <div className={`${isOpen ? 'flex' : 'hidden'} w-screen min-h-screen justify-center z-50 left-0 top-0 bg-black/70 p-4 fixed ${customClass}`}>
+            <div className="bg-white p-6 rounded shadow-lg max-w-lg w-full relative max-h-[90vh] overflow-y-auto">
+                <button className="absolute top-2 right-2 text-xl" onClick={onClose}>✕</button>
+                {children}
+            </div>
+        </div>
+    );
+}
+
 import { useNavigate } from 'react-router-dom';
 import { Input } from '../../ui/forms/Input.jsx';
 import { CheckBox } from '../../ui/forms/CheckBox.jsx';
@@ -17,11 +43,11 @@ export function RegisterForm() {
     const [terms, setTerms] = useState(false);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [modalContent, setModalContent] = useState('');
     const navigate = useNavigate();
     const axios = useAxios();
     const { login } = useAuth();
-
-    
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -29,9 +55,7 @@ export function RegisterForm() {
         setError('');
 
         if (!terms) {
-            setError(
-                'You must agree to the Terms of Service and Privacy Policy.'
-            );
+            setError('You must agree to the Terms of Service and Privacy Policy.');
             setLoading(false);
             return;
         }
@@ -50,7 +74,6 @@ export function RegisterForm() {
         };
 
         try {
-            //toast.error('This action is blocked.');
             const response = await axios.post('/register', data);
             const { token, user } = response.data;
             login(token, user);
@@ -60,6 +83,11 @@ export function RegisterForm() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const openModal = (content) => {
+        setModalContent(content);
+        setShowModal(true);
     };
 
     return (
@@ -127,8 +155,12 @@ export function RegisterForm() {
                     />
                     <p className="text-grey text-sm">
                         I agree to the{' '}
-                        <TextLink route="/terms" text="Terms of Service" /> and{' '}
-                        <TextLink route="/privacy" text="Privacy Policy" />
+                        <span onClick={() => openModal('Terms of Service')} className="text-blue-500 cursor-pointer">
+                            Terms of Service
+                        </span> and{' '}
+                        <span onClick={() => openModal('Privacy Policy')} className="text-blue-500 cursor-pointer">
+                            Privacy Policy
+                        </span>
                     </p>
                 </div>
             </div>
@@ -143,6 +175,78 @@ export function RegisterForm() {
             </span>
             <TextLink route={ROUTE_PATHS.LOGIN} text="Sign In" />
             {loading && <p className="text-secondary">Loading...</p>}
+
+            <LayoutModal status={showModal} onClose={() => setShowModal(false)}>
+                {modalContent === 'Terms of Service' ? (
+                    <div>
+                       <h2 className="text-xl font-bold mb-4">Términos de Servicio de Sürü</h2>
+                        <p className="mb-2"><strong>1. Aceptación de los Términos</strong><br/>
+                        Al acceder o utilizar Sürü, acepta estos Términos de Servicio. Si no está de acuerdo, no debe utilizar la Plataforma.</p>
+                        
+                        <p className="mb-2"><strong>2. Servicios Proporcionados</strong><br/>
+                        Sürü permite a los usuarios:<br/>
+                        - Publicar propiedades para venta o alquiler.<br/>
+                        - Buscar propiedades disponibles para alquiler, venta o terrenos en Costa Rica.</p>
+                        
+                        <p className="mb-2"><strong>3. Registro de Usuarios</strong><br/>
+                        Los usuarios deben crear una cuenta para acceder a ciertas funciones, proporcionando información precisa. Sürü se reserva el derecho de suspender cuentas que violen estos términos o incumplan leyes aplicables.</p>
+                        
+                        <p className="mb-2"><strong>4. Publicación de Propiedades</strong><br/>
+                        Los usuarios que publiquen propiedades deben contar con los permisos necesarios y ser responsables de la exactitud de la información proporcionada. Sürü no se responsabiliza de la veracidad de las publicaciones.</p>
+                        
+                        <p className="mb-2"><strong>5. Responsabilidades de los Usuarios</strong><br/>
+                        Los usuarios deben usar la Plataforma de manera legal y ética, evitando la publicación de contenido falso o fraudulento y la participación en actividades ilícitas.</p>
+                        
+                        <p className="mb-2"><strong>6. Pagos y Comisiones</strong><br/>
+                        Algunos servicios pueden estar sujetos a comisiones, claramente indicadas al momento de la transacción.</p>
+                        
+                        <p className="mb-2"><strong>7. Limitación de Responsabilidad</strong><br/>
+                        Sürü actúa como intermediario y no se responsabiliza de las transacciones entre usuarios, la veracidad de las publicaciones ni acuerdos fuera de la Plataforma.</p>
+                        
+                        <p className="mb-2"><strong>8. Propiedad Intelectual</strong><br/>
+                        El contenido de Sürü, incluyendo su marca, es propiedad exclusiva de la empresa y no puede ser usado sin permiso.</p>
+                        
+                        <p className="mb-2"><strong>9. Modificaciones a los Términos</strong><br/>
+                        Sürü se reserva el derecho de modificar estos Términos de Servicio en cualquier momento.</p>
+                        
+                        <p className="mb-2"><strong>10. Ley Aplicable y Jurisdicción</strong><br/>
+                        Estos Términos se rigen por las leyes de Costa Rica. Cualquier disputa se resolverá en sus tribunales.</p>
+                    </div>
+                ) : (
+                    <div>
+                         <h2 className="text-xl font-bold mb-4">Política de Privacidad de Sürü</h2>
+                        <p className="mb-2"><strong>1. Información Recopilada</strong><br/>
+                        Recopilamos información proporcionada directamente por el usuario al registrarse o publicar propiedades, como nombre, correo electrónico, y detalles de las propiedades.</p>
+                        
+                        <p className="mb-2"><strong>2. Uso de la Información</strong><br/>
+                        La información se utiliza para:<br/>
+                        - Facilitar la interacción entre usuarios.<br/>
+                        - Mejorar la experiencia en la Plataforma.<br/>
+                        - Enviar notificaciones y actualizaciones sobre servicios.</p>
+                        
+                        <p className="mb-2"><strong>3. Compartir Información con Terceros</strong><br/>
+                        Sürü no comparte información personal con terceros sin consentimiento del usuario, excepto cuando sea requerido por ley.</p>
+                        
+                        <p className="mb-2"><strong>4. Protección de Datos</strong><br/>
+                        Implementamos medidas de seguridad para proteger la información del usuario. Sin embargo, no garantizamos una seguridad absoluta contra accesos no autorizados.</p>
+                        
+                        <p className="mb-2"><strong>5. Cookies y Tecnologías de Seguimiento</strong><br/>
+                        Usamos cookies para mejorar la experiencia del usuario. El usuario puede controlar el uso de cookies a través de la configuración de su navegador.</p>
+                        
+                        <p className="mb-2"><strong>6. Derechos del Usuario</strong><br/>
+                        Los usuarios tienen derecho a acceder, corregir o eliminar su información personal. Pueden contactarnos para ejercer estos derechos.</p>
+                        
+                        <p className="mb-2"><strong>7. Cambios en la Política de Privacidad</strong><br/>
+                        Sürü se reserva el derecho de modificar esta Política de Privacidad. Los cambios se notificarán a través de la Plataforma.</p>
+                        
+                        <p className="mb-2"><strong>8. Contacto</strong><br/>
+                        Para cualquier duda o solicitud sobre la privacidad, puede contactarnos a través de nuestro servicio de atención al cliente.</p>
+                        
+                        <p className="mb-2"><strong>9. Ley Aplicable</strong><br/>
+                        Esta Política de Privacidad se rige por las leyes de Costa Rica.</p>
+                    </div>
+                )}
+            </LayoutModal>
         </form>
     );
 }
