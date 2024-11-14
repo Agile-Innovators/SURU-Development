@@ -45,7 +45,7 @@ export function LoginForm({successMessage}) {
 
     return (
         <form onSubmit={handleSubmit} className="m-auto">
-            <h1 className="dark:text-secondary">Welcome Back</h1>
+            <h1 >Welcome Back</h1>
             <span className="text-grey">
                 Sign in by entering the information below
             </span>
@@ -67,7 +67,7 @@ export function LoginForm({successMessage}) {
                     inputId="email"
                     labelText="Email"
                     value={email}
-                    customClass='dark:text-black'
+                    
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 <Input
@@ -77,7 +77,6 @@ export function LoginForm({successMessage}) {
                     inputId="password"
                     labelText="Password"
                     value={password}
-                    customClass='dark:text-black'
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 <div className="flex items-center justify-between">
@@ -98,12 +97,12 @@ export function LoginForm({successMessage}) {
                 variant="fill"
                 customClass="w-full mb-2"
             />
-            <span className="text-grey text-sm mr-1">
+            <span className="text-grey text-sm mr-1 dark:text-white">
                 Don&apos;t you have an account?
             </span>
-            <TextLink route={ROUTE_PATHS.REGISTER} text="Register" />
+            <TextLink route={ROUTE_PATHS.REGISTER} text="Register"  />
             {error && <p className="error-message">{error}</p>}
-            {loading && <p className="text-secondary">Loading...</p>}
+            {loading && <p className="text-secondary dark:text-light-blue">Loading...</p>}
         </form>
     );
 }

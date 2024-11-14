@@ -16,7 +16,7 @@ export function Input({
 }) {
     return (
         <div className={`flex flex-col  ${containerClass}`}>
-            <label className="font-medium text-gray-700" htmlFor={inputId} className="span">
+            <label className="font-medium text-gray-700" htmlFor={inputId} >
                 {labelText}
             </label>
             {/* se aplica una condicional para activar el atributo require del input */}

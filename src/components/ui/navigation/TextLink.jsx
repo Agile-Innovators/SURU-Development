@@ -5,7 +5,7 @@ export function TextLink({ route, text, customClass }) {
     return (
         <Link
             to={route}
-            className={`text-secondary font-normal text-sm hover:text-light-blue duration-100 cursor-pointer ${customClass || ''}`}
+            className={`text-secondary dark:text-[#4c94b3] dark:hover:text-light-blue font-normal text-sm hover:text-light-blue duration-100 cursor-pointer ${customClass || ''}`}
         >
             {text}
         </Link>

@@ -10,6 +10,10 @@
     min-height: 93vh;
 }
 
+.dark .bg-authentication {
+    background-image: url('./assets/backgrounds/BackgroundDark.svg');
+}
+
 * {
     margin: 0;
     padding: 0;

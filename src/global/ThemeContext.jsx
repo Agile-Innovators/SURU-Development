@@ -6,15 +6,30 @@ export const ThemeProvider = ({ children }) => {
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 
     useEffect(() => {
-        // Aplicar la clase 'dark' al body si el tema es oscuro
+        // Sincroniza el tema con el localStorage cada vez que cambie
         if (theme === 'dark') {
             document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
         } else {
+            document.documentElement.classList.add('light');
             document.documentElement.classList.remove('dark');
         }
-
-        // Guardar el tema seleccionado en localStorage
         localStorage.setItem('theme', theme);
+    }, [theme]);
+
+    // Escucha los cambios de tema en el localStorage
+    useEffect(() => {
+        const handleStorageChange = () => {
+            const storedTheme = localStorage.getItem('theme');
+            if (storedTheme && storedTheme !== theme) {
+                setTheme(storedTheme);
+            }
+        };
+        window.addEventListener('storage', handleStorageChange);
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
     }, [theme]);
 
     const toggleTheme = (selectedTheme) => {

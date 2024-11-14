@@ -2,10 +2,11 @@ import { useNavigate } from 'react-router-dom';
 import {ROUTE_PATHS} from '../../routes/index.js';
 
 export const forceLightMode = () => {
-    document.documentElement.classList.add('light');  
-    document.documentElement.classList.remove('dark'); 
-    localStorage.setItem('theme', 'light');  
+    document.documentElement.classList.add('light');
+    document.documentElement.classList.remove('dark');
+    localStorage.setItem('theme', 'light');
 };
+
 
 export const formatPrice = (price) => {
     if (price >= 1e9) return `${(price / 1e9).toFixed(1)}B`;

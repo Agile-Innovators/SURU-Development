@@ -17,7 +17,7 @@ export function LayoutModal({ children, customClass = '', status, onClose }) {
 
     return (
         <div className={`${isOpen ? 'flex' : 'hidden'} w-screen min-h-screen justify-center z-50 left-0 top-0 bg-black/70 p-4 fixed ${customClass}`}>
-            <div className="bg-white p-6 rounded shadow-lg max-w-lg w-full relative max-h-[90vh] overflow-y-auto">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded shadow-lg max-w-lg w-full relative max-h-[90vh] overflow-y-auto">
                 <button className="absolute top-2 right-2 text-xl" onClick={onClose}>✕</button>
                 {children}
             </div>
@@ -104,7 +104,7 @@ export function RegisterForm() {
                 pauseOnHover
                 theme="light"
             />
-            <h1 className="dark:text-secondary">Let&apos;s get started</h1>
+            <h1 >Let&apos;s get started</h1>
             <span className="text-grey">
                 Complete the form below to create your new account
             </span>
@@ -119,7 +119,7 @@ export function RegisterForm() {
                     inputId="username"
                     labelText="Username"
                     value={username}
-                    customClass='dark:text-black'
+                
                     onChange={(e) => setUsername(e.target.value)}
                     spanText="Example: johndoe"
                 />
@@ -130,7 +130,7 @@ export function RegisterForm() {
                     inputId="email"
                     labelText="Email Address"
                     value={email}
-                    customClass='dark:text-black'
+                
                     onChange={(e) => setEmail(e.target.value)}
                     spanText="Example: john@gmail.com"
                 />
@@ -141,7 +141,7 @@ export function RegisterForm() {
                     inputId="password"
                     labelText="Password"
                     value={password}
-                    customClass='dark:text-black'
+                    
                     onChange={(e) => setPassword(e.target.value)}
                     spanText="Password must be at least 8 characters"
                 />
@@ -174,12 +174,12 @@ export function RegisterForm() {
                 Do you have an account?
             </span>
             <TextLink route={ROUTE_PATHS.LOGIN} text="Sign In" />
-            {loading && <p className="text-secondary">Loading...</p>}
+            {loading && <p className="text-secondary dark:text-light-blue">Loading...</p>}
 
             <LayoutModal status={showModal} onClose={() => setShowModal(false)}>
                 {modalContent === 'Terms of Service' ? (
                     <div>
-                       <h2 className="text-xl font-bold mb-4">Términos de Servicio de Sürü</h2>
+                       <h2 className="text-xl font-bold mb-4 ">Términos de Servicio de Sürü</h2>
                         <p className="mb-2"><strong>1. Aceptación de los Términos</strong><br/>
                         Al acceder o utilizar Sürü, acepta estos Términos de Servicio. Si no está de acuerdo, no debe utilizar la Plataforma.</p>
                         

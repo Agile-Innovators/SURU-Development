@@ -1,13 +1,13 @@
 import { MainButton } from '../../components/ui/buttons/MainButton';
 import { Moon, Sun } from 'lucide-react';
 import { useContext } from 'react';
-import { ThemeContext } from '../../global/ThemeContext'; // Asegúrate de importar el contexto
+import { ThemeContext } from '../../global/ThemeContext'; 
 
 export function Preferences() {
-    const { theme, toggleTheme } = useContext(ThemeContext); // Usamos el contexto del tema
+    const { theme, toggleTheme } = useContext(ThemeContext); 
 
     const handleThemeChange = (event) => {
-        toggleTheme(event.target.value); // Cambia el tema basado en la selección
+        toggleTheme(event.target.value); 
     };
 
     return (
@@ -46,8 +46,8 @@ export function Preferences() {
                     <select
                         name="theme"
                         id="theme-select"
-                        value={theme} // El valor actual del tema
-                        onChange={handleThemeChange} // Cambiar tema al seleccionar
+                        value={theme} 
+                        onChange={handleThemeChange} 
                         className="p-3 border bg-transparent border-gray-300 dark:bg-gray-800 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                     >
                         <option value="light">Light</option>
