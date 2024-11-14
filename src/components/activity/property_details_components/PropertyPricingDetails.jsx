@@ -5,7 +5,10 @@ import { RequestAppointmentModal } from '../../ui/modals/RequestAppointmentModal
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PropTypes from 'prop-types';
-
+import { LayoutModal } from '../../ui/modals/LayoutModal.jsx';
+import { MainButton } from '../../ui/buttons/MainButton.jsx';
+import { FaTiktok, FaFacebook, FaInstagram, FaWhatsapp, FaEnvelope } from 'react-icons/fa';
+import { X } from 'lucide-react';
 export function PropertyPricingDetails({ propertyTemp, isLoading }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const property = propertyTemp;
@@ -13,6 +16,8 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
     // Obtener el usuario logeado de localStorage
     const user = JSON.parse(localStorage.getItem('user')) || null;
     const loggedInUserId = user?.id;
+
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
 
 
@@ -46,10 +51,8 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
             // ----> Comentado para evitar redirección a WhatsApp
 
             //modal que muestra la información del usuario que vende
-            
-            
 
-
+            setIsModalVisible(true);
 
 
 
@@ -78,6 +81,75 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                     theme="light"
                 />
                 <div className="flex flex-col border-2 gap-2 rounded-md p-4">
+                    <LayoutModal status={isModalVisible} customClass="flex  items-center justify-center">
+                        <div className="flex flex-col gap-6 bg-white h-auto p-4 rounded-lg shadow-lg">
+                            <button  onClick={() => setIsModalVisible(false)}>
+                                <X className="hover:text-blue-500" />
+                            </button>
+                            {/* Título */}
+                            <h3 className="text-xl font-semibold text-center text-gray-800">Owner Information</h3>
+
+                            {/* Información del propietario */}
+                            <div className="flex flex-col gap-2 text-gray-700">
+                                <p>
+                                    <b>Owner Name:</b> {property.owner_name}
+
+                                </p>
+
+                            </div>
+
+                            {/* Botones de redes sociales */}
+                            <div className="grid grid-cols-2 gap-6 mt-4 sm:grid-cols-2 md:grid-cols-3">
+                                <MainButton
+                                    onClick={() => window.open('https://www.tiktok.com', '_blank')}
+                                    text={
+                                        <div className="flex items-center space-x-2">
+                                            <FaTiktok /> <span className='text-white'>TikTok</span>
+                                        </div>
+                                    }
+                                    className="bg-blue-500 text-white px-2 py-2 rounded-md hover:bg-blue-600 transition-colors duration-200"
+                                />
+                                <MainButton
+                                    onClick={() => window.open('https://www.facebook.com', '_blank')}
+                                    text={
+                                        <div className="flex items-center space-x-2">
+                                            <FaFacebook /> <span className='text-white'>Facebook</span>
+                                        </div>
+                                    }
+                                    className="bg-blue-700 text-white px-2 py-2 rounded-md hover:bg-blue-800 transition-colors duration-200"
+                                />
+                                <MainButton
+                                    onClick={() => window.open('https://www.instagram.com', '_blank')}
+                                    text={
+                                        <div className="flex items-center space-x-2">
+                                            <FaInstagram /> <span className='text-white'>Instagram</span>
+                                        </div>
+                                    }
+                                    className="bg-pink-500 text-white px-2 py-2 rounded-md hover:bg-pink-600 transition-colors duration-200"
+                                />
+                                <MainButton
+                                    onClick={() => window.open(`https://wa.me/506`, '_blank')}
+                                    text={
+                                        <div className="flex items-center space-x-2">
+                                            <FaWhatsapp /> <span className='text-white'>WhatsApp</span>
+                                        </div>
+                                    }
+                                    className="bg-green-500 text-white px-2 py-2 rounded-md hover:bg-green-600 transition-colors duration-200"
+                                />
+                                <MainButton
+                                    onClick={() => window.open(`mailto:example@example.com`, '_blank')}
+                                    text={
+                                        <div className="flex items-center space-x-2">
+                                            <FaEnvelope /> <span className='text-white'>Email</span>
+                                        </div>
+                                    }
+                                    className="bg-orange-500 text-white px-2 py-2 rounded-md hover:bg-orange-600 transition-colors duration-200"
+                                />
+                            </div>
+
+                        </div>
+                    </LayoutModal>
+
                     <h3>Pricing details</h3>
                     {/* este if verifica el tipo de propiedad */}
                     {property.property_transaction === 'Sale' ? (
@@ -98,7 +170,7 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                                 </p>
                             </div>
                             {property.deposit_price &&
-                            property.deposit_price > 0 ? (
+                                property.deposit_price > 0 ? (
                                 <div className="flex justify-between">
                                     <p>Security Deposit</p>
                                     <p className="font-medium">
@@ -130,7 +202,7 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                                 </p>
                             </div>
                             {property.deposit_price &&
-                            property.deposit_price > 0 ? (
+                                property.deposit_price > 0 ? (
                                 <div className="flex justify-between">
                                     <p>Security Deposit</p>
                                     <p className="font-medium">
