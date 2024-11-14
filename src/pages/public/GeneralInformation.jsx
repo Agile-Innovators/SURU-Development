@@ -15,6 +15,8 @@ export function GeneralInformation() {
     // Traemos al usuario
     const { getUser } = useAuth();
     const { user } = getUser();
+    
+
 
     //Si el usuario es Partner lo devuelve a la vista principal
     const navigate = useNavigate();
@@ -22,6 +24,7 @@ export function GeneralInformation() {
         // navigate(ROUTE_PATHS.HOME);
         console.log("Partner");
     }
+
 
 
     //Traemos la información del Usuario
@@ -364,31 +367,7 @@ export function GeneralInformation() {
                                     <Input inputName="description" inputId="description-input" labelText="Description" value={profileData.description} onChange={handleChange} disabled={!isEditing} />
                                     {/* <Input inputName="currency_id" inputId="currency-input" labelText="Currency" value={profileData.currency_id} onChange={handleChange} disabled={!isEditing} /> */}
 
-                                    {/* <div className="flex flex-col">
-                                        <label className="font-medium text-gray-700 span" htmlFor="currency-select">
-                                            Currency
-                                        </label>
-                                        <select
-                                            id="currency-select"
-                                            name="currency_id"
-                                            value={profileData.currency_id}  // Ahora se vincula correctamente al estado
-                                            onChange={handleChange}
-                                            className="border border-light-grey bg-transparent rounded-md min-h-8 px-4 py-2 mt-2 focus:outline-light-blue"
-                                            disabled={!isEditing}
-                                        >
-                                            {profileData.currency_id == 1 ? (
-                                                <>
-                                                    <option value="1" selected>Dollar Currency</option>
-                                                    <option value="2">Colon Currency</option>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <option value="1">Dollar Currency</option>
-                                                    <option value="2" selected>Colon Currency</option>
-                                                </>
-                                            )}
-                                        </select>
-                                    </div> */}
+
                                 </>
                             )}
                         </div>

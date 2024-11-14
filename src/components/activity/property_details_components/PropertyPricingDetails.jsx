@@ -83,22 +83,27 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                 <div className="flex flex-col border-2 gap-2 rounded-md p-4">
                     <LayoutModal status={isModalVisible} customClass="flex  items-center justify-center">
                         <div className="flex flex-col gap-6 bg-white h-auto p-4 rounded-lg shadow-lg">
-                            <button  onClick={() => setIsModalVisible(false)}>
+                            <button  onClick={() => setIsModalVisible(false)} className='flex justify-end'>
                                 <X className="hover:text-blue-500" />
                             </button>
                             {/* Título */}
-                            <h3 className="text-xl font-semibold text-center text-gray-800">Owner Information</h3>
+                            <h2 className=" text-center text-gray-800">Owner Information</h2>
 
                             {/* Información del propietario */}
                             <div className="flex flex-col gap-2 text-gray-700">
                                 <p>
                                     <b>Owner Name:</b> {property.owner_name}
-
                                 </p>
-
+                                <p>
+                                    <b>Phone:</b> 12345678
+                                </p>
+                                <p>
+                                    <b>Email:</b> example@example.com
+                                </p>
                             </div>
 
                             {/* Botones de redes sociales */}
+                            <h2 className=" text-center text-gray-800">Social Media</h2>
                             <div className="grid grid-cols-2 gap-6 mt-4 sm:grid-cols-2 md:grid-cols-3">
                                 <MainButton
                                     onClick={() => window.open('https://www.tiktok.com', '_blank')}
