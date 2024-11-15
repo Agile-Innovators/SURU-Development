@@ -25,7 +25,7 @@ export function Footer() {
                                 <a href="/partners#FAQs" className="hover:underline">FAQs</a>
                             </li>
                             <li>
-                                <p className='dark:text-gray-400 dark:font-semibold'>Support: team.agile.innovators@gmail.com</p>
+                                <p className='dark:text-gray-400 font-medium'>Support: team.agile.innovators@gmail.com</p>
                             </li>
                         </ul>
                         <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-center">© 2024 <a href="#" className="hover:underline">SÜRÜ™</a>. All Rights Reserved.</span>
