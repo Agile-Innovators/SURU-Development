@@ -6,7 +6,7 @@ import { ToggleSwitch } from '../../components/ui/buttons/ToggleSwitch';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export function OperationalHours() {
-    // Obtenemos el usuario actual
+  
     const { getUser } = useAuth();
     const { user } = getUser();
     const [errorMessages, setErrorMessages] = useState({});// Estado para controlar la validez de las horas
