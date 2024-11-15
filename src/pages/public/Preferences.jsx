@@ -118,7 +118,7 @@ export function Preferences() {
                 </div>
             </div>
             <div className='grid grid-cols-1 gap-8 mt-4 sm:grid-cols-3'>
-                <div className="grid gap-2">
+                {/* <div className="grid gap-2">
                     <label htmlFor="language-select" className="dark:text-white">Language</label>
                     <select
                         name="language"
@@ -140,7 +140,7 @@ export function Preferences() {
                         <option value="On">On</option>
                         <option value="Off">Off</option>
                     </select>
-                </div>
+                </div> */}
                 <div className="grid gap-2">
                     <label htmlFor="theme-select" className="dark:text-white">Theme</label>
                     <select

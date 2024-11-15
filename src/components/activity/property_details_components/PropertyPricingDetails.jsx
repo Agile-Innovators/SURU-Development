@@ -34,6 +34,7 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
     const contactOwner = ({ phone_number }) => {
         console.log('phone_number', phone_number);
         if (loggedInUserId) {
+
             // if (!phone_number) {
             //     toast.error('Phone number is not available for this property.');
             //     return;
@@ -83,7 +84,7 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                 <div className="flex flex-col border-2 gap-2 rounded-md p-4">
                     <LayoutModal status={isModalVisible} customClass="flex  items-center justify-center">
                         <div className="flex flex-col gap-6 bg-white h-auto p-4 rounded-lg shadow-lg">
-                            <button  onClick={() => setIsModalVisible(false)} className='flex justify-end'>
+                            <button onClick={() => setIsModalVisible(false)} className='flex justify-end'>
                                 <X className="hover:text-blue-500" />
                             </button>
                             {/* Título */}
@@ -104,8 +105,9 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
 
                             {/* Botones de redes sociales */}
                             <h2 className=" text-center text-gray-800">Social Media</h2>
-                            <div className="grid grid-cols-2 gap-6 mt-4 sm:grid-cols-2 md:grid-cols-3">
-                                <MainButton
+                            <div className="grid grid-cols-2 gap-6 mt-4 sm:grid-cols-2 md:grid-cols-2">
+
+                                {/* <MainButton
                                     onClick={() => window.open('https://www.tiktok.com', '_blank')}
                                     text={
                                         <div className="flex items-center space-x-2">
@@ -131,7 +133,8 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                                         </div>
                                     }
                                     className="bg-pink-500 text-white px-2 py-2 rounded-md hover:bg-pink-600 transition-colors duration-200"
-                                />
+                                /> */}
+
                                 <MainButton
                                     onClick={() => window.open(`https://wa.me/506`, '_blank')}
                                     text={
