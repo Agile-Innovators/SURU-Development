@@ -155,7 +155,7 @@ export function PropertyManagement() {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="light"
+                theme="dark"
             />
             <div className="text-center grid gap-4">
                 <div className="flex flex-col  justify-between gap-4 items-center mt-4">

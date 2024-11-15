@@ -104,7 +104,7 @@ export function RegisterForm() {
                 pauseOnHover
                 theme="light"
             />
-            <h1 >Let&apos;s get started</h1>
+            <h1>Let&apos;s get started</h1>
             <span className="text-grey">
                 Complete the form below to create your new account
             </span>
@@ -119,7 +119,6 @@ export function RegisterForm() {
                     inputId="username"
                     labelText="Username"
                     value={username}
-                
                     onChange={(e) => setUsername(e.target.value)}
                     spanText="Example: johndoe"
                 />
@@ -130,7 +129,6 @@ export function RegisterForm() {
                     inputId="email"
                     labelText="Email Address"
                     value={email}
-                
                     onChange={(e) => setEmail(e.target.value)}
                     spanText="Example: john@gmail.com"
                 />
@@ -141,7 +139,6 @@ export function RegisterForm() {
                     inputId="password"
                     labelText="Password"
                     value={password}
-                    
                     onChange={(e) => setPassword(e.target.value)}
                     spanText="Password must be at least 8 characters"
                 />
@@ -179,71 +176,54 @@ export function RegisterForm() {
             <LayoutModal status={showModal} onClose={() => setShowModal(false)}>
                 {modalContent === 'Terms of Service' ? (
                     <div>
-                       <h2 className="text-xl font-bold mb-4 ">Términos de Servicio de Sürü</h2>
-                        <p className="mb-2"><strong>1. Aceptación de los Términos</strong><br/>
-                        Al acceder o utilizar Sürü, acepta estos Términos de Servicio. Si no está de acuerdo, no debe utilizar la Plataforma.</p>
-                        
-                        <p className="mb-2"><strong>2. Servicios Proporcionados</strong><br/>
-                        Sürü permite a los usuarios:<br/>
-                        - Publicar propiedades para venta o alquiler.<br/>
-                        - Buscar propiedades disponibles para alquiler, venta o terrenos en Costa Rica.</p>
-                        
-                        <p className="mb-2"><strong>3. Registro de Usuarios</strong><br/>
-                        Los usuarios deben crear una cuenta para acceder a ciertas funciones, proporcionando información precisa. Sürü se reserva el derecho de suspender cuentas que violen estos términos o incumplan leyes aplicables.</p>
-                        
-                        <p className="mb-2"><strong>4. Publicación de Propiedades</strong><br/>
-                        Los usuarios que publiquen propiedades deben contar con los permisos necesarios y ser responsables de la exactitud de la información proporcionada. Sürü no se responsabiliza de la veracidad de las publicaciones.</p>
-                        
-                        <p className="mb-2"><strong>5. Responsabilidades de los Usuarios</strong><br/>
-                        Los usuarios deben usar la Plataforma de manera legal y ética, evitando la publicación de contenido falso o fraudulento y la participación en actividades ilícitas.</p>
-                        
-                        <p className="mb-2"><strong>6. Pagos y Comisiones</strong><br/>
-                        Algunos servicios pueden estar sujetos a comisiones, claramente indicadas al momento de la transacción.</p>
-                        
-                        <p className="mb-2"><strong>7. Limitación de Responsabilidad</strong><br/>
-                        Sürü actúa como intermediario y no se responsabiliza de las transacciones entre usuarios, la veracidad de las publicaciones ni acuerdos fuera de la Plataforma.</p>
-                        
-                        <p className="mb-2"><strong>8. Propiedad Intelectual</strong><br/>
-                        El contenido de Sürü, incluyendo su marca, es propiedad exclusiva de la empresa y no puede ser usado sin permiso.</p>
-                        
-                        <p className="mb-2"><strong>9. Modificaciones a los Términos</strong><br/>
-                        Sürü se reserva el derecho de modificar estos Términos de Servicio en cualquier momento.</p>
-                        
-                        <p className="mb-2"><strong>10. Ley Aplicable y Jurisdicción</strong><br/>
-                        Estos Términos se rigen por las leyes de Costa Rica. Cualquier disputa se resolverá en sus tribunales.</p>
+                        <h2 className="text-xl font-bold mb-4">Sürü Terms of Service</h2>
+                        <p className="mb-2"><strong>1. Acceptance of Terms</strong><br />
+                        By accessing or using Sürü, you agree to these Terms of Service. If you do not agree, you must not use the Platform.</p>
+                        <p className="mb-2"><strong>2. Provided Services</strong><br />
+                        Sürü allows users to:<br />
+                        - List properties for sale or rent.<br />
+                        - Search for properties available for rent, sale, or land in Costa Rica.</p>
+                        <p className="mb-2"><strong>3. User Registration</strong><br />
+                        Users must create an account to access certain features, providing accurate information. Sürü reserves the right to suspend accounts that violate these terms or applicable laws.</p>
+                        <p className="mb-2"><strong>4. Property Listings</strong><br />
+                        Users listing properties must have the necessary permissions and are responsible for the accuracy of the provided information. Sürü is not responsible for the veracity of listings.</p>
+                        <p className="mb-2"><strong>5. User Responsibilities</strong><br />
+                        Users must use the Platform in a legal and ethical manner, avoiding the publication of false or fraudulent content and engaging in illegal activities.</p>
+                        <p className="mb-2"><strong>6. Payments and Fees</strong><br />
+                        Some services may be subject to fees, clearly indicated at the time of the transaction.</p>
+                        <p className="mb-2"><strong>7. Limitation of Liability</strong><br />
+                        Sürü acts as an intermediary and is not responsible for transactions between users, the accuracy of listings, or agreements made outside the Platform.</p>
+                        <p className="mb-2"><strong>8. Intellectual Property</strong><br />
+                        The content of Sürü, including its brand, is the exclusive property of the company and cannot be used without permission.</p>
+                        <p className="mb-2"><strong>9. Changes to the Terms</strong><br />
+                        Sürü reserves the right to modify these Terms of Service at any time.</p>
+                        <p className="mb-2"><strong>10. Governing Law and Jurisdiction</strong><br />
+                        These Terms are governed by the laws of Costa Rica. Any disputes will be resolved in its courts.</p>
                     </div>
                 ) : (
                     <div>
-                         <h2 className="text-xl font-bold mb-4">Política de Privacidad de Sürü</h2>
-                        <p className="mb-2"><strong>1. Información Recopilada</strong><br/>
-                        Recopilamos información proporcionada directamente por el usuario al registrarse o publicar propiedades, como nombre, correo electrónico, y detalles de las propiedades.</p>
-                        
-                        <p className="mb-2"><strong>2. Uso de la Información</strong><br/>
-                        La información se utiliza para:<br/>
-                        - Facilitar la interacción entre usuarios.<br/>
-                        - Mejorar la experiencia en la Plataforma.<br/>
-                        - Enviar notificaciones y actualizaciones sobre servicios.</p>
-                        
-                        <p className="mb-2"><strong>3. Compartir Información con Terceros</strong><br/>
-                        Sürü no comparte información personal con terceros sin consentimiento del usuario, excepto cuando sea requerido por ley.</p>
-                        
-                        <p className="mb-2"><strong>4. Protección de Datos</strong><br/>
-                        Implementamos medidas de seguridad para proteger la información del usuario. Sin embargo, no garantizamos una seguridad absoluta contra accesos no autorizados.</p>
-                        
-                        <p className="mb-2"><strong>5. Cookies y Tecnologías de Seguimiento</strong><br/>
-                        Usamos cookies para mejorar la experiencia del usuario. El usuario puede controlar el uso de cookies a través de la configuración de su navegador.</p>
-                        
-                        <p className="mb-2"><strong>6. Derechos del Usuario</strong><br/>
-                        Los usuarios tienen derecho a acceder, corregir o eliminar su información personal. Pueden contactarnos para ejercer estos derechos.</p>
-                        
-                        <p className="mb-2"><strong>7. Cambios en la Política de Privacidad</strong><br/>
-                        Sürü se reserva el derecho de modificar esta Política de Privacidad. Los cambios se notificarán a través de la Plataforma.</p>
-                        
-                        <p className="mb-2"><strong>8. Contacto</strong><br/>
-                        Para cualquier duda o solicitud sobre la privacidad, puede contactarnos a través de nuestro servicio de atención al cliente.</p>
-                        
-                        <p className="mb-2"><strong>9. Ley Aplicable</strong><br/>
-                        Esta Política de Privacidad se rige por las leyes de Costa Rica.</p>
+                        <h2 className="text-xl font-bold mb-4">Sürü Privacy Policy</h2>
+                        <p className="mb-2"><strong>1. Information Collected</strong><br />
+                        We collect information provided directly by the user when registering or listing properties, such as name, email, and property details.</p>
+                        <p className="mb-2"><strong>2. Use of Information</strong><br />
+                        The information is used to:<br />
+                        - Facilitate user interactions.<br />
+                        - Improve the Platform experience.<br />
+                        - Send notifications and service updates.</p>
+                        <p className="mb-2"><strong>3. Sharing Information with Third Parties</strong><br />
+                        Sürü does not share personal information with third parties without user consent, except when required by law.</p>
+                        <p className="mb-2"><strong>4. Data Protection</strong><br />
+                        We implement security measures to protect user information. However, we do not guarantee absolute security against unauthorized access.</p>
+                        <p className="mb-2"><strong>5. Cookies and Tracking Technologies</strong><br />
+                        We use cookies to enhance user experience. Users can control cookie usage through their browser settings.</p>
+                        <p className="mb-2"><strong>6. User Rights</strong><br />
+                        Users have the right to access, correct, or delete their personal information. They can contact us to exercise these rights.</p>
+                        <p className="mb-2"><strong>7. Changes to the Privacy Policy</strong><br />
+                        Sürü reserves the right to modify this Privacy Policy. Changes will be notified through the Platform.</p>
+                        <p className="mb-2"><strong>8. Contact</strong><br />
+                        For any questions or requests regarding privacy, contact us through our customer service.</p>
+                        <p className="mb-2"><strong>9. Governing Law</strong><br />
+                        This Privacy Policy is governed by the laws of Costa Rica.</p>
                     </div>
                 )}
             </LayoutModal>
