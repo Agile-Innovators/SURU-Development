@@ -139,9 +139,9 @@ export function Appointments() {
                 showProperty(selectedAppointment.property_id);
                 break;
             case 'confirm':
-                // Verificar si el usuario es el propietario
+                
                 if (Number(selectedAppointment.owner_id) === Number(loggedInUserId) && currentStatus === 'Pending') {
-                    // Mostrar mensaje emergente antes de la confirmación
+                    
                     Swal.fire({
                         title: 'Confirm Appointment',
                         text: "Remember that you can only approve appointments if you are the property owner.",
@@ -298,6 +298,18 @@ export function Appointments() {
                                                     }
                                                 </span>
                                             </div>
+
+
+                                        </div>
+
+
+                                        <div className='flex items-center justify-center md:justify-start space-x-2 sm:ml-11 '>
+                                            
+                                        <span className="dark:text-white">
+                                                    {
+                                                        appointment.user_message
+                                                    }
+                                                     </span>
                                         </div>
 
                                         <div className="ml-auto flex items-center gap-4 justify-center lg:justify-end">
@@ -326,10 +338,10 @@ export function Appointments() {
                                                     horizontal: 'center',
                                                 }}
                                                 sx={{
-                                                    boxShadow: 'none', // Esto elimina la sombra
+                                                    boxShadow: 'none', 
                                                     '.MuiPaper-root': {
                                                         boxShadow:
-                                                            'none !important', // Forzamos el estilo
+                                                            'none !important', 
                                                     },
                                                 }}
                                             >
