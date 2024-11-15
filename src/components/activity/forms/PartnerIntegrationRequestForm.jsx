@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { MainButton } from '../../ui/buttons/MainButton';
 import { useAxios } from '../../../components/hooks/useAxios';
 import { useNavigate } from 'react-router-dom';
@@ -6,10 +6,12 @@ import { ROUTE_PATHS } from '../../../routes';
 import Swal from 'sweetalert2';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ThemeContext } from '../../../global/ThemeContext';
 
 export function PartnerIntegrationRequestForm() {
     const axios = useAxios();
     const navigate = useNavigate();
+    const { theme } = useContext(ThemeContext); // Accede al tema actual
 
     const [cities, setCities] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -102,6 +104,7 @@ export function PartnerIntegrationRequestForm() {
                 icon: 'success',
                 title: 'Request sent',
                 text: 'Your partner request has been successfully submitted!',
+                customClass: theme === 'dark' ? 'swal-dark' : '', // Aplica tema oscuro
             });
             navigate(ROUTE_PATHS.PARTNERS);
         } catch (error) {
@@ -110,12 +113,14 @@ export function PartnerIntegrationRequestForm() {
                     icon: 'error',
                     title: 'Request could not be processed',
                     text: 'We cannot process your request because some information is already registered.',
+                    customClass: theme === 'dark' ? 'swal-dark' : '', // Aplica tema oscuro
                 });
             } else {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
                     text: 'There was an error submitting your request. Please try again later.',
+                    customClass: theme === 'dark' ? 'swal-dark' : '', // Aplica tema oscuro
                 });
             }
             console.error('Error submitting partner request:', error);

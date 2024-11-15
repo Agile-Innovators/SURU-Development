@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { MainButton } from '../../components/ui/buttons/MainButton';
 import { useFetchUserOperationalHours } from '../../components/hooks/useFetchOperationalHours';
 import { useAuth } from '../../global/AuthProvider';
@@ -6,14 +6,14 @@ import { ToggleSwitch } from '../../components/ui/buttons/ToggleSwitch';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
+import { ThemeContext } from '../../global/ThemeContext';
 
 export function OperationalHours() {
-    // Obtenemos el usuario actual
     const { getUser } = useAuth();
     const { user } = getUser();
-    const [errorMessages, setErrorMessages] = useState({});// Estado para controlar la validez de las horas
-    const [isEditing, setIsEditing] = useState(false); // Estado para controlar si se está editando o no
-    // console.log(user);
+    const [errorMessages, setErrorMessages] = useState({});
+    const [isEditing, setIsEditing] = useState(false);
+    const { theme } = useContext(ThemeContext); // Accede al tema actual
     const {
         updateUserOperationalHours,
         getOperationalHours,
@@ -21,58 +21,47 @@ export function OperationalHours() {
         error,
         data
     } = useFetchUserOperationalHours();
-    const [operationalHours, setOperationalHours] = useState([]); // Se inicia las horas con un array vacío
+    const [operationalHours, setOperationalHours] = useState([]);
 
-    // Función para asegurar que el tiempo esté en formato ##:##
     const formatTime = (time) => {
         const [hours, minutes] = time.split(':');
-        // Aseguramos que siempre tenga dos dígitos
         const formattedHours = String(hours).padStart(2, '0');
         const formattedMinutes = String(minutes).padStart(2, '0');
         return `${formattedHours}:${formattedMinutes}`;
     };
 
-    // Se obtienen las horas operativas del usuario desde el API
     useEffect(() => {
         if (user?.id) {
             getOperationalHours(user.id);
         }
     }, [user?.id]);
 
-    // Actualiza el estado local cuando llegan los datos de la API
     useEffect(() => {
         if (data && data.operational_hours) {
             setOperationalHours(data.operational_hours);
         } else {
-            setOperationalHours([]); // Valor por defecto si no hay datos
+            setOperationalHours([]);
         }
     }, [data]);
 
-    // Manejar el cambio en el tiempo
     const handleTimeChange = (day_of_week, type, value) => {
         const updatedHours = operationalHours.map(hour => {
             if (hour.day_of_week === day_of_week) {
                 const newHour = { ...hour, [type]: value };
-
-                // Validar si start_time es mayor o igual que end_time
                 if (type === 'start_time' && newHour.end_time && value >= newHour.end_time) {
                     setErrorMessages(prev => ({
                         ...prev,
                         [day_of_week]: 'Start time must be earlier than end time'
                     }));
-                    return hour; // No actualizamos si la validación falla
+                    return hour;
                 }
-
-                // Validar si end_time es menor o igual que start_time
                 if (type === 'end_time' && newHour.start_time && value <= newHour.start_time) {
                     setErrorMessages(prev => ({
                         ...prev,
                         [day_of_week]: 'End time must be later than start time'
                     }));
-                    return hour; // No actualizamos si la validación falla
+                    return hour;
                 }
-
-                // Limpiar mensajes de error si la validación es correcta
                 setErrorMessages(prev => ({
                     ...prev,
                     [day_of_week]: ''
@@ -81,29 +70,23 @@ export function OperationalHours() {
             }
             return hour;
         });
-
-        // Actualizamos el estado local
         setOperationalHours(updatedHours);
     };
 
-    // Manejar el cambio en el toggle
     const handleToggleChange = (day_of_week) => {
         const updatedHours = operationalHours.map(hour => {
             if (hour.day_of_week === day_of_week) {
                 return {
                     ...hour,
-                    is_closed: !hour.is_closed // Cambia el estado de is_closed
+                    is_closed: !hour.is_closed
                 };
             }
             return hour;
         });
-        // Actualizamos el estado local sin hacer la llamada a la API
         setOperationalHours(updatedHours);
     };
 
-    // Enviar los datos actualizados solo cuando se hace submit
     const handleSubmit = async (e) => {
-        // Evita que la página se recargue
         e.preventDefault();
         try {
             const operationalHoursPayload = operationalHours.map(hour => ({
@@ -116,24 +99,14 @@ export function OperationalHours() {
                 icon: 'success',
                 title: 'Operational Hours Updated Successfully',
                 text: 'The operational hours have been updated.',
+                customClass: theme === 'dark' ? 'swal-dark' : '', // Aplica tema oscuro
             });
-            // console.log("Datos del payload", operationalHoursPayload);
-            // Envía los datos y espera a la respuesta
             const userId = user.id;
-
             await updateUserOperationalHours(userId, { operational_hours: operationalHoursPayload });
-            // Llama a la función de obtener las horas operativas de nuevo para actualizar el estado
             await getOperationalHours(user.id);
 
-            //muestra un mensaje de éxito
-
             isEditing && setIsEditing(false);
-
-            // console.log("Datos actualizados y recargados correctamente");
         } catch (error) {
-            // console.error("Error al actualizar los datos operacionales", error);
-
-            // Muestra un mensaje de error 
             toast.error('An unexpected error occurred. Please try again later.', {
                 position: "top-center",
                 autoClose: 5000,
@@ -148,10 +121,10 @@ export function OperationalHours() {
         }
     };
 
-    // Función para alternar entre Edit y Save
     const handleEditClick = () => {
         setIsEditing((prev) => !prev);
     };
+
     return (
         <div className='p-4'>
             {loading ? (
@@ -160,7 +133,6 @@ export function OperationalHours() {
                     <p className="text-gray-600 font-semibold">Loading...</p>
                 </div>
             ) : (
-
                 <div>
                     <form onSubmit={handleSubmit}>
                         <ToastContainer
@@ -180,35 +152,25 @@ export function OperationalHours() {
                                 <h2>Operational Hours</h2>
                                 <p>Choose your preferred hours to receive appointments</p>
                             </div>
-
                             <div className="flex justify-end items-center mt-4 ">
-                                {!isEditing &&
+                                {!isEditing && (
                                     <MainButton
                                         type="button"
                                         variant="fill"
                                         text="Edit"
                                         customClass="h-12 items-center"
                                         onClick={handleEditClick}
-                                    />}
-
-
-                                {/* Botón para alternar entre Edit y Save */}
-
-                                {isEditing &&
+                                    />
+                                )}
+                                {isEditing && (
                                     <MainButton
                                         type="submit"
                                         variant="fill"
                                         text="Save Changes"
                                         customClass="h-12 items-center "
-
                                     />
-
-                                }
-
-
-
+                                )}
                             </div>
-
                         </div>
                         <div className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-3">
                             {operationalHours.length > 0 ? (
@@ -217,7 +179,7 @@ export function OperationalHours() {
                                         <div className="flex justify-between items-center gap-4">
                                             <p className="text-black dark:text-white">{day_of_week}</p>
                                             <ToggleSwitch
-                                                checked={is_closed} // Pasa el estado de is_closed al ToggleSwitch
+                                                checked={is_closed}
                                                 onChange={() => handleToggleChange(day_of_week)}
                                                 disabled={!isEditing}
                                             />
@@ -255,11 +217,8 @@ export function OperationalHours() {
                                 <p>No operational hours available.</p>
                             )}
                         </div>
-
                     </form>
                 </div>
-
-
             )}
         </div>
     );

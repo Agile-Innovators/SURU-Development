@@ -58,3 +58,33 @@
  .dark .input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(1); /* Invierte los colores del icono del calendario */
 }
+
+.swal-dark {
+    background-color: #333;
+    color: #fff;
+}
+
+.swal-dark .swal2-popup {
+    background-color: #333 !important;
+    color: #fff !important;
+    border: 1px solid #444;
+}
+
+.swal-dark .swal2-title {
+    color: #fff !important;
+}
+
+.swal-dark .swal2-icon.swal2-success,
+.swal-dark .swal2-icon.swal2-error {
+    border-color: #555 !important;
+}
+
+.swal-dark .swal2-confirm, .swal-dark .swal2-cancel {
+    background-color: #555;
+    color: #fff;
+    border: none;
+}
+
+.swal-dark .swal2-confirm:hover, .swal-dark .swal2-cancel:hover {
+    background-color: #666;
+}

@@ -1,23 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
 import Swal from 'sweetalert2';
 import { useAxios } from '../../components/hooks/useAxios';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes';
 import { globalProvider } from '../../global/GlobalProvider';
+import { ThemeContext } from '../../global/ThemeContext';
 
 export function PartnersAdministration() {
     const user = JSON.parse(localStorage.getItem('user')) || null;
     const loggedInUserId = user?.id;
-
     const navigate = useNavigate();
+    const axios = useAxios();
+    const { theme } = useContext(ThemeContext); // Accede al tema actual
 
     const [currentStatus, setCurrentStatus] = useState('Pending');
     const [partners, setPartners] = useState([]);
     const [loading, setLoading] = useState(true);
-    const axios = useAxios();
-
-  
 
     const fetchPartners = (status) => {
         if (!loggedInUserId) {
@@ -25,7 +24,6 @@ export function PartnersAdministration() {
             return;
         }
 
-       // setLoading(true);
         setPartners([]);
 
         axios
@@ -62,6 +60,7 @@ export function PartnersAdministration() {
                 title: `Partner ${newStatus}`,
                 showConfirmButton: false,
                 timer: 1500,
+                customClass: theme === 'dark' ? 'swal-dark' : '', // Aplica tema oscuro
             });
         }
     };
@@ -79,11 +78,12 @@ export function PartnersAdministration() {
                     'Error approving partner:',
                     error.response || error
                 );
-                Swal.fire(
-                    'Error!',
-                    'Failed to approve the partner. Please try again.',
-                    'error'
-                );
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Failed to approve the partner. Please try again.',
+                    customClass: theme === 'dark' ? 'swal-dark' : '', // Aplica tema oscuro
+                });
             });
     };
 
@@ -96,14 +96,13 @@ export function PartnersAdministration() {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, reject it!',
+            customClass: theme === 'dark' ? 'swal-dark' : '', // Aplica tema oscuro
         }).then((result) => {
             if (result.isConfirmed) {
                 axios
                     .put(
                         `/partner-request/${partnerRequestId}/${loggedInUserId}`,
-                        {
-                            status: 'Rejected',
-                        }
+                        { status: 'Rejected' }
                     )
                     .then(() => {
                         updatePartnerStatus(partnerRequestId, 'Rejected');
@@ -113,15 +112,17 @@ export function PartnersAdministration() {
                             'Error rejecting partner:',
                             error.response || error
                         );
-                        Swal.fire(
-                            'Error!',
-                            'Failed to reject the partner. Please try again.',
-                            'error'
-                        );
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Failed to reject the partner. Please try again.',
+                            customClass: theme === 'dark' ? 'swal-dark' : '', // Aplica tema oscuro
+                        });
                     });
             }
         });
     };
+
     const showAdditionalInfo = (partner) => {
         Swal.fire({
             title: `
@@ -141,24 +142,19 @@ export function PartnersAdministration() {
                     </div>
                     <hr style="border-top: 1px solid #eee; margin: 15px 0;">
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                        
                         <p><strong>Instagram:</strong> <a href="${partner.instagram_url || '#'}" target="_blank" style="color: #007bff;">${partner.instagram_url || 'N/A'}</a></p>
                     </div>
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                        
                         <p><strong>Facebook:</strong> <a href="${partner.facebook_url || '#'}" target="_blank" style="color: #007bff;">${partner.facebook_url || 'N/A'}</a></p>
                     </div>
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                        
                         <p><strong>TikTok:</strong> <a href="${partner.tiktok_url || '#'}" target="_blank" style="color: #007bff;">${partner.tiktok_url || 'N/A'}</a></p>
                     </div>
                     <hr style="border-top: 1px solid #eee; margin: 15px 0;">
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                       
                         <p><strong>Currency:</strong> ${partner.currency_id || 'N/A'}</p>
                     </div>
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                        
                         <p><strong>Partner Comments:</strong> ${partner.partner_comments || 'N/A'}</p>
                     </div>
                 </div>
@@ -166,18 +162,12 @@ export function PartnersAdministration() {
             showCloseButton: true,
             showConfirmButton: false,
             width: '700px',
-            customClass: {
-                popup: 'custom-swal-popup'
-            }
+            customClass: theme === 'dark' ? 'swal-dark' : '', 
         });
     };
-    
-    
 
-
-    
-        return (
-            <div className="max-w-7xl p-4 min-h-[80vh] sm:p-6 lg:p-8 sm:ml-10">
+    return (
+        <div className="max-w-7xl p-4 min-h-[80vh] sm:p-6 lg:p-8 sm:ml-10">
                 <div className="mt-10 mb-10 gap-4 sm:block">
                     <div className="m-auto p-4">
                         <h1 className="mt-10">Partners Administration</h1>
@@ -189,11 +179,11 @@ export function PartnersAdministration() {
                                 variant="scrollable"
                                 scrollButtons="auto"
                                 aria-label="status tabs"
-                                className="flex-1"
+                                className="flex-1 "
                             >
-                                <Tab label="Pending" value="Pending" />
-                                <Tab label="Approved" value="Approved" />
-                                <Tab label="Rejected" value="Rejected" />
+                                <Tab label="Pending" value="Pending" className='dark:text-white' />
+                                <Tab label="Approved" value="Approved" className='dark:text-white'/>
+                                <Tab label="Rejected" value="Rejected" className='dark:text-white'/>
                             </Tabs>
                         </Box>
         

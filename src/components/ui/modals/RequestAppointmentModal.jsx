@@ -1,22 +1,21 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { MainButton } from '../buttons/MainButton';
 import { Clock, Calendar, X } from 'lucide-react';
 import { useAxios } from '../../hooks/useAxios';
 import Swal from 'sweetalert2';
 import { useAuth } from '../../../global/AuthProvider';
+import { ThemeContext } from '../../../global/ThemeContext.jsx';
 
-
-export function RequestAppointmentModal({ handleModal, userId, propertyId}) {
+export function RequestAppointmentModal({ handleModal, userId, propertyId }) {
     const axios = useAxios();
+    const { getUser } = useAuth();
+    const { user } = getUser();
+    const { theme } = useContext(ThemeContext);
 
     const hours = [
         '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
         '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00'
     ];
-
-
-    const { getUser } = useAuth();
-    const { user } = getUser();
 
     const [date, setDate] = useState('');
     const [startTime, setStartTime] = useState('');
@@ -53,13 +52,12 @@ export function RequestAppointmentModal({ handleModal, userId, propertyId}) {
         const formattedEndTime = formatTime(endTime);
 
         const newAppointment = {
-            date, 
-            start_time: formattedStartTime, 
-            end_time: formattedEndTime, 
-            //owner_id:userId,
+            date,
+            start_time: formattedStartTime,
+            end_time: formattedEndTime,
             user_message: extraInfo || "No extra comments were given",
-            user_id: user.id,    
-            property_id: propertyId, 
+            user_id: user.id,
+            property_id: propertyId,
         };
 
         console.log("Datos enviados:", newAppointment); // Confirmar la estructura de los datos
@@ -73,6 +71,7 @@ export function RequestAppointmentModal({ handleModal, userId, propertyId}) {
                     title: 'Appointment Created Successfully',
                     showConfirmButton: false,
                     timer: 1500,
+                    customClass: theme === 'dark' ? 'swal-dark' : '',
                 });
 
                 handleModal(false);
@@ -87,7 +86,12 @@ export function RequestAppointmentModal({ handleModal, userId, propertyId}) {
                 if (error.response?.data?.errors) {
                     console.log("Detalles de errores:", error.response.data.errors);
                 }
-                Swal.fire('Error!', errorMessage, 'error');
+                Swal.fire({
+                    title: 'Error!',
+                    text: errorMessage,
+                    icon: 'error',
+                    customClass: theme === 'dark' ? 'swal-dark' : '',
+                });
             });
     };
 
