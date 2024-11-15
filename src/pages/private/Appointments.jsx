@@ -156,7 +156,7 @@ export function Appointments() {
                             confirmAppointment(
                                 selectedAppointment.id,
                                 loggedInUserId
-                            ); // Confirmar la cita si el usuario acepta
+                            ); 
                         }
                     });
                 } else {
