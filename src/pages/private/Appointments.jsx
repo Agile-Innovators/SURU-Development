@@ -139,19 +139,24 @@ export function Appointments() {
                 showProperty(selectedAppointment.property_id);
                 break;
             case 'confirm':
-                
-                if (Number(selectedAppointment.owner_id) === Number(loggedInUserId) && currentStatus === 'Pending') {
-                    
+                if (
+                    Number(selectedAppointment.owner_id) ===
+                        Number(loggedInUserId) &&
+                    currentStatus === 'Pending'
+                ) {
                     Swal.fire({
                         title: 'Confirm Appointment',
-                        text: "Remember that you can only approve appointments if you are the property owner.",
+                        text: 'Remember that you can only approve appointments if you are the property owner.',
                         icon: 'info',
                         showCancelButton: true,
                         confirmButtonText: 'Confirm',
                         cancelButtonText: 'Cancel',
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            confirmAppointment(selectedAppointment.id, loggedInUserId); // Confirmar la cita si el usuario acepta
+                            confirmAppointment(
+                                selectedAppointment.id,
+                                loggedInUserId
+                            ); // Confirmar la cita si el usuario acepta
                         }
                     });
                 } else {
@@ -293,23 +298,16 @@ export function Appointments() {
                                                     className="text-gray-500 dark:text-white"
                                                 />
                                                 <span className="dark:text-white">
-                                                    {
-                                                        appointment.property_id + " (Property ID)"
-                                                    }
+                                                    {appointment.property_id +
+                                                        ' (Property ID)'}
                                                 </span>
                                             </div>
-
-
                                         </div>
 
-
-                                        <div className='flex items-center justify-center md:justify-start space-x-2 sm:ml-11 '>
-                                            
-                                        <span className="dark:text-white">
-                                                    {
-                                                        appointment.user_message
-                                                    }
-                                                     </span>
+                                        <div className="flex items-center justify-center md:justify-start space-x-2 sm:ml-11 ">
+                                            <span className="dark:text-white">
+                                                {appointment.user_message}
+                                            </span>
                                         </div>
 
                                         <div className="ml-auto flex items-center gap-4 justify-center lg:justify-end">
@@ -326,64 +324,48 @@ export function Appointments() {
                                             </IconButton>
 
                                             <Menu
-                                                anchorEl={anchorEl}
-                                                open={Boolean(anchorEl)}
-                                                onClose={handleMenuClose}
-                                                anchorOrigin={{
-                                                    vertical: 'bottom',
-                                                    horizontal: 'center',
-                                                }}
-                                                transformOrigin={{
-                                                    vertical: 'top',
-                                                    horizontal: 'center',
-                                                }}
-                                                sx={{
-                                                    boxShadow: 'none', 
-                                                    '.MuiPaper-root': {
-                                                        boxShadow:
-                                                            'none !important', 
-                                                    },
-                                                }}
-                                            >
-                                                {![
-                                                    'Cancelled',
-                                                    'Rejected',
-                                                    'Completed',
-                                                ].includes(
-                                                    appointment.status
-                                                ) && (
-                                                    <>
-                                                        <MenuItem
-                                                            onClick={() =>
-                                                                handleAction(
-                                                                    'confirm'
-                                                                )
-                                                            }
-                                                        >
-                                                            Confirm
-                                                        </MenuItem>
-                                                        <MenuItem
-                                                            onClick={() =>
-                                                                handleAction(
-                                                                    'cancel'
-                                                                )
-                                                            }
-                                                        >
-                                                            Cancel
-                                                        </MenuItem>
-                                                    </>
-                                                )}
-                                                <MenuItem
-                                                    onClick={() =>
-                                                        handleAction('view')
-                                                    }
-                                                >
-                                                    View Property
-                                                </MenuItem>
-                                            </Menu>
+    anchorEl={anchorEl}
+    open={Boolean(anchorEl)}
+    onClose={handleMenuClose}
+    anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'center',
+    }}
+    transformOrigin={{
+        vertical: 'top',
+        horizontal: 'center',
+    }}
+    sx={{
+        boxShadow: 'none',
+        '.MuiPaper-root': {
+            boxShadow: 'none !important',
+        },
+    }}
+>
+    {appointment.status !== 'Scheduled' && (
+        <>
+            <MenuItem
+                onClick={() => handleAction('confirm')}
+            >
+                Confirm
+            </MenuItem>
+        </>
+    )}
+    <MenuItem
+        onClick={() => handleAction('cancel')}
+    >
+        Cancel
+    </MenuItem>
+    <MenuItem
+        onClick={() => handleAction('view')}
+    >
+        View Property
+    </MenuItem>
+</Menu>
 
 
-                                            
+
+
                                         </div>
                                     </motion.div>
                                 ))}
