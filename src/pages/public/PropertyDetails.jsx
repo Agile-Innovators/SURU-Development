@@ -118,7 +118,6 @@ export function PropertyDetails() {
                     isLoading={isLoadingPropsDetails}
                 />
             </div>
-
             <div className="mt-10">
                 <h2>You may also like</h2>
                 <div className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-4 justify-center items-center mt-4">
