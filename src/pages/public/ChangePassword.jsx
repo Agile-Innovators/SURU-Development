@@ -1,6 +1,6 @@
 import { Input } from '../../components/ui/forms/Input';
 import { MainButton } from '../../components/ui/buttons/MainButton';
-import { useState } from 'react';
+import { useState,useContext } from 'react';
 import { useFetchUser } from '../../components/hooks/useFetchUser';
 import { useAuth } from '../../global/AuthProvider';
 import { Bounce, ToastContainer, toast } from 'react-toastify';

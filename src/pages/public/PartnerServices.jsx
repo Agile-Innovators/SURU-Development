@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useAuth } from '../../global/AuthProvider.jsx';
 import { useFetchServices } from '../../components/hooks/useFetchServices';
 import { ThemeContext } from '../../global/ThemeContext.jsx';

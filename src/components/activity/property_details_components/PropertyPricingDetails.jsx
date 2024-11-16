@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { SkeletonLoader } from '../../ui/SkeletonLoader.jsx';
 import { Droplet, Wifi, Zap, Tv } from 'lucide-react';
 import { RequestAppointmentModal } from '../../ui/modals/RequestAppointmentModal';

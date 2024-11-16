@@ -6,7 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ThemeContext } from '../../../global/ThemeContext';
 import { SkeletonLoader } from '../SkeletonLoader';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 
 export function SearchFilter({
     setData,

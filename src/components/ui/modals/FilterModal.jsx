@@ -2,7 +2,7 @@ import { Input } from '../forms/Input';
 import { MainButton } from '../buttons/MainButton';
 import { SecondaryFilterTag } from './../buttons/SecondaryFilterTag';
 import { X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useFetchPropertyCategories } from '../../hooks/useFetchPropertyCategories';
 import { useFetchRegions } from './../../hooks/useFetchRegions';
 import { useFetchPropertyTransactionTypes } from '../../hooks/useFetchPropertyTransactionTypes';

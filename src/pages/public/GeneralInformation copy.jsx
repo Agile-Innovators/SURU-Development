@@ -1,6 +1,6 @@
 import { Input } from '../../components/ui/forms/Input';
 import { MainButton } from '../../components/ui/buttons/MainButton';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useFetchUser } from '../../components/hooks/useFetchUser';
 import { useAuth } from '../../global/AuthProvider';
 import { Pencil } from 'lucide-react';
