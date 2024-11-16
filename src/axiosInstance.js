@@ -6,6 +6,8 @@ const axiosInstance = axios.create({
     timeout: 10000,
 });
 
+
+//baseURL: 'https://suru-backend.vercel.app/api/api', // for local development
 axiosInstance.interceptors.request.use(
     async (config) => {
         return config;

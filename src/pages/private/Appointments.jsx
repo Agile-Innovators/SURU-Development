@@ -141,7 +141,7 @@ export function Appointments() {
             case 'confirm':
                 if (
                     Number(selectedAppointment.owner_id) ===
-                        Number(loggedInUserId) &&
+                    Number(loggedInUserId) &&
                     currentStatus === 'Pending'
                 ) {
                     Swal.fire({
@@ -156,7 +156,7 @@ export function Appointments() {
                             confirmAppointment(
                                 selectedAppointment.id,
                                 loggedInUserId
-                            ); 
+                            );
                         }
                     });
                 } else {
@@ -323,45 +323,44 @@ export function Appointments() {
                                                 <MoreHorizontal size={24} />
                                             </IconButton>
 
+
+
                                             <Menu
-    anchorEl={anchorEl}
-    open={Boolean(anchorEl)}
-    onClose={handleMenuClose}
-    anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'center',
-    }}
-    transformOrigin={{
-        vertical: 'top',
-        horizontal: 'center',
-    }}
-    sx={{
-        boxShadow: 'none',
-        '.MuiPaper-root': {
-            boxShadow: 'none !important',
-        },
-    }}
->
-    {appointment.status !== 'Scheduled' && (
-        <>
-            <MenuItem
-                onClick={() => handleAction('confirm')}
-            >
-                Confirm
-            </MenuItem>
-        </>
-    )}
-    <MenuItem
-        onClick={() => handleAction('cancel')}
-    >
-        Cancel
-    </MenuItem>
-    <MenuItem
-        onClick={() => handleAction('view')}
-    >
-        View Property
-    </MenuItem>
-</Menu>
+                                                anchorEl={anchorEl}
+                                                open={Boolean(anchorEl)}
+                                                onClose={handleMenuClose}
+                                                anchorOrigin={{
+                                                    vertical: 'bottom',
+                                                    horizontal: 'center',
+                                                }}
+                                                transformOrigin={{
+                                                    vertical: 'top',
+                                                    horizontal: 'center',
+                                                }}
+                                                sx={{
+                                                    boxShadow: 'none',
+                                                    '.MuiPaper-root': {
+                                                        boxShadow: 'none !important',
+                                                    },
+                                                }}
+                                            >
+                                                
+                                                {appointment.status == 'Canceled' &&
+                                                    appointment.status == 'Rejected' &&
+                                                    appointment.status == 'Completed' && (
+                                                        <>
+                                                            <MenuItem onClick={() => handleAction('confirm')}>
+                                                                Confirm
+                                                            </MenuItem>
+                                                            <MenuItem onClick={() => handleAction('cancel')}>
+                                                                Cancel
+                                                            </MenuItem>
+                                                        </>
+                                                    )}
+                                                {/* Mostrar siempre See Property Details */}
+                                                <MenuItem onClick={() => handleAction('view')}>See Property Details</MenuItem>
+                                            </Menu>
+
 
 
 
