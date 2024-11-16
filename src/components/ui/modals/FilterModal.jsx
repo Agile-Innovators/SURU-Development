@@ -11,7 +11,7 @@ import { useAxios } from '../../hooks/useAxios';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
+export function FilterModal({ handleModal, setProperties, isLoadingFilter, showCategory, showRegion }) {
     const [data, setData] = useState({ allow_pets: 0, green_area: 0 });
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(0);
@@ -154,8 +154,13 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
             }
         }
         console.log(payload);
-        // return;
+
         isLoadingFilter(true);
+        showCategory(propertyCategory);
+        showRegion(region);
+        console.log(propertyCategory)
+        console.log(region)
+
         try {
             clearFilterModal();
             const response = await axios.get('/properties/filter', {
