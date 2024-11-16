@@ -20,7 +20,7 @@ export function PartnerServices() {
     useEffect(() => {
         getPartnerServices(user.id);
         console.log("Datos de los servicios del partner", partnerServices);
-        
+
     }, [user.id]);
     console.log("Datos de los servicios", services);
     //se agregan los servicios del partner a los filtros
@@ -37,7 +37,7 @@ export function PartnerServices() {
             }
             );
             setFilters(newFilters);
-            
+
         }
     }, [partnerServices]);
 
@@ -45,22 +45,48 @@ export function PartnerServices() {
     if (user.user_type !== "partner") {
         navigate(ROUTE_PATHS.HOME);
     }
-    
+
     if (loading) return <p>Loading services...</p>;
 
     if (error) return <p>Error: {error}</p>;
 
+    const validateService = (serviceId, min, max) => {
+        if (!serviceId || min === '' || max === '') return false;
+        return parseFloat(min) >= 0 && parseFloat(max) >= 0 && parseFloat(min) <= parseFloat(max);
+    };
 
     const handleAdd = () => {
+
         if (!selectedService || minPrice === '' || maxPrice === '') {
             alert("Please complete all fields.");
             return;
         }
 
-        const serviceName = services.find(service => service.id === selectedService)?.name;
+        if (filters.some(filter => filter.id === selectedService)) {
+            toast.error("Service already added.");
+            return;
+        }
+        
+        if (parseFloat(minPrice) > parseFloat(maxPrice)) {
+            toast.error("Min Price cannot be greater than Max Price.");
+            return;
+        }
+
+        if (!validateService(selectedService, minPrice, maxPrice)) {
+            toast.error("Invalid input. Please check your data.");
+            return;
+        }
+
+
+
+        // console.log("Datos de los filtros", filters);
+        // console.log("Datos del servicios", services);
+        // console.log("Datos del servicio seleccionado ID", selectedService);
+        const serviceName = services.find(service => service.id == selectedService)?.name;
+
+        // console.log("Nombre del servicio", serviceName);
         const newFilter = { id: selectedService, name: serviceName, minPrice, maxPrice, isEditing: false };
         setFilters([...filters, newFilter]);
-
         // Reset input fields
         setSelectedService('');
         setMinPrice('');
@@ -85,7 +111,7 @@ export function PartnerServices() {
             price: parseFloat(filter.minPrice),
             price_max: filter.maxPrice ? parseFloat(filter.maxPrice) : null
         }));
-        if(formattedServices.length === 0) {
+        if (formattedServices.length === 0) {
             toast.error('Please add at least one service.', {
                 position: "top-center",
                 autoClose: 5000,
@@ -132,7 +158,7 @@ export function PartnerServices() {
         <div className='p-6'>
             <ToastContainer
                 position="top-center"
-                autoClose={200}
+                autoClose={1000}
                 hideProgressBar
                 newestOnTop={false}
                 closeOnClick
@@ -169,7 +195,6 @@ export function PartnerServices() {
                             )}
                         </select>
                     </div>
-
                     <div>
                         <label className="font-medium text-gray-700">Min. Price</label>
                         <input
@@ -212,28 +237,30 @@ export function PartnerServices() {
                         filters.map((filter, index) => (
                             <li key={index} className="flex flex-col items-center justify-between bg-gray-50 p-4 rounded-lg border sm:flex-row">
                                 <div className="text-sm text-gray-700 ">
-                                    <span className="font-medium">Service:</span>
-                                    {filter.isEditing ? (
-                                        <select
-                                            value={filter.id}
-                                            onChange={(e) => handleFilterChange(index, 'id', e.target.value)}
-                                            className="border border-light-grey bg-gray-100 rounded-md px-2 py-1"
-                                            disabled={loading || services.length === 0}
-                                        >
-                                            {services && services.length > 0 ? (
-                                                services.map((service) => (
-                                                    <option key={service.id} value={service.id}>
-                                                        {service.name}
-                                                    </option>
-                                                ))
-                                            ) : (
-                                                <option disabled>No services available</option>
-                                            )}
-                                        </select>
-                                    ) : (
-                                        filter.name
-                                    )}
-                                    
+                                    <span className="font-medium">Service: </span>
+                                    {
+                                        filter.isEditing ? (
+                                            <select
+                                                value={filter.id}
+                                                onChange={(e) => handleFilterChange(index, 'id', e.target.value)}
+                                                className="border border-light-grey bg-gray-100 rounded-md px-2 py-1"
+                                                disabled={loading || services.length === 0}
+                                            >
+                                                {services && services.length > 0 ? (
+                                                    services.map((service) => (
+                                                        <option key={service.id} value={service.id}>
+                                                            {service.name}
+                                                        </option>
+                                                    ))
+                                                ) : (
+                                                    <option disabled>No services available</option>
+                                                )}
+                                            </select>
+                                        ) : (
+                                            filter.name
+                                        )
+                                    }
+
                                     <span className="font-medium"> Min. Price:</span> {filter.isEditing ? (
                                         <input
                                             type="number"
@@ -245,7 +272,7 @@ export function PartnerServices() {
                                     ) : (
                                         filter.minPrice
                                     )},
-                                    
+
                                     <span className="font-medium"> Max. Price:</span> {filter.isEditing ? (
                                         <input
                                             type="number"
@@ -281,7 +308,7 @@ export function PartnerServices() {
                     )}
                 </ul>
             </div>
-            
+
             <div className='flex justify-end mt-6'>
                 <button
                     onClick={handleSubmit}
