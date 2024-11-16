@@ -326,40 +326,53 @@ export function Appointments() {
 
 
                                             <Menu
-                                                anchorEl={anchorEl}
-                                                open={Boolean(anchorEl)}
-                                                onClose={handleMenuClose}
-                                                anchorOrigin={{
-                                                    vertical: 'bottom',
-                                                    horizontal: 'center',
-                                                }}
-                                                transformOrigin={{
-                                                    vertical: 'top',
-                                                    horizontal: 'center',
-                                                }}
-                                                sx={{
-                                                    boxShadow: 'none',
-                                                    '.MuiPaper-root': {
-                                                        boxShadow: 'none !important',
-                                                    },
-                                                }}
-                                            >
-                                                
-                                                {appointment.status !== 'CancelLed' &&
-                                                    appointment.status !== 'Rejected' &&
-                                                    appointment.status !== 'Completed' && (
-                                                        <>
-                                                            <MenuItem onClick={() => handleAction('confirm')}>
-                                                                Confirm
-                                                            </MenuItem>
-                                                            <MenuItem onClick={() => handleAction('cancel')}>
-                                                                Cancel
-                                                            </MenuItem>
-                                                        </>
-                                                    )}
-                                                
-                                                <MenuItem onClick={() => handleAction('view')}>See Property Details</MenuItem>
-                                            </Menu>
+    anchorEl={anchorEl}
+    open={Boolean(anchorEl)}
+    onClose={handleMenuClose}
+    anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'center',
+    }}
+    transformOrigin={{
+        vertical: 'top',
+        horizontal: 'center',
+    }}
+    sx={{
+        boxShadow: 'none',
+        '.MuiPaper-root': {
+            boxShadow: 'none !important',
+        },
+    }}
+>
+    {selectedAppointment?.status === 'Pending' && (
+        <>
+            <MenuItem onClick={() => handleAction('confirm')}>
+                Confirm
+            </MenuItem>
+            <MenuItem onClick={() => handleAction('cancel')}>
+                Cancel
+            </MenuItem>
+        </>
+    )}
+
+    {selectedAppointment?.status === 'Scheduled' && (
+        <>
+            <MenuItem onClick={() => handleAction('cancel')}>
+                Cancel
+            </MenuItem>
+        </>
+    )}
+
+    {(selectedAppointment?.status === 'Pending' ||
+        selectedAppointment?.status === 'Scheduled' ||
+        selectedAppointment?.status === 'Cancelled' ||
+        selectedAppointment?.status === 'Rejected' ||
+        selectedAppointment?.status === 'Completed') && (
+        <MenuItem onClick={() => handleAction('view')}>
+            View Property
+        </MenuItem>
+    )}
+</Menu>
 
 
 
