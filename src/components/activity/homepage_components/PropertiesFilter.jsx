@@ -19,7 +19,6 @@ export function PropertiesFilter() {
         setRegionId,
         setPropertyTypeId,
         setIsFilterUsed,
-        setPropertyID,
     } = useContext(globalProvider);
     const navigate = useNavigate();
     const { regions, isLoadingRegions } = useFetchRegions();
@@ -27,9 +26,7 @@ export function PropertiesFilter() {
         useFetchPropertyCategories();
     const { properties, isLoadingProps } = useFetchProperties();
     const { userFavoritesIDs, isLoadingFavoritesIDs } = useFetchUserFavoritesIDs();
-    
-    const { getUser } = useAuth();
-    const user = getUser().user;
+
 
     const formatPrice = (price) => {
         if (price >= 1e9) return `${(price / 1e9).toFixed(1)}B`;
@@ -178,6 +175,7 @@ export function PropertiesFilter() {
         setRegionId(selectRegion);
         setPropertyTypeId(propertyCategory);
         setIsFilterUsed(true);
+
 
         navigate(ROUTE_PATHS.SEARCH);
     }

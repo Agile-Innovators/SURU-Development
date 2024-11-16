@@ -152,10 +152,18 @@ export function SearchPartners() {
                     {isLoadingLocat
                         ? showLoaderFilters()
                         : renderLocationsSelect(locations)}
-                    <div className='grid w-full sm:w-auto'>
-                        <label htmlFor="searchTextInput" className='text-sm font-medium text-gray-700 mb-2'>Partner name</label>
+                    {
+                        isLoadingPartnersCats
+                        ? showLoaderFilters()
+                        : <div className="grid w-full sm:w-auto">
+                        <label
+                            htmlFor="searchTextInput"
+                            className="text-sm font-medium text-gray-700 mb-2"
+                        >
+                            Partner name
+                        </label>
                         <input
-                            id='searchTextInput'
+                            id="searchTextInput"
                             placeholder="Search Partner"
                             type="text"
                             value={searchText}
@@ -163,6 +171,8 @@ export function SearchPartners() {
                             className="w-full p-3 border bg-transparent border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 sm:w-auto"
                         />
                     </div>
+                    }
+                    
                 </div>
                 <MainButton
                     text={'Search'}

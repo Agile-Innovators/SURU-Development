@@ -100,6 +100,11 @@ export function PartnerIntegrationRequestForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (formData.phone_number.length !== 8) {
+            toast.error('Phone number must be exactly 8 digits.');
+            return;
+        }
+
         if (!formData.image) {
             toast.error('You must apply your company logo.');
             return;
@@ -198,8 +203,6 @@ export function PartnerIntegrationRequestForm() {
                     Contact Phone Number
                 </label>
                 <Input
-                    min={8}
-                    max={8}
                     inputName="phone_number"
                     inputId="phoneNumber-input"
                     type="number"

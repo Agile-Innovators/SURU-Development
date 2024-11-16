@@ -11,8 +11,8 @@ export function useFetchProperties() {
             const response = await axios.get('properties');
             const data = await response.data;
             // console.log(data);
-            SetIsLoadingProps(false);
             setProperties(data);
+            SetIsLoadingProps(false);
         } catch (error) {
             console.log(error);
             SetIsLoadingProps(false);
