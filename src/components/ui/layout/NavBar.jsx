@@ -152,23 +152,41 @@ export function NavBar() {
                     )}
                 </div>
             </div>
-            <DisclosurePanel className="sm:hidden">
+            <Disclosure.Panel className="sm:hidden">
                 <div className="space-y-1 px-2 pb-3 pt-2">
-                    {navigation.map((item) => (
-                        <DisclosureButton
-                            key={item.name}
+                    {navigation.map((item) =>
+                        item.isLogin ||
+                        (!item.isLogin && !authToken && !currentUser) ? (
+                            <Disclosure.Button
+                                key={item.name}
+                                as="a"
+                                href={item.href}
+                                className={classNames(
+                                    item.current
+                                        ? 'bg-cyan-700 text-white'
+                                        : 'text-primary dark:text-gray-300 hover:brightness(.5) hover:text-light-blue dark:hover:text-light-blue',
+                                    'block rounded-md px-3 py-2 text-base font-medium'
+                                )}
+                            >
+                                {item.name}
+                            </Disclosure.Button>
+                        ) : null
+                    )}
+
+                    {/* Botón de Logout si el usuario está autenticado */}
+                    {authToken && currentUser && (
+                        <Disclosure.Button
+                            key="logout"
                             as="a"
-                            href={item.href}
-                            className={classNames(
-                                item.current ? 'bg-cyan-700 text-white' : 'text-primary dark:text-gray-300 hover:brightness(.5) hover:text-light-blue dark:hover:text-light-blue',
-                                'block rounded-md px-3 py-2 text-base font-medium'
-                            )}
+                            href="#"
+                            onClick={handleLogout} 
+                            className="block rounded-md px-3 py-2 text-base font-medium text-red-600 hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-800"
                         >
-                            {item.name}
-                        </DisclosureButton>
-                    ))}
+                            Logout
+                        </Disclosure.Button>
+                    )}
                 </div>
-            </DisclosurePanel>
+            </Disclosure.Panel>
         </Disclosure>
     );
 }
