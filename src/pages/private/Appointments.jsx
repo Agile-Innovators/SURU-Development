@@ -345,9 +345,9 @@ export function Appointments() {
                                                 }}
                                             >
                                                 
-                                                {appointment.status == 'Canceled' &&
-                                                    appointment.status == 'Rejected' &&
-                                                    appointment.status == 'Completed' && (
+                                                {appointment.status !== 'CancelLed' &&
+                                                    appointment.status !== 'Rejected' &&
+                                                    appointment.status !== 'Completed' && (
                                                         <>
                                                             <MenuItem onClick={() => handleAction('confirm')}>
                                                                 Confirm
@@ -357,7 +357,7 @@ export function Appointments() {
                                                             </MenuItem>
                                                         </>
                                                     )}
-                                                {/* Mostrar siempre See Property Details */}
+                                                
                                                 <MenuItem onClick={() => handleAction('view')}>See Property Details</MenuItem>
                                             </Menu>
 
