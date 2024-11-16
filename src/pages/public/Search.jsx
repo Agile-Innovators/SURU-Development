@@ -11,18 +11,29 @@ import { LayoutModal } from '../../components/ui/modals/LayoutModal';
 import { useFetchUserFavoritesIDs } from '../../components/hooks/useFetchUserFavoritesIDs';
 
 export function Search() {
-    const { data, isLoading } = useFetchFilter();
+    const { data, isLoading, filterUsed, regionId, propertyTypeId } =
+        useFetchFilter();
     const { userFavoritesIDs } = useFetchUserFavoritesIDs();
     const navigate = useNavigate();
     const [isLoadingFilter, setIsLoadingFilter] = useState(false);
     const [properties, setProperties] = useState(data);
     const [isOpenModal, setIsOpenModal] = useState(false);
+    const [regionID, setRegionID] = useState(0);
+    const [categoryID, setCategoryID] = useState(0);
+
 
     const setFilterProperties = (data) => {
         setProperties(data);
     };
 
     useEffect(() => {
+        if(filterUsed){
+            setRegionID(regionId);
+            setCategoryID(propertyTypeId);
+        }
+        // console.log(regionId);
+        // console.log(propertyTypeId);
+        
         setProperties(data);
     }, [isLoading]);
 
@@ -34,10 +45,7 @@ export function Search() {
         return Array(6)
             .fill(0)
             .map((_, index) => (
-                <SkeletonLoader
-                    key={index}
-                    customClass="h-[25rem] w-full"
-                />
+                <SkeletonLoader key={index} customClass="h-[25rem] w-full" />
             ));
     };
 
@@ -96,6 +104,8 @@ export function Search() {
                     handleModal={setIsOpenModal}
                     setProperties={setFilterProperties}
                     isLoadingFilter={setIsLoadingFilter}
+                    showCategory={setCategoryID}
+                    showRegion={setRegionID}
                 />
             </LayoutModal>
 
@@ -104,6 +114,10 @@ export function Search() {
                 setData={setFilterProperties}
                 isLoadingFilter={setIsLoadingFilter}
                 handleModal={setIsOpenModal}
+                categoryID={categoryID}
+                regionID={regionID}
+                filterUsed={filterUsed}
+
             />
             <div className="grid grid-cols-[repeat(auto-fill,_minmax(350px,_1fr))] gap-6 mt-10 mb-14">
                 {isLoading || isLoadingFilter

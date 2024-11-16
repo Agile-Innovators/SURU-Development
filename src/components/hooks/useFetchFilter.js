@@ -7,26 +7,18 @@ export const useFetchFilter = () => {
     let response;
     const {
         regionId,
-        // minPrice,
-        // maxPrice,
         propertyTypeId,
         isFilterUsed,
         setIsFilterUsed,
     } = useContext(globalProvider);
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [ filterUsed, setFilterUsed ] = useState(false);
 
     const getData = async () => {
+        
         try {
             if (isFilterUsed) {
-                // console.log(
-                //     'valores de entrada: ',
-                //     regionId,
-                //     // minPrice,
-                //     // maxPrice,
-                //     propertyTypeId,
-                //     isFilterUsed
-                // );
                 response = await axios.get('/properties/filter', {
                     params: {
                         regionId: regionId,
@@ -35,7 +27,9 @@ export const useFetchFilter = () => {
                         propertyCategoryId: propertyTypeId,
                     },
                 });
-
+                // console.log(regionId);
+                // console.log(propertyTypeId);
+                setFilterUsed(true);
                 setIsFilterUsed(false);
             } else {
                 response = await axios.get('/properties');
@@ -57,5 +51,8 @@ export const useFetchFilter = () => {
     return {
         data,
         isLoading,
+        filterUsed,
+        regionId,
+        propertyTypeId
     };
 };
