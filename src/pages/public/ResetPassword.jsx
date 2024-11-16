@@ -4,7 +4,6 @@ import { MainButton } from '../../components/ui/buttons/MainButton.jsx';
 import { Input } from '../../components/ui/forms/Input.jsx';
 import { useAxios } from '../../components/hooks/useAxios.js';
 import { ROUTE_PATHS } from '../../routes/index.js';
-import { forceLightMode } from '../../components/hooks/utils.js';
 
 export function ResetPassword() {
     const axios = useAxios();
@@ -18,10 +17,6 @@ export function ResetPassword() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
-
-    useEffect(() => {
-        forceLightMode(); // Activa el modo claro al montar el componente
-    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

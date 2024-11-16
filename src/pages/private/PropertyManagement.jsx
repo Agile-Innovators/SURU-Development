@@ -1,21 +1,22 @@
-import { BackButton } from '../../components/ui/buttons/BackButton.jsx';
+import { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MapPin, EllipsisVertical, Pencil, Trash2, Eye } from 'lucide-react';
+import { BackButton } from '../../components/ui/buttons/BackButton.jsx';
 import { MainButton } from '../../components/ui/buttons/MainButton.jsx';
-import { ROUTE_PATHS } from '../../routes/index.js';
-import { useState, useEffect } from 'react';
-import { useAxios } from '../../components/hooks/useAxios.js';
-import { useFetchUserProperties } from '../../components/hooks/useFetchUserProperties.js';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
+import { ROUTE_PATHS } from '../../routes/index.js';
+import { useAxios } from '../../components/hooks/useAxios.js';
+import { useFetchUserProperties } from '../../components/hooks/useFetchUserProperties.js';
+import { ThemeContext } from '../../global/ThemeContext'; // Ruta según tu estructura
 
 export function PropertyManagement() {
+    const { theme } = useContext(ThemeContext); // Obtiene el tema desde el contexto
     const { properties, isLoadingProps } = useFetchUserProperties();
     const [propertiesData, setPropertiesData] = useState(properties);
     const [openDropdownId, setOpenDropdownId] = useState(null);
     const axios = useAxios();
-    const navigate = useNavigate(); // Inicializar useNavigate
-
+    const navigate = useNavigate();
 
     const formatPrice = (price) => {
         if (price >= 1e9) return `${(price / 1e9).toFixed(1)}B`;
@@ -43,7 +44,6 @@ export function PropertyManagement() {
 
             toast.success(data.message);
         } catch (error) {
-            // console.log(error);
             toast.error('An error occurred while deleting the property.');
         }
     };
@@ -95,7 +95,6 @@ export function PropertyManagement() {
                                     <EllipsisVertical size={24} />
                                 </button>
 
-                                {/* Opciones del menú desplegable (los tres puntitos) */}
                                 {openDropdownId === item.id && (
                                     <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md shadow-lg z-10">
                                         <ul className="text-left">
@@ -111,8 +110,9 @@ export function PropertyManagement() {
                                             <li
                                                 className="px-4 py-2 hover:bg-gray-500 dark:hover:bg-gray-600 hover:text-white flex items-center gap-2 cursor-pointer"
                                                 onClick={() => {
-                                                    // console.log('Edit clicked');
-                                                    navigate(ROUTE_PATHS.EDIT_PROPERTY.replace(':id', item.id));
+                                                    navigate(
+                                                        ROUTE_PATHS.EDIT_PROPERTY.replace(':id', item.id)
+                                                    );
                                                     setOpenDropdownId(null);
                                                 }}
                                             >
@@ -155,16 +155,16 @@ export function PropertyManagement() {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="light"
+                theme={theme} // Cambia dinámicamente el tema del ToastContainer
             />
             <div className="text-center grid gap-4">
-                <div className="flex flex-col  justify-between gap-4 items-center mt-4">
+                <div className="flex flex-col justify-between gap-4 items-center mt-4">
                     <section className="flex gap-4 justify-between w-full flex-col">
                         <BackButton />
                         <h1 className="text-center sm:text-start">
                             Manage Publications
                         </h1>
-                        <div className='flex justify-end'>
+                        <div className="flex justify-end">
                             <MainButton
                                 type="link"
                                 to={ROUTE_PATHS.CREATE_PROPERTY}
@@ -173,7 +173,6 @@ export function PropertyManagement() {
                             />
                         </div>
                     </section>
-
                 </div>
                 {isLoadingProps ? (
                     <p>Loading...</p>

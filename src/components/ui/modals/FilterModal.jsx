@@ -2,11 +2,12 @@ import { Input } from '../forms/Input';
 import { MainButton } from '../buttons/MainButton';
 import { SecondaryFilterTag } from './../buttons/SecondaryFilterTag';
 import { X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useFetchPropertyCategories } from '../../hooks/useFetchPropertyCategories';
 import { useFetchRegions } from './../../hooks/useFetchRegions';
 import { useFetchPropertyTransactionTypes } from '../../hooks/useFetchPropertyTransactionTypes';
 import { SkeletonLoader } from '../SkeletonLoader';
+import { ThemeContext } from '../../../global/ThemeContext';
 import { useAxios } from '../../hooks/useAxios';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,6 +18,7 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter, showC
     const [maxPrice, setMaxPrice] = useState(0);
     const [bedrooms, setBedrooms] = useState(0);
     const [bathrooms, setBathrooms] = useState(0);
+    const { theme } = useContext(ThemeContext); 
     const [floors, setFloors] = useState(0);
     const [pools, setPools] = useState(0);
     const [garages, setGarages] = useState(0);
@@ -342,7 +344,7 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter, showC
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="light"
+                theme={theme}
             />
             <div className="w-full flex justify-between items-center border-b-2">
                 <h3>Filters</h3>

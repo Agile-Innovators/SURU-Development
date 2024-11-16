@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
     Tabs,
     Tab,
@@ -18,7 +18,7 @@ import { useAxios } from '../../components/hooks/useAxios';
 import Swal from 'sweetalert2';
 import { globalProvider } from '../../global/GlobalProvider';
 import { ROUTE_PATHS } from '../../routes';
-import { useContext } from 'react';
+import { ThemeContext } from '../../global/ThemeContext'; // Importa ThemeContext
 
 export function Appointments() {
     const user = JSON.parse(localStorage.getItem('user')) || null;
@@ -35,6 +35,7 @@ export function Appointments() {
     const navigate = useNavigate();
 
     const { setPropertyID } = useContext(globalProvider);
+    const { theme } = useContext(ThemeContext); // Accede al tema actual
 
     useEffect(() => {
         fetchAppointments(currentStatus);
@@ -72,6 +73,7 @@ export function Appointments() {
                     title: 'Appointment Confirmed',
                     showConfirmButton: false,
                     timer: 1500,
+                    customClass: theme === 'dark' ? 'swal-dark' : '', // Aplica tema oscuro
                 });
                 setAppointments((prevAppointments) =>
                     prevAppointments.filter((appt) => appt.id !== appointmentId)
@@ -80,10 +82,13 @@ export function Appointments() {
                 fetchAppointments('Confirmed');
             })
             .catch((error) => {
-                const errorMessage =
-                    error.response?.data?.message ||
-                    'Failed to confirm the appointment';
-                Swal.fire('Error!', errorMessage, 'error');
+                const errorMessage = error.response?.data?.message || 'Failed to confirm the appointment';
+                Swal.fire({
+                    title: 'Error!',
+                    text: errorMessage,
+                    icon: 'error',
+                    customClass: theme === 'dark' ? 'swal-dark' : '', // Aplica tema oscuro
+                });
             });
     };
 
@@ -96,29 +101,30 @@ export function Appointments() {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, cancel it!',
+            customClass: theme === 'dark' ? 'swal-dark' : '', // Aplica tema oscuro
         }).then((result) => {
             if (result.isConfirmed) {
                 axios
                     .put(`/appointment/cancel/${appointmentId}/${userId}`)
                     .then(() => {
-                        Swal.fire(
-                            'Cancelled!',
-                            'Your appointment has been cancelled.',
-                            'success'
-                        );
-                        setAppointments((prevAppointments) =>
-                            prevAppointments.filter(
-                                (appt) => appt.id !== appointmentId
-                            )
-                        );
+                        Swal.fire({
+                            title: 'Cancelled!',
+                            text: 'Your appointment has been cancelled.',
+                            icon: 'success',
+                            customClass: theme === 'dark' ? 'swal-dark' : '', // Aplica tema oscuro
+                        });
+                        setAppointments((prevAppointments) => prevAppointments.filter((appt) => appt.id !== appointmentId));
                         setCurrentStatus('Cancelled');
                         fetchAppointments('Cancelled');
                     })
                     .catch((error) => {
-                        const errorMessage =
-                            error.response?.data?.message ||
-                            'Failed to cancel the appointment';
-                        Swal.fire('Error!', errorMessage, 'error');
+                        const errorMessage = error.response?.data?.message || 'Failed to cancel the appointment';
+                        Swal.fire({
+                            title: 'Error!',
+                            text: errorMessage,
+                            icon: 'error',
+                            customClass: theme === 'dark' ? 'swal-dark' : '', // Aplica tema oscuro
+                        });
                     });
             }
         });

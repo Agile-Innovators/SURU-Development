@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { SkeletonLoader } from '../../ui/SkeletonLoader.jsx';
 import { Droplet, Wifi, Zap, Tv } from 'lucide-react';
 import { RequestAppointmentModal } from '../../ui/modals/RequestAppointmentModal';
 import { ToastContainer, toast } from 'react-toastify';
+import { ThemeContext } from '../../../global/ThemeContext.jsx';
 import 'react-toastify/dist/ReactToastify.css';
 import PropTypes from 'prop-types';
 import { LayoutModal } from '../../ui/modals/LayoutModal.jsx';
@@ -12,6 +13,8 @@ import { X } from 'lucide-react';
 export function PropertyPricingDetails({ propertyTemp, isLoading }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const property = propertyTemp;
+    const { theme } = useContext(ThemeContext);
+
     console.log('property', property);
     // Obtener el usuario logeado de localStorage
     const user = JSON.parse(localStorage.getItem('user')) || null;
@@ -79,7 +82,7 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                     pauseOnFocusLoss
                     draggable
                     pauseOnHover
-                    theme="light"
+                    theme={theme}
                 />
                 <div className="flex flex-col border-2 gap-2 rounded-md p-4">
                     <LayoutModal status={isModalVisible} customClass="flex  items-center justify-center">

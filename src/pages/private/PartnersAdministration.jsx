@@ -1,16 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
 import Swal from 'sweetalert2';
 import { useAxios } from '../../components/hooks/useAxios';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes';
 import { globalProvider } from '../../global/GlobalProvider';
+import { ThemeContext } from '../../global/ThemeContext';
 
 export function PartnersAdministration() {
     const user = JSON.parse(localStorage.getItem('user')) || null;
     const loggedInUserId = user?.id;
-
     const navigate = useNavigate();
+    const { theme } = useContext(ThemeContext); // Accede al tema actual
 
     const [currentStatus, setCurrentStatus] = useState('Pending');
     const [partners, setPartners] = useState([]);
@@ -60,6 +61,7 @@ export function PartnersAdministration() {
                 title: `Partner ${newStatus}`,
                 showConfirmButton: false,
                 timer: 1500,
+                customClass: theme === 'dark' ? 'swal-dark' : '', // Aplica tema oscuro
             });
         }
     };
@@ -77,11 +79,12 @@ export function PartnersAdministration() {
                     'Error approving partner:',
                     error.response || error
                 );
-                Swal.fire(
-                    'Error!',
-                    'Failed to approve the partner. Please try again.',
-                    'error'
-                );
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Failed to approve the partner. Please try again.',
+                    customClass: theme === 'dark' ? 'swal-dark' : '', // Aplica tema oscuro
+                });
             });
     };
 
@@ -94,14 +97,13 @@ export function PartnersAdministration() {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, reject it!',
+            customClass: theme === 'dark' ? 'swal-dark' : '', // Aplica tema oscuro
         }).then((result) => {
             if (result.isConfirmed) {
                 axios
                     .put(
                         `/partner-request/${partnerRequestId}/${loggedInUserId}`,
-                        {
-                            status: 'Rejected',
-                        }
+                        { status: 'Rejected' }
                     )
                     .then(() => {
                         updatePartnerStatus(partnerRequestId, 'Rejected');
@@ -111,15 +113,17 @@ export function PartnersAdministration() {
                             'Error rejecting partner:',
                             error.response || error
                         );
-                        Swal.fire(
-                            'Error!',
-                            'Failed to reject the partner. Please try again.',
-                            'error'
-                        );
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Failed to reject the partner. Please try again.',
+                            customClass: theme === 'dark' ? 'swal-dark' : '', // Aplica tema oscuro
+                        });
                     });
             }
         });
     };
+
     const showAdditionalInfo = (partner) => {
         Swal.fire({
             title: `
@@ -215,16 +219,16 @@ export function PartnersAdministration() {
                             aria-label="status tabs"
                             className="flex-1"
                         >
-                            <Tab label="Pending" value="Pending" />
-                            <Tab label="Approved" value="Approved" />
-                            <Tab label="Rejected" value="Rejected" />
+                            <Tab label="Pending" value="Pending" className='dark:text-white' />
+                            <Tab label="Approved" value="Approved" className='dark:text-white'/>
+                            <Tab label="Rejected" value="Rejected" className='dark:text-white'/>
                         </Tabs>
                     </Box>
 
                     {/* Tabla para pantallas grandes */}
                     <div className="overflow-auto rounded-lg shadow hidden md:block">
                         <table className="w-full">
-                            <thead className="bg-gray-300 border-b-2 border-gray-200 text-black text-left">
+                            <thead className="bg-gray-300 dark:bg-gray-800 border-b-2 border-gray-200 dark:border-gray-600 text-black dark:text-white text-left">
                                 <tr>
                                     <th className="p-3 text-sm font-semibold tracking-wide text-center">
                                         Company Name
@@ -246,48 +250,43 @@ export function PartnersAdministration() {
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-300">
+                            <tbody className="divide-y divide-gray-300 dark:divide-gray-700">
                                 {partners.length > 0 ? (
                                     partners.map((partner) => (
-                                        <tr
-                                            className="bg-white"
-                                            key={partner.id}
-                                        >
-                                            <td className="p-3 text-sm text-gray-700 whitespace-nowrap flex items-center gap-2">
+                                        <tr className="bg-white dark:bg-gray-900" key={partner.id}>
+                                            <td className="p-3 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap flex items-center gap-2">
                                                 <img
                                                     src={partner.image}
                                                     alt="Company Logo"
-                                                    className="w-10 h-10 rounded-full bg-gray-200"
+                                                    className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700"
                                                 />
                                                 {partner.name}
                                             </td>
-                                            <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                            <td className="p-3 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
                                                 {partner.category_name || 'N/A'}
                                             </td>
-                                            <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                            <td className="p-3 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
                                                 {partner.phone_number || 'N/A'}
                                             </td>
-                                            <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                            <td className="p-3 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
                                                 {partner.email || 'N/A'}
                                             </td>
-                                            <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                            <td className="p-3 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
                                                 <span
-                                                    className={`p-1.5 text-xs font-medium uppercase tracking-wider rounded-lg opacity-50 ${currentStatus ===
-                                                            'Approved'
-                                                            ? 'text-green-800 bg-green-200'
-                                                            : currentStatus ===
-                                                                'Rejected'
-                                                                ? 'text-red-800 bg-red-200'
-                                                                : 'text-yellow-800 bg-yellow-200'
-                                                        }`}
+                                                   className={`p-1.5 text-xs font-medium uppercase tracking-wider rounded-lg ${
+                                                    currentStatus === 'Approved'
+                                                        ? 'text-green-600 bg-green-100 dark:bg-green-800 dark:text-green-200'
+                                                        : currentStatus === 'Rejected'
+                                                        ? 'text-red-600 bg-red-100 dark:bg-red-800 dark:text-red-200'
+                                                        : 'text-yellow-600 bg-yellow-100 dark:bg-yellow-800 dark:text-yellow-200'
+                                                    }`}
                                                 >
                                                     {currentStatus}
                                                 </span>
                                             </td>
-                                            <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
+                                            <td className="p-3 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
                                                 <div className="flex gap-2 items-center justify-center">
-                                                    {currentStatus ===
-                                                        'Pending' ? (
+                                                    {currentStatus === 'Pending' ? (
                                                         <>
                                                             <button
                                                                 className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3"
@@ -341,7 +340,7 @@ export function PartnersAdministration() {
                                     <tr>
                                         <td
                                             colSpan={10}
-                                            className="p-3 text-center text-sm text-gray-500"
+                                            className="p-3 text-center text-sm text-gray-500 dark:text-gray-400"
                                         >
                                             {currentStatus === 'Pending'
                                                 ? 'There is no pending partners'

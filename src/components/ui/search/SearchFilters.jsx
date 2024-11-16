@@ -4,8 +4,9 @@ import { useFetchRegions } from '../../hooks/useFetchRegions';
 import { useAxios } from '../../hooks/useAxios';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ThemeContext } from '../../../global/ThemeContext';
 import { SkeletonLoader } from '../SkeletonLoader';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 
 export function SearchFilter({
     setData,
@@ -21,6 +22,7 @@ export function SearchFilter({
     const [regionId, setRegionId] = useState(regionID);
     const [categoryId, setCategoryId] = useState(categoryID);
     const axios = useAxios();
+    const { theme } = useContext(ThemeContext); 
 
     useEffect(() => {
         // if(filterUsed){
@@ -145,7 +147,7 @@ export function SearchFilter({
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="light"
+                theme={theme}
             />
             <div className="grid grid-cols-[repeat(auto-fit,_minmax(00px,_1fr))] gap-4 sm:gap-8 items-center">
                 {isLoadingPropsCats

@@ -10,6 +10,7 @@ import { globalProvider } from '../../../global/GlobalProvider.jsx';
 import { useFetchProperties } from '../../hooks/useFetchProperties.js';
 import { SkeletonLoader } from '../../ui/SkeletonLoader.jsx';
 import { ToastContainer } from 'react-toastify';
+import { ThemeContext } from '../../../global/ThemeContext.jsx';
 import 'react-toastify/dist/ReactToastify.css';
 import { useFetchUserFavoritesIDs } from './../../hooks/useFetchUserFavoritesIDs';
 import { useAuth } from '../../../global/AuthProvider.jsx';
@@ -21,6 +22,7 @@ export function PropertiesFilter() {
         setIsFilterUsed,
     } = useContext(globalProvider);
     const navigate = useNavigate();
+    const { theme } = useContext(ThemeContext); 
     const { regions, isLoadingRegions } = useFetchRegions();
     const { propertyCategories, isLoadingPropsCats } =
         useFetchPropertyCategories();
@@ -209,7 +211,7 @@ export function PropertiesFilter() {
                     pauseOnFocusLoss
                     draggable
                     pauseOnHover
-                    theme="light"
+                    theme={theme}
                 />
                 <h1>Property Gallery</h1>
                 {/* Le cambie el color y este se ve mas presentable */}

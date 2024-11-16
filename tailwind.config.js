@@ -91,6 +91,7 @@ export default {
                     color: theme('colors.grey'),
                     fontFamily: theme('fontFamily.primary'),
                     fontWeight: '300', //regular
+                    '@apply dark:text-white dark:border-gray-600': {},
                 },
             });
         },

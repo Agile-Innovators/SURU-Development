@@ -1,11 +1,12 @@
 import { Input } from '../../components/ui/forms/Input';
 import { MainButton } from '../../components/ui/buttons/MainButton';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useFetchUser } from '../../components/hooks/useFetchUser';
 import { useAuth } from '../../global/AuthProvider';
 import { Pencil } from 'lucide-react';
 import { useFetchLocations } from '../../components/hooks/useFetchLocations';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
+import { ThemeContext } from '../../global/ThemeContext';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes';
@@ -17,7 +18,7 @@ export function GeneralInformation() {
     const [userData, setUserData] = useState(null);
     const { locations } = useFetchLocations();
     const navigate = useNavigate();
-
+    const { theme } = useContext(ThemeContext); 
     if (user.user_type == "partner") {
         navigate(ROUTE_PATHS.HOME);
     }
@@ -163,7 +164,7 @@ export function GeneralInformation() {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="light"
+                theme={theme}
             />
             {loading ? (
                 <div className="flex flex-col items-center justify-center h-48 space-y-4">
