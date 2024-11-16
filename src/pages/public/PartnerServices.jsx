@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../global/AuthProvider.jsx';
 import { useFetchServices } from '../../components/hooks/useFetchServices';
+import { ThemeContext } from '../../global/ThemeContext.jsx';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -14,7 +15,7 @@ export function PartnerServices() {
     const { getUser } = useAuth();
     const { user } = getUser();
     const { services, loading, error, updatePartnerServices } = useFetchServices(1);
-
+    const { theme } = useContext(ThemeContext); 
     if (user.user_type !== "partner") {
         navigate(ROUTE_PATHS.HOME);
     }
@@ -111,7 +112,7 @@ export function PartnerServices() {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="light"
+                theme={theme}
             />
 
 

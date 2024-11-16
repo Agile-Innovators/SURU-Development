@@ -17,6 +17,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ROUTE_PATHS } from '../../../routes/index.js';
 import { BackButton } from '../../ui/buttons/BackButton';
+import { ThemeContext } from '../../../global/ThemeContext';
 
 const MAX_IMAGES = 6;
 const MIN_IMAGES = 3;
@@ -36,6 +37,7 @@ const EditPropertyForm = () => {
     const [filterPropTransaction, setFilterPropTransaction] = useState(1);
     const [userId, setUserId] = useState(null);
     const navigate = useNavigate();
+    const { theme } = useContext(ThemeContext);
     const axios = useAxios();
 
     useEffect(() => {
@@ -253,7 +255,7 @@ const EditPropertyForm = () => {
 
     return (
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <ToastContainer position="top-center" autoClose={900} hideProgressBar theme="light" />
+            <ToastContainer position="top-center" autoClose={900} hideProgressBar theme={theme}/>
             <section className="mt-10 flex flex-col sm:flex-row gap-4">
                 <BackButton />
                 <h1 className="text-center sm:text-start">Edit Property</h1>

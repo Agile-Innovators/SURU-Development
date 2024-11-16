@@ -11,7 +11,7 @@ import { ThemeContext } from '../../../global/ThemeContext';
 export function PartnerIntegrationRequestForm() {
     const axios = useAxios();
     const navigate = useNavigate();
-    const { theme } = useContext(ThemeContext); // Accede al tema actual
+    const { theme } = useContext(ThemeContext); 
 
     const [cities, setCities] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -139,7 +139,7 @@ export function PartnerIntegrationRequestForm() {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="light"
+                theme={theme}
             />
             <div className="flex flex-col mb-4">
                 <label htmlFor="name" className="font-medium text-gray-700">Company Name</label>

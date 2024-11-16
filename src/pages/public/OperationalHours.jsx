@@ -13,7 +13,7 @@ export function OperationalHours() {
     const { user } = getUser();
     const [errorMessages, setErrorMessages] = useState({});
     const [isEditing, setIsEditing] = useState(false);
-    const { theme } = useContext(ThemeContext); // Accede al tema actual
+    const { theme } = useContext(ThemeContext); 
     const {
         updateUserOperationalHours,
         getOperationalHours,
@@ -145,7 +145,7 @@ export function OperationalHours() {
                             pauseOnFocusLoss
                             draggable
                             pauseOnHover
-                            theme="light"
+                            theme={theme}
                         />
                         <div className='flex justify-between gap-2 flex-col sm:flex-row'>
                             <div className='flex flex-col text-center sm:text-left'>

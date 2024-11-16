@@ -14,10 +14,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ROUTE_PATHS } from '../../../routes/index.js';
 import { BackButton } from '../../ui/buttons/BackButton';
+import { ThemeContext } from '../../../global/ThemeContext';
 
 const CreatePropertyForm = () => {
     const axios = useAxios();
-    const { setPropTypeForm, setPropTransacTypeForm } = useContext(globalProvider);
+    const { setPropTypeForm, setPropTransacTypeForm } =
+        useContext(globalProvider);
     const [images, setImages] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
     const [data, setData] = useState({});
@@ -26,6 +28,7 @@ const CreatePropertyForm = () => {
     const [filterPropTransaction, setFilterPropTransaction] = useState(1);
     const [userId, setUserId] = useState();
     const navigate = useNavigate();
+    const { theme } = useContext(ThemeContext);
 
     useEffect(() => {
         const data = localStorage.getItem('user');
@@ -36,11 +39,11 @@ const CreatePropertyForm = () => {
     });
 
     useEffect(() => {
-      if (images.length+1 > 6) {
-        toast.error("You can only upload up to 6 images");
-        return;
-      }
-  }, [images]);
+        if (images.length + 1 > 6) {
+            toast.error('You can only upload up to 6 images');
+            return;
+        }
+    }, [images]);
 
     //manejar el valor de tipo de propiedad
     const handleFilterPropType = (filterId) => {
@@ -89,32 +92,32 @@ const CreatePropertyForm = () => {
 
     //manejar el cambio de imagenes
     const handleImageChange = (event) => {
-      const files = Array.from(event.target.files);
-      const newImages = [...images];
-      const newPreviews = [...imagePreviews];
-  
-      // Limitar la cantidad de imágenes, se dejan subir hasta 6
-      if (newImages.length + files.length > 6) {
-          toast.error("You can only upload up to 6 images");
-          return; 
-      }
-  
-      files.forEach((file) => {
-          if (newImages.length < 6) {
-              newImages.push(file);
-            //   console.log("Image uploaded:", file.name);
-              const reader = new FileReader();
-              reader.onloadend = () => {
-                  newPreviews.push(reader.result);
-                  setImagePreviews([...newPreviews]);
-              };
-              reader.readAsDataURL(file);
-          }
-      });
-  
-      setImages(newImages);
-      event.target.value = ''; // Resetear el input para permitir la selección de la misma imagen
-  };
+        const files = Array.from(event.target.files);
+        const newImages = [...images];
+        const newPreviews = [...imagePreviews];
+
+        // Limitar la cantidad de imágenes, se dejan subir hasta 6
+        if (newImages.length + files.length > 6) {
+            toast.error('You can only upload up to 6 images');
+            return;
+        }
+
+        files.forEach((file) => {
+            if (newImages.length < 6) {
+                newImages.push(file);
+                //   console.log("Image uploaded:", file.name);
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    newPreviews.push(reader.result);
+                    setImagePreviews([...newPreviews]);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        setImages(newImages);
+        event.target.value = ''; // Resetear el input para permitir la selección de la misma imagen
+    };
 
     const removeImage = (index) => {
         const newImages = images.filter((_, i) => i !== index);
@@ -129,7 +132,7 @@ const CreatePropertyForm = () => {
 
         // Verificar si se han subido imágenes
         if (images.length < 3) {
-          toast.error("Upload at least 3 images");
+            toast.error('Upload at least 3 images');
             return;
         }
 
@@ -238,7 +241,7 @@ const CreatePropertyForm = () => {
 
     return (
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <ToastContainer
+            <ToastContainer
                 position="top-center"
                 autoClose={900}
                 hideProgressBar
@@ -248,13 +251,13 @@ const CreatePropertyForm = () => {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="light"
+                theme={theme} 
             />
-            <section className='mt-10 flex flex-col sm:flex-row gap-4'>
-              <BackButton />
-              <h1 className="text-center sm:text-start">
-                  Let&apos;s add a property
-              </h1>
+            <section className="mt-10 flex flex-col sm:flex-row gap-4">
+                <BackButton />
+                <h1 className="text-center sm:text-start">
+                    Let&apos;s add a property
+                </h1>
             </section>
             <div className="container mx-auto">
                 <SectionDivider text="Property type" />
@@ -363,7 +366,7 @@ const CreatePropertyForm = () => {
                             <div className="image-preview-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 gap-4">
                                 {imagePreviews.map((image, index) => (
                                     <div key={index} className="relative">
-                                      <img
+                                        <img
                                             src={image}
                                             alt={`Preview ${index + 1}`}
                                             className="w-full h-40 object-cover rounded-md mr-2 grid"

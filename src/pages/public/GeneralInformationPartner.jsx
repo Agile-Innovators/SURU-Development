@@ -5,6 +5,7 @@ import { useFetchPartner } from '../../components/hooks/useFetchPartner';
 import { useAuth } from '../../global/AuthProvider';
 import { Pencil } from 'lucide-react';
 import { useFetchLocations } from '../../components/hooks/useFetchLocations';
+import { ThemeContext } from '../../global/ThemeContext';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
@@ -17,7 +18,7 @@ export function GeneralInformationPartner() {
     const [userData, setUserData] = useState(null);
     const navigate = useNavigate();
     const { locations } = useFetchLocations();
-
+    const { theme } = useContext(ThemeContext);
     if (user.user_type !== "partner") {
         navigate(ROUTE_PATHS.HOME);
     }
@@ -203,7 +204,7 @@ export function GeneralInformationPartner() {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="light"
+                theme={theme}
             />
 
             <p>PARTNER</p>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+
 export function LayoutModal({ children, customClass = '', status, onClose }) {
     const [isOpen, setIsOpen] = useState(status);
 
@@ -34,6 +35,7 @@ import { ROUTE_PATHS } from '../../../routes/index.js';
 import { useAuth } from '../../../global/AuthProvider.jsx';
 import { useAxios } from '../../../components/hooks/useAxios.js';
 import { ToastContainer, toast } from 'react-toastify';
+import { ThemeContext } from '../../../global/ThemeContext';
 import 'react-toastify/dist/ReactToastify.css';
 
 export function RegisterForm() {
@@ -47,6 +49,7 @@ export function RegisterForm() {
     const [modalContent, setModalContent] = useState('');
     const navigate = useNavigate();
     const axios = useAxios();
+    const { theme } = useContext(ThemeContext); 
     const { login } = useAuth();
 
     const handleSubmit = async (event) => {
@@ -102,7 +105,7 @@ export function RegisterForm() {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="light"
+                theme={theme}
             />
             <h1>Let&apos;s get started</h1>
             <span className="text-grey">

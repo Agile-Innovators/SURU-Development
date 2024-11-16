@@ -7,6 +7,7 @@ import { useFetchPropertyCategories } from '../../hooks/useFetchPropertyCategori
 import { useFetchRegions } from './../../hooks/useFetchRegions';
 import { useFetchPropertyTransactionTypes } from '../../hooks/useFetchPropertyTransactionTypes';
 import { SkeletonLoader } from '../SkeletonLoader';
+import { ThemeContext } from '../../../global/ThemeContext';
 import { useAxios } from '../../hooks/useAxios';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,6 +18,7 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
     const [maxPrice, setMaxPrice] = useState(0);
     const [bedrooms, setBedrooms] = useState(0);
     const [bathrooms, setBathrooms] = useState(0);
+    const { theme } = useContext(ThemeContext); 
     const [floors, setFloors] = useState(0);
     const [pools, setPools] = useState(0);
     const [garages, setGarages] = useState(0);
@@ -337,7 +339,7 @@ export function FilterModal({ handleModal, setProperties, isLoadingFilter }) {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="light"
+                theme={theme}
             />
             <div className="w-full flex justify-between items-center border-b-2">
                 <h3>Filters</h3>
