@@ -1,12 +1,24 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Tabs, Tab, Box } from '@mui/material';
-import { Clock, MapPin } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import {
+    Tabs,
+    Tab,
+    Box,
+    Button,
+    Menu,
+    MenuItem,
+    IconButton,
+} from '@mui/material';
+import { Clock, MapPin, MoreHorizontal } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { FiltersAppointmentsModal } from '../../components/ui/modals/FiltersAppointmentsModal';
+import { RequestAppointmentModal } from '../../components/ui/modals/RequestAppointmentModal';
+import { LayoutModal } from '../../components/ui/modals/LayoutModal';
 import { useAxios } from '../../components/hooks/useAxios';
 import Swal from 'sweetalert2';
 import { globalProvider } from '../../global/GlobalProvider';
 import { ROUTE_PATHS } from '../../routes';
+import { useContext } from 'react';
 
 export function Appointments() {
     const user = JSON.parse(localStorage.getItem('user')) || null;
@@ -17,6 +29,8 @@ export function Appointments() {
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentStatus, setCurrentStatus] = useState('Scheduled');
+    const [anchorEl, setAnchorEl] = useState(null); // For the menu
+    const [selectedAppointment, setSelectedAppointment] = useState(null); // To track the appointment for actions
     const axios = useAxios();
     const navigate = useNavigate();
 
@@ -36,7 +50,10 @@ export function Appointments() {
                 setLoading(false);
             })
             .catch((error) => {
-                console.error('Error fetching appointments:', error.response || error);
+                console.error(
+                    'Error fetching appointments:',
+                    error.response || error
+                );
                 setLoading(false);
             });
     };
@@ -46,7 +63,8 @@ export function Appointments() {
     };
 
     const confirmAppointment = (appointmentId, userId) => {
-        axios.put(`/appointment/accept/${appointmentId}/${userId}`)
+        axios
+            .put(`/appointment/accept/${appointmentId}/${userId}`)
             .then(() => {
                 Swal.fire({
                     position: 'center',
@@ -55,11 +73,16 @@ export function Appointments() {
                     showConfirmButton: false,
                     timer: 1500,
                 });
-                setAppointments((prevAppointments) => prevAppointments.filter((appt) => appt.id !== appointmentId));
+                setAppointments((prevAppointments) =>
+                    prevAppointments.filter((appt) => appt.id !== appointmentId)
+                );
+                setCurrentStatus('Confirmed');
                 fetchAppointments('Confirmed');
             })
             .catch((error) => {
-                const errorMessage = error.response?.data?.message || 'Failed to confirm the appointment';
+                const errorMessage =
+                    error.response?.data?.message ||
+                    'Failed to confirm the appointment';
                 Swal.fire('Error!', errorMessage, 'error');
             });
     };
@@ -75,43 +98,106 @@ export function Appointments() {
             confirmButtonText: 'Yes, cancel it!',
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.put(`/appointment/cancel/${appointmentId}/${userId}`)
+                axios
+                    .put(`/appointment/cancel/${appointmentId}/${userId}`)
                     .then(() => {
-                        Swal.fire('Cancelled!', 'Your appointment has been cancelled.', 'success');
-                        setAppointments((prevAppointments) => prevAppointments.filter((appt) => appt.id !== appointmentId));
+                        Swal.fire(
+                            'Cancelled!',
+                            'Your appointment has been cancelled.',
+                            'success'
+                        );
+                        setAppointments((prevAppointments) =>
+                            prevAppointments.filter(
+                                (appt) => appt.id !== appointmentId
+                            )
+                        );
+                        setCurrentStatus('Cancelled');
                         fetchAppointments('Cancelled');
                     })
                     .catch((error) => {
-                        const errorMessage = error.response?.data?.message || 'Failed to cancel the appointment';
+                        const errorMessage =
+                            error.response?.data?.message ||
+                            'Failed to cancel the appointment';
                         Swal.fire('Error!', errorMessage, 'error');
                     });
             }
         });
     };
 
-    const handleSelectChange = (appointment, event) => {
-        const action = event.target.value;
+    const handleMenuClick = (appointment, event) => {
+        setSelectedAppointment(appointment);
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleAction = (action) => {
         switch (action) {
             case 'view':
-                showProperty(appointment.property_id);
+                showProperty(selectedAppointment.property_id);
                 break;
             case 'confirm':
-                if (Number(appointment.owner_id) === Number(loggedInUserId) && currentStatus === 'Pending') {
-                    confirmAppointment(appointment.id, loggedInUserId);
+                if (
+                    Number(selectedAppointment.owner_id) ===
+                    Number(loggedInUserId) &&
+                    currentStatus === 'Pending'
+                ) {
+                    Swal.fire({
+                        title: 'Confirm Appointment',
+                        text: 'Remember that you can only approve appointments if you are the property owner.',
+                        icon: 'info',
+                        showCancelButton: true,
+                        confirmButtonText: 'Confirm',
+                        cancelButtonText: 'Cancel',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            confirmAppointment(
+                                selectedAppointment.id,
+                                loggedInUserId
+                            );
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'You are not the property owner!',
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
                 }
                 break;
             case 'cancel':
-                if (currentStatus === 'Pending' || currentStatus === 'Scheduled') {
-                    cancelAppointment(appointment.id, loggedInUserId);  
-                }
+                cancelAppointment(selectedAppointment.id, loggedInUserId);
                 break;
             default:
                 break;
         }
+        handleMenuClose();
     };
-
     const showProperty = (id) => {
         navigate(`${ROUTE_PATHS.PROPERTY_DETAILS.replace(':propertyId', id)}`);
+    };
+
+    const formatMonthYear = (dateString) => {
+        const date = new Date(dateString);
+        if (!isNaN(date.getTime())) {
+            const options = { month: 'short', year: 'numeric' };
+            return date.toLocaleDateString('en-US', options);
+        }
+        return 'Invalid Date';
+    };
+
+    const formatDay = (dateString) => {
+        const date = new Date(dateString);
+        return !isNaN(date.getTime()) ? date.getDate() : 'NaN';
+    };
+
+    const formatTimeRange = (startTime, endTime) => {
+        if (!startTime || !endTime) return 'Invalid Time';
+        return `${startTime} — ${endTime}`;
     };
 
     return (
@@ -119,9 +205,14 @@ export function Appointments() {
             <div className="mt-10 mb-10 gap-4">
                 <div className="m-auto p-4">
                     <h1 className="mt-10">Appointments</h1>
-                    <p className="dark:text-white">Everything about your appointments</p>
+                    <p className="dark:text-white">
+                        Everything about your appointments
+                    </p>
 
-                    <Box className="overflow-x-auto scrollbar-hide " sx={{ maxWidth: { xs: 500, sm: 980 }}}>
+                    <Box
+                        className="overflow-x-auto scrollbar-hide"
+                        sx={{ maxWidth: { xs: 310, sm: 680 } }}
+                    >
                         <Tabs
                             value={currentStatus}
                             onChange={handleTabChange}
@@ -131,11 +222,31 @@ export function Appointments() {
                             aria-label="status tabs"
                             className="min-w-[300px] max-w-full"
                         >
-                            <Tab label="Scheduled" value="Scheduled" className="dark:text-white" />
-                            <Tab label="Pending" value="Pending" className="dark:text-white" />
-                            <Tab label="Rejected" value="Rejected" className="dark:text-white" />
-                            <Tab label="Cancelled" value="Cancelled" className="dark:text-white" />
-                            <Tab label="Completed" value="Completed" className="dark:text-white" />
+                            <Tab
+                                label="Scheduled"
+                                value="Scheduled"
+                                className="dark:text-white"
+                            />
+                            <Tab
+                                label="Pending"
+                                value="Pending"
+                                className="dark:text-white"
+                            />
+                            <Tab
+                                label="Rejected"
+                                value="Rejected"
+                                className="dark:text-white"
+                            />
+                            <Tab
+                                label="Cancelled"
+                                value="Cancelled"
+                                className="dark:text-white"
+                            />
+                            <Tab
+                                label="Completed"
+                                value="Completed"
+                                className="dark:text-white"
+                            />
                         </Tabs>
                     </Box>
 
@@ -157,10 +268,12 @@ export function Appointments() {
                                     >
                                         <div className="flex flex-col items-center text-primary">
                                             <span className="text-sm font-medium dark:text-white">
-                                                {new Date(appointment.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                                                {formatMonthYear(
+                                                    appointment.date
+                                                )}
                                             </span>
                                             <span className="text-3xl font-bold dark:text-white">
-                                                {new Date(appointment.date).getDate()}
+                                                {formatDay(appointment.date)}
                                             </span>
                                         </div>
 
@@ -168,41 +281,103 @@ export function Appointments() {
 
                                         <div className="flex flex-col space-y-1 text-gray-600 text-center md:text-left">
                                             <div className="flex items-center justify-center md:justify-start space-x-2">
-                                                <Clock size={16} className="text-gray-500 dark:text-white" />
+                                                <Clock
+                                                    size={16}
+                                                    className="text-gray-500 dark:text-white"
+                                                />
                                                 <span className="dark:text-white">
-                                                    {`${appointment.start_time} — ${appointment.end_time}`}
+                                                    {formatTimeRange(
+                                                        appointment.start_time,
+                                                        appointment.end_time
+                                                    )}
                                                 </span>
                                             </div>
                                             <div className="flex items-center justify-center md:justify-start space-x-2">
-                                                <MapPin size={16} className="text-gray-500 dark:text-white" />
+                                                <MapPin
+                                                    size={16}
+                                                    className="text-gray-500 dark:text-white"
+                                                />
                                                 <span className="dark:text-white">
-                                                    Property ID: {appointment.property_id}
+                                                    {appointment.property_id +
+                                                        ' (Property ID)'}
                                                 </span>
                                             </div>
                                         </div>
 
-                                        <div className="flex-1 text-gray-600 text-center md:text-left">
-                                            <p className="dark:text-light-grey text-sm">
-                                                {appointment.user_message || 'No extra comments were given'}
-                                            </p>
+                                        <div className="flex items-center justify-center md:justify-start space-x-2 sm:ml-11 ">
+                                            <span className="dark:text-white">
+                                                {appointment.user_message}
+                                            </span>
                                         </div>
 
-                                        <div className="relative gap-2 md:gap-4 flex flex-col md:flex-row items-center">
-                                             
-                                            {['Pending', 'Scheduled'].includes(currentStatus) && (
-                                                <select
-                                                    className="p-2 border border-gray-300 rounded-md w-full md:w-auto"
-                                                    onChange={(event) => handleSelectChange(appointment, event)}
-                                                    defaultValue=""
-                                                >
-                                                    <option value="" disabled>
-                                                        Select Action
-                                                    </option>
-                                                    <option value="view">View Property</option>
-                                                    {currentStatus === 'Pending' && <option value="confirm">Confirm Appointment</option>}
-                                                    {(currentStatus === 'Pending' || currentStatus === 'Scheduled') && <option value="cancel">Cancel Appointment</option>}
-                                                </select>
-                                            )}
+                                        <div className="ml-auto flex items-center gap-4 justify-center lg:justify-end">
+                                            <IconButton
+                                                onClick={(e) =>
+                                                    handleMenuClick(
+                                                        appointment,
+                                                        e
+                                                    )
+                                                }
+                                                size="large"
+                                            >
+                                                <MoreHorizontal size={24} />
+                                            </IconButton>
+
+
+
+                                            <Menu
+    anchorEl={anchorEl}
+    open={Boolean(anchorEl)}
+    onClose={handleMenuClose}
+    anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'center',
+    }}
+    transformOrigin={{
+        vertical: 'top',
+        horizontal: 'center',
+    }}
+    sx={{
+        boxShadow: 'none',
+        '.MuiPaper-root': {
+            boxShadow: 'none !important',
+        },
+    }}
+>
+    {selectedAppointment?.status === 'Pending' && (
+        <>
+            <MenuItem onClick={() => handleAction('confirm')}>
+                Confirm
+            </MenuItem>
+            <MenuItem onClick={() => handleAction('cancel')}>
+                Cancel
+            </MenuItem>
+        </>
+    )}
+
+    {selectedAppointment?.status === 'Scheduled' && (
+        <>
+            <MenuItem onClick={() => handleAction('cancel')}>
+                Cancel
+            </MenuItem>
+        </>
+    )}
+
+    {(selectedAppointment?.status === 'Pending' ||
+        selectedAppointment?.status === 'Scheduled' ||
+        selectedAppointment?.status === 'Cancelled' ||
+        selectedAppointment?.status === 'Rejected' ||
+        selectedAppointment?.status === 'Completed') && (
+        <MenuItem onClick={() => handleAction('view')}>
+            View Property
+        </MenuItem>
+    )}
+</Menu>
+
+
+
+
+
                                         </div>
                                     </motion.div>
                                 ))}
@@ -214,6 +389,5 @@ export function Appointments() {
         </div>
     );
 }
-
 
 export default Appointments;

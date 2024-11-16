@@ -14,8 +14,8 @@ export function RequestAppointment() {
 
     return (
         <div className="bg-appointment-bg grid">
-            <div className="max-w-10xl mx-auto p-5 grid content-center">
-                <h1>Request an Appointment!</h1>
+            <div className="max-w-10xl mx-auto p-5 grid content-center sm:max-w-2xl">
+                <p className='sm:text-2xl'>Request an Appointment</p>
 
                 <form className="m-auto text-left mt-10">
                     <div className="relative mb-4 ">
@@ -24,6 +24,7 @@ export function RequestAppointment() {
                             className="block text-sm font-medium text-gray-700 mb-1"
                         >
                             Date
+                            
                         </label>
                         <div className="relative">
                             <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
