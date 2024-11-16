@@ -6,15 +6,23 @@ import { ToastContainer, toast } from 'react-toastify';
 import { ThemeContext } from '../../../global/ThemeContext.jsx';
 import 'react-toastify/dist/ReactToastify.css';
 import PropTypes from 'prop-types';
-
+import { LayoutModal } from '../../ui/modals/LayoutModal.jsx';
+import { MainButton } from '../../ui/buttons/MainButton.jsx';
+import { FaTiktok, FaFacebook, FaInstagram, FaWhatsapp, FaEnvelope } from 'react-icons/fa';
+import { X } from 'lucide-react';
 export function PropertyPricingDetails({ propertyTemp, isLoading }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const property = propertyTemp;
     const { theme } = useContext(ThemeContext);
 
+    console.log('property', property);
     // Obtener el usuario logeado de localStorage
     const user = JSON.parse(localStorage.getItem('user')) || null;
     const loggedInUserId = user?.id;
+
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+
 
     // Función para alternar el estado del modal
     const toggleModal = () => {
@@ -29,19 +37,33 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
     const contactOwner = ({ phone_number }) => {
         console.log('phone_number', phone_number);
         if (loggedInUserId) {
-            if (!phone_number) {
-                toast.error('Phone number is not available for this property.');
-                return;
-            }
 
-            toast.success('Contacting owner...');
-            console.log('phone_number', phone_number);
+            // if (!phone_number) {
+            //     toast.error('Phone number is not available for this property.');
+            //     return;
+            // }
 
-            // Construir la URL de WhatsApp
-            const whatsappURL = `https://wa.me/506${phone_number}`;
+            // toast.success('Contacting owner...');
+            // console.log('phone_number', phone_number);
 
-            // Redirigir a la URL de WhatsApp
-            window.open(whatsappURL, '_blank');
+            // // Construir la URL de WhatsApp
+            // const whatsappURL = `https://wa.me/506${phone_number}`;
+
+            // // Redirigir a la URL de WhatsApp
+            // window.open(whatsappURL, '_blank');
+
+            // ----> Comentado para evitar redirección a WhatsApp
+
+            //modal que muestra la información del usuario que vende
+
+            setIsModalVisible(true);
+
+
+
+
+
+
+
         } else {
             toast.error('You must be logged in to contact the owner.');
         }
@@ -52,7 +74,7 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
             <div className="flex flex-col gap-4">
                 <ToastContainer
                     position="top-center"
-                    autoClose={200}
+                    autoClose={2500}
                     hideProgressBar
                     newestOnTop={false}
                     closeOnClick
@@ -63,6 +85,82 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                     theme={theme}
                 />
                 <div className="flex flex-col border-2 gap-2 rounded-md p-4">
+                    <LayoutModal status={isModalVisible} customClass="flex  items-center justify-center">
+                        <div className="flex flex-col gap-6 bg-white h-auto p-4 rounded-lg shadow-lg">
+                            <button onClick={() => setIsModalVisible(false)} className='flex justify-end'>
+                                <X className="hover:text-blue-500" />
+                            </button>
+                            {/* Título */}
+                            <h2 className=" text-center text-gray-800">Owner Information</h2>
+
+                            {/* Información del propietario */}
+                            <div className="flex flex-col gap-2 text-gray-700">
+                                <p>
+                                    <b>Owner Name:</b> {property.owner_name}
+                                </p>
+                                <p>
+                                    <b>Phone:</b> 12345678
+                                </p>
+                                <p>
+                                    <b>Email:</b> example@example.com
+                                </p>
+                            </div>
+
+                            {/* Botones de redes sociales */}
+                            <h2 className=" text-center text-gray-800">Social Media</h2>
+                            <div className="grid grid-cols-2 gap-6 mt-4 sm:grid-cols-2 md:grid-cols-2">
+
+                                {/* <MainButton
+                                    onClick={() => window.open('https://www.tiktok.com', '_blank')}
+                                    text={
+                                        <div className="flex items-center space-x-2">
+                                            <FaTiktok /> <span className='text-white'>TikTok</span>
+                                        </div>
+                                    }
+                                    className="bg-blue-500 text-white px-2 py-2 rounded-md hover:bg-blue-600 transition-colors duration-200"
+                                />
+                                <MainButton
+                                    onClick={() => window.open('https://www.facebook.com', '_blank')}
+                                    text={
+                                        <div className="flex items-center space-x-2">
+                                            <FaFacebook /> <span className='text-white'>Facebook</span>
+                                        </div>
+                                    }
+                                    className="bg-blue-700 text-white px-2 py-2 rounded-md hover:bg-blue-800 transition-colors duration-200"
+                                />
+                                <MainButton
+                                    onClick={() => window.open('https://www.instagram.com', '_blank')}
+                                    text={
+                                        <div className="flex items-center space-x-2">
+                                            <FaInstagram /> <span className='text-white'>Instagram</span>
+                                        </div>
+                                    }
+                                    className="bg-pink-500 text-white px-2 py-2 rounded-md hover:bg-pink-600 transition-colors duration-200"
+                                /> */}
+
+                                <MainButton
+                                    onClick={() => window.open(`https://wa.me/506`, '_blank')}
+                                    text={
+                                        <div className="flex items-center space-x-2">
+                                            <FaWhatsapp /> <span className='text-white'>WhatsApp</span>
+                                        </div>
+                                    }
+                                    className="bg-green-500 text-white px-2 py-2 rounded-md hover:bg-green-600 transition-colors duration-200"
+                                />
+                                <MainButton
+                                    onClick={() => window.open(`mailto:example@example.com`, '_blank')}
+                                    text={
+                                        <div className="flex items-center space-x-2">
+                                            <FaEnvelope /> <span className='text-white'>Email</span>
+                                        </div>
+                                    }
+                                    className="bg-orange-500 text-white px-2 py-2 rounded-md hover:bg-orange-600 transition-colors duration-200"
+                                />
+                            </div>
+
+                        </div>
+                    </LayoutModal>
+
                     <h3>Pricing details</h3>
                     {/* este if verifica el tipo de propiedad */}
                     {property.property_transaction === 'Sale' ? (
@@ -83,7 +181,7 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                                 </p>
                             </div>
                             {property.deposit_price &&
-                            property.deposit_price > 0 ? (
+                                property.deposit_price > 0 ? (
                                 <div className="flex justify-between">
                                     <p>Security Deposit</p>
                                     <p className="font-medium">
@@ -115,7 +213,7 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                                 </p>
                             </div>
                             {property.deposit_price &&
-                            property.deposit_price > 0 ? (
+                                property.deposit_price > 0 ? (
                                 <div className="flex justify-between">
                                     <p>Security Deposit</p>
                                     <p className="font-medium">

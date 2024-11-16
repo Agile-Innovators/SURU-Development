@@ -8,20 +8,27 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export function PartnerServices() {
     const [selectedService, setSelectedService] = useState('');
+    const [ partnerServices, setPartnerServices ] = useState([]);
     const [minPrice, setMinPrice] = useState('');
     const [maxPrice, setMaxPrice] = useState('');
     const [filters, setFilters] = useState([]);
     const navigate = useNavigate();
     const { getUser } = useAuth();
     const { user } = getUser();
-    const { services, loading, error, updatePartnerServices } = useFetchServices(1);
     const { theme } = useContext(ThemeContext); 
+    const { services, loading, error, updatePartnerServices, getPartnerServices } = useFetchServices(1);
+
+
     if (user.user_type !== "partner") {
         navigate(ROUTE_PATHS.HOME);
     }
 
     if (loading) return <p>Loading services...</p>;
     if (error) return <p>Error: {error}</p>;
+
+    
+
+    
 
     const handleAdd = () => {
         if (!selectedService || minPrice === '' || maxPrice === '') {

@@ -10,11 +10,13 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes';
 import { useAxios } from '../../components/hooks/useAxios.js';
 import { useFetchPartner } from '../../components/hooks/useFetchPartner';
-
+import Swal from 'sweetalert2';
 export function GeneralInformation() {
     // Traemos al usuario
     const { getUser } = useAuth();
     const { user } = getUser();
+    
+
 
     //Si el usuario es Partner lo devuelve a la vista principal
     const navigate = useNavigate();
@@ -23,12 +25,14 @@ export function GeneralInformation() {
         console.log("Partner");
     }
 
+
+
     //Traemos la información del Usuario
     const { updateUserProfile, getPartnerInformation, getUserInformation, loading, error, data } = useFetchUser();
     const { updatePartnerProfile } = useFetchPartner();
     //Traemos los lugares para mostrar
     const { locations } = useFetchLocations();
-
+    console.log("Locations", locations);
     //Creamos un variable que guarde los datos del usuario
     const [userData, setUserData] = useState(null);
 
@@ -43,7 +47,7 @@ export function GeneralInformation() {
             getPartnerInformation(user.id);
         }
     }, [user?.id]);
-
+    console.log("Data", data);
     // Estado para guardar los datos del perfil del usuario
     const [profileData, setProfileData] = useState({
         name: '',
@@ -71,20 +75,24 @@ export function GeneralInformation() {
     // Sincronizar los datos obtenidos con profileData
     useEffect(() => {
         if (data) {
+            console.log("Data", data.location);
+
             setProfileData({
                 name: data.name || '',
-                city_id: (data.locations && data.locations.length > 0) ? data.locations[0].city_id : '',
+                city_id: data.location?.city_id || '',
                 email: data.email || '',
                 phone_number: data.phone_number || '',
                 image: data.image_url || '',
                 ...(user.user_type === 'partner' && {
                     address: (data.locations && data.locations.length > 0) ? data.locations[0].address : '',
+                    city_id: (data.locations && data.locations.length > 0) ? data.locations[0].city_id : '',
+
                     website_url: data.website_url || '',
                     tiktok_url: data.tiktok_url || '',
                     instagram_url: data.instagram_url || '',
                     facebook_url: data.facebook_url || '',
                     description: data.description || '',
-                    currency_id: '',
+                    currency_id: data.currency_id || '',
                 }),
                 ...(user.user_type === 'user' && {
                     lastname1: data.profile?.lastname1 || '',
@@ -95,6 +103,7 @@ export function GeneralInformation() {
             setUserData(data);
         }
     }, [data]);
+
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -114,9 +123,59 @@ export function GeneralInformation() {
         }
     };
 
+    const [errors, setErrors] = useState({
+        name: '',
+        email: '',
+        tiktok_url: '',
+        instagram_url: '',
+        facebook_url: '',
+
+        // otros errores
+    });
+
+    const [isSaving, setIsSaving] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        let errorMessage = '';
+
+        // Validación para el nombre
+        if (name === 'name' && value.trim() === '') {
+            errorMessage = 'El nombre no puede estar vacío';
+        }
+
+        // Validación para el correo electrónico
+        if (name === 'email' && !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) {
+            errorMessage = 'Correo no válido';
+        }
+
+        // Expresiones regulares para URLs de redes sociales
+        const urlPatterns = {
+            tiktok_url: /^https?:\/\/(www\.)?tiktok\.com\/.*$/,
+            instagram_url: /^https?:\/\/(www\.)?instagram\.com\/.*$/,
+            facebook_url: /^https?:\/\/(www\.)?facebook\.com\/.*$/
+        };
+
+        // Validación para URLs de redes sociales solo si el campo tiene información
+        if (urlPatterns[name] && value !== '' && !urlPatterns[name].test(value)) {
+            errorMessage = `URL de ${name.split('_')[0].charAt(0).toUpperCase() + name.split('_')[0].slice(1)} no válida`;
+        }
+
+        // Validación para el número de teléfono
+        if (name === 'phone_number' && !/^\d{8}$/.test(value)) {
+            errorMessage = 'Número de teléfono no válido';
+        }
+
+        // Actualiza los errores específicos
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: errorMessage,
+        }));
+
+        // Actualiza isSaving en base a si hay errores
+        setIsSaving(errorMessage !== '');
+
+        // Actualiza el estado solo si no hay error
         setProfileData((prevState) => ({
             ...prevState,
             [name]: value,
@@ -124,9 +183,10 @@ export function GeneralInformation() {
     };
 
 
+
     const handleProfileSubmit = async (e) => {
         e.preventDefault();
-        if (user?.id || user?.user_type === 'user') {
+        if (user?.id && user?.user_type === 'user') {
             const formData = new FormData();
 
             for (const key in profileData) {
@@ -146,12 +206,16 @@ export function GeneralInformation() {
                     image: updatedUser.image_url,
                 }));
             }
-
+            Swal.fire({
+                icon: 'success',
+                title: 'Personal Information Updated Successfully',
+                text: 'The personal information have been updated.',
+            })
             // Actualizar los datos del usuario
             getUserInformation(user.id);
         }
 
-        if(user?.id || user?.user_type === 'partner'){
+        if (user?.id && user?.user_type === 'partner') {
             console.log("Enviando datos de Partner");
             const formData = new FormData();
 
@@ -208,8 +272,18 @@ export function GeneralInformation() {
 
                     }));
                 }
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Personal Information Updated Successfully',
+                    text: 'The personal information have been updated.',
+                })
                 getPartnerInformation(user.id);
             } catch (err) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'An unexpected error occurred.',
+                    text: 'Please try again later.',
+                });
                 console.error("Error al actualizar perfil:", err);
             }
         }
@@ -257,11 +331,13 @@ export function GeneralInformation() {
                                 )}
                             </div>
                             <h2>Personal Information</h2>
+                            <div className="flex justify-end items-center mt-4 ">
+                            </div>
                         </div>
                     </div>
                     <form onSubmit={handleProfileSubmit}>
                         <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2 md:grid-cols-3">
-                            <Input inputName="name" inputId="name-input" labelText="Name" value={profileData.name} onChange={handleChange} disabled={!isEditing} />
+                            <Input inputName="name" spanText={errors.name} inputId="name-input" labelText="Name" value={profileData.name} onChange={handleChange} disabled={!isEditing} />
                             {user.user_type !== 'partner' && (
                                 <>
                                     <Input inputName="lastname1" inputId="lastname1-input" labelText="First Lastname" value={profileData.lastname1} onChange={handleChange} disabled={!isEditing} />
@@ -273,30 +349,38 @@ export function GeneralInformation() {
                             <div className='flex flex-col'>
                                 <label className="font-medium text-gray-700">Ciudad</label>
                                 <select name="city_id" id="city-input" value={profileData.city_id} onChange={handleChange} disabled={!isEditing} className='border border-light-grey bg-transparent rounded-md min-h-8 px-4 py-2 mt-2 focus:outline-light-blue'>
+
                                     {locations.map((location) => (
                                         <option key={location.value} value={location.value}> {location.name} </option>
                                     ))}
                                 </select>
                             </div>
-                            <Input inputName="email" inputId="email-input" labelText="Email Address" type="email" value={profileData.email} onChange={handleChange} disabled={!isEditing} />
-                            <Input inputName="phone_number" inputId="phoneNumber-input" labelText="Phone Number" type="number" value={profileData.phone_number} onChange={handleChange} disabled={!isEditing} />
+                            <Input inputName="email" inputId="email-input" spanText={errors.email} labelText="Email Address" type="email" value={profileData.email} onChange={handleChange} disabled={!isEditing} />
+                            <Input inputName="phone_number" spanText={errors.phone_number} inputId="phoneNumber-input" labelText="Phone Number" type="number" value={profileData.phone_number} onChange={handleChange} disabled={!isEditing} />
                             {user.user_type === 'partner' && (
                                 <>
                                     <Input inputName="address" inputId="address-input" labelText="Address" value={profileData.address} onChange={handleChange} disabled={!isEditing} />
                                     <Input inputName="website_url" inputId="website-input" labelText="Website URL" value={profileData.website_url} onChange={handleChange} disabled={!isEditing} />
-                                    <Input inputName="tiktok_url" inputId="tiktok-input" labelText="TikTok URL" value={profileData.tiktok_url} onChange={handleChange} disabled={!isEditing} />
-                                    <Input inputName="instagram_url" inputId="instagram-input" labelText="Instagram URL" value={profileData.instagram_url} onChange={handleChange} disabled={!isEditing} />
-                                    <Input inputName="facebook_url" inputId="facebook-input" labelText="Facebook URL" value={profileData.facebook_url} onChange={handleChange} disabled={!isEditing} />
+                                    <Input inputName="tiktok_url" spanText={errors.tiktok_url} inputId="tiktok-input" labelText="TikTok URL" value={profileData.tiktok_url} onChange={handleChange} disabled={!isEditing} />
+                                    <Input inputName="instagram_url" spanText={errors.instagram_url} inputId="instagram-input" labelText="Instagram URL" value={profileData.instagram_url} onChange={handleChange} disabled={!isEditing} />
+                                    <Input inputName="facebook_url" spanText={errors.facebook_url} inputId="facebook-input" labelText="Facebook URL" value={profileData.facebook_url} onChange={handleChange} disabled={!isEditing} />
                                     <Input inputName="description" inputId="description-input" labelText="Description" value={profileData.description} onChange={handleChange} disabled={!isEditing} />
-                                    <Input inputName="currency_id" inputId="currency-input" labelText="Currency" value={profileData.currency_id} onChange={handleChange} disabled={!isEditing} />
+                                    {/* <Input inputName="currency_id" inputId="currency-input" labelText="Currency" value={profileData.currency_id} onChange={handleChange} disabled={!isEditing} /> */}
+
 
                                 </>
                             )}
                         </div>
                         <div className="flex justify-end items-center mt-4">
                             {isEditing && (
-                                <MainButton type="submit" variant="fill" text="Save Changes" customClass="h-12 items-center" />
+                                <MainButton
+                                    type="submit"
+                                    variant="none"
+                                    text="Save Changes"
+                                    customClass={`block text-white text-center px-8 py-3 rounded-md transition-colors duration-150  ${isSaving ? 'cursor-not-allowed bg-grey ' : 'cursor-pointer bg-secondary'}`}
+                                    disabled={isSaving}
 
+                                />
                             )}
                         </div>
                     </form>

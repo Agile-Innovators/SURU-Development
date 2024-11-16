@@ -96,15 +96,7 @@ export function AppRoutes() {
 
                     <Route element={<ProtectedRoutes />}>
                         <Route path={ROUTE_PATHS.USER_PROFILE} element={<UserProfile />}>
-                            {user !== null && user.user_type === 'partner' && (
-                                <Route path="" element={<GeneralInformationPartner />} />
-                            )}
-                            {user !== null && user.user_type === 'user' && (
-                                <Route path="" element={<GeneralInformation />} />
-                            )}
-
-
-
+                            <Route path="" element={<GeneralInformation />} />
                             <Route path={ROUTE_PATHS.GENERAL_INFORMATION_PARTNER} element={<GeneralInformationPartner />} />,
                             <Route path={ROUTE_PATHS.GENERAL_INFORMATION} element={<GeneralInformation />} />,
                             <Route path={ROUTE_PATHS.PARTNER_SERVICES} element={<PartnerServices />} />

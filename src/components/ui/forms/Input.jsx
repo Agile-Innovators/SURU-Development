@@ -10,13 +10,15 @@ export function Input({
     inputId,
     required = false,
     value,
+    min: min = null,
+    max: max = null,
     onChange = () => {},
     containerClass,
     ...props
 }) {
     return (
         <div className={`flex flex-col  ${containerClass}`}>
-            <label className="font-medium text-gray-700" htmlFor={inputId} >
+            <label className="font-medium text-gray-700 span" htmlFor={inputId}>
                 {labelText}
             </label>
             {/* se aplica una condicional para activar el atributo require del input */}
@@ -29,6 +31,8 @@ export function Input({
                 name={inputName}
                 placeholder={placeholder}
                 value={value}
+                min={min}
+                max={max}
                 onChange={onChange}
                 className={`border border-light-grey bg-transparent rounded-md min-h-8 px-4 py-2 mt-2 focus:outline-light-blue ${customClass}`}
                 {...props}
@@ -43,6 +47,9 @@ Input.propTypes = {
     inputId: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     type: PropTypes.string,
+    containerClass: PropTypes.string,
+    min: PropTypes.number,
+    max: PropTypes.number,
     spanText: PropTypes.string,
     labelText: PropTypes.string,
     required: PropTypes.bool,

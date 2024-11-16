@@ -14,8 +14,6 @@ export function UserProfile() {
     const { user } = getUser();
     //se obtiene el rol del usuario
     
-
-
     const sectionsUser = [
         // General Information section for both user types
         {
@@ -52,10 +50,6 @@ export function UserProfile() {
         },
     ];
     
-
-
-
-
     return (
         <div className="h-full w-full m-auto max-w-7xl p-4 min-h-[80vh]">
             <div className="text-start mb-6">

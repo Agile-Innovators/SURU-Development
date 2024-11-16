@@ -28,5 +28,5 @@ export const ROUTE_PATHS = {
     FAVORITES: '/favorites',
     PARTNER_PROFILE: '/partner-profile/:partnerId',
     SEARCH_PARTNERS: '/search-partners',
-
+    FAQ_SECTION: '#FAQSection',
 };

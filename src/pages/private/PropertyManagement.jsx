@@ -147,7 +147,7 @@ export function PropertyManagement() {
         <div className="max-w-7xl w-full min-h-[70vh] m-auto mt-5 p-4 xl:p-0">
             <ToastContainer
                 position="top-center"
-                autoClose={200}
+                autoClose={1500}
                 hideProgressBar
                 newestOnTop={false}
                 closeOnClick

@@ -6,28 +6,44 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ThemeContext } from '../../../global/ThemeContext';
 import { SkeletonLoader } from '../SkeletonLoader';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export function SearchFilter({ setData, isLoadingFilter, handleModal }) {
+export function SearchFilter({
+    setData,
+    isLoadingFilter,
+    handleModal,
+    categoryID,
+    regionID,
+    filterUsed,
+}) {
     const { regions, isLoadingRegions } = useFetchRegions();
     const { propertyCategories, isLoadingPropsCats } =
         useFetchPropertyCategories();
-    const [ regionId, setRegionId ] = useState(0);
+    const [regionId, setRegionId] = useState(regionID);
+    const [categoryId, setCategoryId] = useState(categoryID);
     const axios = useAxios();
     const { theme } = useContext(ThemeContext); 
 
+    useEffect(() => {
+        // if(filterUsed){
+        setRegionId(regionID);
+        setCategoryId(categoryID);
+        // }
+    }, [categoryID, regionID]);
+
     const filterProperties = async (e) => {
         e.preventDefault();
-        const propertyCategoryId =
-            document.getElementById('select_props_cats').value;
+        console.log(categoryId);
+        // return;
+        // const propertyCategoryId =
+        //     document.getElementById('select_props_cats').value;
 
         isLoadingFilter(true);
         try {
-
             const response = await axios.get('/properties/filter', {
                 params: {
                     regionId: regionId,
-                    propertyCategoryId: propertyCategoryId,
+                    propertyCategoryId: categoryId,
                 },
             });
             const data = await response.data;
@@ -39,9 +55,7 @@ export function SearchFilter({ setData, isLoadingFilter, handleModal }) {
         }
     };
 
-
     const createRegionsSelect = (items) => {
-
         return (
             <div className="w-full lg:w-auto flex flex-col">
                 <label
@@ -54,7 +68,7 @@ export function SearchFilter({ setData, isLoadingFilter, handleModal }) {
                     id="select_regions"
                     name={`select_regions`}
                     value={regionId}
-                    onChange={(e) => (setRegionId(e.target.value))}
+                    onChange={(e) => setRegionId(e.target.value)}
                     className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                 >
                     <option value="0">all</option>
@@ -80,6 +94,8 @@ export function SearchFilter({ setData, isLoadingFilter, handleModal }) {
                 <select
                     id="select_props_cats"
                     name={`select_props_cats`}
+                    value={categoryId}
+                    onChange={(e) => setCategoryId(e.target.value)}
                     className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                 >
                     <option value="0">all</option>
@@ -107,10 +123,8 @@ export function SearchFilter({ setData, isLoadingFilter, handleModal }) {
 
     const clearFilter = (e) => {
         e.preventDefault();
-        const selectRegion = document.getElementById('select_regions');
-        const propsCatsSelect = document.getElementById('select_props_cats');
-        selectRegion.value = 0;
-        propsCatsSelect.value = 0;
+        setRegionId(0);
+        setCategoryId(0);
     };
 
     const handleOpenModal = () => {

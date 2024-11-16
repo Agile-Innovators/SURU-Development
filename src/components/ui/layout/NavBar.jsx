@@ -7,14 +7,7 @@ import { useAuth } from '../../../global/AuthProvider.jsx';
 import { useAxios } from '../../hooks/useAxios.js';
 import { ThemeContext } from '../../../global/ThemeContext.jsx';
 
-const initialNavigation = [
-    { name: 'Home', href: ROUTE_PATHS.HOME, current: false, isLogin: true },
-    { name: 'Partners', href: ROUTE_PATHS.PARTNERS, current: false, isLogin: true },
-    { name: 'Explore Properties', href: ROUTE_PATHS.SEARCH, current: false, isLogin: true },
-    { name: 'Find Partners', href: ROUTE_PATHS.SEARCH_PARTNERS, current: false, isLogin: true },
-    { name: 'Log In', href: ROUTE_PATHS.LOGIN, current: false, isLogin: false },
-    { name: 'Sign Up', href: ROUTE_PATHS.REGISTER, current: false, isLogin: false },
-];
+
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -26,6 +19,17 @@ export function NavBar() {
     const { getUser, logout } = useAuth();
     const authToken = getUser().authToken;
     const axios = useAxios();
+
+    const initialNavigation = [
+        { name: 'Home', href: ROUTE_PATHS.HOME, current: false, isLogin: true },
+        { name: 'Partners', href: ROUTE_PATHS.PARTNERS, current: false, isLogin: true },
+        { name: 'Explore Properties', href: ROUTE_PATHS.SEARCH, current: false, isLogin: true },
+        { name: 'Find Partners', href: ROUTE_PATHS.SEARCH_PARTNERS, current: false, isLogin: true },
+        
+        { name: 'Log In', href: ROUTE_PATHS.LOGIN, current: false, isLogin: false },
+        { name: 'Sign Up', href: ROUTE_PATHS.REGISTER, current: false, isLogin: false },
+    ];
+
     const [navigation, setNavigation] = useState(initialNavigation);
     const [currentUser, setCurrentUser] = useState(getUser().user);
     const { theme } = useContext(ThemeContext); // Acceso al theme del ThemeContext
@@ -148,23 +152,41 @@ export function NavBar() {
                     )}
                 </div>
             </div>
-            <DisclosurePanel className="sm:hidden">
+            <Disclosure.Panel className="sm:hidden">
                 <div className="space-y-1 px-2 pb-3 pt-2">
-                    {userNavigationLinks.map((item) => (
-                        <DisclosureButton
-                            key={item.name}
+                    {navigation.map((item) =>
+                        item.isLogin ||
+                        (!item.isLogin && !authToken && !currentUser) ? (
+                            <Disclosure.Button
+                                key={item.name}
+                                as="a"
+                                href={item.href}
+                                className={classNames(
+                                    item.current
+                                        ? 'bg-cyan-700 text-white'
+                                        : 'text-primary dark:text-gray-300 hover:brightness(.5) hover:text-light-blue dark:hover:text-light-blue',
+                                    'block rounded-md px-3 py-2 text-base font-medium'
+                                )}
+                            >
+                                {item.name}
+                            </Disclosure.Button>
+                        ) : null
+                    )}
+
+                    {/* Botón de Logout si el usuario está autenticado */}
+                    {authToken && currentUser && (
+                        <Disclosure.Button
+                            key="logout"
                             as="a"
-                            href={item.href}
-                            className={classNames(
-                                item.current ? 'bg-cyan-700 text-white' : 'text-primary dark:text-gray-300 hover:brightness(.5) hover:text-light-blue dark:hover:text-light-blue',
-                                'block rounded-md px-3 py-2 text-base font-medium'
-                            )}
+                            href="#"
+                            onClick={handleLogout} 
+                            className="block rounded-md px-3 py-2 text-base font-medium text-red-600 hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-800"
                         >
-                            {item.name}
-                        </DisclosureButton>
-                    ))}
+                            Logout
+                        </Disclosure.Button>
+                    )}
                 </div>
-            </DisclosurePanel>
+            </Disclosure.Panel>
         </Disclosure>
     );
 }

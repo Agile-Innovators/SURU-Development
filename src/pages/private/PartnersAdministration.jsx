@@ -11,12 +11,12 @@ export function PartnersAdministration() {
     const user = JSON.parse(localStorage.getItem('user')) || null;
     const loggedInUserId = user?.id;
     const navigate = useNavigate();
-    const axios = useAxios();
     const { theme } = useContext(ThemeContext); // Accede al tema actual
 
     const [currentStatus, setCurrentStatus] = useState('Pending');
     const [partners, setPartners] = useState([]);
     const [loading, setLoading] = useState(true);
+    const axios = useAxios();
 
     const fetchPartners = (status) => {
         if (!loggedInUserId) {
@@ -24,6 +24,7 @@ export function PartnersAdministration() {
             return;
         }
 
+        // setLoading(true);
         setPartners([]);
 
         axios
@@ -155,16 +156,53 @@ export function PartnersAdministration() {
                         <p><strong>Currency:</strong> ${partner.currency_id || 'N/A'}</p>
                     </div>
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                        <p><strong>Partner Comments:</strong> ${partner.partner_comments || 'N/A'}</p>
+                        <p><strong>Partner Comments:</strong> ${partner.admin_comments || 'N/A'}</p>
                     </div>
                 </div>
             `,
             showCloseButton: true,
             showConfirmButton: false,
             width: '700px',
-            customClass: theme === 'dark' ? 'swal-dark' : '', 
+            customClass: {
+                popup: 'custom-swal-popup',
+            },
         });
     };
+    
+     
+    const comments = (partner) => {
+        Swal.fire({
+            title: 'Use this space to write a comment about this partner',
+            html: `
+                <input id="commentInput" style="padding: 8px; margin-top: 10px; width: 100%;" placeholder="Write your comment here..." />
+            `,
+            showCloseButton: true,
+            showConfirmButton: false,
+            width: '700px',
+            customClass: {
+                popup: 'custom-swal-popup',
+            },
+            footer: `
+                <button class="save-comment" style="padding: 10px 20px; margin-top: 15px; background-color: #28a745; color: white; border: none; cursor: pointer;">Save Changes</button>
+            `,
+            didOpen: () => {
+                const saveButton = Swal.getPopup().querySelector('button.save-comment');
+                saveButton.addEventListener('click', () => {
+                    const comment = document.getElementById('commentInput').value;
+                    if (comment) {
+                        partner.admin_comments = comment; // Guardar el comentario en el objeto partner
+                        Swal.fire('Saved!', 'Your comment has been saved successfully.', 'success').then(() => {
+                            showAdditionalInfo(partner); // Mostrar el segundo pop-up
+                        });
+                    } else {
+                        Swal.fire('Error', 'Please enter a comment.', 'error');
+                    }
+                });
+            },
+        });
+    };
+    
+
 
     return (
         <div className="max-w-7xl p-4 min-h-[80vh] sm:p-6 lg:p-8 sm:ml-10">
@@ -282,6 +320,18 @@ export function PartnersAdministration() {
                                                     >
                                                         See additional info
                                                     </button>
+
+
+                                                    <button className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3"
+                                                        onClick={() =>
+                                                            comments(
+                                                                partner
+                                                            )
+                                                        }>
+                                                                                                 
+                                                        Comment
+                                                    </button>
+
                                                 </div>
                                             </td>
                                         </tr>
@@ -300,6 +350,106 @@ export function PartnersAdministration() {
                                 )}
                             </tbody>
                         </table>
+                    </div>
+
+                    {/* Vista de tarjeta para pantallas pequeñas */}
+                    <div className="grid grid-cols-1 gap-4 md:hidden">
+                        {partners.length > 0 ? (
+                            partners.map((partner) => (
+                                <div
+                                    key={partner.id}
+                                    className="bg-white p-4 rounded-lg shadow"
+                                >
+                                    <div className="flex items-center gap-4 mb-4">
+                                        <img
+                                            src={partner.image}
+                                            alt="Company Logo"
+                                            className="w-16 h-16 rounded-full bg-gray-200"
+                                        />
+                                        <div>
+                                            <h3 className="text-lg font-semibold">
+                                                {partner.name}
+                                            </h3>
+                                            <p className="text-gray-600">
+                                                {partner.category_name || 'N/A'}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <p className="text-sm text-gray-500 mb-2">
+                                        <strong>Phone:</strong>{' '}
+                                        {partner.phone_number || 'N/A'}
+                                    </p>
+                                    <p className="text-sm text-gray-500 mb-2">
+                                        <strong>Email:</strong>{' '}
+                                        {partner.email || 'N/A'}
+                                    </p>
+                                    <p className="text-sm text-gray-500 mb-4">
+                                        <strong>Status:</strong>{' '}
+                                        <span
+                                            className={`p-1.5 text-xs font-medium uppercase tracking-wider rounded-lg opacity-50 ${currentStatus === 'Approved'
+                                                    ? 'text-green-800 bg-green-200'
+                                                    : currentStatus ===
+                                                        'Rejected'
+                                                        ? 'text-red-800 bg-red-200'
+                                                        : 'text-yellow-800 bg-yellow-200'
+                                                }`}
+                                        >
+                                            {currentStatus}
+                                        </span>
+                                    </p>
+                                    <div className="flex gap-2">
+                                        {currentStatus === 'Pending' ? (
+                                            <>
+                                                <button
+                                                    className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3"
+                                                    onClick={() =>
+                                                        approvePartner(
+                                                            partner.id
+                                                        )
+                                                    }
+                                                >
+                                                    Approve
+                                                </button>
+                                                <button
+                                                    className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3"
+                                                    onClick={() =>
+                                                        rejectPartner(
+                                                            partner.id
+                                                        )
+                                                    }
+                                                >
+                                                    Reject
+                                                </button>
+                                            </>
+                                        ) : null}
+                                        <button
+                                            className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3"
+                                            onClick={() =>
+                                                showAdditionalInfo(partner)
+                                            }
+                                        >
+                                            See additional info
+                                        </button>
+
+                                        <button className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3"
+                                                        onClick={() =>
+                                                            comments(
+                                                                partner
+                                                            )
+                                                        }>
+                                                                                                 
+                                                        Comment
+                                                    </button>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-center text-sm text-gray-500">
+                                {currentStatus === 'Pending'
+                                    ? 'There is no pending partners'
+                                    : `No partners in ${currentStatus}`}
+                            </p>
+                        )}
                     </div>
                 </div>
             </div>
