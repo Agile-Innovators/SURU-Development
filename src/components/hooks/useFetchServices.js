@@ -3,6 +3,7 @@ import { useAxios } from './useAxios';
 
 export function useFetchServices(idCategory) {
     const [services, setServices] = useState(null);
+    const [partnerServices, setPartnerServices] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const axios = useAxios();
@@ -27,8 +28,8 @@ export function useFetchServices(idCategory) {
         try {
             const response = await axios.get(`/partner-services/${userId}`);
             // Establecer los datos de los servicios
-            setData(response.data);
-            
+            setPartnerServices(response.data);
+            console.log('Datos obtenidos:', response.data);
         } catch (error) {
             const errorMsg = error.response?.data || 'An unexpected error occurred';
             setError(errorMsg);
@@ -60,5 +61,5 @@ export function useFetchServices(idCategory) {
         fetchServices();
     }, []);
 
-    return { services, updatePartnerServices, getPartnerServices, loading, error };
+    return { services, updatePartnerServices,partnerServices, getPartnerServices, loading, error };
 }

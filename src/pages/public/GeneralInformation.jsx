@@ -22,7 +22,7 @@ export function GeneralInformation() {
     const navigate = useNavigate();
     if (user.user_type == "partner") {
         // navigate(ROUTE_PATHS.HOME);
-        console.log("Partner");
+        // console.log("Partner");
     }
 
 
@@ -32,7 +32,6 @@ export function GeneralInformation() {
     const { updatePartnerProfile } = useFetchPartner();
     //Traemos los lugares para mostrar
     const { locations } = useFetchLocations();
-    console.log("Locations", locations);
     //Creamos un variable que guarde los datos del usuario
     const [userData, setUserData] = useState(null);
 
@@ -47,7 +46,6 @@ export function GeneralInformation() {
             getPartnerInformation(user.id);
         }
     }, [user?.id]);
-    console.log("Data", data);
     // Estado para guardar los datos del perfil del usuario
     const [profileData, setProfileData] = useState({
         name: '',
@@ -75,7 +73,6 @@ export function GeneralInformation() {
     // Sincronizar los datos obtenidos con profileData
     useEffect(() => {
         if (data) {
-            console.log("Data", data.location);
 
             setProfileData({
                 name: data.name || '',
@@ -196,7 +193,6 @@ export function GeneralInformation() {
             }
 
             formData.append('_method', 'PUT');
-            // console.log([...formData]);
             const updatedUser = await updateUserProfile(user.id, formData);
 
             // Actualizar el estado de profileData con la nueva imagen
@@ -216,7 +212,7 @@ export function GeneralInformation() {
         }
 
         if (user?.id && user?.user_type === 'partner') {
-            console.log("Enviando datos de Partner");
+            
             const formData = new FormData();
 
             // Asegúrate de agregar todos los campos requeridos

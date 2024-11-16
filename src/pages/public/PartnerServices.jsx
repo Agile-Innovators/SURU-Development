@@ -4,29 +4,52 @@ import { useFetchServices } from '../../components/hooks/useFetchServices';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-
+import { useEffect } from 'react';
 export function PartnerServices() {
     const [selectedService, setSelectedService] = useState('');
-    const [ partnerServices, setPartnerServices ] = useState([]);
     const [minPrice, setMinPrice] = useState('');
     const [maxPrice, setMaxPrice] = useState('');
     const [filters, setFilters] = useState([]);
     const navigate = useNavigate();
     const { getUser } = useAuth();
     const { user } = getUser();
-    const { services, loading, error, updatePartnerServices, getPartnerServices } = useFetchServices(1);
+
+    const { services, loading, error, updatePartnerServices, partnerServices, getPartnerServices } = useFetchServices(1);
+    console.log("Datos del Usuario", user);
+
+    useEffect(() => {
+        getPartnerServices(user.id);
+        console.log("Datos de los servicios del partner", partnerServices);
+        
+    }, [user.id]);
+    console.log("Datos de los servicios", services);
+    //se agregan los servicios del partner a los filtros
+    useEffect(() => {
+        if (partnerServices) {
+
+            const newFilters = partnerServices.map(service => {
+                return {
+                    id: service.business_services_id,
+                    name: service.name,
+                    minPrice: service.price,
+                    maxPrice: service.price_max,
+                };
+            }
+            );
+            setFilters(newFilters);
+            
+        }
+    }, [partnerServices]);
 
 
     if (user.user_type !== "partner") {
         navigate(ROUTE_PATHS.HOME);
     }
-
+    
     if (loading) return <p>Loading services...</p>;
+
     if (error) return <p>Error: {error}</p>;
 
-    
-
-    
 
     const handleAdd = () => {
         if (!selectedService || minPrice === '' || maxPrice === '') {

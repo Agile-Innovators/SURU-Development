@@ -9,7 +9,7 @@ export function Homepage() {
             <HomeHero />
             <PropertyActionSelection />
             <AboutUs />
-            <PropertiesFilter />
+            {/* <PropertiesFilter /> */}
         </div>
     );
 }

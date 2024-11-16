@@ -55,7 +55,7 @@ export function useFetchUser() {
         try {
             const response = await axios.get(`/user/${userId}`);
             setData(response.data);
-            console.log('Get user information:', response.data);
+            // console.log('Get user information:', response.data);
 
             // Actualizar la información del usuario en el contexto de autenticación
             updateUser(response.data);

@@ -48,7 +48,7 @@ export function Preferences() {
 
     useEffect(() => {
         if (data) {
-            console.log("Data", data.location);
+            // console.log("Data", data.location);
 
             setProfileData({
                 name: data.name || '',
@@ -77,11 +77,9 @@ export function Preferences() {
         }
     }, [data]);
 
-    console.log('profileData', profileData);
-
     //actualizamos el currency del partner
     const handleProfileSubmit = async (event) => {
-        console.log('entro', event.target.currency_id.value);
+        // console.log('entro', event.target.currency_id.value);
         event.preventDefault();
         const userData = {
             currency_id: event.target.currency_id.value,
