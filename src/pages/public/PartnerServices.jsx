@@ -16,14 +16,10 @@ export function PartnerServices() {
     const { user } = getUser();
     const { theme } = useContext(ThemeContext); 
     const { services, loading, error, updatePartnerServices, partnerServices, getPartnerServices } = useFetchServices(1);
-    console.log("Datos del Usuario", user);
-
     useEffect(() => {
         getPartnerServices(user.id);
-        console.log("Datos de los servicios del partner", partnerServices);
-
     }, [user.id]);
-    console.log("Datos de los servicios", services);
+    
     //se agregan los servicios del partner a los filtros
     useEffect(() => {
         if (partnerServices) {
@@ -78,15 +74,7 @@ export function PartnerServices() {
             toast.error("Invalid input. Please check your data.");
             return;
         }
-
-
-
-        // console.log("Datos de los filtros", filters);
-        // console.log("Datos del servicios", services);
-        // console.log("Datos del servicio seleccionado ID", selectedService);
         const serviceName = services.find(service => service.id == selectedService)?.name;
-
-        // console.log("Nombre del servicio", serviceName);
         const newFilter = { id: selectedService, name: serviceName, minPrice, maxPrice, isEditing: false };
         setFilters([...filters, newFilter]);
         // Reset input fields

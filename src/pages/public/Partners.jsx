@@ -11,7 +11,7 @@ export function Partners() {
 
     useEffect(() => {
         if (location.hash === '#FAQs') {
-            // AgregaR un pequeño retraso para asegurar que el componente esté completamente montado
+            // Agregar un pequeño retraso para asegurar que el componente esté completamente montado
             setTimeout(() => {
                 const section = document.getElementById('FAQs');
                 if (section) {

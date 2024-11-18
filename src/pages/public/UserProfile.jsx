@@ -1,5 +1,5 @@
 import { AlarmClockCheck, KeyRound, AppWindowMac, User } from 'lucide-react'
-import { Outlet, Link, useLocation } from "react-router-dom";  // Asegúrate de agregar `Outlet`
+import { Outlet, Link, useLocation } from "react-router-dom";  
 import { ROUTE_PATHS } from '../../routes/index.js';
 import { useAuth } from '../../global/AuthProvider.jsx';
 import { Logs } from 'lucide-react';
@@ -13,7 +13,6 @@ export function UserProfile() {
     //se obtiene el usuario actual
     const { user } = getUser();
     //se obtiene el rol del usuario
-    
     const sectionsUser = [
         // General Information section for both user types
         {
@@ -62,8 +61,8 @@ export function UserProfile() {
                             <li
                                 key={section.id}
                                 className={`flex cursor-pointer rounded-md gap-2 p-2 transition-all duration-300 hover:shadow-md hover:border-gray-300 hover:brightness-[.85] dark:hover:brightness-150 ${location.pathname.includes(section.to)
-                                        ? 'bg-[#d5d9e2] dark:bg-[#4d607c] text-black dark:text-gray-300'  // Activo: gris claro en modo claro, gris oscuro en modo oscuro con texto blanco
-                                        : 'bg-gray-100 text-black dark:bg-gray-800 dark:text-gray-300'  // Inactivo: gris claro, o gris más oscuro en modo oscuro
+                                        ? 'bg-[#d5d9e2] dark:bg-[#4d607c] text-black dark:text-gray-300'  
+                                        : 'bg-gray-100 text-black dark:bg-gray-800 dark:text-gray-300'  
                                     }`}
                             >
                                 <Link to={section.to} className="flex items-center gap-2">

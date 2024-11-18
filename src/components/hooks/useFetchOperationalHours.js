@@ -14,6 +14,7 @@ export function useFetchUserOperationalHours() {
     const updateUserOperationalHours = async (userId, operationalHoursData) => {
         setLoading(true);
         // console.log("Estos son los datos que estan llegando a la API:", operationalHoursData);
+
         try {
             const response = await axios.post(
                 `user/update/operational-hours/${userId}`,
@@ -36,10 +37,7 @@ export function useFetchUserOperationalHours() {
             setData(response.data);
             console.log('Get operational hours:', response.data);
             setError(null);
-            // console.log('Esta es la información que se recibe del API:', data);
         } catch (error) {
-            // console.error('Error al obtener las horas operativas', error);
-
             setError(error.response?.data);
         } finally {
             setLoading(false);
