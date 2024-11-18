@@ -5,7 +5,7 @@ export function HomeHero() {
     return (
         <div className="w-full text-center flex flex-col md:flex-row md:text-start mt-10 gap-6">
             <section className="flex flex-col justify-center gap-4 w-full">
-                <h1>Find Your Dream Property</h1>
+                <h1 className='dark:text-white'>Find Your Dream Property</h1>
                 <p>
                     Explore, buy, sell or rent properties seamlessly and find
                     exactly what you&apos;re looking for all in one place.

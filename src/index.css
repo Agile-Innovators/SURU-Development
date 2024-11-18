@@ -20,12 +20,12 @@
     box-sizing: border-box;
 }
 
-#body{
+#body {
     min-height: 100vh;
 }
 
 .swiper-pagination-bullet {
-    background-color: white ;
+    background-color: white;
     opacity: 0.2;
 }
 
@@ -38,24 +38,21 @@
     font-size: 14px;
 }
 
-.h5{
+.h5 {
     font-size: '1rem';
-    color: #0A1029;
+    color: #0a1029;
     font-weight: '400';
 }
 
-
 .time-input::-webkit-calendar-picker-indicator {
     color: black;
-  }
-  
-  
-  .dark .time-input::-webkit-calendar-picker-indicator {
-    filter: invert(1);
-  }
-  
+}
 
- .dark .input[type="date"]::-webkit-calendar-picker-indicator {
+.dark .time-input::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+.dark .input[type='date']::-webkit-calendar-picker-indicator {
     filter: invert(1); /* Invierte los colores del icono del calendario */
 }
 
@@ -79,12 +76,14 @@
     border-color: #555 !important;
 }
 
-.swal-dark .swal2-confirm, .swal-dark .swal2-cancel {
+.swal-dark .swal2-confirm,
+.swal-dark .swal2-cancel {
     background-color: #555;
     color: #fff;
     border: none;
 }
 
-.swal-dark .swal2-confirm:hover, .swal-dark .swal2-cancel:hover {
+.swal-dark .swal2-confirm:hover,
+.swal-dark .swal2-cancel:hover {
     background-color: #666;
 }

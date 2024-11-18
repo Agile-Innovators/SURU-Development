@@ -58,6 +58,12 @@ export function RegisterForm() {
         setLoading(true);
         setError('');
 
+        if (!username || !email || !password) {
+            setError('All fields are required.');
+            setLoading(false);
+            return;
+        }
+
         if (!terms) {
             setError('You must agree to the Terms of Service and Privacy Policy.');
             setLoading(false);
@@ -83,7 +89,8 @@ export function RegisterForm() {
             login(token, user);
             navigate(ROUTE_PATHS.HOME);
         } catch (err) {
-            setError(err.response?.data?.message || 'An error occurred');
+            setError('The username or email is already taken.');
+            console.error(err.response?.data?.message || 'An error occurred');
         } finally {
             setLoading(false);
         }
@@ -156,10 +163,10 @@ export function RegisterForm() {
                     />
                     <p className="text-grey text-sm">
                         I agree to the{' '}
-                        <span onClick={() => openModal('Terms of Service')} className="text-blue-500 cursor-pointer">
+                        <span onClick={() => openModal('Terms of Service')} className="text-cyan-500 cursor-pointer">
                             Terms of Service
                         </span> and{' '}
-                        <span onClick={() => openModal('Privacy Policy')} className="text-blue-500 cursor-pointer">
+                        <span onClick={() => openModal('Privacy Policy')} className="text-cyan-500 cursor-pointer">
                             Privacy Policy
                         </span>
                     </p>
