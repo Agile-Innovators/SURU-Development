@@ -44,7 +44,7 @@ export function PropertyManagement() {
 
             toast.success(data.message);
         } catch (error) {
-            toast.error('An error occurred while deleting the property.');
+            toast.error('An error occurred while deleting the property:'+error.message);
         }
     };
 
@@ -53,6 +53,11 @@ export function PropertyManagement() {
     };
 
     const renderPropertiesIndex = (items) => {
+        if (isLoadingProps) return <div>Loading...</div>;
+
+        if (items.length === 0) return <span className='dark:text-white mt-4'>No properties found</span>;
+
+
         return (
             <div className="grid grid-cols-1 gap-4 mb-6">
                 {items.map((item) => {
@@ -155,7 +160,7 @@ export function PropertyManagement() {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme={theme} // Cambia dinámicamente el tema del ToastContainer
+                theme={theme} 
             />
             <div className="text-center grid gap-4">
                 <div className="flex flex-col justify-between gap-4 items-center mt-4">
@@ -183,3 +188,4 @@ export function PropertyManagement() {
         </div>
     );
 }
+
