@@ -27,12 +27,7 @@ export function PartnerIntegrationRequest() {
                         Access the Frequently Asked Questions section. You may
                         find the answer here.
                     </p>
-                    <MainButton
-                        to={ROUTE_PATHS.FAQ_SECTION}
-                        type="link"
-                        customClass="w-2/4"
-                        text="Go to FAQ"
-                    />
+                    <a href="/partners#FAQs" className="block text-center px-8 py-3 rounded-md transition-colors duration-150 cursor-pointer bg-secondary text-white hover:bg-light-blue hover:text-white  w-2/4">Go to FAQ</a>
                 </div>
             </div>
         </div>

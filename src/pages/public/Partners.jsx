@@ -11,13 +11,13 @@ export function Partners() {
 
     useEffect(() => {
         if (location.hash === '#FAQs') {
-            // Agrega un pequeño retraso para asegurar que el componente esté completamente montado
+            // AgregaR un pequeño retraso para asegurar que el componente esté completamente montado
             setTimeout(() => {
                 const section = document.getElementById('FAQs');
                 if (section) {
                     section.scrollIntoView({ behavior: 'smooth' });
                 }
-            }, 100); // Puedes ajustar el tiempo según sea necesario
+            }, 100);
         }
     }, [location]);
 

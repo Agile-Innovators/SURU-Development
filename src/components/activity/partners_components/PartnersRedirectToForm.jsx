@@ -22,7 +22,6 @@ export function PartnersRedirectToForm() {
                         services you provide. Expand your reach and enjoy
                         exclusive opportunities.
                     </p>
-                    {/* cambiar el type del mainbutton a link */}
                     <MainButton
                         to={ROUTE_PATHS.PARTNER_INTEGRATION_REQUEST}
                         type="link"
