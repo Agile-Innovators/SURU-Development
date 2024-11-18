@@ -17,7 +17,7 @@ export function Footer() {
                     </a>
                     <div className="border-b sm:border-l border-gray-500 dark:border-gray-300 h-0 mx-4 w-12 sm:h-10 sm:w-0"></div>
                     <div>
-                        <ul className="flex justify-between text-gray-500 dark:text-gray-400 font-medium gap-4">
+                        <ul className="flex flex-col text-center md:flex-row md:text-start mb-2 md:mb-0 justify-between text-gray-500 dark:text-gray-400 font-medium gap-4">
                             <li>
                                 <a href="/#about-us" className="hover:underline">About us</a>
                             </li>
