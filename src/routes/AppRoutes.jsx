@@ -36,10 +36,8 @@ import { PartnerIntegrationRequest } from '../pages/public/PartnerIntegrationReq
 import { PropertyDetails } from '../pages/public/PropertyDetails.jsx';
 import { Appointments } from '../pages/private/Appointments.jsx';
 import { useAuth } from '../global/AuthProvider';
-
-import { GeneralInformationPartner } from '../pages/public/GeneralInformationPartner.jsx';
-
 import { PartnerServices } from '../pages/public/PartnerServices.jsx';
+
 export function AppRoutes() {
     const navigate = useNavigate();
     const { isSessionExpired, logout, getUser } = useAuth();
@@ -97,15 +95,12 @@ export function AppRoutes() {
                     <Route element={<ProtectedRoutes />}>
                         <Route path={ROUTE_PATHS.USER_PROFILE} element={<UserProfile />}>
                             <Route path="" element={<GeneralInformation />} />
-                            <Route path={ROUTE_PATHS.GENERAL_INFORMATION_PARTNER} element={<GeneralInformationPartner />} />,
                             <Route path={ROUTE_PATHS.GENERAL_INFORMATION} element={<GeneralInformation />} />,
                             <Route path={ROUTE_PATHS.PARTNER_SERVICES} element={<PartnerServices />} />
                             <Route path={ROUTE_PATHS.PREFERENCES} element={<Preferences />} />
                             <Route path={ROUTE_PATHS.OPERATIONAL_HOURS} element={<OperationalHours />} />
                             <Route path={ROUTE_PATHS.CHANGE_PASSWORD} element={<ChangePassword />} />
-
                         </Route>
-
                         <Route path={ROUTE_PATHS.FAVORITES} element={<Favorites />} />
                         <Route path={ROUTE_PATHS.PROPERTY_MANAGEMENT} element={<PropertyManagement />} />
                         <Route path={ROUTE_PATHS.EDIT_PROPERTY} element={<EditProperty />} />

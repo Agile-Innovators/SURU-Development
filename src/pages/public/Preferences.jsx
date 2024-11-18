@@ -1,7 +1,7 @@
 import { MainButton } from '../../components/ui/buttons/MainButton';
 import { Moon, Sun } from 'lucide-react';
 import { useContext } from 'react';
-import { ThemeContext } from '../../global/ThemeContext'; // Asegúrate de importar el contexto
+import { ThemeContext } from '../../global/ThemeContext'; 
 import { useAuth } from '../../global/AuthProvider';
 import { useFetchCurrency } from '../../components/hooks/useFetchCurrency';
 import { useFetchPartner } from '../../components/hooks/useFetchPartner';
@@ -9,12 +9,13 @@ import { useEffect, useState } from 'react';
 import { useFetchUser } from '../../components/hooks/useFetchUser';
 import Swal from 'sweetalert2';
 export function Preferences() {
-    const { theme, toggleTheme } = useContext(ThemeContext); // Usamos el contexto del tema
+    const { theme, toggleTheme } = useContext(ThemeContext);
     const { getUser } = useAuth();
     const { user } = getUser();
     const { updatePartnerCurrency } = useFetchCurrency();
     const { updateUserProfile, getPartnerInformation, getUserInformation, loading, error, data } = useFetchUser();
     const [userData, setUserData] = useState(null);
+
     useEffect(() => {
         if (user?.id && user?.user_type !== 'partner') {
             getUserInformation(user.id);
@@ -49,7 +50,6 @@ export function Preferences() {
     useEffect(() => {
         if (data) {
             // console.log("Data", data.location);
-
             setProfileData({
                 name: data.name || '',
                 city_id: data.location?.city_id || '',
@@ -77,7 +77,7 @@ export function Preferences() {
         }
     }, [data]);
 
-    //actualizamos el currency del partner
+    //se actualiza el currency del partner
     const handleProfileSubmit = async (event) => {
         // console.log('entro', event.target.currency_id.value);
         event.preventDefault();
@@ -90,6 +90,8 @@ export function Preferences() {
                 icon: 'success',
                 title: 'Cuurency Updated Successfully',
                 text: 'The currency have been updated.',
+                customClass: theme === 'dark' ? 'swal-dark' : '', 
+
             })
         } catch (err) {
             console.error(err);
@@ -97,6 +99,8 @@ export function Preferences() {
                 icon: 'error',
                 title: 'An unexpected error occurred.',
                 text: 'Please try again later.',
+                customClass: theme === 'dark' ? 'swal-dark' : '', 
+
             });
         }
     };
