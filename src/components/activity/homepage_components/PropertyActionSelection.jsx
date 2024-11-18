@@ -4,7 +4,7 @@ import { MainButton } from '../../ui/buttons/MainButton.jsx';
 
 export function PropertyActionSelection() {
     return (
-        <section className="mt-20 flex flex-col">
+        <section className="mt-10 md:mt-20 flex flex-col">
             <div className="text-center grid gap-2">
                 <h2>Managing Properties Has Never Been This Simple</h2>
                 <p>
