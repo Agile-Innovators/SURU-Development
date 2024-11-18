@@ -178,7 +178,6 @@ export function NavBar() {
                         <Disclosure.Button
                             key="logout"
                             as="a"
-                            href="#"
                             onClick={handleLogout} 
                             className="block rounded-md px-3 py-2 text-base font-medium text-red-600 hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-800"
                         >

@@ -69,7 +69,7 @@ export function SearchFilter({
                     name={`select_regions`}
                     value={regionId}
                     onChange={(e) => setRegionId(e.target.value)}
-                    className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                    className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-300"
                 >
                     <option value="0">all</option>
                     {items.map((region) => (
@@ -96,7 +96,7 @@ export function SearchFilter({
                     name={`select_props_cats`}
                     value={categoryId}
                     onChange={(e) => setCategoryId(e.target.value)}
-                    className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                    className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-300"
                 >
                     <option value="0">all</option>
                     {items.map((category) => (

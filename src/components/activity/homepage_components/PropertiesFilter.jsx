@@ -200,7 +200,7 @@ export function PropertiesFilter() {
 
     return (
         <section className="mt-20">
-            <div className="text-center flex flex-col items-center gap-6 px-4 py-8">
+            <div className="text-center flex flex-col items-center gap-6 px-4 pb-6">
                 <ToastContainer
                     position="top-center"
                     autoClose={200}
