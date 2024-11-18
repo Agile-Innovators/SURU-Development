@@ -180,7 +180,6 @@ export function GeneralInformation() {
     };
 
 
-
     const handleProfileSubmit = async (e) => {
         e.preventDefault();
         if (user?.id && user?.user_type === 'user') {

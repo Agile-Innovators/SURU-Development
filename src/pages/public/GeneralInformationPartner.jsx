@@ -146,17 +146,7 @@ export function GeneralInformationPartner() {
             if (profileData.image) {
                 formData.append('image', profileData.image);
             }
-            toast.success('Information updated successfully', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
-            });
+            toast.success('Information updated successfully');
             formData.append('_method', 'PUT');
 
             try {
@@ -171,17 +161,7 @@ export function GeneralInformationPartner() {
                 getPartnerInformation(user.id);
             } catch (err) {
                 console.error("Error al actualizar perfil:", err);
-                toast.error('An unexpected error occurred. Please try again later.', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                    transition: Bounce,
-                });
+                toast.error('An unexpected error occurred. Please try again later.');
             }
         }
         setIsEditing(false);
