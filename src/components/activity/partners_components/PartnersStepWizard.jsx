@@ -31,7 +31,7 @@ const steps = [
 
 export function StepWizard() {
     return (
-        <div className="py-20">
+        <div className="py-10 md:py-20">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:text-center">
                     <h3 className="text-base font-semibold leading-7 text-light-blue dark:text-light-blue">

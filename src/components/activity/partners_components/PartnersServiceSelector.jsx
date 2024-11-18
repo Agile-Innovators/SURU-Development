@@ -40,7 +40,7 @@ const ExtraServiceCategories = [
 
 export function PartnersServiceSelector() {
     return (
-        <div className="py-20 bg-white dark:bg-gray-900">
+        <div className="py-10 md:py-20 bg-white dark:bg-gray-900">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:text-center">
                     <h3 className="text-base font-semibold leading-7 text-light-blue dark:text-light-blue">
