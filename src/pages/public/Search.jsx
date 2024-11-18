@@ -58,7 +58,7 @@ export function Search() {
 
     function showFilteredProperties(properties) {
         if (!properties || properties.length === 0) {
-            return <span>No properties found</span>;
+            return <span className='dark:text-white'>No properties found</span>;
         }
 
         return properties.map((property) => (
