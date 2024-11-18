@@ -62,7 +62,7 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                 />
                 <div className="flex flex-col border-2 gap-2 rounded-md p-4">
                     <LayoutModal status={isModalVisible} customClass="flex items-center justify-center">
-                        <div className="flex flex-col gap-6 bg-white h-auto p-4 rounded-lg shadow-lg dark:bg-[#0d303e]">
+                        <div className="flex flex-col gap-6 bg-white h-auto p-4 rounded-lg shadow-lg dark:bg-[#0d273e]">
                             <button onClick={() => setIsModalVisible(false)} className='flex justify-end'>
                                 <X className="hover:text-blue-500" />
                             </button>

@@ -2,16 +2,12 @@ import { useState, useEffect, useContext } from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
 import Swal from 'sweetalert2';
 import { useAxios } from '../../components/hooks/useAxios';
-import { useNavigate } from 'react-router-dom';
-import { ROUTE_PATHS } from '../../routes';
-import { globalProvider } from '../../global/GlobalProvider';
 import { ThemeContext } from '../../global/ThemeContext';
 
 export function PartnersAdministration() {
     const user = JSON.parse(localStorage.getItem('user')) || null;
     const loggedInUserId = user?.id;
-    const navigate = useNavigate();
-    const { theme } = useContext(ThemeContext); // Accede al tema actual
+    const { theme } = useContext(ThemeContext);
 
     const [currentStatus, setCurrentStatus] = useState('Pending');
     const [partners, setPartners] = useState([]);
@@ -24,7 +20,6 @@ export function PartnersAdministration() {
             return;
         }
 
-        // setLoading(true);
         setPartners([]);
 
         axios
@@ -61,7 +56,7 @@ export function PartnersAdministration() {
                 title: `Partner ${newStatus}`,
                 showConfirmButton: false,
                 timer: 1500,
-                customClass: theme === 'dark' ? 'swal-dark' : '', // Aplica tema oscuro
+                customClass: theme === 'dark' ? 'swal-dark' : '', 
             });
         }
     };
@@ -128,7 +123,7 @@ export function PartnersAdministration() {
         Swal.fire({
             title: `
                 <div style="display: flex; align-items: center; flex-direction: column;">
-                    <img src="${partner.image}" alt="Company Logo" style="border-radius: 50%; width: 150px; height: 150px; margin-bottom: 15px;">
+                    <img src="${partner.image}" alt="Company Logo" style="border-radius: 50%; width: 150px; height: 150px; margin-bottom: 15px; object-fit: cover;">
                     <h2 style="margin: 0; color: #333;">${partner.name}</h2>
                     <p style="font-size: 14px; color: #777; margin-top: 5px;">${partner.position || ''}</p>
                 </div>
@@ -172,18 +167,18 @@ export function PartnersAdministration() {
      
     const comments = (partner) => {
         Swal.fire({
-            title: 'Use this space to write a comment about this partner',
+            title: 'Add Comment About This Partner',
             html: `
-                <input id="commentInput" style="padding: 8px; margin-top: 10px; width: 100%;" placeholder="Write your comment here..." />
+                <textarea id="commentInput" style="padding: 8px; margin-top: 10px; width: 100%; background-color: transparent; border: 1px solid #ccc;" placeholder="Write your comment here..."></textarea>
             `,
             showCloseButton: true,
             showConfirmButton: false,
             width: '700px',
             customClass: {
-                popup: 'custom-swal-popup',
+                popup: 'custom-swal-popup dark:bg-[#0d273e]',
             },
             footer: `
-                <button class="save-comment" style="padding: 10px 20px; margin-top: 15px; background-color: #28a745; color: white; border: none; cursor: pointer;">Save Changes</button>
+                <button class="save-comment" style="padding: 10px 20px; margin-top: 15px; background-color: #0d8387; color: white; border: none; cursor: pointer;">Save Changes</button>
             `,
             didOpen: () => {
                 const saveButton = Swal.getPopup().querySelector('button.save-comment');
@@ -358,7 +353,7 @@ export function PartnersAdministration() {
                             partners.map((partner) => (
                                 <div
                                     key={partner.id}
-                                    className="bg-white p-4 rounded-lg shadow"
+                                    className="bg-white dark:bg-[#0d273e] p-4 rounded-lg shadow"
                                 >
                                     <div className="flex items-center gap-4 mb-4">
                                         <img
@@ -397,11 +392,11 @@ export function PartnersAdministration() {
                                             {currentStatus}
                                         </span>
                                     </p>
-                                    <div className="flex gap-2">
+                                    <div className="flex flex-col md:flex-row gap-2">
                                         {currentStatus === 'Pending' ? (
                                             <>
                                                 <button
-                                                    className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3"
+                                                    className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue dark:hover:border-green-800 dark:hover:bg-green-800/20 dark:hover:text-green-700 hover:text-white py-3 px-3"
                                                     onClick={() =>
                                                         approvePartner(
                                                             partner.id
@@ -411,7 +406,7 @@ export function PartnersAdministration() {
                                                     Approve
                                                 </button>
                                                 <button
-                                                    className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue hover:text-white py-3 px-3"
+                                                    className="text-secondary border-2 border-secondary hover:bg-secondary dark:border-light-blue dark:text-light-blue dark:hover:border-red-800 dark:hover:bg-red-800/20 dark:hover:text-red-700 hover:text-white py-3 px-3"
                                                     onClick={() =>
                                                         rejectPartner(
                                                             partner.id
