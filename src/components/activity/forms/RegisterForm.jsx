@@ -116,7 +116,7 @@ export function RegisterForm() {
                 theme="light"
             />
             <h1>Let&apos;s get started</h1>
-            <span className="text-grey">
+            <span className="text-grey dark:text-light-grey">
                 Complete the form below to create your new account
             </span>
 
@@ -161,7 +161,7 @@ export function RegisterForm() {
                         checked={terms}
                         onChange={() => setTerms(!terms)}
                     />
-                    <p className="text-grey text-sm">
+                    <p className="text-grey dark:text-light-grey text-sm">
                         I agree to the{' '}
                         <span onClick={() => openModal('Terms of Service')} className="text-cyan-500 cursor-pointer">
                             Terms of Service

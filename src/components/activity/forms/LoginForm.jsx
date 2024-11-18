@@ -46,16 +46,16 @@ export function LoginForm({successMessage}) {
     return (
         <form onSubmit={handleSubmit} className="m-auto">
             <h1 >Welcome Back</h1>
-            <span className="text-grey">
+            <span className="text-grey dark:text-light-grey">
                 Sign in by entering the information below
             </span>
             {error && (
-                <div className="error text-red-500 p-1 text-center rounded-sm bg-red-100 mt-2">
+                <div className="error bg-red-100 text-red-500 p-1 text-center rounded-sm mt-2 dark:bg-red-800/70 dark:text-red-100">
                     {error}
                 </div>
             )}
             {message && (
-                <div className="text-green-500 p-1 text-center rounded-sm bg-green-100 mt-2">
+                <div className="bg-green-100 text-green-500 p-1 text-center rounded-sm mt-2 dark:bg-green-800/70 dark:text-green-100">
                     {message}
                 </div>
             )}
@@ -97,11 +97,10 @@ export function LoginForm({successMessage}) {
                 variant="fill"
                 customClass="w-full mb-2"
             />
-            <span className="text-grey text-sm mr-1 dark:text-white">
+            <span className="text-grey dark:text-light-grey text-sm mr-1 dark:text-white">
                 Don&apos;t you have an account?
             </span>
             <TextLink route={ROUTE_PATHS.REGISTER} text="Register"  />
-            {error && <p className="error-message">{error}</p>}
             {loading && <p className="text-secondary dark:text-light-blue">Loading...</p>}
         </form>
     );

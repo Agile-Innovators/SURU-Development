@@ -8,10 +8,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ROUTE_PATHS } from '../../routes/index.js';
 import { useAxios } from '../../components/hooks/useAxios.js';
 import { useFetchUserProperties } from '../../components/hooks/useFetchUserProperties.js';
-import { ThemeContext } from '../../global/ThemeContext'; // Ruta según tu estructura
+import { ThemeContext } from '../../global/ThemeContext'; 
 
 export function PropertyManagement() {
-    const { theme } = useContext(ThemeContext); // Obtiene el tema desde el contexto
+    const { theme } = useContext(ThemeContext);
     const { properties, isLoadingProps } = useFetchUserProperties();
     const [propertiesData, setPropertiesData] = useState(properties);
     const [openDropdownId, setOpenDropdownId] = useState(null);

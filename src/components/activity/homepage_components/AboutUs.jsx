@@ -26,12 +26,12 @@ export function AboutUs() {
                     Transform the way you find your ideal home! With our rental
                     and real estate app, access exclusive options and a
                     hassle-free process. Start today and discover the place
-                    you’ve always dreamed of!
+                    you&apos;ve always dreamed of!
                 </p>
 
-                <div className="grid grid-cols-auto-100 gap-4">
+                <div className="grid grid-cols-auto-100 gap-4 dark:text-white">
                     <div>
-                        <span ref={ref} className="font-semibold">
+                        <span ref={ref} className="font-semibold dark:text-white">
                             {startCounting && (
                                 <CountUp
                                     start={0}
@@ -41,7 +41,7 @@ export function AboutUs() {
                                 />
                             )}
                         </span>
-                        <p>Active users</p>
+                        <p>Users</p>
                     </div>
                     <div>
                         <span ref={ref} className="font-semibold">
@@ -54,7 +54,7 @@ export function AboutUs() {
                                 />
                             )}
                         </span>
-                        <p>Availables properties</p>
+                        <p>Properties</p>
                     </div>
                     <div>
                         <h4 ref={ref} className="font-semibold text-md">
@@ -67,7 +67,7 @@ export function AboutUs() {
                                 />
                             )}
                         </h4>
-                        <p>Partner Companies</p>
+                        <p>Partners</p>
                     </div>
                 </div>
             </section>
