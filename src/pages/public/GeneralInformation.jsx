@@ -1,6 +1,6 @@
 import { Input } from '../../components/ui/forms/Input';
 import { MainButton } from '../../components/ui/buttons/MainButton';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useFetchUser } from '../../components/hooks/useFetchUser';
 import { useAuth } from '../../global/AuthProvider';
 import { Pencil } from 'lucide-react';
@@ -10,12 +10,14 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATHS } from '../../routes';
 import { useAxios } from '../../components/hooks/useAxios.js';
 import { useFetchPartner } from '../../components/hooks/useFetchPartner';
+import { ThemeContext } from '../../global/ThemeContext.jsx';
 import Swal from 'sweetalert2';
 export function GeneralInformation() {
     // Traemos al usuario
     const { getUser } = useAuth();
     const { user } = getUser();
-    
+    const { theme } = useContext(ThemeContext); 
+
 
 
     //Si el usuario es Partner lo devuelve a la vista principal
@@ -272,6 +274,7 @@ export function GeneralInformation() {
                     icon: 'success',
                     title: 'Personal Information Updated Successfully',
                     text: 'The personal information have been updated.',
+                    customClass: theme === 'dark' ? 'swal-dark' : '', 
                 })
                 getPartnerInformation(user.id);
             } catch (err) {
@@ -279,6 +282,7 @@ export function GeneralInformation() {
                     icon: 'error',
                     title: 'An unexpected error occurred.',
                     text: 'Please try again later.',
+                    customClass: theme === 'dark' ? 'swal-dark' : '', 
                 });
                 console.error("Error al actualizar perfil:", err);
             }
