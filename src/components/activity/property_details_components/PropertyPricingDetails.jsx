@@ -8,7 +8,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import PropTypes from 'prop-types';
 import { LayoutModal } from '../../ui/modals/LayoutModal.jsx';
 import { MainButton } from '../../ui/buttons/MainButton.jsx';
-import { FaTiktok, FaFacebook, FaInstagram, FaWhatsapp, FaEnvelope } from 'react-icons/fa';
+import {
+    FaTiktok,
+    FaFacebook,
+    FaInstagram,
+    FaWhatsapp,
+    FaEnvelope,
+} from 'react-icons/fa';
 import { X } from 'lucide-react';
 export function PropertyPricingDetails({ propertyTemp, isLoading }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,8 +27,6 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
     const loggedInUserId = user?.id;
 
     const [isModalVisible, setIsModalVisible] = useState(false);
-
-
 
     // Función para alternar el estado del modal
     const toggleModal = () => {
@@ -61,22 +65,36 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                     theme={theme}
                 />
                 <div className="flex flex-col border-2 gap-2 rounded-md p-4">
-                    <LayoutModal status={isModalVisible} customClass="flex items-center justify-center">
+                    <LayoutModal
+                        status={isModalVisible}
+                        customClass="flex items-center justify-center"
+                    >
                         <div className="flex flex-col gap-6 bg-white h-auto p-4 rounded-lg shadow-lg dark:bg-[#0d273e]">
-                            <button onClick={() => setIsModalVisible(false)} className='flex justify-end'>
+                            <button
+                                onClick={() => setIsModalVisible(false)}
+                                className="flex justify-end"
+                            >
                                 <X className="hover:text-blue-500" />
                             </button>
                             {/* Título */}
-                            <h2 className=" text-center text-gray-800">Owner Information</h2>
+                            <h2 className=" text-center text-gray-800">
+                                Owner Information
+                            </h2>
 
                             {/* Información del propietario */}
                             <div className="flex flex-col gap-2 text-gray-700">
-                                <p>
-                                    <b>Owner Name:</b> {property.owner_name}
-                                </p>
+                                {property ? (
+                                    <p>
+                                        <b>Owner Name:</b>{' '}
+                                        {property.owner_name || 'Unknown'}
+                                    </p>
+                                ) : (
+                                    <p>Loading...</p>
+                                )}
                                 {!property.owner_phone ? null : (
                                     <p>
-                                        <b>Phone:</b> (+506) {property.owner_phone}
+                                        <b>Phone:</b> (+506){' '}
+                                        {property.owner_phone}
                                     </p>
                                 )}
                                 <p>
@@ -85,29 +103,43 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                             </div>
 
                             <div className="grid grid-cols-2 gap-6 mt-2 sm:grid-cols-2 md:grid-cols-2">
-                                
                                 {!property.owner_phone ? null : (
                                     <MainButton
-                                    onClick={() => window.open(`https://wa.me/506${property.owner_phone}`, '_blank')}
-                                    text={
-                                        <div className="flex items-center space-x-2">
-                                            <FaWhatsapp /> <span className='text-white'>WhatsApp</span>
-                                        </div>
-                                    }
-                                    className="bg-green-500 dark:bg-cyan-700 text-white px-2 py-2 rounded-md hover:bg-green-600 transition-colors duration-200"
-                                />
+                                        onClick={() =>
+                                            window.open(
+                                                `https://wa.me/506${property.owner_phone}`,
+                                                '_blank'
+                                            )
+                                        }
+                                        text={
+                                            <div className="flex items-center space-x-2">
+                                                <FaWhatsapp />{' '}
+                                                <span className="text-white">
+                                                    WhatsApp
+                                                </span>
+                                            </div>
+                                        }
+                                        className="bg-green-500 dark:bg-cyan-700 text-white px-2 py-2 rounded-md hover:bg-green-600 transition-colors duration-200"
+                                    />
                                 )}
                                 <MainButton
-                                    onClick={() => window.open(`mailto:example@example.com`, '_blank')}
+                                    onClick={() =>
+                                        window.open(
+                                            `mailto:example@example.com`,
+                                            '_blank'
+                                        )
+                                    }
                                     text={
                                         <div className="flex items-center space-x-2">
-                                            <FaEnvelope /> <span className='text-white'>Email</span>
+                                            <FaEnvelope />{' '}
+                                            <span className="text-white">
+                                                Email
+                                            </span>
                                         </div>
                                     }
                                     className="bg-orange-500 dark:bg-[#4c6376] text-white px-2 py-2 rounded-md hover:bg-orange-600 transition-colors duration-200"
                                 />
                             </div>
-
                         </div>
                     </LayoutModal>
 
@@ -131,7 +163,7 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                                 </p>
                             </div>
                             {property.deposit_price &&
-                                property.deposit_price > 0 ? (
+                            property.deposit_price > 0 ? (
                                 <div className="flex justify-between">
                                     <p>Security Deposit</p>
                                     <p className="font-medium">
@@ -163,7 +195,7 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                                 </p>
                             </div>
                             {property.deposit_price &&
-                                property.deposit_price > 0 ? (
+                            property.deposit_price > 0 ? (
                                 <div className="flex justify-between">
                                     <p>Security Deposit</p>
                                     <p className="font-medium">
@@ -192,8 +224,9 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                     </button>
                     <button
                         className="text-white border-2 border-secondary bg-secondary hover:bg-light-blue hover:border-light-blue hover:text-white py-3 mt-1 rounded-sm"
-                        onClick={() => contactOwner({ phone_number: property.owner_phone })}
-
+                        onClick={() =>
+                            contactOwner({ phone_number: property.owner_phone })
+                        }
                     >
                         Contact Owner
                     </button>
@@ -295,5 +328,5 @@ PropertyPricingDetails.propTypes = {
     showPricingDetails: PropTypes.func,
     showLoader: PropTypes.func,
     isModalOpen: PropTypes.bool,
-    setIsModalOpen: PropTypes.func
+    setIsModalOpen: PropTypes.func,
 };
