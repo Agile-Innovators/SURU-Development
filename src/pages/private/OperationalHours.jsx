@@ -134,38 +134,14 @@ export function OperationalHours() {
             await getOperationalHours(user.id);
 
             //muestra un mensaje de éxito
-            toast.success('Operational hours updated successfully', {
-                position: 'top-center',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: 'light',
-                transition: Bounce,
-            });
+            toast.success('Operational hours updated successfully');
             isEditing && setIsEditing(false);
 
             // console.log("Datos actualizados y recargados correctamente");
         } catch (error) {
             // console.error("Error al actualizar los datos operacionales", error);
-
-            // Muestra un mensaje de error
             toast.error(
-                'An unexpected error occurred. Please try again later.',
-                {
-                    position: 'top-center',
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: 'light',
-                    transition: Bounce,
-                }
-            );
+                'An unexpected error occurred. Please try again later.');
         }
     };
 

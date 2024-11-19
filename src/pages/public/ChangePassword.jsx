@@ -1,6 +1,6 @@
 import { Input } from '../../components/ui/forms/Input';
 import { MainButton } from '../../components/ui/buttons/MainButton';
-import { useState,useContext } from 'react';
+import { useState, useContext } from 'react';
 import { useFetchUser } from '../../components/hooks/useFetchUser';
 import { useAuth } from '../../global/AuthProvider';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
@@ -35,34 +35,12 @@ export function ChangePassword() {
             passwordData.confirm_password.length < 8
         ) {
             toast.error(
-                'The new password needs to be at least 8 characters long.',
-                {
-                    position: 'top-center',
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: 'light',
-                    transition: Bounce,
-                }
-            );
+                'The new password needs to be at least 8 characters long.');
             return;
         }
 
         if (passwordData.new_password !== passwordData.confirm_password) {
-            toast.error('New password and confirm password do not match.', {
-                position: 'top-center',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: 'light',
-                transition: Bounce,
-            });
+            toast.error('New password and confirm password do not match.');
             return;
         }
 
@@ -84,64 +62,21 @@ export function ChangePassword() {
                     });
 
                     // Notificación de éxito
-                    toast.success('Password updated successfully!', {
-                        position: 'top-center',
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: 'light',
-                        transition: Bounce,
-                    });
+                    toast.success('Password updated successfully!');
                 } else {
                     // Maneja el caso donde no hay mensaje o es diferente
                     toast.error(
                         response?.message ||
-                            'Failed to update password, please try again.',
-                        {
-                            position: 'top-center',
-                            autoClose: 5000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: 'light',
-                            transition: Bounce,
-                        }
+                            'Failed to update password, please try again.'
                     );
                 }
             } catch (err) {
                 // Notificación de error
                 toast.error(
-                    err.response?.data?.message || 'Failed to update password.',
-                    {
-                        position: 'top-center',
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: 'light',
-                        transition: Bounce,
-                    }
-                );
+                    err.response?.data?.message || 'Failed to update password.');
             }
         } else {
-            toast.error('User ID is missing, please try again.', {
-                position: 'top-center',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: 'light',
-                transition: Bounce,
-            });
+            toast.error('User ID is missing, please try again.');
         }
     };
 
@@ -149,7 +84,7 @@ export function ChangePassword() {
         <form className="p-4" onSubmit={handleProfileSubmit}>
             <ToastContainer
                 position="top-center"
-                autoClose={200}
+                autoClose={1500}
                 hideProgressBar
                 newestOnTop={false}
                 closeOnClick
@@ -164,11 +99,12 @@ export function ChangePassword() {
                 <h2>Change your Password</h2>
                 <p>
                     You can easily update your current password here. Just
-                    follow the steps and you’ll be all set!
+                    follow the steps and you&apos;ll be all set!
                 </p>
             </div>
             <div className="grid grid-cols-1 gap-8 mt-4 sm:grid-cols-3">
                 <Input
+                    type="password"
                     inputName="old_password"
                     inputId="oldPassword-input"
                     labelText="Old Password"
@@ -177,6 +113,7 @@ export function ChangePassword() {
                     required={true}
                 />
                 <Input
+                    type="password"
                     inputName="new_password"
                     inputId="newPassword-input"
                     labelText="New Password"
@@ -185,6 +122,7 @@ export function ChangePassword() {
                     required={true}
                 />
                 <Input
+                    type="password"
                     inputName="confirm_password"
                     inputId="confirmPassword-input"
                     labelText="Confirm Password"

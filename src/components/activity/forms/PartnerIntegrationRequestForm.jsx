@@ -240,8 +240,8 @@ export function PartnerIntegrationRequestForm() {
                 >
                     {!formData.image ? (
                         <>
-                        <ImageUp size={54} className="text-secondary/80 stroke-[1.5] mx-4" />
-                            <span className='text-secondary mx-4'>Drag and drop your logo here, or click to select a file</span>
+                        <ImageUp size={54} className="text-secondary/80 dark:text-light-grey stroke-[1.5] mx-4" />
+                            <span className='text-secondary dark:text-light-grey mx-4'>Drag and drop your logo here, or click to select a file</span>
                             <input
                                 type="file"
                                 id="image"

@@ -26,7 +26,7 @@ export function ForgotPasswordForm() {
     return (
         <form onSubmit={handleSubmit} className="m-auto">
             <h1>Password reset</h1>
-            <span className="text-grey">
+            <span className="text-grey dark:text-light-grey">
                 Don&apos;t worry, enter your email for instructions
             </span>
             <div className="grid gap-4 my-4">
@@ -49,7 +49,7 @@ export function ForgotPasswordForm() {
                 />
             </div>
             {message && <p>{message}</p>}
-            <span className="text-grey text-sm mr-1">
+            <span className="text-grey dark:text-light-grey text-sm mr-1">
                 Do you remember your password?
             </span>
             <TextLink route={ROUTE_PATHS.LOGIN} text="Sign In" />

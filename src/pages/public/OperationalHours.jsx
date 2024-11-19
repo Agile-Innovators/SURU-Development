@@ -107,17 +107,8 @@ export function OperationalHours() {
 
             isEditing && setIsEditing(false);
         } catch (error) {
-            toast.error('An unexpected error occurred. Please try again later.', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
-            });
+            toast.error('An unexpected error occurred. Please try again later.');
+            //console.error(error);
         }
     };
 
