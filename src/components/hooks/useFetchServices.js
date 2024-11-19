@@ -24,10 +24,9 @@ export function useFetchServices(idCategory) {
 
     const getPartnerServices = async (userId) => {
         setLoading(true);
-        setError(null); // Resetear el error antes de la nueva solicitud
+        setError(null); 
         try {
             const response = await axios.get(`/partner-services/${userId}`);
-            // Establecer los datos de los servicios
             setPartnerServices(response.data);
             console.log('Datos obtenidos:', response.data);
         } catch (error) {
@@ -40,12 +39,11 @@ export function useFetchServices(idCategory) {
 
     const updatePartnerServices = async (userId, services) => {
         setLoading(true);
-        // Asegúrate de que services tenga la estructura correcta
-        // const userData = { services }; // Envía solo los servicios como datos
+
         console.log('Datos enviados update:', services);
         try {
             const response = await axios.put(`/partner-update-services/${userId}`, services);
-            const data = await response.data; // Asegúrate de corregir el nombre de la variable aquí
+            const data = await response.data;
             setData(data);
             setError(null);
         } catch (error) {
@@ -56,7 +54,6 @@ export function useFetchServices(idCategory) {
     };
 
 
-    // Ejecuta fetchServices cuando el hook se monta
     useEffect(() => {
         fetchServices();
     }, []);

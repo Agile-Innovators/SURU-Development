@@ -31,13 +31,14 @@ export function AboutUs() {
 
                 <div className="grid grid-cols-auto-100 gap-4">
                     <div>
-                        <span ref={ref} className="font-semibold">
+                        <span ref={ref} className="font-semibold ">
                             {startCounting && (
                                 <CountUp
                                     start={0}
                                     end={120}
                                     duration={2.5}
                                     prefix="+"
+                                    className='dark:text-light-blue'
                                 />
                             )}
                         </span>
@@ -51,6 +52,7 @@ export function AboutUs() {
                                     end={50}
                                     duration={2.5}
                                     prefix="+"
+                                    className='dark:text-light-blue'
                                 />
                             )}
                         </span>
@@ -64,6 +66,7 @@ export function AboutUs() {
                                     end={60}
                                     duration={2.5}
                                     prefix="+"
+                                    className='dark:text-light-blue'
                                 />
                             )}
                         </h4>
