@@ -6,6 +6,7 @@ import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useFetchPartner } from '../../components/hooks/useFetchPartner.js';
 export function PartnerServices() {
     const [selectedService, setSelectedService] = useState('');
     const [minPrice, setMinPrice] = useState('');
@@ -15,7 +16,16 @@ export function PartnerServices() {
     const { getUser } = useAuth();
     const { user } = getUser();
     const { theme } = useContext(ThemeContext); 
+    const { getPartnerInformation, data} = useFetchPartner();
+
+    useEffect(() => {
+        getPartnerInformation(user.id);
+    }, [user.id]);
+
+
+
     const { services, loading, error, updatePartnerServices, partnerServices, getPartnerServices } = useFetchServices(1);
+    
     useEffect(() => {
         getPartnerServices(user.id);
     }, [user.id]);
@@ -44,9 +54,9 @@ export function PartnerServices() {
         navigate(ROUTE_PATHS.HOME);
     }
 
-    if (loading) return <p>Loading services...</p>;
+    // if (loading) return <p>Loading services...</p>;
 
-    if (error) return <p>Error: {error}</p>;
+    // if (error) return <p>Error: {error}</p>;
 
     const validateService = (serviceId, min, max) => {
         if (!serviceId || min === '' || max === '') return false;
