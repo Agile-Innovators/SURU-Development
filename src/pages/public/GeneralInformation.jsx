@@ -189,6 +189,11 @@ export function GeneralInformation() {
                 }
             }
 
+            if (!profileData.city_id && profileData.city_id !== "") {
+                formData.append('city_id', null); 
+                console.log("city_id no seleccionado, enviando null");
+            }
+
             formData.append('_method', 'PUT');
             try {
                 const response = await updateUserProfile(user.id, formData);
@@ -353,7 +358,7 @@ export function GeneralInformation() {
                             <div className='flex flex-col'>
                                 <label className="font-medium text-gray-700">Ciudad</label>
                                 <select name="city_id" id="city-input" value={profileData.city_id} onChange={handleChange} disabled={!isEditing} className='border border-light-grey bg-transparent rounded-md min-h-8 px-4 py-2 mt-2 focus:outline-light-blue'>
-
+                                    <option value="">Select a city</option>
                                     {locations.map((location) => (
                                         <option key={location.value} value={location.value}> {location.name} </option>
                                     ))}
