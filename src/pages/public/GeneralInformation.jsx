@@ -18,17 +18,13 @@ export function GeneralInformation() {
     const { user } = getUser();
     const { theme } = useContext(ThemeContext); 
 
-
-
     //Si el usuario es Partner lo devuelve a la vista principal
     const navigate = useNavigate();
     if (user.user_type == "partner") {
         // navigate(ROUTE_PATHS.HOME);
         // console.log("Partner");
     }
-
-
-
+    
     //Traemos la información del Usuario
     const { updateUserProfile, getPartnerInformation, getUserInformation, loading, error, data } = useFetchUser();
     const { updatePartnerProfile } = useFetchPartner();
@@ -78,7 +74,7 @@ export function GeneralInformation() {
 
             setProfileData({
                 name: data.name || '',
-                city_id: data.location?.city_id || '',
+                city_id: (data.locations && data.locations.length > 0) ? data.locations[0].city_id : '',
                 email: data.email || '',
                 phone_number: data.phone_number || '',
                 image: data.image_url || '',
@@ -194,22 +190,31 @@ export function GeneralInformation() {
             }
 
             formData.append('_method', 'PUT');
-            const updatedUser = await updateUserProfile(user.id, formData);
+            try {
+                const response = await updateUserProfile(user.id, formData);
+                if (response?.data?.image_url) {
+                    setProfileData((prevState) => ({
+                        ...prevState,
+                        image: response.data.image_url,
 
-            // Actualizar el estado de profileData con la nueva imagen
-            if (updatedUser?.image_url) {
-                setProfileData((prevState) => ({
-                    ...prevState,
-                    image: updatedUser.image_url,
-                }));
+                    }));
+                }
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Personal Information Updated Successfully',
+                    text: 'The personal information have been updated.',
+                    customClass: theme === 'dark' ? 'swal-dark' : '', 
+                })
+                getPartnerInformation(user.id);
+            } catch (err) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'An unexpected error occurred.',
+                    text: 'Please try again later.',
+                    customClass: theme === 'dark' ? 'swal-dark' : '', 
+                });
+                console.error("Error al actualizar perfil:", err);
             }
-            Swal.fire({
-                icon: 'success',
-                title: 'Personal Information Updated Successfully',
-                text: 'The personal information have been updated.',
-            })
-            // Actualizar los datos del usuario
-            getUserInformation(user.id);
         }
 
         if (user?.id && user?.user_type === 'partner') {
