@@ -119,50 +119,89 @@ export function PartnersAdministration() {
         });
     };
 
-    const showAdditionalInfo = (partner) => {
+    const showAdditionalInfo = (partner, theme) => {
         Swal.fire({
-            title: `
-                <div style="display: flex; align-items: center; flex-direction: column;">
-                    <img src="${partner.image}" alt="Company Logo" style="border-radius: 50%; width: 150px; height: 150px; margin-bottom: 15px; object-fit: cover;">
-                    <h2 style="margin: 0; color: #333;">${partner.name}</h2>
-                    <p style="font-size: 14px; color: #777; margin-top: 5px;">${partner.position || ''}</p>
-                </div>
-            `,
             html: `
-                <div style="padding: 15px; text-align: left; color: #555;">
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                        <p><strong style="color: #333;">Description:</strong> ${partner.description || 'N/A'}</p>
+                <div style="
+                    display: flex; 
+                    flex-direction: column; 
+                    align-items: center; 
+                    text-align: center; 
+                    color: ${theme === 'dark' ? '#f8f9fa' : '#2d465c'}; 
+                    font-family: Arial, sans-serif;">
+                    <img src="${partner.image}" 
+                         alt="Company Logo" 
+                         style="
+                            border-radius: 50%; 
+                            width: 120px; 
+                            height: 120px; 
+                            margin-bottom: 15px; 
+                            object-fit: cover; 
+                            border: 2px solid ${theme === 'dark' ? '#3691bd' : '#66bee1'};">
+                    <h2 style="margin: 0; font-size: 18px;">${partner.name}</h2>
+                    <p style="font-size: 13px; color: ${theme === 'dark' ? '#adb5bd' : '#666'}; margin-top: 5px;">${partner.position || ''}</p>
+                </div>
+                <div style="
+                    padding: 15px; 
+                    text-align: left; 
+                    font-family: Arial, sans-serif; 
+                    color: ${theme === 'dark' ? '#e9ecef' : '#333'};">
+                    <div style="margin-bottom: 15px;">
+                        <p><strong style="color: ${theme === 'dark' ? '#66d9e8' : '#236f97'};">Description:</strong> ${partner.description || 'N/A'}</p>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <p><strong>Website:</strong> <a href="${partner.website_url || '#'}" target="_blank" style="color: #007bff;">${partner.website_url || 'N/A'}</a></p>
+                    <div style="margin-bottom: 15px;">
+                        <p><strong style="color: ${theme === 'dark' ? '#66d9e8' : '#236f97'};">Website:</strong> 
+                            <a href="${partner.website_url || '#'}" 
+                               target="_blank" 
+                               style="color: ${theme === 'dark' ? '#66d9e8' : '#3691bd'}; text-decoration: none;">
+                               ${partner.website_url || 'N/A'}
+                            </a>
+                        </p>
                     </div>
-                    <hr style="border-top: 1px solid #eee; margin: 15px 0;">
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                        <p><strong>Instagram:</strong> <a href="${partner.instagram_url || '#'}" target="_blank" style="color: #007bff;">${partner.instagram_url || 'N/A'}</a></p>
+                    <hr style="border: none; height: 1px; background-color: ${theme === 'dark' ? '#495057' : '#eee'}; margin: 15px 0;">
+                    <div style="margin-bottom: 15px;">
+                        <p><strong style="color: ${theme === 'dark' ? '#66d9e8' : '#236f97'};">Instagram:</strong> 
+                            <a href="${partner.instagram_url || '#'}" 
+                               target="_blank" 
+                               style="color: ${theme === 'dark' ? '#66d9e8' : '#3691bd'}; text-decoration: none;">
+                               ${partner.instagram_url || 'N/A'}
+                            </a>
+                        </p>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                        <p><strong>Facebook:</strong> <a href="${partner.facebook_url || '#'}" target="_blank" style="color: #007bff;">${partner.facebook_url || 'N/A'}</a></p>
+                    <div style="margin-bottom: 15px;">
+                        <p><strong style="color: ${theme === 'dark' ? '#66d9e8' : '#236f97'};">Facebook:</strong> 
+                            <a href="${partner.facebook_url || '#'}" 
+                               target="_blank" 
+                               style="color: ${theme === 'dark' ? '#66d9e8' : '#3691bd'}; text-decoration: none;">
+                               ${partner.facebook_url || 'N/A'}
+                            </a>
+                        </p>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                        <p><strong>TikTok:</strong> <a href="${partner.tiktok_url || '#'}" target="_blank" style="color: #007bff;">${partner.tiktok_url || 'N/A'}</a></p>
+                    <div style="margin-bottom: 15px;">
+                        <p><strong style="color: ${theme === 'dark' ? '#66d9e8' : '#236f97'};">TikTok:</strong> 
+                            <a href="${partner.tiktok_url || '#'}" 
+                               target="_blank" 
+                               style="color: ${theme === 'dark' ? '#66d9e8' : '#3691bd'}; text-decoration: none;">
+                               ${partner.tiktok_url || 'N/A'}
+                            </a>
+                        </p>
                     </div>
-                    <hr style="border-top: 1px solid #eee; margin: 15px 0;">
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                        <p><strong>Currency:</strong> ${partner.currency_id || 'N/A'}</p>
+                    <hr style="border: none; height: 1px; background-color: ${theme === 'dark' ? '#495057' : '#eee'}; margin: 15px 0;">
+                    <div style="margin-bottom: 15px;">
+                        <p><strong style="color: ${theme === 'dark' ? '#66d9e8' : '#236f97'};">Currency:</strong> ${partner.currency_name || 'N/A'}</p>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                        <p><strong>Partner Comments:</strong> ${partner.admin_comments || 'N/A'}</p>
+                    <div>
+                        <p><strong style="color: ${theme === 'dark' ? '#66d9e8' : '#236f97'};">Partner Comments:</strong> ${partner.admin_comments || 'N/A'}</p>
                     </div>
                 </div>
             `,
             showCloseButton: true,
             showConfirmButton: false,
-            width: '700px',
-            customClass: {
-                popup: 'custom-swal-popup',
-            },
+            width: '600px',
+            customClass: theme === 'dark' ? 'swal-dark' : '',
         });
     };
+    
     
      
     const comments = (partner) => {

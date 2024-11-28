@@ -134,7 +134,7 @@ export function SearchPartners() {
                     partnerId={partner.user_id}
                     partnerImage={partner.image}
                     partnerName={partner.partner_name}
-                    partnerDescription={partner.description}
+                    //partnerDescription={partner.description}
                     partnerCategory={partner.category_name}
                 />
             );

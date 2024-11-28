@@ -30,10 +30,10 @@ export function PartnerCard({
             <div className="flex flex-col p-4  gap-4 grow h-full">
                 <div className="grid gap-2 text-center justify-center">
                     <h4>{partnerName}</h4>
-                    <p>
+                    {/* <p>
                         {partnerDescription.slice(0, 100)}
                         {partnerDescription.length > 100 ? '...' : ''}
-                    </p>
+                    </p> */}
                     <p>
                         <strong>{partnerCategory}</strong>
                     </p>
