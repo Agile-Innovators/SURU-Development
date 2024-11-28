@@ -9,6 +9,8 @@ import { ROUTE_PATHS } from '../../routes/index.js';
 import { useAxios } from '../../components/hooks/useAxios.js';
 import { useFetchUserProperties } from '../../components/hooks/useFetchUserProperties.js';
 import { ThemeContext } from '../../global/ThemeContext'; 
+import { useAuth } from '../../global/AuthProvider';
+import Swal from 'sweetalert2';
 
 export function PropertyManagement() {
     const { theme } = useContext(ThemeContext);
@@ -17,6 +19,10 @@ export function PropertyManagement() {
     const [openDropdownId, setOpenDropdownId] = useState(null);
     const axios = useAxios();
     const navigate = useNavigate();
+    const { getUser } = useAuth();
+    const { user } = getUser();
+    console.log("El usuario en el panel de administracion es: ",user);
+
 
     const formatPrice = (price) => {
         if (price >= 1e9) return `${(price / 1e9).toFixed(1)}B`;
@@ -47,6 +53,20 @@ export function PropertyManagement() {
             toast.error('An error occurred while deleting the property:'+error.message);
         }
     };
+
+    const createPropertyRedirect = () => {
+        if(user.username === "undefined" || user.username === "undefined" ){
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'You must complete all the information in your profile before adding a property.',
+                customClass: theme === 'dark' ? 'swal-dark' : '', 
+            });                        
+        }else {
+        navigate(ROUTE_PATHS.CREATE_PROPERTY);
+        }
+    };
+
 
     const showProperty = (id) => {
         navigate(`${ROUTE_PATHS.PROPERTY_DETAILS.replace(':propertyId', id)}`);
@@ -171,8 +191,8 @@ export function PropertyManagement() {
                         </h1>
                         <div className="flex justify-end">
                             <MainButton
-                                type="link"
-                                to={ROUTE_PATHS.CREATE_PROPERTY}
+                                type="button"
+                                onClick={createPropertyRedirect}
                                 text="+ Add New Property"
                                 customClass="w-full sm:w-fit h-fit"
                             />

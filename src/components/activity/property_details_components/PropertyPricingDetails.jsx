@@ -232,7 +232,7 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                     </button>
                 </div>
 
-                <div className="flex flex-col border-2 gap-2 rounded-md p-4">
+                {/* <div className="flex flex-col border-2 gap-2 rounded-md p-4">
                     <h3>Utilities</h3>
                     <div className="flex justify-center gap-4">
                         {property.utilities && property.utilities.length > 0 ? (
@@ -286,7 +286,7 @@ export function PropertyPricingDetails({ propertyTemp, isLoading }) {
                             <p>No utilities available</p>
                         )}
                     </div>
-                </div>
+                </div> */}
             </div>
         );
     };

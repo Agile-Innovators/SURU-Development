@@ -49,7 +49,10 @@ export function NavBar() {
     // Lista de enlaces de navegación para el usuario con los iconos que cambian según el tema
     const userNavigationLinks = [
         { name: 'Manage account', to: ROUTE_PATHS.USER_PROFILE, imageBase: '/UserIcon' },
-        { name: 'My properties', to: ROUTE_PATHS.PROPERTY_MANAGEMENT, imageBase: '/PropertiesIcon' },
+        
+        ...(currentUser?.user_type !== 'partner'
+            ? [{ name: 'My properties', to: ROUTE_PATHS.PROPERTY_MANAGEMENT, imageBase: '/PropertiesIcon' },]
+            : []),
         { name: 'Appointments', to: ROUTE_PATHS.APPOINTMENTS, imageBase: '/AppointmentsIcon' },
         { name: 'Favorite Properties', to: ROUTE_PATHS.FAVORITES, imageBase: '/LikeIcon' },
         ...(currentUser?.user_type === 'admin'
