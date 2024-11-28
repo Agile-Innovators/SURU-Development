@@ -199,20 +199,31 @@ export function GeneralInformation() {
             }
 
             formData.append('_method', 'PUT');
-            const updatedUser = await updateUserProfile(user.id, formData);
+            try {
+                const response = await updateUserProfile(user.id, formData);
+                if (response?.data?.image_url) {
+                    setProfileData((prevState) => ({
+                        ...prevState,
+                        image: response.data.image_url,
 
-            // Actualizar el estado de profileData con la nueva imagen
-            if (updatedUser?.image_url) {
-                setProfileData((prevState) => ({
-                    ...prevState,
-                    image: updatedUser.image_url,
-                }));
+                    }));
+                }
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Personal Information Updated Successfully',
+                    text: 'The personal information have been updated.',
+                    customClass: theme === 'dark' ? 'swal-dark' : '', 
+                })
+                getPartnerInformation(user.id);
+            } catch (err) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'An unexpected error occurred.',
+                    text: 'Please try again later.',
+                    customClass: theme === 'dark' ? 'swal-dark' : '', 
+                });
+                console.error("Error al actualizar perfil:", err);
             }
-            Swal.fire({
-                icon: 'success',
-                title: 'Personal Information Updated Successfully',
-                text: 'The personal information have been updated.',
-            })
             // Actualizar los datos del usuario
             getUserInformation(user.id);
         }
