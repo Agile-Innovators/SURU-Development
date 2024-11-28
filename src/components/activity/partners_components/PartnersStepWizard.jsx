@@ -41,9 +41,9 @@ export function StepWizard() {
                         How does it work
                     </h2>
                     <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-white">
-                    <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-white">
-                        Follow these steps to join our platform as a partner and offer your services to a broad audience. Our process is designed to ensure that you can seamlessly integrate and maximize your visibility.
-                    </p>
+                        Quis tellus eget adipiscing convallis sit sit eget
+                        aliquet quis. Suspendisse eget egestas a elementum
+                        pulvinar et feugiat blandit at. In mi viverra elit nunc.
                     </p>
                 </div>
                 <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">

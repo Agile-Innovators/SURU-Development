@@ -38,7 +38,6 @@ export function AboutUs() {
                                     end={120}
                                     duration={2.5}
                                     prefix="+"
-                                    className='dark:text-light-blue'
                                 />
                             )}
                         </span>
@@ -52,7 +51,6 @@ export function AboutUs() {
                                     end={50}
                                     duration={2.5}
                                     prefix="+"
-                                    className='dark:text-light-blue'
                                 />
                             )}
                         </span>
@@ -66,7 +64,6 @@ export function AboutUs() {
                                     end={60}
                                     duration={2.5}
                                     prefix="+"
-                                    className='dark:text-light-blue'
                                 />
                             )}
                         </h4>
