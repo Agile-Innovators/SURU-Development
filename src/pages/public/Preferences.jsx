@@ -1,7 +1,7 @@
 import { MainButton } from '../../components/ui/buttons/MainButton';
 import { Moon, Sun } from 'lucide-react';
 import { useContext } from 'react';
-import { ThemeContext } from '../../global/ThemeContext'; 
+import { ThemeContext } from '../../global/ThemeContext';
 import { useAuth } from '../../global/AuthProvider';
 import { useFetchCurrency } from '../../components/hooks/useFetchCurrency';
 import { useFetchPartner } from '../../components/hooks/useFetchPartner';
@@ -84,30 +84,41 @@ export function Preferences() {
         const userData = {
             currency_id: event.target.currency_id.value,
         };
-        try {
-            await updatePartnerCurrency(user.id, userData);
-            Swal.fire({
-                icon: 'success',
-                title: 'Cuurency Updated Successfully',
-                text: 'The currency have been updated.',
-                customClass: theme === 'dark' ? 'swal-dark' : '', 
+        //console.log(userData.currency_id, ',', profileData.currency_id);
 
-            })
-        } catch (err) {
-            console.error(err);
+        if (userData.currency_id != profileData.currency_id) {
+            try {
+                await updatePartnerCurrency(user.id, userData);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Cuurency Updated Successfully',
+                    text: 'The currency have been updated.',
+                    customClass: theme === 'dark' ? 'swal-dark' : '',
+
+                })
+            } catch (err) {
+                console.error(err);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'An unexpected error occurred.',
+                    text: 'Please try again later.',
+                    customClass: theme === 'dark' ? 'swal-dark' : '',
+                });
+            }
+        } else {
             Swal.fire({
                 icon: 'error',
                 title: 'An unexpected error occurred.',
-                text: 'Please try again later.',
-                customClass: theme === 'dark' ? 'swal-dark' : '', 
-
+                text: 'You cant update the same currency.',
+                customClass: theme === 'dark' ? 'swal-dark' : '',
             });
+
         }
     };
 
 
     const handleThemeChange = (event) => {
-        toggleTheme(event.target.value); 
+        toggleTheme(event.target.value);
     };
 
     return (
@@ -148,8 +159,8 @@ export function Preferences() {
                     <select
                         name="theme"
                         id="theme-select"
-                        value={theme} 
-                        onChange={handleThemeChange} 
+                        value={theme}
+                        onChange={handleThemeChange}
                         className="p-3 border bg-transparent border-gray-300 dark:bg-gray-800 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
                     >
                         <option value="light">Light</option>
@@ -180,7 +191,7 @@ export function Preferences() {
                                         <select
                                             id="currency-select"
                                             name="currency_id"
-            
+
                                             className="border border-light-grey bg-transparent rounded-md min-h-8 px-4 py-2 mt-2 focus:outline-light-blue"
                                         >
                                             {profileData.currency_id == 1 ? (
@@ -195,9 +206,9 @@ export function Preferences() {
                                                 </>
                                             )}
                                         </select>
-            
+
                                     </div>
-            
+
                                 </div>
                                 <MainButton
                                     type="submit"

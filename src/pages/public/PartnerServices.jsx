@@ -22,9 +22,9 @@ export function PartnerServices() {
         getPartnerInformation(user.id);
     }, [user.id]);
 
+    //console.log('Datos obtenidos:', data);
 
-
-    const { services, loading, error, updatePartnerServices, partnerServices, getPartnerServices } = useFetchServices(1);
+    const { services, loading, error, updatePartnerServices, partnerServices, getPartnerServices } = useFetchServices(data?.category_id);
     
     useEffect(() => {
         getPartnerServices(user.id);
