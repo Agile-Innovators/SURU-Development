@@ -144,7 +144,7 @@ export function PartnerProfile() {
                             <div className="bg-gray-300 h-40 rounded-md overflow-hidden aspect-video sm:h-48 md:h-56 lg:h-64 xl:h-72 w-full">
                                 <img
                                     // src="https://via.placeholder.com/1200x400"
-                                    src="../src/assets/backgrounds/partner-banner.png"
+                                    src="../public/partner-banner.png"
                                     className="w-full h-full object-cover"
                                     alt="Banner"
                                 />
