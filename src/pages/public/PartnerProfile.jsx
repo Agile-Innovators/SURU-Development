@@ -141,13 +141,13 @@ export function PartnerProfile() {
                     <>
                     
                         <div className='relative'>
-                            <div className="bg-gray-300 h-40 rounded-md overflow-hidden aspect-video sm:h-48 md:h-56 lg:h-64 xl:h-72 w-full">
-                                <img
+                        <div className="bg-gray-300 h-40 rounded-md overflow-hidden aspect-video sm:h-48 md:h-56 lg:h-64 xl:h-72 w-full bg-light-blue">
+                                {/* <img
                                     // src="https://via.placeholder.com/1200x400"
                                     src="../public/partner-banner.png"
                                     className="w-full h-full object-cover"
                                     alt="Banner"
-                                />
+                                /> */}
                             </div>
                             {/* <div className="absolute h-40 w-40 bottom-[-40px] left-1/2 transform -translate-x-1/2 sm:left-10 sm:translate-x-0 sm:w-32 md:w-36 lg:w-40 rounded-full overflow-hidden border-4 border-white"> */}
                                 <img
