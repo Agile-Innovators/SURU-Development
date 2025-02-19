@@ -24,7 +24,7 @@ export function PartnerServices() {
 
     //console.log('Datos obtenidos:', data);
 
-    const { services, loading, error, updatePartnerServices, partnerServices, getPartnerServices } = useFetchServices(data?.category_id);
+    const { services, loading, error, updatePartnerServices, partnerServices, getPartnerServices } = useFetchServices(1);
     
     useEffect(() => {
         getPartnerServices(user.id);
