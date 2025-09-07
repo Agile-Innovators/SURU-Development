@@ -16,7 +16,7 @@ export function BareLandForm({ transactionType, fillData, fillUtilities, initial
         water: isUtilitySelected(2),
         electricity: isUtilitySelected(1),
         wifi: isUtilitySelected(4),
-        cable: isUtilitySelected(5),
+        cable: isUtilitySelected(6),
     });
 
     // Función para actualizar servicios cuando ambos accesos están desactivados
